@@ -24,7 +24,7 @@
 						<img id="oimLogin" src="<?=base_url('application/assets/')?>images/logo.jpg">
 						<form id="ofmLogin" class="form-signin" method="post">
 							<div class="input">
-								<label class="olbLabelLogin">ชื่อผู้ใช้</label>
+								<label class="olbLabelLogin">ชื่อผู้ใช้s</label>
 								<input type="text" id="oetUserLogin" name="oetUserLogin" placeholder="กรุณากรอกชื่อผู้ใช้งาน" />
 							</div>
 
