@@ -10,7 +10,7 @@
   <tbody>
     <tr>
       <th scope="row">1</th>
-      <td>Mark</td>
+      <td>กิตติ์พิภัทร์ แก้วเขียว</td>
       <td>Otto</td>
       <td>@mdo</td>
     </tr>
