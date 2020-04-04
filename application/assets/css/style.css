@@ -1629,7 +1629,7 @@ header .form-inline .search-form.close {
 
 .content {
     float: left;
-    padding: 1.35em;
+    padding: 0.80em;
     width: 100%;
 }
 
@@ -3398,3 +3398,33 @@ footer.site-footer .footer-inner a {
 
 
 /*# sourceMappingURL=style.css.map */
+
+.btn-sm {
+    background: #ffffff !important;
+    border: 1px solid #cccccc !important;
+    padding: 2px 2px 2px 2px !important;
+    line-height: 0 !important;
+}
+
+.btn-sm:hover {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    padding: 2px 2px 2px 2px !important;
+    line-height: 0 !important;
+    cursor: pointer;
+}
+
+.btn-sm>i {
+    color: #67717d !important;
+}
+
+.panel-heading {
+    background: #67717d!important;
+    color: #FFFFFF;
+    padding-left: 5px;
+}
+
+button,
+input {
+    padding: 0px 10px!important;
+}

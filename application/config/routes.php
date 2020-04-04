@@ -18,3 +18,6 @@ $route['Mainpage'] 		= 'common/cMain';
 //หน้าจอ : ผู้ใช้
 $route['R_User'] 		= 'user/user/cUser/index';
 $route['R_LoadUser'] 	= 'user/user/cUser/FSwUSRLoadDatatable';
+
+//ใบเสนอราคา
+$route['r_quotation'] 		= 'quotation/cQuotation/index';

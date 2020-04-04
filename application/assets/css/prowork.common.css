@@ -34,9 +34,8 @@ body {
 /***********************************************************************/
 
 .xCNHeadMenu {
-    font-size: 22px !important;
-    font-weight: bold;
-    color: #8f8f8f;
+    font-size: 20px !important;
+    color: #000000;
 }
 
 .xCNButtonInsert {
