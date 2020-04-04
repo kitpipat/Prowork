@@ -1,0 +1,198 @@
+
+body, html {
+    height			: 100%;
+    background 		: #f9fafe;
+}
+
+.card {
+    background-color		: #fff;
+    padding					: 20px 25px 30px;
+    margin					: 0 auto 25px;
+    margin-top				: 50px;
+    -moz-border-radius		: 2px;
+    -webkit-border-radius	: 2px;
+    border-radius			: 2px;
+    -moz-box-shadow			: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow		: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow				: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.login {
+    top						: 20%;
+	width					: 460px;
+	padding					: 30px 20px;
+	display					: table;
+	margin					: 0px auto 0 auto;
+	background				: #fff;
+	border-radius			: 0px;
+	border					: 1px solid #ededed; 
+	box-shadow				: 0px 0px 43px -25px rgba(0,0,0,1);
+	vertical-align			: middle;
+	
+}
+
+.input {
+	position				: relative;
+	width					: 100%;
+}
+
+.input input {
+	width					: 100%;
+	padding					: 10px 5px 10px 40px;
+	display					: block;
+	border					: 1px solid #ededed;
+	border-radius			: 4px;
+	transition				: 0.2s ease-out;
+	color					: #a1a1a1;
+}
+
+.input input:focus {
+	padding					: 10px 5px 10px 10px;
+	outline					: 0;
+	border-color			: #76ce4e;
+}
+
+#oimLogin{
+	display					: block;
+    margin					: 0px auto;
+}
+
+.olbLabelLogin{
+	font-family				: THSarabunNew-Bold;
+	margin					: 10px 0px;
+}
+
+
+.ospUserOrPasswordFail{
+	margin					: 10px 0px 0px 0px;
+	font-family				: THSarabunNew-Bold;
+	text-align				: center;
+	color					: #FFF;
+    display					: block;
+}
+
+.xCNTextWhite{
+	color					: #FFF;
+}
+
+.xCNTextRed{
+	color					: red !important;
+}
+
+.ospForgetPassword{
+	margin					: 0px 0px 10px 0px;
+	float					: right;
+	text-decoration-style	: inherit;
+    text-decoration-color	: #d8d8d8;
+	text-decoration-line	: underline;
+	cursor					: pointer;
+}
+
+.osmLogin{
+	background-color		: #6ab449;
+	border					: 0px;
+	color					: #FFF;
+	width					: 100%;
+	padding					: 10px;
+	cursor					: pointer;
+}
+
+.osmLogin:hover{
+	background-color		: #4f8f32;
+	border					: 0px;
+	color					: #FFF;
+	width					: 100%;
+	padding					: 10px;
+	cursor					: pointer;
+}
+
+.xCNDisplayScreen{
+	background 				: #56bc1c;
+}
+
+#odvCheckProgress{
+	z-index					: 99 !important;
+    background				: #2c2c2c6b;
+    position				: absolute;
+    width					: 100%;
+    height					: 100%;
+    margin					: -30px -20px;
+}
+
+#odvContentLogin{
+	z-index					: 1;
+}
+/*///////////////////////////////////////////////////////////////////////////////*/
+
+#oimLoginScreenRight{
+	background-image : url('../images/BGLogin.png');
+	display			 : flex;
+}
+
+.xCNDivSlo-grand{
+	margin			: 40% auto;
+  	width			: 70%;
+  	padding			: 0%;
+}
+
+#ospSlo-grand1{
+	font-family		: THSarabunNew-Bold;
+	margin-left		: 30%;
+	color			: #FFF;
+	font-size		: 4rem !important;
+}
+
+#ospSlo-grand2{
+	font-family		: THSarabunNew-Bold;
+	margin-left		: 50%;
+	color			: #FFF;
+	font-size		: 2.5rem !important;
+}
+
+form .error {
+	color			: #ff0000;
+}
+
+/*//////////////////////////////////////////////////////////////////////////////////////*/
+
+
+.lds-ripple {
+	display			: inline-block;
+	position		: relative;
+	width			: 80px;
+	height			: 80px;
+	text-align		: center;
+    display			: block;
+    margin			: 0px auto;
+    top				: 40%;
+  }
+
+.lds-ripple div {
+	position		: absolute;
+	border			: 4px solid #fff;
+	opacity			: 1;
+	border-radius	: 50%;
+	animation		: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+	animation-delay	: -0.5s;
+}
+
+@keyframes lds-ripple {
+	0% {
+	  top			: 36px;
+	  left			: 36px;
+	  width			: 0;
+	  height		: 0;
+	  opacity		: 1;
+	}
+	100% {
+	  top			: 0px;
+	  left			: 0px;
+	  width			: 72px;
+	  height		: 72px;
+	  opacity		: 0;
+	}
+}
+  

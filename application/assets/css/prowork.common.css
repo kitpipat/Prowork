@@ -1,0 +1,61 @@
+@font-face {
+	font-family: THSarabunNew;
+	src: url(../fonts/THSarabunNew.ttf);
+}
+
+@font-face {
+	font-family: THSarabunNew-Bold;
+	src: url(../fonts/THSarabunNew-Bold.ttf);
+}
+
+@font-face {
+	font-family: THSarabunNew-BoldItalic;
+	src: url(../fonts/THSarabunNew-BoldItalic.ttf);
+}
+
+@font-face {
+	font-family: THSarabunNew-Italic;
+	src: url(../fonts/THSarabunNew-Italic.ttf);
+}
+
+html,body{
+	font-family		: THSarabunNew;
+	font-size		: 20px !important;
+	font-weight		: 500;
+}
+
+/***********************************************************************/
+.xCNHeadMenu{
+	font-size	: 22px !important;
+    font-weight	: bold;
+    color		: #8f8f8f;
+}
+
+.xCNButtonInsert{
+	background-color: #51c448;
+    border-radius	: 50px;
+    width		: 40px;
+    height		: 40px;
+    color		: #FFF;
+	border		: 0px solid;
+	box-shadow	: 2px 2px 6px rgba(178, 178, 178, 0.69);
+	cursor		: pointer;
+
+}
+
+
+.xCNFormSerach.form-control:focus{
+	color: #495057;
+    background-color: #fff;
+    border-color: #51c448;
+    outline: 0;
+    box-shadow: 0 0 0 0rem rgba(0,123,255,.25);
+}
+
+.input-group-text{
+	font-size: 0.8rem !important;
+}
+
+.form-control{
+	height: calc(2rem + 0px) !important;
+}

@@ -1,0 +1,120 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Prowork</title>
+    <link rel="shortcut icon" 	href="<?=base_url('application/assets/images/48x48.png')?>">
+	<link rel="shortcut icon" 	href="<?=base_url('application/assets/images/48x48.png')?>">
+	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/bootstrap.css')?>">
+	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.common.css')?>">
+	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.login.css')?>">
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+
+			<div class="col-lg-7">
+				<div class="card login">
+					
+					<div id="odvCheckProgress" style="display:none;">
+						<div class="lds-ripple"><div></div><div></div></div>
+					</div>
+					
+					<div id="odvContentLogin">
+						<img id="oimLogin" src="<?=base_url('application/assets/')?>images/logo.jpg">
+						<form id="ofmLogin" class="form-signin" method="post">
+							<div class="input">
+								<label class="olbLabelLogin">ชื่อผู้ใช้</label>
+								<input type="text" id="oetUserLogin" name="oetUserLogin" placeholder="กรุณากรอกชื่อผู้ใช้งาน" />
+							</div>
+
+							<div class="input">
+								<label class="olbLabelLogin">รหัสผ่าน</label>
+								<input type="password" id="oetPassword" name="oetPassword" placeholder="********" />
+							</div>
+							<span class="ospUserOrPasswordFail">ํ</span>
+							<span class="ospForgetPassword">ลืมรหัสผ่าน</span>
+							<div class="clearfix"></div>
+							<button class="osmLogin" type="submit">เข้าสู่ระบบ</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="d-none d-lg-block col-lg-5" style="padding: 0px;">
+				<div id="oimLoginScreenRight">
+					<div class="xCNDivSlo-grand">
+						<span id="ospSlo-grand1">โปรเวิร์ค</span><br>
+						<span id="ospSlo-grand2">รู้จริงเรื่องไฟฟ้า</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- //ชื่อผู้ใช้งาน หรือรหัสผ่านผิดพลาดกรุณาลองใหม่อีกครั้ง -->
+
+	<!--Script-->
+	<script src="<?=base_url('application/assets/js/')?>jquery.min.js"></script>
+	<script src="<?=base_url('application/assets/js/')?>bootstrap.min.js"></script>
+	<script src="<?=base_url('application/assets/js/')?>jquery.validate.min.js"></script>
+
+	<script>
+		//กำหนดความสูงให้
+		var cHeightScreen = $(window).height();
+		$('#oimLoginScreenRight').css('height',cHeightScreen);
+
+		//ทุกครั้งที่ Key ข้อความต้องหาย
+		$('#oetUserLogin , #oetPassword').click(function () {    
+			$('.ospUserOrPasswordFail').removeClass('xCNTextRed');
+			$('.ospUserOrPasswordFail').text('ํ');
+		});  
+
+		//เข้าสู่ระบบ
+		$("#ofmLogin").validate({
+			rules: {
+				oetUserLogin	: "required",
+				oetPassword		: "required"
+			},
+			messages: {
+				oetUserLogin 	: "กรุณากรอกชื่อผู้ใช้ให้ครบถ้วน",
+				oetPassword	 	: "กรุณากรอกรหัสผ่านให้ครบถ้วน"
+			},
+			submitHandler: function(form) {
+
+				$('.ospUserOrPasswordFail').removeClass('xCNTextRed');
+				$('.ospUserOrPasswordFail').text('ํ');
+				$('#odvCheckProgress').fadeIn("slow");
+
+				setTimeout(() => {
+					$.ajax({
+						type	: "POST",
+						url		: "CheckLogin",
+						data	: $('#ofmLogin').serialize(),
+						cache	: false,
+						timeout	: 0,
+						success	: function (tResult) {
+							var aReturn = JSON.parse(tResult);
+							if(aReturn.rtCode == '800'){
+								$('#odvCheckProgress').fadeOut("slow");
+								$('.ospUserOrPasswordFail').text('ชื่อผู้ใช้งาน หรือรหัสผ่านผิดพลาดกรุณาลองใหม่อีกครั้ง');
+								$('.ospUserOrPasswordFail').addClass('xCNTextRed');
+								$('.ospUserOrPasswordFail').fadeIn("slow");
+							}else{
+								$('#oetUserLogin').val('');
+								$('#oetPassword').val('');
+								window.location.href = '<?=base_url('Mainpage')?>';
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							alert(jqXHR, textStatus, errorThrown);
+						}
+					});
+				}, 1000);
+			}
+		});
+	</script>
+
+</body>
+</html>
+
