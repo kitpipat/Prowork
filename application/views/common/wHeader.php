@@ -30,7 +30,7 @@
 						<?php foreach($aMenuList['raItems'] AS $nKey => $nValue){ ?>
 							<?php if($nValue['CodeGroup'] == 0){ ?>
 								<li>
-									<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+									<a class='JSxCallContentMenu' data-menuname="<?=$nValue['PathRoute']?>" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
 										<i class="menu-icon <?=$nValue['MenuIcon']?>"></i><?=$nValue['FTMenName'];?>
 									</a>
 								</li>
