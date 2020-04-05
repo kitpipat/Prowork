@@ -27,3 +27,4 @@ $route['r_usereventdelete'] 			= 'user/user/cUser/FSxUSREventDelete';
 
 //ใบเสนอราคา
 $route['r_quotation'] 		= 'quotation/cQuotation/index';
+$route['r_quotationeventGetPdtList'] 		= 'quotation/cQuotation/FCaCQUOGetProductList';
