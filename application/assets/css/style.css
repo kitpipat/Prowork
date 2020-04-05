@@ -1128,7 +1128,7 @@ aside.left-panel:hover {
 }
 
 .right-panel .top-left {
-    width: 350px;
+    width: 60%;
     float: left;
 }
 
@@ -1194,7 +1194,7 @@ aside.left-panel:hover {
 }
 
 .right-panel .navbar-brand {
-    width: 250px;
+    width: 175px;
     display: inline-block;
 }
 

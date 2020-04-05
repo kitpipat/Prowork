@@ -22,10 +22,26 @@ class cLogin extends CI_Controller {
 		);
 		$aReturn = $this->mLogin->FSaMCheckLogin($paWhere);
 		if($aReturn['rtCode'] == 1){
-			$this->session->set_userdata("tSesUsercode",$aReturn['raItems'][0]['FTUsrCode']);
-			$this->session->set_userdata("tSesFirstname",$aReturn['raItems'][0]['FTUsrFName']);
-			$this->session->set_userdata("tSesLastname",$aReturn['raItems'][0]['FTUsrLName']);
-			$this->session->set_userdata("tSesDepartment",$aReturn['raItems'][0]['FTUsrDep']);
+			$this->session->set_userdata("tSesUsercode",$aReturn['raItems'][0]['FTUsrCode']);		//รหัสผู้ใช้
+			$this->session->set_userdata("tSesFirstname",$aReturn['raItems'][0]['FTUsrFName']);		//ชื่อ
+			$this->session->set_userdata("tSesLastname",$aReturn['raItems'][0]['FTUsrLName']);		//นามสกุล
+			$this->session->set_userdata("tSesDepartment",$aReturn['raItems'][0]['FTUsrDep']);		//แผนก
+
+			if($aReturn['raItems'][0]['FTBchName'] == '' || $aReturn['raItems'][0]['FTBchName'] == null){
+				//USER : HQ ต้องวิ่งไปเอาบริษัท default
+				$aReturn 	= $this->mLogin->FSaMGetCmpDefault();
+				$tCmpName	= $aReturn['raItems'][0]['FTCmpName'];
+				$tBchName	= '';
+				$tUserLevel = 'HQ';
+			}else{
+				$tCmpName	= $aReturn['raItems'][0]['FTCmpName'];
+				$tBchName	= $aReturn['raItems'][0]['FTBchName'];
+				$tUserLevel = 'BCH';
+			}
+
+			$this->session->set_userdata("tSesUserLevel",$tUserLevel);		//เลเวล HQ , BCH
+			$this->session->set_userdata("tSesCMPName",$tCmpName);			//สาขา
+			$this->session->set_userdata("tSesBCHName",$tBchName);			//บริษัท
 		}else{
 			$this->session->sess_destroy();
 		}

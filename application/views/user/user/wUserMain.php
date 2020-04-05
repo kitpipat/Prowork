@@ -7,7 +7,7 @@
 	</div>
 
 	<!--Section ล่าง-->
-	<div class="card" style="margin-top: 20px;">
+	<div class="card" style="margin-top: 10px;">
 		<div class="card-body">
 			<!--ค้นห่า-->
 			<div class="row">
@@ -21,7 +21,7 @@
 				</div>
 
 				<div class="col-lg-12">
-					<div id="odvContent_User"></div>
+					<div id="odvContent_User" class="xCNContent"></div>
 				</div>
 			</div>
 		</div>

@@ -20,3 +20,8 @@
 	font-size: 18px !important;
     padding: 10px !important;
 }
+
+.xCNNameCompanyAndBCH{
+	display: inline-block; 
+	font-weight: bold;
+}

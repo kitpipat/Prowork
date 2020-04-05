@@ -64,3 +64,11 @@ body {
 .form-control {
     height: calc(2rem + 0px) !important;
 }
+
+.xCNContent{
+	margin-top : 10px;
+}
+
+.xCNTableCenter{
+	line-height: 15px;
+}

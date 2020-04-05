@@ -1,30 +1,30 @@
-<table class="table">
+<table class="table table-striped xCNTableCenter">
   <thead>
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+			<th >ลำดับ</th>
+			<th >รูปภาพ</th>
+      <th >ชื่อ-นามกสุล</th>
+      <th >สาขา</th>
+			<th >แผนก</th>
+			<th >กลุ่มสิทธิ์</th>
+			<th >กลุ่มราคา</th>
+			<th >สถานะ</th>
+			<th >แก้ไข</th>
+			<th >ลบ</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>กิตติ์พิภัทร์ แก้วเขียว</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+				<?php if($aUserList['rtCode'] != 800){ ?>
+					<?php foreach($aUserList['raItems'] AS $nKey => $nValue){ ?>
+						<tr>
+							<th scope="row">1</th>
+							<td>Mark</td>
+							<td>Otto</td>
+							<td>@mdo</td>
+						</tr>
+					<?php } ?>
+				<?php }else{ ?>
+					<tr><td colspan="99" style="text-align: center;"> - ไม่พบข้อมูล - </td></tr>
+				<?php } ?>
   </tbody>
 </table>

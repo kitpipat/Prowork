@@ -15,7 +15,10 @@ class cUser extends CI_Controller {
 	//โหลดข้อมูลผู้ใช้
 	public function FSwUSRLoadDatatable(){
 		$aUserList = $this->mUser->FSaMUSRGetData();
-		$this->load->view('user/user/wUserDatatable',$aUserList);
+		$aPackData = array(
+			'aUserList'	=> $aUserList
+		);
+		$this->load->view('user/user/wUserDatatable',$aPackData);
 	}
 
 }

@@ -66,6 +66,17 @@
 				<div class="navbar-header">
 					<a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
 					<a class="navbar-brand" href="./"><img src="<?=base_url('application/assets/')?>images/logo.jpg" alt="Logo"></a>
+					<?php if($this->session->userdata('tSesBCHName') == ''){
+						$tShowBCH = '';
+					}else{
+						$tShowBCH = '(' . $this->session->userdata('tSesBCHName') . ')';
+					}
+					?>
+					<span class="xCNNameCompanyAndBCH"> <?=$this->session->userdata('tSesCMPName')?> <?=$tShowBCH?> </span>
+
+					<!--เดียวลบ-->
+					<span class="xCNNameCompanyAndBCH" style="color:red;"> [เดียวมาลบ LEVEL : <?=$this->session->userdata('tSesUserLevel')?> ]</span>
+
 				</div>
 			</div>
 			<div class="top-right">
@@ -73,7 +84,7 @@
 					<div class="user-area dropdown float-right">
 						<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span style="margin-right: 15px;"><?=$this->session->userdata('tSesFirstname')?> <?=$this->session->userdata('tSesLastname')?> (<?=$this->session->userdata('tSesDepartment')?>)</span>
-							<img class="user-avatar rounded-circle" src="<?=base_url('application/assets/')?>images/admin.jpg" alt="User Avatar">
+							<img class="user-avatar rounded-circle" src="<?=base_url('application/assets/')?>images/admin.jpg">
 						</a>
 						<div class="user-menu dropdown-menu">
 							<a class="nav-link xCNMenuProfile" href="#">ประวัติส่วนตัว</a>
