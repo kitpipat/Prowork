@@ -40,7 +40,20 @@
 				<div class="row">
 					<!--รูปภาพ-->
 					<div class="col-lg-3 col-md-3">
-						<?php $tPathImage = './application/assets/images/user/NoImage.png'; ?>
+
+						<?php 
+							if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
+								$tPathImage = './application/assets/images/user/'.$aValue['FTUsrImgPath'];
+								if (file_exists($tPathImage)){
+									$tPathImage = base_url().'application/assets/images/user/'.$aValue['FTUsrImgPath'];
+								}else{
+									$tPathImage = base_url().'application/assets/images/user/NoImage.png';
+								}
+							}else{
+								$tPathImage = './application/assets/images/user/NoImage.png';
+							}
+						?>
+
 						<img id="oimImgInsertorEditUser" class="img-responsive xCNImgCenter" src="<?=$tPathImage?>">
 						<input type="hidden" id="oetImgInsertorEditUser" name="oetImgInsertorEditUser" value="">
 						<button type="button" class="btn btn-outline-secondary xCNChooseImage" onclick="JSxUploadImageUser()">เลือกรูปภาพ</button>

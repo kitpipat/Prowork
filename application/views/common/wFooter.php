@@ -25,7 +25,7 @@
 						var tImageName 	= aResult.tImgName;
 						var tFullPath   = '<?=base_url('application/assets/')?>' + ptPath + '/' + tImageName;
 						$('#oim' + ptIDelem).attr('src',tFullPath);
-						$('#oet' + ptIDelem).val(ptPath + '/' + tImageName)
+						$('#oet' + ptIDelem).val(tImageName);
 					}
 				},
 				error: function (data){
