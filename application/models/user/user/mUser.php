@@ -194,4 +194,13 @@ class mUser extends CI_Model {
 		return $oQuery->result_array();
 	}
 
+	//แก้ไขข้อมูลผู้ใช้
+	public function FSxMUSUpdate($ptSet,$ptWhere){
+		try{
+			$this->db->where('FTUsrCode', $ptWhere['FTUsrCode']);
+			$this->db->update('TCNMUsr', $ptSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
 }

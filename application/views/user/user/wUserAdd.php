@@ -40,7 +40,20 @@
 				<div class="row">
 					<!--รูปภาพ-->
 					<div class="col-lg-3 col-md-3">
-						<?php $tPathImage = './application/assets/images/user/NoImage.png'; ?>
+
+						<?php 
+							if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
+								$tPathImage = './application/assets/images/user/'.$aValue['FTUsrImgPath'];
+								if (file_exists($tPathImage)){
+									$tPathImage = base_url().'application/assets/images/user/'.$aValue['FTUsrImgPath'];
+								}else{
+									$tPathImage = base_url().'application/assets/images/user/NoImage.png';
+								}
+							}else{
+								$tPathImage = './application/assets/images/user/NoImage.png';
+							}
+						?>
+
 						<img id="oimImgInsertorEditUser" class="img-responsive xCNImgCenter" src="<?=$tPathImage?>">
 						<input type="hidden" id="oetImgInsertorEditUser" name="oetImgInsertorEditUser" value="">
 						<button type="button" class="btn btn-outline-secondary xCNChooseImage" onclick="JSxUploadImageUser()">เลือกรูปภาพ</button>
@@ -63,7 +76,7 @@
 						<?php }else{ ?>
 							<div class="form-group">
 								<label><span style="color:red;">*</span> สาขา</label>
-								<input type="text" class="form-control" id="oetUserBCH" name="oetUserBCH" value="" autocomplete="off">
+								<input type="text" class="form-control" id="oetUserBCH" name="oetUserBCH" value="<?=@$FTBchCode?>" autocomplete="off">
 							</div>
 						<?php } ?>
 
@@ -72,7 +85,7 @@
 							<label><span style="color:red;">*</span> กลุ่มสิทธิ์</label>
 							<select class="form-control" id="oetUserPermission" name="oetUserPermission">
 								<?php foreach($aPermissionList['raItems'] AS $nKey => $aValue){ ?>
-									<option value="<?=$aValue['FNRhdID'];?>"><?=$aValue['FTRhdName'];?></option>
+									<option <?=(@$FNRhdID == $aValue['FNRhdID'])? "selected" : "";?> value="<?=$aValue['FNRhdID'];?>"><?=$aValue['FTRhdName'];?></option>
 								<?php } ?>
 							</select>
 						</div>
@@ -80,7 +93,7 @@
 						<!--แผนก-->
 						<div class="form-group">
 							<label>แผนก</label>
-							<input type="text" class="form-control" id="oetUserDepartment" name="oetUserDepartment" placeholder="กรุณาระบุแผนก" autocomplete="off">
+							<input type="text" class="form-control" id="oetUserDepartment" name="oetUserDepartment" placeholder="กรุณาระบุแผนก" autocomplete="off" value="<?=@$FTUsrDep;?>">
 						</div>
 
 						<!--กลุ่มราคา-->
@@ -88,7 +101,7 @@
 							<label><span style="color:red;">*</span> กลุ่มราคา</label>
 							<select class="form-control" id="oetUserPriGrp" name="oetUserPriGrp">
 								<?php foreach($aPriGrp['raItems'] AS $nKey => $aValue){ ?>
-									<option value="<?=$aValue['FTPriGrpID'];?>"><?=$aValue['FTPriGrpName'];?></option>
+									<option <?=(@$FTPriGrpID == $aValue['FTPriGrpID'])? "selected" : "";?> value="<?=$aValue['FTPriGrpID'];?>"><?=$aValue['FTPriGrpName'];?></option>
 								<?php } ?>
 							</select>
 						</div>
@@ -96,31 +109,31 @@
 						<!--ชื่อ-->
 						<div class="form-group">
 							<label><span style="color:red;">*</span> ชื่อ</label>
-							<input type="text" class="form-control" maxlength="50" id="oetUserFirstname" name="oetUserFirstname" placeholder="กรุณาระบุชื่อ" autocomplete="off">
+							<input type="text" class="form-control" maxlength="50" id="oetUserFirstname" name="oetUserFirstname" placeholder="กรุณาระบุชื่อ" autocomplete="off" value="<?=@$FTUsrFName;?>">
 						</div>
 
 						<!--นามสกุล-->
 						<div class="form-group">
 							<label>นามสกุล</label>
-							<input type="text" class="form-control" maxlength="50" id="oetUserLastname" name="oetUserLastname" placeholder="กรุณาระบุนามสกุล" autocomplete="off">
+							<input type="text" class="form-control" maxlength="50" id="oetUserLastname" name="oetUserLastname" placeholder="กรุณาระบุนามสกุล" autocomplete="off" value="<?=@$FTUsrLName;?>">
 						</div>
 
 						<!--อีเมลล์-->
 						<div class="form-group">
 							<label>อีเมลล์</label>
-							<input type="text" class="form-control" maxlength="100" id="oetUserEmail" name="oetUserEmail" placeholder="กรุณาระบุอีเมลล์" autocomplete="off">
+							<input type="text" class="form-control" maxlength="100" id="oetUserEmail" name="oetUserEmail" placeholder="กรุณาระบุอีเมลล์" autocomplete="off" value="<?=@$FTUsrEmail;?>">
 						</div>
 
 						<!--เบอร์โทร-->
 						<div class="form-group">
 							<label>เบอร์โทรศัพท์</label>
-							<input type="text" class="form-control" maxlength="50" id="oetUserTelphone" name="oetUserTelphone" placeholder="กรุณาระบุเบอร์โทรศัพท์" autocomplete="off">
+							<input type="text" class="form-control" maxlength="50" id="oetUserTelphone" name="oetUserTelphone" placeholder="กรุณาระบุเบอร์โทรศัพท์" autocomplete="off" value="<?=@$FTUsrTel;?>">
 						</div>
 
 						<!--หมายเหตุ-->
 						<div class="form-group">
 							<label>หมายเหตุ</label>
-							<textarea type="text" class="form-control" id="oetUserReason" name="oetUserReason" placeholder="หมายเหตุ" rows="3"></textarea>
+							<textarea type="text" class="form-control" id="oetUserReason" name="oetUserReason" placeholder="หมายเหตุ" rows="3"><?=@$FTUsrRmk;?></textarea>
 						</div>
 
 						<div><hr></div>
@@ -128,17 +141,17 @@
 						<!--ชื่อผู้ใช้งาน-->
 						<div class="form-group">
 							<label><span style="color:red;">*</span> ชื่อผู้ใช้งาน</label>
-							<input type="text" class="form-control" maxlength="20" id="oetUserLogin" name="oetUserLogin" placeholder="กรุณาระบุชื่อผู้ใช้งาน" autocomplete="off">
+							<input type="text" class="form-control" maxlength="20" id="oetUserLogin" name="oetUserLogin" placeholder="กรุณาระบุชื่อผู้ใช้งาน" autocomplete="off" value="<?=@$FTUsrLogin;?>">
 						</div>
 
 						<!--หมายเหตุ-->
 						<div class="form-group">
 							<label><span style="color:red;">*</span> รหัสผ่าน</label>
-							<input type="password" class="form-control" maxlength="225" id="oetUserPassword" name="oetUserPassword" placeholder="*********" autocomplete="off">
+							<input type="password" class="form-control" maxlength="225" id="oetUserPassword" name="oetUserPassword" placeholder="*********" autocomplete="off"  value="<?=@$FTUsrPwd;?>">
 						</div>
 
 						<label class="container-checkbox">ใช้งาน
-							<input type="checkbox" id="ocmUserStaUse" name="ocmUserStaUse" checked="checked">
+							<input type="checkbox" id="ocmUserStaUse" name="ocmUserStaUse" <?=@$FNStaUse == '1' ? 'checked' : ''; ?>>
 							<span class="checkmark"></span>
 						</label>
 

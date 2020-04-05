@@ -87,6 +87,38 @@ class cUser extends CI_Controller {
 		$this->mUser->FSaMUSRDelete($tCode);
 	}
 
+	//อีเว้นท์บันทึก
+	public function FSxUSREventEdit(){
+		try{
+			$aSetUpdate = array(
+				'FTBchCode'			=> ($this->input->post('oetUserBCH') == 0) ? null : $this->input->post('oetUserBCH'),
+				'FTUsrFName'		=> $this->input->post('oetUserFirstname'),
+				'FTUsrLName'		=> $this->input->post('oetUserLastname'),
+				'FTUsrDep'			=> $this->input->post('oetUserDepartment'),
+				'FTUsrEmail'		=> $this->input->post('oetUserEmail'),
+				'FTUsrTel'			=> $this->input->post('oetUserTelphone'),
+				'FTUsrLogin'		=> $this->input->post('oetUserLogin'),
+				'FTUsrPwd'			=> $this->input->post('oetUserPassword'),
+				'FTUsrImgPath'		=> $this->input->post('oetImgInsertorEditUser'),
+				'FTUsrRmk'			=> $this->input->post('oetUserReason'),
+				'FNRhdID'			=> $this->input->post('oetUserPermission'),
+				'FTPriGrpID'		=> $this->input->post('oetUserPriGrp'),
+				'FNStaUse'			=> ($this->input->post('ocmUserStaUse') == 'on') ? 1 : 0,
+				'FNStaSysAdmin'		=> 0,
+				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+				'FDUpdateOn'		=> date('Y-m-d H:i:s')
+			);
+
+			$aWhereUpdate = array(
+				'FTUsrCode'		 	=> $this->input->post('ohdUserCode')
+			);
+
+			$this->mUser->FSxMUSUpdate($aSetUpdate,$aWhereUpdate);
+		}catch(Exception $Error){
+            echo $Error;
+        }
+	}
+
 
 
 }
