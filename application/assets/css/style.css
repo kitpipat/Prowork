@@ -827,7 +827,7 @@ aside.left-panel:hover {
     background: none !important;
     color: #4a4a4a;
     display: inline-block;
-    font-size: 18px;
+    font-size: 19px;
     line-height: 26px;
     padding: 10px 0;
     position: relative;
@@ -970,7 +970,7 @@ aside.left-panel:hover {
 
 .open .sub-menu .subtitle {
     display: block;
-    font-size: 15px;
+    font-size: 19px;
     line-height: 35px;
     color: #607d8b;
     border-bottom: 1px solid rgba(96, 125, 139, 0.15);
@@ -1066,13 +1066,13 @@ aside.left-panel:hover {
 
 .open aside.left-panel .navbar .navbar-nav li.menu-item-has-children .sub-menu {
     display: block;
-    left: 83px;
+    left: 65px;
     top: 0;
 }
 
 .open aside.left-panel .navbar .navbar-nav li.menu-item-has-children .sub-menu li a {
     display: block;
-    font-size: 14px;
+    font-size: 19px;
     max-width: inherit;
     padding: 2px 15px 2px 25px;
     width: 100%;
