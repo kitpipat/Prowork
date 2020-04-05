@@ -8,7 +8,6 @@
         <div class="caption">
             <h4><?php echo $tPdtName;?></h4>
             <span>&#3647;<?php echo number_format($nPdtNetSalPri,2);?></span>
-
         </div>
     </div>
 </div>
