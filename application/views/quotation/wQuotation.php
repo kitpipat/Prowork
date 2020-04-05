@@ -6,7 +6,7 @@
 	</div>
 
 	<!--Section ล่าง-->
-    
+
 	<div class="card">
 		<div class="card-body">
 			<!--ค้นห่า-->
@@ -52,7 +52,7 @@
                                         <?php } ?>
                                     </div>
 
-                                    <button  class="btn cust-btn " type="button" id="btn-registration" 
+                                    <button  class="btn cust-btn " type="button" id="btn-registration"
                                              style="font-size: 20px;letter-spacing: 1px; width:100%">นำไปใช้</button>
                             </div>
                         </div>
@@ -63,8 +63,8 @@
 
                     <div class="row">
                         <!-- Input Filter -->
-                         <div class="col-lg-8 col-md-8 col-sm-8">
-                                
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+
                                 <div class="input-group md-form form-sm form-2 pl-0">
                                     <input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="ค้นหาสินค้า" >
                                     <div class="input-group-append">
@@ -73,18 +73,18 @@
                                         </span>
                                     </div>
                                 </div>
-                                
-                         </div>
+
+                        </div>
                          <!-- End Input Filter -->
 
                          <!-- Gridview Options -->
-                         <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn-group float-right" role="group">
                                     <button class="btn-sm"><i class="fa fa-table"></i></button>
                                     &nbsp;
                                     <button class="btn-sm"><i class="fa fa-list"></i></button>
                                 </div>
-                         </div>
+                        </div>
                          <!-- End Gridview Options -->
                     </div>
 
@@ -96,7 +96,7 @@
                                 <div class="caption">
                                     <h4>Thumbnail label</h4>
                                     <p>...</p>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                                     </a>
                                     </li>
                                 </ul>
-                                </nav>
+                            </nav>
                         </div>
                     </div>
 
@@ -133,7 +133,7 @@
                             <div class="panel-heading">เอกสาร</div>
                             <div class="panel-body">
                                 <div class="row">
-                                    
+
                                     <div class="col-lg-12">
                                           <div class="row">
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">เลขที่เอกสาร</div>
@@ -167,7 +167,7 @@
                                                     <input class="text-right" type="text" style="width:100%" value="1" >
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                     <?php } ?>
                                 </div>
@@ -188,13 +188,13 @@
                                 </div>
                             </div>
                         </div>
-                         
+
                     </div>
 				</div>
 			</div>
 		</div>
 	</div>
 <div>
-
+<!-- Edit -->
 <link rel="stylesheet" href="<?=base_url('application/assets/css/quotation.css') ?>">
 <link rel="stylesheet" href="<?=base_url('application/assets/css/check-radio.css') ?>">
