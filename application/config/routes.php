@@ -24,6 +24,8 @@ $route['r_loaduser'] 					= 'user/user/cUser/FSwUSRLoadDatatable';
 $route['r_usercallpageInsertorEdit'] 	= 'user/user/cUser/FSwUSRCallPageInsertorEdit';
 $route['r_usereventinsert'] 			= 'user/user/cUser/FSwUSREventInsert';
 $route['r_usereventdelete'] 			= 'user/user/cUser/FSxUSREventDelete';
+$route['r_usereventedit'] 				= 'user/user/cUser/FSxUSREventEdit';
+
 
 //ใบเสนอราคา
 $route['r_quotation'] 		= 'quotation/cQuotation/index';
