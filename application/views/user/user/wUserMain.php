@@ -34,7 +34,7 @@
 	function FSwLoadTableList(){
 		$.ajax({
 			type	: "POST",
-			url		: "R_LoadUser",
+			url		: "r_loaduser",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
