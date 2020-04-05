@@ -195,6 +195,6 @@
 		</div>
 	</div>
 <div>
-<!-- Edit -->
+<!-- Edit Inline -->
 <link rel="stylesheet" href="<?=base_url('application/assets/css/quotation.css') ?>">
 <link rel="stylesheet" href="<?=base_url('application/assets/css/check-radio.css') ?>">
