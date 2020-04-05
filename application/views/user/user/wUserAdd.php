@@ -43,9 +43,9 @@
 
 						<?php 
 							if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
-								$tPathImage = './application/assets/images/user/'.$aValue['FTUsrImgPath'];
+								$tPathImage = './application/assets/images/user/'.@$FTUsrImgPath;
 								if (file_exists($tPathImage)){
-									$tPathImage = base_url().'application/assets/images/user/'.$aValue['FTUsrImgPath'];
+									$tPathImage = base_url().'application/assets/images/user/'.@$FTUsrImgPath;
 								}else{
 									$tPathImage = base_url().'application/assets/images/user/NoImage.png';
 								}
@@ -54,8 +54,8 @@
 							}
 						?>
 
-						<img id="oimImgInsertorEditUser" class="img-responsive xCNImgCenter" src="<?=$tPathImage?>">
-						<input type="hidden" id="oetImgInsertorEditUser" name="oetImgInsertorEditUser" value="">
+						<img id="oimImgInsertorEditUser" class="img-responsive xCNImgCenter" src="<?=$tPathImage;?>">
+						<input type="hidden" id="oetImgInsertorEditUser" name="oetImgInsertorEditUser" value="<?=@$FTUsrImgPath;?>">
 						<button type="button" class="btn btn-outline-secondary xCNChooseImage" onclick="JSxUploadImageUser()">เลือกรูปภาพ</button>
 						<input type="file" id="inputfileuploadImage" style="display:none"  name="inputfileuploadImage" accept="image/*" onchange="JSoImagUplodeResize(this,'images/user','ImgInsertorEditUser')">
 					</div>
