@@ -100,6 +100,11 @@
 								$('.ospUserOrPasswordFail').text('ชื่อผู้ใช้งาน หรือรหัสผ่านผิดพลาดกรุณาลองใหม่อีกครั้ง');
 								$('.ospUserOrPasswordFail').addClass('xCNTextRed');
 								$('.ospUserOrPasswordFail').fadeIn("slow");
+							}else if(aReturn.rtCode == '400'){
+								$('#odvCheckProgress').fadeOut("slow");
+								$('.ospUserOrPasswordFail').text('ไม่อนุญาติให้เข้าใช้งาน กรุณาติดต่อเจ้าหน้าที่');
+								$('.ospUserOrPasswordFail').addClass('xCNTextRed');
+								$('.ospUserOrPasswordFail').fadeIn("slow");
 							}else{
 								$('#oetUserLogin').val('');
 								$('#oetPassword').val('');

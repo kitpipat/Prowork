@@ -3,7 +3,7 @@
 	<!--Section บน-->
 	<div class="row">
 		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ผู้ใช้</span></div>
-		<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right">+</button></div>
+		<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right" onClick='JSwUserCallPageInsert()'>+</button></div>
 	</div>
 
 	<!--Section ล่าง-->
@@ -30,8 +30,9 @@
 
 <script>
 
-	FSwLoadTableList();
-	function FSwLoadTableList(){
+	//หน้าตารางสินค้า
+	JSwLoadTableList();
+	function JSwLoadTableList(){
 		$.ajax({
 			type	: "POST",
 			url		: "r_loaduser",
@@ -39,6 +40,41 @@
 			timeout	: 0,
 			success	: function (tResult) {
 				$('#odvContent_User').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+
+	//โหลดหน้า เพิ่มข้อมูล
+	function JSwUserCallPageInsert(){
+		$.ajax({
+			type	: "POST",
+			url		: "r_usercallpageInsertorEdit",
+			data 	: {
+						'ptTypepage' : 'insert'	
+					  },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('.content').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+
+	//กด ผู้ใช้
+	function JSxCallPageUserMain(){
+		$.ajax({
+			type	: "POST",
+			url		: "r_user",
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);

@@ -15,7 +15,7 @@ class mCommon extends CI_Model {
 				USR.FTUsrImgPath,
 				USR.FTUsrRmk,
 				USR.FNRhdID,
-				USR.FNPirGrpID,
+				USR.FTPriGrpID,
 				ROHD.FTRhdName,
 				MENU.FTMenName, 
 				MENU.FNMenID AS CodeMenu,

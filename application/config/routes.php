@@ -16,8 +16,9 @@ $route['Logout'] 		= 'login/cLogin/Logout';
 $route['Mainpage'] 		= 'common/cMain';
 
 //หน้าจอ : ผู้ใช้
-$route['r_user'] 		= 'user/user/cUser/index';
-$route['r_loaduser'] 	= 'user/user/cUser/FSwUSRLoadDatatable';
+$route['r_user'] 						= 'user/user/cUser/index';
+$route['r_loaduser'] 					= 'user/user/cUser/FSwUSRLoadDatatable';
+$route['r_usercallpageInsertorEdit'] 	= 'user/user/cUser/FSwUSRCallPageInsertorEdit';
 
 //ใบเสนอราคา
 $route['r_quotation'] 		= 'quotation/cQuotation/index';

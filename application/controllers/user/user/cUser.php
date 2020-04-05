@@ -21,4 +21,23 @@ class cUser extends CI_Controller {
 		$this->load->view('user/user/wUserDatatable',$aPackData);
 	}
 
+	//โหลดหน้าจอเพื่มผู้ใช้ + แก้ไขผู้ใช้
+	public function FSwUSRCallPageInsertorEdit(){
+		$tTypePage = $this->input->post('ptTypepage');
+		if($tTypePage == 'insert'){
+
+		}else{
+
+		}
+
+		$aPackData = array(
+			'tTypePage' 		=> $tTypePage,
+			'aBCHList'			=> $this->mUser->FSaMUSRGetBranch(),
+			'aPermissionList'	=> $this->mUser->FSaMUSRGetPermission(),
+			'aPriGrp'			=> $this->mUser->FSaMUSRGetPriceGroup(),
+			'aResult'			=> ''
+		);
+		$this->load->view('user/user/wUserAdd',$aPackData);
+	}
+
 }
