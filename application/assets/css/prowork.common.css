@@ -68,7 +68,11 @@ body {
     font-size: 0.8rem !important;
 }
 
-.form-control {
+textarea .form-control{
+	height : auto !important;
+}
+
+input.form-control {
     height: calc(2rem + 0px) !important;
 }
 
@@ -154,7 +158,8 @@ body {
     height: 300px;
     text-align: center;
     display: block;
-    margin: 0px auto;
+	margin: 0px auto;
+	border: 1px solid #e0e0e0;
 }
 
 
@@ -162,4 +167,18 @@ body {
 	margin: 10px auto;
 	display: block;
 	padding: 5px 50px !important;
+}
+
+table thead th{
+	font-weight: unset;
+	font-size: 20px;
+}
+
+.xCNPagenation .page-link{
+	padding: .25rem .65rem;
+}
+
+.xCNPagenation .page-item.active .page-link{
+	background-color: #51c448;
+    border-color: #51c448;
 }

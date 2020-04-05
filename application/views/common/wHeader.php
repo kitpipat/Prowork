@@ -13,6 +13,7 @@
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/style.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.menu.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.common.css')?>">
+	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.checkbox.css')?>">
 </head>
 <body style="background: #f1f2f7;">
 	<!-- เมนู -->
@@ -95,3 +96,12 @@
 			</div>
 		</header>
 	
+		
+<!-- Scripts -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="<?=base_url('application/assets/js/')?>jquery.min.js"></script>
+<script src="<?=base_url('application/assets/js/')?>popper.min.js"></script>
+<script src="<?=base_url('application/assets/js/')?>bootstrap.min.js"></script>
+<script src="<?=base_url('application/assets/js/')?>jquery.validate.min.js"></script>
+<script src="<?=base_url('application/assets/js/')?>jquery.matchHeight.min.js"></script>
+<script src="<?=base_url('application/assets/js/')?>main.js"></script>

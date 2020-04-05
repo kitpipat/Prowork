@@ -77,8 +77,8 @@
 				oetPassword		: "required"
 			},
 			messages: {
-				oetUserLogin 	: "กรุณากรอกชื่อผู้ใช้ให้ครบถ้วน",
-				oetPassword	 	: "กรุณากรอกรหัสผ่านให้ครบถ้วน"
+				oetUserLogin 	: "กรุณากรอกชื่อผู้ใช้",
+				oetPassword	 	: "กรุณากรอกรหัสผ่าน"
 			},
 			submitHandler: function(form) {
 
