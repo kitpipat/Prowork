@@ -73,7 +73,7 @@ textarea .form-control{
 }
 
 input.form-control {
-    height: calc(2rem + 0px) !important;
+    height: calc(40px + 0px) !important;
 }
 
 .xCNContent{
@@ -103,9 +103,8 @@ input.form-control {
 }
 
 .xCNTextClassStatus_open{
-	color : #7ec579;
+	color : #4bae44;
 	display: inline-block;
-    font-weight: bold;
 }
 
 .xCNIconStatus_close{
@@ -118,9 +117,8 @@ input.form-control {
 }
 
 .xCNTextClassStatus_close{
-	color : #e49b9b;
+	color : #d96969;
 	display: inline-block;
-    font-weight: bold;
 }
 
 .xCNImageEdit{
@@ -181,4 +179,29 @@ table thead th{
 .xCNPagenation .page-item.active .page-link{
 	background-color: #51c448;
     border-color: #51c448;
+}
+
+.xCNDialog_Footer{
+	position: fixed;
+	width: 25%;
+	height: 85px;
+	z-index: 999;
+	margin-right: 0px;
+	display: block;
+	right: 15px;
+	bottom: 0px;
+}
+
+.sufee-alert {
+	position: fixed;
+	width: 30%;
+	right: 15px;
+}
+
+
+.modal-header{
+	background: #57606F;
+	color: #FFF;
+	height: 50px;
+    padding: 10px;
 }

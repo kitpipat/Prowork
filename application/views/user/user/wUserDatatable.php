@@ -4,7 +4,7 @@
 		<th style="width:10px; text-align: center;">ลำดับ</th>
 		<th style="width:100px; text-align: center;">รูปภาพ</th>
 		<th style="text-align: left;">ชื่อ-นามสกุล</th>
-		<th style="width:10%; text-align: left;">แผนก</th>
+		<th style="width:15%; text-align: left;">แผนก</th>
 		<th style="width:10%; text-align: left;">กลุ่มสิทธิ์</th>
 		<th style="width:10%; text-align: left;">กลุ่มราคา</th>
 		<th style="width:10%; text-align: left;">สถานะ</th>
@@ -94,6 +94,26 @@
     </div>
 </div>
 
+
+<!-- Modal Delete -->
+<button id="obtModalDelete" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalDelete"></button>
+<div class="modal fade" id="odvModalDelete" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ลบข้อมูล</h5>
+      </div>
+      <div class="modal-body">
+        <label>ยืนยันการลบข้อมูล ? </label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+        <button type="button" class="btn btn-primary xCNConfirmDelete" style="width: 100px; background: #21b3ea;">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 	//เปลี่ยนหน้า
 	function JSvUser_ClickPage(ptPage) {
@@ -118,19 +138,31 @@
 
 	//ลบข้อมูล
 	function JSxUser_Delete(ptCode){
-		$.ajax({
-			type	: "POST",
-			url		: 'r_usereventdelete',
-			data 	: { 'ptCode' : ptCode },
-			cache	: false,
-			timeout	: 0,
-			success	: function (tResult) {
-				alert('delete success');
-				JSxCallPageUserMain();
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
-			}
+		$('#obtModalDelete').click();
+
+		$('.xCNConfirmDelete').off();
+		$('.xCNConfirmDelete').on("click",function(){
+			$.ajax({
+				type	: "POST",
+				url		: 'r_usereventdelete',
+				data 	: { 'ptCode' : ptCode },
+				cache	: false,
+				timeout	: 0,
+				success	: function (tResult) {
+					$('.xCNCloseDelete').click();
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
+					JSxCallPageUserMain();
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+					JSxCallPageUserMain();
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
 		});
 	}
 

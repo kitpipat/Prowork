@@ -3,6 +3,7 @@
 	if($tTypePage == 'insert'){
 		$tRoute 		= 'r_usereventinsert';
 		$tRouteUrl		= 'สร้างผู้ใช้';
+		$FNStaUse       = 1;
 	}else if($tTypePage == 'edit'){
 		$FTUsrCode 		= $aResult[0]['FTUsrCode'];
 		$FTBchCode		= $aResult[0]['FTBchCode'];
@@ -24,6 +25,7 @@
 ?>
 
 <div class="container-fulid">
+	
 	<form id="ofmUser" class="form-signin" method="post" action="javascript:void(0)">
 
 		<input type="hidden" id="ohdUserCode" name="ohdUserCode" value="<?=@$FTUsrCode;?>">
@@ -67,7 +69,7 @@
 							<div class="form-group">
 								<label><span style="color:red;">*</span> สาขา</label>
 								<select class="form-control" id="oetUserBCH" name="oetUserBCH">
-									<option value="0">ไม่ระบุสาขา</option>
+									<option value="0">สำนักงานใหญ่</option>
 									<?php foreach($aBCHList['raItems'] AS $nKey => $aValue){ ?>
 										<option <?=(@$FTBchCode == $aValue['FTBchCode'])? "selected" : "";?> value="<?=$aValue['FTBchCode'];?>"><?=$aValue['FTBchName'];?> - (<?=$aValue['FTCmpName'];?>)</option>
 									<?php } ?>
@@ -194,8 +196,32 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				alert('success');
-				JSxCallPageUserMain();
+				if(tResult == 'Duplicate'){
+					$('.alert-danger').addClass('show').fadeIn();
+					$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
+					$('.alert-danger').find('.xCNTextShow').text('ชื่อผู้ใช้นี้มีอยู่แล้วในระบบ กรุณาป้อนชื่อผู้ใช้งานใหม่อีกครั้ง');
+					$('#oetUserLogin').val('');
+					$('#oetUserLogin').focus();
+					setTimeout(function(){
+						$('.alert-danger').find('.close').click();
+					}, 3000);
+				}else if(tResult == 'pass_insert'){
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนผู้ใช้สำเร็จ');
+					JSxCallPageUserMain();
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				}else if(tResult == 'pass_update'){
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลผู้ใช้สำเร็จ');
+					JSxCallPageUserMain();
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);

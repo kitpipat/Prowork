@@ -203,4 +203,28 @@ class mUser extends CI_Model {
 			echo $Error;
 		}
 	}
+
+	//ตรวจสอบ userlogin 
+	public function FSaMUSRCheckUserLogin($ptUserLogin,$ptCode){
+		$tSQL = " SELECT * FROM TCNMUsr USR";
+		$tSQL .= " WHERE USR.FTUsrLogin = '$ptUserLogin' ";
+
+		if($ptCode != ''){
+			$tSQL .= " AND FTUsrCode NOT IN ('$ptCode')";
+		}
+
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'rtCode'   => '1',
+				'rtDesc'   => 'duplication',
+			);
+		}else{
+			$aResult = array(
+				'rtCode' => '800',
+				'rtDesc' => 'pass',
+			);
+		}
+		return $aResult;
+	}
 }

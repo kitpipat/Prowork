@@ -49,48 +49,23 @@ class cUser extends CI_Controller {
 		$this->load->view('user/user/wUserAdd',$aPackData);
 	}
 
-	//เพิ่มข้อมูล
+	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwUSREventInsert(){
-		$aLastUserCode 	= $this->mUser->FSaMUSRGetLastUsercode();
-		if($aLastUserCode['rtCode'] == 800){
-			$nUserCode = 1;
+
+		$aCheckUserLogin 	= $this->mUser->FSaMUSRCheckUserLogin($this->input->post('oetUserLogin'),'');
+		if($aCheckUserLogin['rtCode'] == 1){
+			echo 'Duplicate';
 		}else{
-			$nUserCode = $aLastUserCode['raItems'][0]['FTUsrCode'];
-			$nUserCode = $nUserCode + 1;
-		}
+			$aLastUserCode 	= $this->mUser->FSaMUSRGetLastUsercode();
+			if($aLastUserCode['rtCode'] == 800){
+				$nUserCode = 1;
+			}else{
+				$nUserCode = $aLastUserCode['raItems'][0]['FTUsrCode'];
+				$nUserCode = $nUserCode + 1;
+			}
 
-		$aInsertUser = array(
-			'FTUsrCode'			=> $nUserCode,
-			'FTBchCode'			=> ($this->input->post('oetUserBCH') == 0) ? null : $this->input->post('oetUserBCH'),
-			'FTUsrFName'		=> $this->input->post('oetUserFirstname'),
-			'FTUsrLName'		=> $this->input->post('oetUserLastname'),
-			'FTUsrDep'			=> $this->input->post('oetUserDepartment'),
-			'FTUsrEmail'		=> $this->input->post('oetUserEmail'),
-			'FTUsrTel'			=> $this->input->post('oetUserTelphone'),
-			'FTUsrLogin'		=> $this->input->post('oetUserLogin'),
-			'FTUsrPwd'			=> $this->input->post('oetUserPassword'),
-			'FTUsrImgPath'		=> $this->input->post('oetImgInsertorEditUser'),
-			'FTUsrRmk'			=> $this->input->post('oetUserReason'),
-			'FNRhdID'			=> $this->input->post('oetUserPermission'),
-			'FTPriGrpID'		=> $this->input->post('oetUserPriGrp'),
-			'FNStaUse'			=> ($this->input->post('ocmUserStaUse') == 'on') ? 1 : 0,
-			'FNStaSysAdmin'		=> 0,
-			'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
-			'FDCreateOn'		=> date('Y-m-d H:i:s')
-		);
-		$this->mUser->FSxMUSRInsert($aInsertUser);
-	}
-
-	//ลบผู้ใช้
-	public function FSxUSREventDelete(){
-		$tCode = $this->input->post('ptCode');
-		$this->mUser->FSaMUSRDelete($tCode);
-	}
-
-	//อีเว้นท์บันทึก
-	public function FSxUSREventEdit(){
-		try{
-			$aSetUpdate = array(
+			$aInsertUser = array(
+				'FTUsrCode'			=> $nUserCode,
 				'FTBchCode'			=> ($this->input->post('oetUserBCH') == 0) ? null : $this->input->post('oetUserBCH'),
 				'FTUsrFName'		=> $this->input->post('oetUserFirstname'),
 				'FTUsrLName'		=> $this->input->post('oetUserLastname'),
@@ -105,15 +80,52 @@ class cUser extends CI_Controller {
 				'FTPriGrpID'		=> $this->input->post('oetUserPriGrp'),
 				'FNStaUse'			=> ($this->input->post('ocmUserStaUse') == 'on') ? 1 : 0,
 				'FNStaSysAdmin'		=> 0,
-				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
-				'FDUpdateOn'		=> date('Y-m-d H:i:s')
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+				'FDCreateOn'		=> date('Y-m-d H:i:s')
 			);
+			$this->mUser->FSxMUSRInsert($aInsertUser);
+			echo 'pass_insert';
+		}
+	}
 
-			$aWhereUpdate = array(
-				'FTUsrCode'		 	=> $this->input->post('ohdUserCode')
-			);
+	//ลบผู้ใช้
+	public function FSxUSREventDelete(){
+		$tCode = $this->input->post('ptCode');
+		$this->mUser->FSaMUSRDelete($tCode);
+	}
 
-			$this->mUser->FSxMUSUpdate($aSetUpdate,$aWhereUpdate);
+	//อีเว้นท์แก้ไข
+	public function FSxUSREventEdit(){
+		try{
+
+			$aCheckUserLogin 	= $this->mUser->FSaMUSRCheckUserLogin($this->input->post('oetUserLogin'),$this->input->post('ohdUserCode'));
+			if($aCheckUserLogin['rtCode'] == 1){
+				echo 'Duplicate';
+			}else{
+				$aSetUpdate = array(
+					'FTBchCode'			=> ($this->input->post('oetUserBCH') == 0) ? null : $this->input->post('oetUserBCH'),
+					'FTUsrFName'		=> $this->input->post('oetUserFirstname'),
+					'FTUsrLName'		=> $this->input->post('oetUserLastname'),
+					'FTUsrDep'			=> $this->input->post('oetUserDepartment'),
+					'FTUsrEmail'		=> $this->input->post('oetUserEmail'),
+					'FTUsrTel'			=> $this->input->post('oetUserTelphone'),
+					'FTUsrLogin'		=> $this->input->post('oetUserLogin'),
+					'FTUsrPwd'			=> $this->input->post('oetUserPassword'),
+					'FTUsrImgPath'		=> $this->input->post('oetImgInsertorEditUser'),
+					'FTUsrRmk'			=> $this->input->post('oetUserReason'),
+					'FNRhdID'			=> $this->input->post('oetUserPermission'),
+					'FTPriGrpID'		=> $this->input->post('oetUserPriGrp'),
+					'FNStaUse'			=> ($this->input->post('ocmUserStaUse') == 'on') ? 1 : 0,
+					'FNStaSysAdmin'		=> 0,
+					'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+					'FDUpdateOn'		=> date('Y-m-d H:i:s')
+				);
+				$aWhereUpdate = array(
+					'FTUsrCode'		 	=> $this->input->post('ohdUserCode')
+				);
+				$this->mUser->FSxMUSUpdate($aSetUpdate,$aWhereUpdate);
+				echo 'pass_update';
+			}
 		}catch(Exception $Error){
             echo $Error;
         }
