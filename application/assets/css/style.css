@@ -744,7 +744,7 @@ aside.left-panel {
     height: 100vh;
     padding: 0;
     vertical-align: top;
-    width: 280px;
+    width: 230px;
     -webkit-box-shadow: 1px 0 20px rgba(0, 0, 0, 0.08);
     box-shadow: 1px 0 20px rgba(0, 0, 0, 0.08);
     position: fixed;
@@ -836,7 +836,8 @@ aside.left-panel:hover {
 
 .navbar .navbar-nav li>a:hover,
 .navbar .navbar-nav li>a:hover .menu-icon {
-    color: #03a9f3;
+	color: #03a9f3;
+	cursor: pointer;
 }
 
 .navbar .navbar-nav li>a .menu-icon {
@@ -872,7 +873,7 @@ aside.left-panel:hover {
     content: "";
     position: absolute;
     top: 23px;
-    right: 0;
+    right: -5px;
     width: 8px;
     height: 8px;
     border-style: solid;
@@ -988,8 +989,8 @@ aside.left-panel:hover {
 }
 
 .open aside.left-panel {
-    max-width: 83px;
-    width: 83px;
+    max-width: 65px;
+    width: 65px;
 }
 
 .open aside.left-panel .navbar .navbar-header {
@@ -1122,7 +1123,7 @@ aside.left-panel:hover {
 
 .right-panel {
     background: #f1f2f7;
-    margin-left: 280px;
+    margin-left: 230px;
     margin-top: 55px;
 }
 
@@ -1224,7 +1225,7 @@ aside.left-panel:hover {
 }
 
 .open .right-panel {
-    margin-left: 83px;
+    margin-left: 70px;
 }
 
 .open .let-panel {
@@ -1241,9 +1242,10 @@ header.fixed-top {
     color: #99abb4 !important;
     cursor: pointer;
     font-size: 1em;
-    height: 40px;
+	height: 40px;
+	margin-right: 10px;
     line-height: 40px;
-    width: 40px;
+    /*width: 40px;*/
     display: block;
     text-align: right;
 }
@@ -3017,8 +3019,8 @@ footer.site-footer .footer-inner a {
 
 @media (max-width: 1024px) {
     .open aside.left-panel {
-        width: 280px;
-        max-width: 280px;
+        width: 230px;
+        max-width: 230px;
     }
     aside.left-panel:hover {
         overflow-x: inherit;
