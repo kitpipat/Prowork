@@ -47,4 +47,10 @@ class cPermission extends CI_Controller {
 		$this->load->view('user/permission/wPermissionAdd',$aPackData);
 	}
 
+	function FSwPEREventInsert(){
+		echo print_r($this->input->post('ocmPermission_Read'));
+
+
+	}
+
 }
