@@ -64,6 +64,9 @@
 
     }
 
+    /*adjust cost to TCNTPdtCost
+      main function to call form client
+    */
     function FCNaHPDCAdjPdtCost($paData){
 
        $aProducts = FCNtPDCGetProduct($paData['tPdtCode']);
@@ -107,7 +110,5 @@
 
     }
   }
-
-
 
  ?>

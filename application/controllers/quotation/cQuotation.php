@@ -18,15 +18,48 @@ class cQuotation extends CI_Controller {
 		     $this->load->view('quotation/wQuotation',$aData);
 
 	}
+
+	/*
+	Create On : 05/04/2020
+	Create By : Kitpipat Kaewkieo
+	Update On : -
+	Update By : -
+
+	เกี่ยวกับฟังก์ชั่น
+	----------------------------------------------
+	ข้อมูลสินค้าและราคาขาย
+	เงื่อนไข
+	1.คำนวนส่วนลดต้นทุนแล้ว
+	2.คำนวนราคาขายแล้ว
+	3.ราคานี้เป็นราคาตามกลุ่มราคาที่ผูกกับผู้ใช้ที่กำลังทำรายการ
+	*/
 	public function FCaCQUOGetProductList(){
 
-		     $oPdtList  = $this->mQuotation->FSaMQUPdtList();
+				 //get product list
+		     $aPdtList  = $this->mQuotation->FSaMQUPdtList();
 
-				 $aData = array('aPdtList' => $oPdtList,
-			                  'nTotalRecord'=>7);
+				 //count rows of products result
+         $nTotalRecord = $this->mQuotation->FSaMQUOPdtCountRow('');
+
+				 //data return to view
+				 $aData = array('aPdtList' => $aPdtList,
+			                  'nTotalRecord'=>$nTotalRecord);
 
 		     $this->load->view('quotation/wQuotationPdtList',$aData);
 
+	}
+
+	public function FCaCQUOGetItemsList(){
+
+
+				 $aConditions = array( "nMode" => 1,
+					                     "tDocNo" => '',
+					                     "tWorkerID"=>'1234567890');
+
+				 $aQuoItemsList  = $this->mQuotation->FCaMQUOGetItemsList($aConditions);
+
+				 $aData = array('aQuoItemsList'=>$aQuoItemsList);
+		     return $this->load->view('quotation/wQuotationItems',$aData);
 	}
 
 }
