@@ -41,7 +41,7 @@
 			<div class="card-body">
 				<div class="row">
 					<!--รูปภาพ-->
-					<div class="col-lg-3 col-md-3">
+					<div class="col-lg-4 col-md-4">
 
 						<?php 
 							if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
@@ -63,7 +63,7 @@
 					</div>
 
 					<!--รายละเอียด-->
-					<div class="col-lg-4 col-md-4">
+					<div class="col-lg-5 col-md-5">
 						<!--สาขา-->
 						<?php if($tLevelUser == 'HQ'){ ?>
 							<div class="form-group">
