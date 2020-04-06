@@ -212,6 +212,7 @@ class mQuotation extends CI_Model {
                   }else{
                       $aResult = array(
                           'rtCode' => '800',
+													'nTotalRes' => 0,
                           'rtDesc' => 'data not found',
                       );
                   }

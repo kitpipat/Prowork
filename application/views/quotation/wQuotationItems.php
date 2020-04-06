@@ -38,7 +38,12 @@
 
       <?php } ?>
 
-<?php } //End if ?>
+<?php } //End if
+      else{
+        $nTotal = 0;
+?>
+        <div class="col-lg-12">[การแจ้งเตือน] ยังไม่มีรายการสินค้าในเอกสารนี้ </div>
+<?php }   ?>
 
 
 
