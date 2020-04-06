@@ -108,6 +108,8 @@ class mQuotation extends CI_Model {
                          PGP.FTPgpName,
                          PDT.FTPdtImage ,
                          PDT.FCPdtCostStd,
+												 PDT.FTPunCode,
+												 PDT.FTSplCode,
                          PDT.FCPdtCostAFDis,
                          PDT.FCPdtSalPrice AS FCPdtStdSalPri ,
                          SP.FCXpdAddPri AS FCPdtUsrSalPri,
@@ -175,7 +177,6 @@ class mQuotation extends CI_Model {
 	กรณี create จะหาจาก tWorkerID
 	กรณี edit จะหาจาก Docno
 	*/
-
 	public function FCaMQUOGetItemsList($paFilter){
 
 				 $tDocNo = $paFilter['tDocNo'];
@@ -220,4 +221,37 @@ class mQuotation extends CI_Model {
 
 	}
 
+	public function FCaMQUOGetItemLastSeq($paFilter){
+
+         $tDocNo = $paFilter['tDocNo'];
+		     $tWorkerID = $paFilter['tWorkerID'];
+
+         $tSQL = "SELECT TOP 1 FNXqdSeq
+									FROM TARTSqDTTmp
+									WHERE 1=1 ";
+
+									if($tDocNo != ""){
+										 $tSQL.=" AND FTXqhDocNo = '".$tDocNo."'";
+									}else{
+										 $tSQL.=" AND FTWorkerID = '".$tWorkerID."'";
+									}
+
+									$tSQL.="  ORDER BY FNXqdSeq DESC ";
+
+									$oQuery = $this->db->query($tSQL);
+									$nCountRows = $oQuery->num_rows();
+
+									if($nCountRows > 0){
+                      $aResult = $oQuery->result_array();
+											return $aResult[0]["FNXqdSeq"] + 1;
+                  }else{
+                      return 1;
+                  }
+
+
+	}
+
+	public function FCaMQUOAddItem2Temp($paItemData){
+		     $this->db->insert('TARTSqDTTmp',$paItemData);
+	}
 }

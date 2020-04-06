@@ -38,4 +38,24 @@
       });
    }
 
+   function FSvQUOAddItemToTemp(ptElm){
+     tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
+     tDataItem = $(ptElm).attr("data-iteminfo");
+
+     $.ajax({
+     url: 'r_quotationeventAddItems',
+     type: 'POST',
+     data: {tQuoDocNo:tQuoDocNo,Item:tDataItem},
+     datatype: 'json'
+     })
+     .done(function (data) {
+
+          FSvQUOGetItemList()
+
+      })
+     .fail(function (jqXHR, textStatus, errorThrown) {
+          //serrorFunction();
+      });
+   }
+
 </script>
