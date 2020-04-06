@@ -1,3 +1,9 @@
+table .container-checkbox{
+	margin-left: 15px;
+}
+
+
+
 /* The container */
 .container-checkbox {
     display: block;
@@ -53,8 +59,8 @@
 
 /* Style the checkmark/indicator */
 .container-checkbox .checkmark:after {
-    left: 9px;
-    top: 5px;
+    left: 10px;
+    top: 6px;
     width: 5px;
     height: 10px;
     border: solid white;

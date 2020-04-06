@@ -2,53 +2,19 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="width:100px; text-align: center;">รูปภาพ</th>
-		<th style="text-align: left;">ชื่อ-นามสกุล</th>
-		<th style="width:15%; text-align: left;">แผนก</th>
-		<th style="width:10%; text-align: left;">กลุ่มสิทธิ์</th>
-		<th style="width:10%; text-align: left;">กลุ่มราคา</th>
-		<th style="width:10%; text-align: left;">สถานะ</th>
+		<th style="text-align: left;">ชื่อกลุ่มสิทธิ์</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;">ลบ</th>
     </tr>
   </thead>
   <tbody>
-		<?php if($aUserList['rtCode'] != 800){ ?>
-			<?php foreach($aUserList['raItems'] AS $nKey => $aValue){ ?>
+		<?php if($aPermissionList['rtCode'] != 800){ ?>
+			<?php foreach($aPermissionList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
 					<th><?= $nKey + 1 ?></th>
-					<?php 
-						if($aValue['FTUsrImgPath'] != '' || $aValue['FTUsrImgPath'] != null){
-							$tPathImage = './application/assets/images/user/'.$aValue['FTUsrImgPath'];
-							if (file_exists($tPathImage)){
-								$tPathImage = base_url().'application/assets/images/user/'.$aValue['FTUsrImgPath'];
-							}else{
-								$tPathImage = base_url().'application/assets/images/user/NoImage.png';
-							}
-						}else{
-							$tPathImage = './application/assets/images/user/NoImage.png';
-						}
-					?>
-					<td class="xCNTdHaveImage"><img id="oimImgMasteruser" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
-					<td><?=$aValue['FTUsrFName']?> <?=$aValue['FTUsrLName']?></td>
-					<td><?=($aValue['FTUsrDep'] == '') ? '-' : $aValue['FTUsrDep']?></td>
-					<td><?=$aValue['FTRhdName']?></td>
-					<td><?=$aValue['FTPriGrpName']?></td>
-					
-					<?php 
-						if($aValue['FNStaUse'] == 1){
-							$tIconClassStatus 	= 'xCNIconStatus_open';
-							$tTextClassStatus 	= 'xCNTextClassStatus_open';
-							$tTextStatus 		= 'ใช้งาน';
-						}else{
-							$tIconClassStatus 	= 'xCNIconStatus_close';
-							$tTextClassStatus 	= 'xCNTextClassStatus_close';
-							$tTextStatus 		= 'ไม่ใช้งาน';
-						}
-					?>
-					<td><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>
-					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwUserCallPageInsert('edit','<?=$aValue['FTUsrCode']?>');"></td>
-					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxUser_Delete('<?=$aValue['FTUsrCode']?>');"></td>
+					<td><?=($aValue['FTRhdName'] == '') ? '-' : $aValue['FTRhdName']?></td>
+					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPermissionCallPageInsert('edit','<?=$aValue['FNRhdID']?>');"></td>
+					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxPermission_Delete('<?=$aValue['FNRhdID']?>');"></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
@@ -59,7 +25,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <label>พบข้อมูลทั้งหมด <?=$aUserList['rnAllRow']?> รายการ แสดงหน้า <?=$aUserList['rnCurrentPage']?> / <?=$aUserList['rnAllPage']?></label>
+        <label>พบข้อมูลทั้งหมด <?=$aPermissionList['rnAllRow']?> รายการ แสดงหน้า <?=$aPermissionList['rnCurrentPage']?> / <?=$aPermissionList['rnAllPage']?></label>
     </div>
     <div class="col-md-6">
 		<nav>
@@ -67,11 +33,11 @@
 				<!--ปุ่มย้อนกลับ-->
 				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvUser_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
+					<a class="page-link" aria-label="Previous" onclick="JSvPermission_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
 				</li>
 
 				<!--ปุ่มจำนวนหน้า-->
-				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aUserList['rnAllPage'],$nPage+2)); $i++){?>
+				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aPermissionList['rnAllPage'],$nPage+2)); $i++){?>
 					<?php 
 						if($nPage == $i){ 
 							$tActive 		= 'active'; 
@@ -81,13 +47,13 @@
 							$tDisPageNumber = '';
 						}
 					?>
-					<li class="page-item <?=$tActive;?> " onclick="JSvUser_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
+					<li class="page-item <?=$tActive;?> " onclick="JSvPermission_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
 				<?php } ?>
 
 				<!--ปุ่มไปต่อ-->
-				<?php if($nPage >= $aUserList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
+				<?php if($nPage >= $aPermissionList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvUser_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
+					<a class="page-link" aria-label="Next" onclick="JSvPermission_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</ul>
 		</nav>
@@ -116,7 +82,7 @@
 
 <script>
 	//เปลี่ยนหน้า
-	function JSvUser_ClickPage(ptPage) {
+	function JSvPermission_ClickPage(ptPage) {
 		var nPageCurrent = '';
 		switch (ptPage) {
 			case 'next': //กดปุ่ม Next
@@ -137,14 +103,14 @@
 	}
 
 	//ลบข้อมูล
-	function JSxUser_Delete(ptCode){
+	function JSxPermission_Delete(ptCode){
 		$('#obtModalDelete').click();
 
 		$('.xCNConfirmDelete').off();
 		$('.xCNConfirmDelete').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: 'r_usereventdelete',
+				url		: 'r_permissioneventdelete',
 				data 	: { 'ptCode' : ptCode },
 				cache	: false,
 				timeout	: 0,
@@ -153,11 +119,11 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
-					JSxCallPageUserMain();
+					JSxCallPagePermissionMain();
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
-					JSxCallPageUserMain();
+					JSxCallPagePermissionMain();
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					alert(jqXHR, textStatus, errorThrown);

@@ -94,6 +94,7 @@ jQuery(document).ready(function($) {
             cache: false,
             timeout: 0,
             success: function(tResult) {
+				$('#menuToggle').click();
                 $('.content').html(tResult);
             },
             error: function(jqXHR, textStatus, errorThrown) {

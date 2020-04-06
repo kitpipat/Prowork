@@ -77,8 +77,11 @@
 							</div>
 						<?php }else{ ?>
 							<div class="form-group">
+								<?php $tBCHName = $this->session->userdata('tSesBCHName'); ?>
+								<?php $tBCHCode = $this->session->userdata('tSesBCHCode'); ?>
 								<label><span style="color:red;">*</span> สาขา</label>
-								<input type="text" class="form-control" id="oetUserBCH" name="oetUserBCH" value="<?=@$FTBchCode?>" autocomplete="off">
+								<input type="text" class="form-control" value="<?=@$tBCHName?>" autocomplete="off" readonly>
+								<input type="hidden" id="oetUserBCH" name="oetUserBCH" value="<?=@$tBCHCode?>" autocomplete="off">
 							</div>
 						<?php } ?>
 

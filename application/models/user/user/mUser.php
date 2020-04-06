@@ -36,6 +36,12 @@ class mUser extends CI_Model {
 			$tSQL .= " OR PRIG.FTPriGrpName LIKE '%$tTextSearch%' )";
 		}
 
+		//รองรับการมองเห็นตามสาขา
+		if($this->session->userdata('tSesUserLevel') == 'BCH'){
+			$tBCHCode = $this->session->userdata('tSesBCHCode');
+			$tSQL .= " AND USR.FTBchCode = '$tBCHCode' ";
+		}
+
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
@@ -77,6 +83,12 @@ class mUser extends CI_Model {
 				$tSQL .= " OR USR.FTUsrDep LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR RHD.FTRhdName LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PRIG.FTPriGrpName LIKE '%$tTextSearch%' ) ";
+			}
+
+			//รองรับการมองเห็นตามสาขา
+			if($this->session->userdata('tSesUserLevel') == 'BCH'){
+				$tBCHCode = $this->session->userdata('tSesBCHCode');
+				$tSQL .= " AND USR.FTBchCode = '$tBCHCode' ";
 			}
 
             $oQuery = $this->db->query($tSQL);
@@ -188,7 +200,8 @@ class mUser extends CI_Model {
 
 	//หาผู้ใช้จาก ไอดี
 	public function FSaMUSRGetDataUserBYID($ptCode){
-		$tSQL = " SELECT * FROM TCNMUsr USR";
+		$tSQL = " SELECT USR.* , BCH.FTBchName FROM TCNMUsr USR";
+		$tSQL .= " LEFT JOIN TCNMBranch BCH ON USR.FTBchCode = BCH.FTBchCode ";
 		$tSQL .= " WHERE USR.FTUsrCode = '$ptCode' ";
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->result_array();

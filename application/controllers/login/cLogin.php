@@ -41,15 +41,18 @@ class cLogin extends CI_Controller {
 					$aReturn 	= $this->mLogin->FSaMGetCmpDefault();
 					$tCmpName	= $aReturn['raItems'][0]['FTCmpName'];
 					$tBchName	= '';
+					$tBchCode	= '';
 					$tUserLevel = 'HQ';
 				}else{
 					$tCmpName	= $aReturn['raItems'][0]['FTCmpName'];
 					$tBchName	= $aReturn['raItems'][0]['FTBchName'];
+					$tBchCode	= $aReturn['raItems'][0]['FTBchCode'];
 					$tUserLevel = 'BCH';
 				}
 
 				$this->session->set_userdata("tSesUserLevel",$tUserLevel);		//เลเวล HQ , BCH
 				$this->session->set_userdata("tSesCMPName",$tCmpName);			//สาขา
+				$this->session->set_userdata("tSesBCHCode",$tBchCode);			//บริษัท
 				$this->session->set_userdata("tSesBCHName",$tBchName);			//บริษัท
 			}
 		}else{
