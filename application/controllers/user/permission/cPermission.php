@@ -36,7 +36,7 @@ class cPermission extends CI_Controller {
 			$aResult	= '';
 		}else if($tTypePage == 'edit'){
 			$tCode 		= $this->input->post('tCode');
-			$aResult 	= '';
+			$aResult 	= $this->mPermission->FSaMPERGetDataPermissionBYID($tCode);;
 		}
 
 		$aPackData = array(
@@ -47,10 +47,100 @@ class cPermission extends CI_Controller {
 		$this->load->view('user/permission/wPermissionAdd',$aPackData);
 	}
 
-	function FSwPEREventInsert(){
-		echo print_r($this->input->post('ocmPermission_Read'));
+	//เพิ่มกลุ่มสิทธิ์
+	public function FSwPEREventInsert(){
+		$nRoleID 		= $this->input->post('nRoleID');
+		$tRoleName 		= $this->input->post('tRoleName');
+		$tRoleReason 	= $this->input->post('tRoleReason');
+		$aMenu 			= $this->input->post('aMenu');
 
+		//Insert Role HD
+		$aInsHD = array(
+			'FTRhdName'		=> $tRoleName,
+			'FTRhdRmk'		=> $tRoleReason,
+			'FTCreateBy'	=> $this->session->userdata('tSesUsercode'),
+			'FDCreateOn'	=> date('Y-m-d H:i:s')
+		);
+		$tt = $this->mPermission->FSxMPERInsertHD($aInsHD);
+		
 
+		//Gen Code
+		$aLastRoleCode 	= $this->mPermission->FSaMPERGetLastRolecode();
+		if($aLastRoleCode['rtCode'] == 800){
+			$nRoleCode = 1;
+		}else{
+			$nRoleCode = $aLastRoleCode['raItems'][0]['FNRhdID'];
+			$nRoleCode = $nRoleCode;
+		}
+
+		//Insert Role DT
+		$this->mPermission->FSxMPERDeleteDT($nRoleCode);
+		for($i=0; $i<count($aMenu); $i++){
+			$aInsDT = array(
+				'FNRhdID'			=> $nRoleCode,
+				'FNMenID'			=> $aMenu[$i]['menu'],
+				'FTRdtAlwRead'		=> $aMenu[$i]['read'],
+				'FTRdtAlwCreate'	=> $aMenu[$i]['create'],
+				'FTRdtAlwDel'		=> $aMenu[$i]['delete'],
+				'FTRdtAlwEdit'		=> $aMenu[$i]['edit'],
+				'FTRdtAlwCancel'	=> $aMenu[$i]['cancle'],
+				'FTRdtAlwApv'		=> $aMenu[$i]['approve'],
+				'FTRdtAlwPrint'		=> $aMenu[$i]['print'],
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+				'FDCreateOn'		=> date('Y-m-d H:i:s')		
+			);	
+			$this->mPermission->FSxMPERInsertDT($aInsDT);
+		}
+
+		echo 'pass_insert';
+	}
+
+	//แก้ไขกลุ่มสิทธิ์
+	public function FSxPEREventEdit(){
+		$nRoleID 		= $this->input->post('nRoleID');
+		$tRoleName 		= $this->input->post('tRoleName');
+		$tRoleReason 	= $this->input->post('tRoleReason');
+		$aMenu 			= $this->input->post('aMenu');
+
+		//Update Role HD
+		$aUpdateWhereHD = array(
+			'FNRhdID'		=> $nRoleID
+		);
+
+		$aUpdateSetHD = array(
+			'FTRhdName'		=> $tRoleName,
+			'FTRhdRmk'		=> $tRoleReason,
+			'FTUpdateBy'	=> $this->session->userdata('tSesUsercode'),
+			'FDUpdateOn'	=> date('Y-m-d H:i:s')
+		);
+		$tt = $this->mPermission->FSxMPERUpdateHD($aUpdateSetHD,$aUpdateWhereHD);
+		
+		//Insert Role DT
+		$this->mPermission->FSxMPERDeleteDT($nRoleID);
+		for($i=0; $i<count($aMenu); $i++){
+			$aInsDT = array(
+				'FNRhdID'			=> $nRoleID,
+				'FNMenID'			=> $aMenu[$i]['menu'],
+				'FTRdtAlwRead'		=> $aMenu[$i]['read'],
+				'FTRdtAlwCreate'	=> $aMenu[$i]['create'],
+				'FTRdtAlwDel'		=> $aMenu[$i]['delete'],
+				'FTRdtAlwEdit'		=> $aMenu[$i]['edit'],
+				'FTRdtAlwCancel'	=> $aMenu[$i]['cancle'],
+				'FTRdtAlwApv'		=> $aMenu[$i]['approve'],
+				'FTRdtAlwPrint'		=> $aMenu[$i]['print'],
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+				'FDCreateOn'		=> date('Y-m-d H:i:s')		
+			);	
+			$this->mPermission->FSxMPERInsertDT($aInsDT);
+		}
+
+		echo 'pass_update';
+	}
+
+	//ลบข้อมูล
+	public function FSxPEREventDelete(){
+		$tCode = $this->input->post('ptCode');
+		$this->mPermission->FSaMPERDelete($tCode);
 	}
 
 }

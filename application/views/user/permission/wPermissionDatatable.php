@@ -7,11 +7,11 @@
 		<th style="width:80px; text-align: center;">ลบ</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody>	
 		<?php if($aPermissionList['rtCode'] != 800){ ?>
 			<?php foreach($aPermissionList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
-					<th><?= $nKey + 1 ?></th>
+					<th><?=$aValue['rtRowID']?></th>
 					<td><?=($aValue['FTRhdName'] == '') ? '-' : $aValue['FTRhdName']?></td>
 					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPermissionCallPageInsert('edit','<?=$aValue['FNRhdID']?>');"></td>
 					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxPermission_Delete('<?=$aValue['FNRhdID']?>');"></td>
@@ -74,7 +74,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
-        <button type="button" class="btn btn-primary xCNConfirmDelete">ยืนยัน</button>
+        <button type="button" class="btn btn-danger xCNConfirmDelete">ยืนยัน</button>
       </div>
     </div>
   </div>

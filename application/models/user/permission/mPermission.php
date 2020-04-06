@@ -90,5 +90,96 @@ class mPermission extends CI_Model {
 		}
 		return $aResult;
 	}
+
+	//หากลุ่มสิทธิ์ล่าสุด
+	public function FSaMPERGetLastRolecode(){
+		$tSQL = "SELECT TOP 1 FNRhdID FROM TCNMRoleHD ORDER BY FNRhdID * 1  DESC ";
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		}else{
+			$aResult = array(
+				'rtCode' => '800',
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
+	}
+
+	//เพิ่มข้อมูล HD
+	public function FSxMPERInsertHD($aResult){
+		try{
+			$this->db->insert('TCNMRoleHD', $aResult);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//ลบข้อมูล DT
+	public function FSxMPERDeleteDT($pnCode){
+		try{
+			$this->db->where_in('FNRhdID', $pnCode);
+            $this->db->delete('TCNMRoleDT');
+		}catch(Exception $Error){
+            echo $Error;
+        }
+	}
+
+	//เพิ่มข้อมูล DT
+	public function FSxMPERInsertDT($aResult){
+		try{
+			$this->db->insert('TCNMRoleDT', $aResult);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//ลบข้อมูล
+	public function FSaMPERDelete($ptCode){
+		try{
+			$this->db->where_in('FNRhdID', $ptCode);
+			$this->db->delete('TCNMRoleHD');
+			
+			$this->db->where_in('FNRhdID', $ptCode);
+            $this->db->delete('TCNMRoleDT');
+		}catch(Exception $Error){
+            echo $Error;
+        }
+	}
+
+	//หาข้อมูลตาม ไอดี
+	public function FSaMPERGetDataPermissionBYID($ptCode){
+		$tSQL = " SELECT 
+					RHD.FNRhdID,
+					RHD.FTRhdName,
+					RHD.FTRhdRmk, 
+					RDT.FNMenID,
+					RDT.FTRdtAlwRead,
+					RDT.FTRdtAlwCreate,
+					RDT.FTRdtAlwDel,
+					RDT.FTRdtAlwEdit,
+					RDT.FTRdtAlwCancel,
+					RDT.FTRdtAlwApv,
+					RDT.FTRdtAlwPrint
+					FROM TCNMRoleHD RHD";
+		$tSQL .= " LEFT JOIN TCNMRoleDT RDT ON RHD.FNRhdID = RDT.FNRhdID ";
+		$tSQL .= " WHERE RHD.FNRhdID = '$ptCode' ";
+		$oQuery = $this->db->query($tSQL);
+		return $oQuery->result_array();
+	}
+
+	//อัพเดทข้อมูล
+	public function FSxMPERUpdateHD($ptSet,$ptWhere){
+		try{
+			$this->db->where('FNRhdID', $ptWhere['FNRhdID']);
+			$this->db->update('TCNMRoleHD', $ptSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
 	
 }

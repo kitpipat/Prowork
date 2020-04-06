@@ -16,7 +16,7 @@
 		<?php if($aUserList['rtCode'] != 800){ ?>
 			<?php foreach($aUserList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
-					<th><?= $nKey + 1 ?></th>
+					<th><?=$aValue['rtRowID']?></th>
 					<?php 
 						if($aValue['FTUsrImgPath'] != '' || $aValue['FTUsrImgPath'] != null){
 							$tPathImage = './application/assets/images/user/'.$aValue['FTUsrImgPath'];
@@ -108,7 +108,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
-        <button type="button" class="btn btn-primary xCNConfirmDelete">ยืนยัน</button>
+        <button type="button" class="btn btn-danger xCNConfirmDelete">ยืนยัน</button>
       </div>
     </div>
   </div>

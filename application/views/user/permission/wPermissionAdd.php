@@ -4,6 +4,9 @@
 		$tRoute 		= 'r_permissioneventinsert';
 		$tRouteUrl		= 'สร้างกลุ่มสิทธิ์';
 	}else if($tTypePage == 'edit'){
+		$FNRhdID		= $aResult[0]['FNRhdID'];
+		$FTRhdName		= $aResult[0]['FTRhdName'];
+		$FTRhdRmk		= $aResult[0]['FTRhdRmk'];
 		$tRoute 		= 'r_permissioneventedit';
 		$tRouteUrl		= 'แก้ไขกลุ่มสิทธิ์';
 	}
@@ -11,9 +14,9 @@
 
 <div class="container-fulid">
 	
-	<form id="ofmPermission" class="form-signin" method="post" action="javascript:void(0)">
+	<form id="ofmPermission" method="post" action="javascript:void(0)">
 
-		<input type="hidden" id="ohdPermissionCode" name="ohdPermissionCode" value="<?=@$FTUsrCode;?>">
+		<input type="hidden" id="ohdPermissionCode" name="ohdPermissionCode" value="<?=@$FNRhdID;?>">
 
 		<!--Section บน-->
 		<div class="row">
@@ -30,13 +33,13 @@
 						<!--ชื่อกลุ่มสิทธิ์-->
 						<div class="form-group">
 							<label>ชื่อกลุ่มสิทธิ์</label>
-							<input type="text" class="form-control" maxlength="50" id="oetPermissionName" name="oetPermissionName" placeholder="กรุณาระบุชื่อกลุ่มสิทธิ์" autocomplete="off" value="<?=@$FTUsrTel;?>">
+							<input type="text" class="form-control" maxlength="50" id="oetPermissionName" name="oetPermissionName" placeholder="กรุณาระบุชื่อกลุ่มสิทธิ์" autocomplete="off" value="<?=@$FTRhdName;?>">
 						</div>
 
 						<!--หมายเหตุ-->
 						<div class="form-group">
 							<label>หมายเหตุ</label>
-							<textarea type="text" class="form-control" id="oetPermissionReason" name="oetPermissionReason" placeholder="หมายเหตุ" rows="3"><?=@$FTUsrRmk;?></textarea>
+							<textarea type="text" class="form-control" id="oetPermissionReason" name="oetPermissionReason" placeholder="หมายเหตุ" rows="3"><?=@$FTRhdRmk;?></textarea>
 						</div>
 					</div>
 
@@ -46,7 +49,7 @@
 						<div class="form-group">
 							<label>สิทธิ์การใช้งานระบบ</label>
 							<label class="container-checkbox pull-right" style="display: inline;">เลือกทั้งหมด
-								<input type="checkbox" id="ocmPermission_All" name="ocmPermission_All" checked>
+								<input type="checkbox" id="ocmPermission_All" name="ocmPermission_All" <?=($tTypePage == 'insert') ? 'checked' : '' ?>>
 								<span class="checkmark"></span>
 							</label>
 
@@ -122,38 +125,38 @@
 											<th><?=$nKey + 1 ?></th>
 											<td><?=$aValue['FTMenName'];?></td>
 											<td><label class="container-checkbox">
-													<input type="checkbox" name="ocmPermission_Read<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisRead?>" <?=$tDisRead == 'open' ? 'checked' : $tDisRead; ?> >
-													<span class="checkmark"></span>
+													<input type="checkbox" name="ocmPermission_Read<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisRead?>" 			<?=$tTypePage == 'insert' && $tDisRead == 'open' ? 'checked' :(@$aResult[$nKey]['FTRdtAlwRead'] == '1') ? 'checked' : $tDisRead;?>>
+													<span class="checkmark  xCNButtonCheckbox<?=$tDisRead?>"></span>
 												</label>
 											</td>
 											<td><label class="container-checkbox">
-													<input type="checkbox" name="ocmPermission_Create<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisCreate?>" <?=$tDisCreate == 'open' ? 'checked' : $tDisCreate; ?> >
-													<span class="checkmark"></span>
+													<input type="checkbox" name="ocmPermission_Create<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisCreate?>" 		<?=$tTypePage == 'insert' && $tDisCreate == 'open' ? 'checked' :(@$aResult[$nKey]['FTRdtAlwCreate'] == '1') ? 'checked' : $tDisCreate;?>>
+													<span class="checkmark xCNButtonCheckbox<?=$tDisCreate?>"></span>
 												</label>
 											</td>
 											<td><label class="container-checkbox">
-													<input type="checkbox"  name="ocmPermission_Edit<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisEdit?>" <?=$tDisEdit == 'open' ? 'checked' : $tDisEdit; ?>>
-													<span class="checkmark"></span>
+													<input type="checkbox"  name="ocmPermission_Edit<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisEdit?>"	 		<?=$tTypePage == 'insert' && $tDisEdit == 'open' ? 'checked' : (@$aResult[$nKey]['FTRdtAlwEdit'] == '1') ? 'checked' : $tDisEdit;?>>
+													<span class="checkmark xCNButtonCheckbox<?=$tDisEdit?>"></span>
 												</label>
 											</td>
 											<td><label class="container-checkbox">
-													<input type="checkbox" name="ocmPermission_Delete<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisDelete?>"<?=$tDisDelete == 'open' ? 'checked' : $tDisDelete; ?>>
-													<span class="checkmark"></span>
+													<input type="checkbox" name="ocmPermission_Delete<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisDelete?>" 		<?=$tTypePage == 'insert' && $tDisDelete == 'open' ? 'checked' : (@$aResult[$nKey]['FTRdtAlwDel'] == '1') ? 'checked' : $tDisDelete;?>>
+													<span class="checkmark xCNButtonCheckbox<?=$tDisDelete?>"></span>
 												</label>
 											</td>
 											<td><label class="container-checkbox">
-													<input type="checkbox"  name="ocmPermission_Cancle<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisCancle?>" <?=$tDisCancle == 'open' ? 'checked' : $tDisCancle; ?>>
-													<span class="checkmark"></span>
+													<input type="checkbox"  name="ocmPermission_Cancle<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisCancle?>" 	<?=$tTypePage == 'insert' && $tDisCancle == 'open' ? 'checked' :(@$aResult[$nKey]['FTRdtAlwCancel'] == '1') ? 'checked' : $tDisCancle;?>>
+													<span class="checkmark xCNButtonCheckbox<?=$tDisCancle?>"></span>
 												</label>
 											</td>
 											<td><label class="container-checkbox">
-													<input type="checkbox" name="ocmPermission_Approve<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisAprove?>" <?=$tDisAprove == 'open' ? 'checked' : $tDisAprove; ?>>
-													<span class="checkmark"></span>
+													<input type="checkbox" name="ocmPermission_Approve<?=$aValue['FNMenID']?>" class="xCNOCMPer xCNOCM<?=$tDisAprove?>" 	<?=$tTypePage == 'insert' && $tDisAprove == 'open' ? 'checked' :(@$aResult[$nKey]['FTRdtAlwApv'] == '1') ? 'checked' : $tDisAprove;?>>
+													<span class="checkmark xCNButtonCheckbox<?=$tDisAprove?>"></span>
 												</label>
 											</td>
 											<td><label class="container-checkbox">
-													<input type="checkbox"  name="ocmPermission_Print<?=$aValue['FNMenID']?>"  class="xCNOCMPer xCNOCM<?=$tDisPrint?>" <?=$tDisPrint?> <?=$tDisPrint == 'open' ? 'checked' : ''; ?>>
-													<span class="checkmark"></span>
+													<input type="checkbox"  name="ocmPermission_Print<?=$aValue['FNMenID']?>"  class="xCNOCMPer xCNOCM<?=$tDisPrint?>" 		<?=$tTypePage == 'insert' && $tDisPrint == 'open' ? 'checked' :(@$aResult[$nKey]['FTRdtAlwPrint'] == '1') ? 'checked' : $tDisPrint;?>>
+													<span class="checkmark xCNButtonCheckbox<?=$tDisPrint?>"></span>
 												</label>
 											</td>
 										</tr>	
@@ -196,70 +199,56 @@
 			return;
 		}
 
-
 		var aMenu = [];
 		$('#otbMenuValue > tbody > .xCNMenuValue').each(function(){
 			var nCodemenu 	= $(this).data('menucode');
 			var tMenu = {
 				'menu' 		: nCodemenu,
-				'read' 		: $('input[name=ocmPermission_Read'+nCodemenu+']:checked').val(),
-				'create' 	: $('input[name=ocmPermission_Create'+nCodemenu+']:checked').val(),
-				'edit' 		: $('input[name=ocmPermission_Edit'+nCodemenu+']:checked').val(),
-				'delete' 	: $('input[name=ocmPermission_Delete'+nCodemenu+']:checked').val(),
-				'cancle' 	: $('input[name=ocmPermission_Cancle'+nCodemenu+']:checked').val(),
-				'approve' 	: $('input[name=ocmPermission_Approve'+nCodemenu+']:checked').val(),
-				'print' 	: $('input[name=ocmPermission_Print'+nCodemenu+']:checked').val()
+				'read' 		: ($('input[name=ocmPermission_Read'+nCodemenu+']:checked').val() == 'on') ? 1 : 0,
+				'create' 	: ($('input[name=ocmPermission_Create'+nCodemenu+']:checked').val()  == 'on') ? 1 : 0,
+				'edit' 		: ($('input[name=ocmPermission_Edit'+nCodemenu+']:checked').val()  == 'on') ? 1 : 0,
+				'delete' 	: ($('input[name=ocmPermission_Delete'+nCodemenu+']:checked').val() == 'on') ? 1 : 0,
+				'cancle' 	: ($('input[name=ocmPermission_Cancle'+nCodemenu+']:checked').val() == 'on') ? 1 : 0,
+				'approve' 	: ($('input[name=ocmPermission_Approve'+nCodemenu+']:checked').val() == 'on') ? 1 : 0,
+				'print' 	: ($('input[name=ocmPermission_Print'+nCodemenu+']:checked').val() == 'on') ? 1 : 0,
 			}
 			aMenu.push(tMenu);
 		});
 
-		console.log(aMenu);
-
-		// $('#otbMenuValue > tbody .xCNMenuValue').each(function(){
-		// 	var t = $(this);
-		// 	console.log(t);
-		// });
-
-
-		// $.ajax({
-		// 	type	: "POST",
-		// 	url		: ptRoute,
-		// 	data 	: $('#ofmPermission').serialize(),
-		// 	cache	: false,
-		// 	timeout	: 0,
-		// 	success	: function (tResult) {
-		// 		console.log(tResult);
-		// 		// if(tResult == 'Duplicate'){
-		// 		// 	$('.alert-danger').addClass('show').fadeIn();
-		// 		// 	$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
-		// 		// 	$('.alert-danger').find('.xCNTextShow').text('ชื่อผู้ใช้นี้มีอยู่แล้วในระบบ กรุณาป้อนชื่อผู้ใช้งานใหม่อีกครั้ง');
-		// 		// 	$('#oetUserLogin').val('');
-		// 		// 	$('#oetUserLogin').focus();
-		// 		// 	setTimeout(function(){
-		// 		// 		$('.alert-danger').find('.close').click();
-		// 		// 	}, 3000);
-		// 		// }else if(tResult == 'pass_insert'){
-		// 		// 	$('.alert-success').addClass('show').fadeIn();
-		// 		// 	$('.alert-success').find('.badge-success').text('สำเร็จ');
-		// 		// 	$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนผู้ใช้สำเร็จ');
-		// 		// 	JSxCallPagePermissionMain();
-		// 		// 	setTimeout(function(){
-		// 		// 		$('.alert-success').find('.close').click();
-		// 		// 	}, 3000);
-		// 		// }else if(tResult == 'pass_update'){
-		// 		// 	$('.alert-success').addClass('show').fadeIn();
-		// 		// 	$('.alert-success').find('.badge-success').text('สำเร็จ');
-		// 		// 	$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลผู้ใช้สำเร็จ');
-		// 		// 	JSxCallPagePermissionMain();
-		// 		// 	setTimeout(function(){
-		// 		// 		$('.alert-success').find('.close').click();
-		// 		// 	}, 3000);
-		// 		// }
-		// 	},
-		// 	error: function (jqXHR, textStatus, errorThrown) {
-		// 		alert(jqXHR, textStatus, errorThrown);
-		// 	}
-		// });
+		$.ajax({
+			type	: "POST",
+			url		: ptRoute,
+			data 	: {
+					'nRoleID' 		: $('#ohdPermissionCode').val(),
+					'tRoleName' 	: $('#oetPermissionName').val(),
+					'tRoleReason' 	: $('#oetPermissionReason').val(),
+					'aMenu' 		: aMenu
+				},
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				if(tResult == 'pass_insert'){
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('เพิ่มข้อมูลกลุ่มสิทธิ์สำเร็จ');
+					JSxCallPagePermissionMain();
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				}else if(tResult == 'pass_update'){
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลกลุ่มสิทธิ์สำเร็จ');
+					JSxCallPagePermissionMain();
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
 	}
 
 </script>
