@@ -7,16 +7,15 @@ class mPermission extends CI_Model {
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
-		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FNRhdID*1 ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FNRhdID * 1 ASC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
-					ROL.FNRhdID,
-					ROL.FTRhdName,
-					ROL.FTRhdRmk,
-					ROL.FTCreateBy,
-					ROL.FDCreateOn,
-					ROL.FDUpdateOn,
-					ROL.FTUpdateBy
-					FROM TCNMRoleHD ROL";
+					DISTINCT
+						ROL.FNRhdID,
+						ROL.FTRhdName,
+						ROL.FTRhdRmk,
+						USR.FNRhdID AS 'User_use'
+					FROM TCNMRoleHD ROL
+					LEFT JOIN TCNMUsr USR ON USR.FNRhdID = ROL.FNRhdID ";
 		$tSQL .= " WHERE 1=1 ";
 
 		if($tTextSearch != '' || $tTextSearch != null){

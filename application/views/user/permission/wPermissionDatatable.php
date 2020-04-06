@@ -13,8 +13,19 @@
 				<tr>
 					<th><?=$aValue['rtRowID']?></th>
 					<td><?=($aValue['FTRhdName'] == '') ? '-' : $aValue['FTRhdName']?></td>
+
+					 <?php 
+						if( $aValue['User_use'] == '' || $aValue['User_use'] == null){
+							$oEventDelete 			= "JSxPermission_Delete('".$aValue['FNRhdID']."')";
+							$tClassDisabledDelete 	= '';
+						}else{
+							$oEventDelete 			= '';
+							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
+						}
+					 ?>
+
 					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPermissionCallPageInsert('edit','<?=$aValue['FNRhdID']?>');"></td>
-					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxPermission_Delete('<?=$aValue['FNRhdID']?>');"></td>
+					<td><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
