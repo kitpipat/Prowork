@@ -62,4 +62,33 @@ class cQuotation extends CI_Controller {
 		     return $this->load->view('quotation/wQuotationItems',$aData);
 	}
 
+	public function FCaCQUOAddItem(){
+
+				 $tQuoDocNo = $this->input->post("tQuoDocNo");
+				 $tWorkerID = "1234567890";
+
+				 $oItem = $this->input->post("Item");
+         $aItem = json_decode($oItem,true);
+
+				 $nXqdSeq = $this->mQuotation->FCaMQUOGetItemLastSeq(array("tDocNo"=>$tQuoDocNo,"tWorkerID"=>$tWorkerID));
+
+				 $aItemData = array(
+					 "FTXqhDocNo" => $tQuoDocNo,
+					 "FNXqdSeq" => $nXqdSeq,
+					 "FTPdtCode" => $aItem['tPdtCode'],
+					 "FTPdtName" => $aItem['tPdtName'],
+					 "FTPunCode" => $aItem['tPunCode'],
+					 "FTSplCode" => $aItem['tSplCode'],
+					 "FTXqdCost" => $aItem['nPdtCost'],
+					 "FCXqdUnitPrice" => $aItem['nPdtUnitPri'],
+					 "FCXqdQty" => 1,
+					 "FCXqdB4Dis" => $aItem['nPdtUnitPri'],
+					 "FTWorkerID" => $tWorkerID
+				 );
+
+				 $this->mQuotation->FCaMQUOAddItem2Temp($aItemData);
+
+
+	}
+
 }

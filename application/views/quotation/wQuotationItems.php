@@ -19,6 +19,7 @@
             $nTotal = 0;
             for($i=0;$i<$aQuoItemsList['nTotalRes'];$i++){
             $nTotal = $nTotal + $aQuoItemsList['raItems'][$i]['FCXqdB4Dis'];
+            $nQty = $aQuoItemsList['raItems'][$i]['FCXqdQty'];
       ?>
 
           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
@@ -30,7 +31,7 @@
               <div class="row">
                   <div class="col-lg-6">จำนวน</div>
                   <div class="col-lg-6">
-                      <input class="text-right" type="text" style="width:100%" value="1" >
+                      <input class="text-right" type="text" style="width:100%" value="<?=$nQty?>" >
                   </div>
               </div>
 

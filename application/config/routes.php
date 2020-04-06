@@ -38,3 +38,4 @@ $route['r_permissioneventedit'] 			= 'user/permission/cPermission/FSxPEREventEdi
 $route['r_quotation'] 		= 'quotation/cQuotation/index';
 $route['r_quotationeventGetPdtList'] 		= 'quotation/cQuotation/FCaCQUOGetProductList';
 $route['r_quotationeventGetItemsList'] 		= 'quotation/cQuotation/FCaCQUOGetItemsList';
+$route['r_quotationeventAddItems'] 		= 'quotation/cQuotation/FCaCQUOAddItem';
