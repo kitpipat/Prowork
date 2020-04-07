@@ -34,7 +34,7 @@ $route['r_permissioneventinsert'] 			= 'user/permission/cPermission/FSwPEREventI
 $route['r_permissioneventdelete'] 			= 'user/permission/cPermission/FSxPEREventDelete';
 $route['r_permissioneventedit'] 			= 'user/permission/cPermission/FSxPEREventEdit';
 
-//หน้าจอ : กลุ่มราคา ( start : 07-04-2020 / done : xx-xx-2020 )
+//หน้าจอ : กลุ่มราคา ( start : 07-04-2020 / done : 07-04-2020 )
 $route['r_userprice'] 						= 'user/userprice/cUserPrice/index';
 $route['r_userpriceload'] 					= 'user/userprice/cUserPrice/FSwUPILoadDatatable';
 $route['r_userpricecallpageInsertorEdit'] 	= 'user/userprice/cUserPrice/FSwUPICallPageInsertorEdit';

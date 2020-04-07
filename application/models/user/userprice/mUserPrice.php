@@ -9,10 +9,13 @@ class mUserPrice extends CI_Model {
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTPriGrpID ASC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
+					DISTINCT
 						PRI.FTPriGrpID , 
 						PRI.FTPriGrpName ,
-						PRI.FTPriGrpReason	
-					FROM TCNMPriGrp PRI";
+						PRI.FTPriGrpReason,
+						USR.FTPriGrpID AS 'User_use'
+					FROM TCNMPriGrp PRI 
+					LEFT JOIN TCNMUsr USR ON USR.FTPriGrpID = PRI.FTPriGrpID ";
 		$tSQL .= " WHERE 1=1 ";
 
 		if($tTextSearch != '' || $tTextSearch != null){

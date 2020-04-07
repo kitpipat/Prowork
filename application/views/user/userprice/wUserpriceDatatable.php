@@ -17,8 +17,19 @@
 					<td><?=$aValue['FTPriGrpID']?></td>
 					<td><?=($aValue['FTPriGrpName'] == '') ? '-' : $aValue['FTPriGrpName']?></td>
 					<td><?=($aValue['FTPriGrpReason'] == '') ? '-' : $aValue['FTPriGrpReason']?></td>
+
+					<?php 
+						if( $aValue['User_use'] == '' || $aValue['User_use'] == null){
+							$oEventDelete 			= "JSxPriceGroup_Delete('".$aValue['FTPriGrpID']."')";
+							$tClassDisabledDelete 	= '';
+						}else{
+							$oEventDelete 			= '';
+							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
+						}
+					 ?>
+
 					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPriceGroupCallPageInsert('edit','<?=$aValue['FTPriGrpID']?>');"></td>
-					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxPriceGroup_Delete('<?=$aValue['FTPriGrpID']?>');"></td>
+					<td><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete;?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>

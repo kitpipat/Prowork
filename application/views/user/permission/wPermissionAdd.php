@@ -77,7 +77,7 @@
 														$tTextShowGrp 	= 'เอกสาร';
 														break;
 													case "master":
-														$tTextShowGrp 	= 'ทั่วไป';
+														$tTextShowGrp 	= 'ข้อมูลหลัก';
 														break;
 													case "report":
 														$tTextShowGrp 	= 'รายงาน';

@@ -49,23 +49,22 @@ class cUserprice extends CI_Controller {
 	public function FSwUPIEventInsert(){
 		$aLastCode 	= $this->mUserPrice->FSaMUPIGetLastGroupPricecode();
 		if($aLastCode['rtCode'] == 800){
-			$nUserCode = 'P0001';
+			$nUserCode = '00001';
 		}else{
 			$nUserCode 		= $aLastCode['raItems'][0]['FTPriGrpID'];
-			$aExplodeCode 	= explode("P",$nUserCode);
-			$nNumber		= $aExplodeCode[1] + 1;
+			$nNumber		= $nUserCode + 1;
 			$nCountNumber	= count($nNumber);
 			if($nCountNumber == 1){
-				$tFormat 		= '000';
+				$tFormat 		= '0000';
 			}else if($nCountNumber == 2){
-				$tFormat 		= '00';
+				$tFormat 		= '000';
 			}else if($nCountNumber == 3){
-				$tFormat 		= '0';
+				$tFormat 		= '00';
 			}else{
-				$tFormat 		= '';
+				$tFormat 		= '0';
 			}
 
-			$tFormatCode = "P" . str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
+			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
 		}
 
 		$aInsertUser = array(
