@@ -2,30 +2,23 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="text-align: left;">ชื่อกลุ่มสิทธิ์</th>
+		<th style="width:200px; text-align: left;">รหัสกลุ่มราคา</th>
+		<th style="text-align: left;">ชื่อกลุ่มราคา</th>
+		<th style="width:20%; text-align: left;">หมายเหตุ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;">ลบ</th>
     </tr>
   </thead>
-  <tbody>	
-		<?php if($aPermissionList['rtCode'] != 800){ ?>
-			<?php foreach($aPermissionList['raItems'] AS $nKey => $aValue){ ?>
+  <tbody>
+		<?php if($aPriceGroupList['rtCode'] != 800){ ?>
+			<?php foreach($aPriceGroupList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
 					<th><?=$aValue['rtRowID']?></th>
-					<td><?=($aValue['FTRhdName'] == '') ? '-' : $aValue['FTRhdName']?></td>
-
-					 <?php 
-						if( $aValue['User_use'] == '' || $aValue['User_use'] == null){
-							$oEventDelete 			= "JSxPermission_Delete('".$aValue['FNRhdID']."')";
-							$tClassDisabledDelete 	= '';
-						}else{
-							$oEventDelete 			= '';
-							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
-						}
-					 ?>
-
-					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPermissionCallPageInsert('edit','<?=$aValue['FNRhdID']?>');"></td>
-					<td><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
+					<td><?=$aValue['FTPriGrpID']?></td>
+					<td><?=($aValue['FTPriGrpName'] == '') ? '-' : $aValue['FTPriGrpName']?></td>
+					<td><?=($aValue['FTPriGrpReason'] == '') ? '-' : $aValue['FTPriGrpReason']?></td>
+					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPriceGroupCallPageInsert('edit','<?=$aValue['FTPriGrpID']?>');"></td>
+					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxPriceGroup_Delete('<?=$aValue['FTPriGrpID']?>');"></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
@@ -36,7 +29,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <label>พบข้อมูลทั้งหมด <?=$aPermissionList['rnAllRow']?> รายการ แสดงหน้า <?=$aPermissionList['rnCurrentPage']?> / <?=$aPermissionList['rnAllPage']?></label>
+        <label>พบข้อมูลทั้งหมด <?=$aPriceGroupList['rnAllRow']?> รายการ แสดงหน้า <?=$aPriceGroupList['rnCurrentPage']?> / <?=$aPriceGroupList['rnAllPage']?></label>
     </div>
     <div class="col-md-6">
 		<nav>
@@ -44,11 +37,11 @@
 				<!--ปุ่มย้อนกลับ-->
 				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvPermission_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
+					<a class="page-link" aria-label="Previous" onclick="JSvPriceGroup_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
 				</li>
 
 				<!--ปุ่มจำนวนหน้า-->
-				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aPermissionList['rnAllPage'],$nPage+2)); $i++){?>
+				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aPriceGroupList['rnAllPage'],$nPage+2)); $i++){?>
 					<?php 
 						if($nPage == $i){ 
 							$tActive 		= 'active'; 
@@ -58,13 +51,13 @@
 							$tDisPageNumber = '';
 						}
 					?>
-					<li class="page-item <?=$tActive;?> " onclick="JSvPermission_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
+					<li class="page-item <?=$tActive;?> " onclick="JSvPriceGroup_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
 				<?php } ?>
 
 				<!--ปุ่มไปต่อ-->
-				<?php if($nPage >= $aPermissionList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
+				<?php if($nPage >= $aPriceGroupList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvPermission_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
+					<a class="page-link" aria-label="Next" onclick="JSvPriceGroup_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</ul>
 		</nav>
@@ -93,7 +86,7 @@
 
 <script>
 	//เปลี่ยนหน้า
-	function JSvPermission_ClickPage(ptPage) {
+	function JSvPriceGroup_ClickPage(ptPage) {
 		var nPageCurrent = '';
 		switch (ptPage) {
 			case 'next': //กดปุ่ม Next
@@ -114,14 +107,14 @@
 	}
 
 	//ลบข้อมูล
-	function JSxPermission_Delete(ptCode){
+	function JSxPriceGroup_Delete(ptCode){
 		$('#obtModalDelete').click();
 
 		$('.xCNConfirmDelete').off();
 		$('.xCNConfirmDelete').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: 'r_permissioneventdelete',
+				url		: 'r_userpriceeventdelete',
 				data 	: { 'ptCode' : ptCode },
 				cache	: false,
 				timeout	: 0,
@@ -130,7 +123,7 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
-					JSxCallPagePermissionMain();
+					JSxCallPagePriceGroupMain();
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);

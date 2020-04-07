@@ -30,7 +30,7 @@
 
 <script>
 
-	//หน้าตารางสินค้า
+	//หน้าตาราง
 	JSwLoadTableList(1);
 	function JSwLoadTableList(pnPage){
 		$.ajax({

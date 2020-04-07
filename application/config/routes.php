@@ -26,13 +26,21 @@ $route['r_usereventinsert'] 			= 'user/user/cUser/FSwUSREventInsert';
 $route['r_usereventdelete'] 			= 'user/user/cUser/FSxUSREventDelete';
 $route['r_usereventedit'] 				= 'user/user/cUser/FSxUSREventEdit';
 
-//หน้าจอ : กลุ่มสิทธิ์ ( start : 06-04-2020 / done : xx-xx-2020 )
+//หน้าจอ : กลุ่มสิทธิ์ ( start : 06-04-2020 / done : 06-04-2020 )
 $route['r_permission'] 						= 'user/permission/cPermission/index';
 $route['r_permissionload'] 					= 'user/permission/cPermission/FSwPERLoadDatatable';
 $route['r_permissioncallpageInsertorEdit'] 	= 'user/permission/cPermission/FSwPERCallPageInsertorEdit';
 $route['r_permissioneventinsert'] 			= 'user/permission/cPermission/FSwPEREventInsert';
 $route['r_permissioneventdelete'] 			= 'user/permission/cPermission/FSxPEREventDelete';
 $route['r_permissioneventedit'] 			= 'user/permission/cPermission/FSxPEREventEdit';
+
+//หน้าจอ : กลุ่มราคา ( start : 07-04-2020 / done : xx-xx-2020 )
+$route['r_userprice'] 						= 'user/userprice/cUserPrice/index';
+$route['r_userpriceload'] 					= 'user/userprice/cUserPrice/FSwUPILoadDatatable';
+$route['r_userpricecallpageInsertorEdit'] 	= 'user/userprice/cUserPrice/FSwUPICallPageInsertorEdit';
+$route['r_userpriceeventinsert'] 			= 'user/userprice/cUserPrice/FSwUPIEventInsert';
+$route['r_userpriceeventdelete'] 			= 'user/userprice/cUserPrice/FSxUPIEventDelete';
+$route['r_userpriceeventedit'] 				= 'user/userprice/cUserPrice/FSxUPIEventEdit';
 
 //ใบเสนอราคา
 $route['r_quotation'] 		= 'quotation/cQuotation/index';

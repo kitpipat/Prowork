@@ -2,8 +2,8 @@
 
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">กลุ่มสิทธิ์</span></div>
-		<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right" onClick="JSwPermissionCallPageInsert('insert','')">+</button></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">กลุ่มราคา</span></div>
+		<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right" onClick="JSwPriceGroupCallPageInsert('insert','')">+</button></div>
 	</div>
 
 	<!--Section ล่าง-->
@@ -21,7 +21,7 @@
 				</div>
 
 				<div class="col-lg-12">
-					<div id="odvContent_Permission" class="xCNContent"></div>
+					<div id="odvContent_PriceGroup" class="xCNContent"></div>
 				</div>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 	function JSwLoadTableList(pnPage){
 		$.ajax({
 			type	: "POST",
-			url		: "r_permissionload",
+			url		: "r_userpriceload",
 			data 	: {
 						'nPage' 		: pnPage,
 						'tSearchAll' 	: $('#oetSearch').val()
@@ -43,7 +43,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				$('#odvContent_Permission').html(tResult);
+				$('#odvContent_PriceGroup').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);
@@ -52,10 +52,10 @@
 	}
 
 	//โหลดหน้า เพิ่มข้อมูล
-	function JSwPermissionCallPageInsert(ptType,ptCode){
+	function JSwPriceGroupCallPageInsert(ptType,ptCode){
 		$.ajax({
 			type	: "POST",
-			url		: "r_permissioncallpageInsertorEdit",
+			url		: "r_userpricecallpageInsertorEdit",
 			data 	: {
 						'tTypepage'  : ptType,
 						'tCode'	 	 : ptCode
@@ -71,11 +71,11 @@
 		});
 	}
 
-	//กด กลุ่มสิทธิ์(กลับหน้า main)
-	function JSxCallPagePermissionMain(){
+	//กด กลุ่มราคา(กลับหน้า main)
+	function JSxCallPagePriceGroupMain(){
 		$.ajax({
 			type	: "POST",
-			url		: "r_permission",
+			url		: "r_userprice",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {

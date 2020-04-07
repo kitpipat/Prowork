@@ -157,7 +157,6 @@
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
-					JSxCallPageUserMain();
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					alert(jqXHR, textStatus, errorThrown);
