@@ -3,7 +3,7 @@
            <div class="xWQuotationTtems-Title">
                  <div class="row">
                       <div class="col-lg-7">รายการสินค้า</div>
-                      <div class="col-lg-5 text-right">10 รายการ</div>
+                      <div class="col-lg-5 text-right"><?php echo $aQuoItemsList['nTotalRes'];?> รายการ</div>
                  </div>
            </div>
       </div>
@@ -20,18 +20,24 @@
             for($i=0;$i<$aQuoItemsList['nTotalRes'];$i++){
             $nTotal = $nTotal + $aQuoItemsList['raItems'][$i]['FCXqdB4Dis'];
             $nQty = $aQuoItemsList['raItems'][$i]['FCXqdQty'];
+            $nItemSeq = $aQuoItemsList['raItems'][$i]['FNXqdSeq'];
+            $nPdtUnitPri = $aQuoItemsList['raItems'][$i]['FCXqdUnitPrice'];
       ?>
 
           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
           <img src="<?=base_url('application/assets/images/products/NoImage.png') ?>" alt="...">
           </div>
           <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+              <span style="color:red;cursor:pointer" data-seq="<?=$nItemSeq?>" onclick="FSxQUODelItem(this)">[x]</span>
               <?php echo $aQuoItemsList['raItems'][$i]['FTPdtName'];?> <br>
-              ราคา / หน่วย :   &#3647; <?php echo number_format($aQuoItemsList['raItems'][$i]['FCXqdUnitPrice'],2);?> <br>
+              ราคา / หน่วย :   &#3647; <?php echo number_format($nPdtUnitPri,2);?> <br>
               <div class="row">
                   <div class="col-lg-6">จำนวน</div>
                   <div class="col-lg-6">
-                      <input class="text-right" type="text" style="width:100%" value="<?=$nQty?>" >
+                      <input class="text-right" type="text" style="width:100%" value="<?=$nQty?>"
+                             data-seq="<?=$nItemSeq?>"
+                             data-unitpri = "<?=$nPdtUnitPri?>"
+                             onkeypress="return FSxQUOEditItemQty(event,this)" >
                   </div>
               </div>
 

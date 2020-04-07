@@ -49,7 +49,13 @@ class cQuotation extends CI_Controller {
 
 	}
 
-	public function FCaCQUOGetItemsList(){
+	public function FCwCQUOCallDocHeader(){
+
+         $aData = array('' =>  '');
+		     return $this->load->view('quotation/wQuotationHeader',$aData);
+	}
+
+	public function FCaCQUOCallItemsList(){
 
 
 				 $aConditions = array( "nMode" => 1,
@@ -88,6 +94,38 @@ class cQuotation extends CI_Controller {
 
 				 $this->mQuotation->FCaMQUOAddItem2Temp($aItemData);
 
+
+	}
+
+	public function FCxCQUODelItem(){
+
+				 $tQuoDocNo = $this->input->post("tQuoDocNo");
+				 $tWorkerID = "1234567890";
+				 $nItemSeq = $this->input->post("nItemSeq");
+				 $aItemData = array("tQuoDocNo" => $tQuoDocNo,
+			                      "tWorkerID" => $tWorkerID,
+													  "nItemSeq"  => $nItemSeq);
+
+				 $this->mQuotation->FCxMQUODeleteItem($aItemData);
+
+	}
+
+	public function FCxCQUOEditItemQty(){
+
+				 $tQuoDocNo = $this->input->post("tQuoDocNo");
+				 $tWorkerID = "1234567890";
+				 $nItemSeq = $this->input->post("nItemSeq");
+				 $nItemQTY = $this->input->post("nItemQTY");
+				 $nUnitPrice = $this->input->post("nUnitPrice");
+				 $nPriB4Dis = $nItemQTY * $nUnitPrice;
+
+				 $aItemData = array("tQuoDocNo" => $tQuoDocNo,
+														"tWorkerID" => $tWorkerID,
+														"nItemSeq"  => $nItemSeq,
+													  "nItemQTY"  => $nItemQTY,
+													  "nPriB4Dis" => $nPriB4Dis);
+
+				 $this->mQuotation->FCxMQUOEditItemQty($aItemData);
 
 	}
 

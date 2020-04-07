@@ -157,7 +157,7 @@ class mQuotation extends CI_Model {
 
 		     $tSQL = "SELECT FTPDTCode
 				          FROM   TCNMPdt
-									WHERE  1=1
+									WHERE  FTPdtStatus = 1
 									--AND    FTPdtCode='9999'
 									";
 
@@ -253,5 +253,41 @@ class mQuotation extends CI_Model {
 
 	public function FCaMQUOAddItem2Temp($paItemData){
 		     $this->db->insert('TARTSqDTTmp',$paItemData);
+	}
+
+	public function FCxMQUODeleteItem($paItemData){
+
+		     $tQuoDocNo = $paItemData['tQuoDocNo'];
+				 $tWorkerID = $paItemData['tWorkerID'];
+				 $nItemSeq = $paItemData['nItemSeq'];
+
+		     $tSQL = "DELETE FROM TARTSqDTTmp
+				          WHERE  FNXqdSeq = '$nItemSeq'
+									AND    FTWorkerID = '$tWorkerID' ";
+
+									if($tQuoDocNo !=""){
+										$tSQL.= " AND FTXqhDocNo = '$tQuoDocNo' ";
+									}
+
+				 $this->db->query($tSQL);
+	}
+	public function FCxMQUOEditItemQty($paItemData){
+
+		     $tQuoDocNo = $paItemData['tQuoDocNo'];
+				 $tWorkerID = $paItemData['tWorkerID'];
+				 $nItemSeq = $paItemData['nItemSeq'];
+				 $nItemQTY = $paItemData['nItemQTY'];
+				 $nPriB4Dis = $paItemData['nPriB4Dis'];
+
+		     $tSQL = "UPDATE TARTSqDTTmp
+				          SET    FCXqdQty = '$nItemQTY' , FCXqdB4Dis = '$nPriB4Dis'
+				          WHERE  FNXqdSeq = '$nItemSeq'
+									AND    FTWorkerID = '$tWorkerID' ";
+
+									if($tQuoDocNo !=""){
+										$tSQL.= " AND FTXqhDocNo = '$tQuoDocNo' ";
+									}
+
+				 $this->db->query($tSQL);
 	}
 }

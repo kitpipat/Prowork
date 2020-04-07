@@ -45,5 +45,8 @@ $route['r_userpriceeventedit'] 				= 'user/userprice/cUserPrice/FSxUPIEventEdit'
 //ใบเสนอราคา
 $route['r_quotation'] 		= 'quotation/cQuotation/index';
 $route['r_quotationeventGetPdtList'] 		= 'quotation/cQuotation/FCaCQUOGetProductList';
-$route['r_quotationeventGetItemsList'] 		= 'quotation/cQuotation/FCaCQUOGetItemsList';
+$route['r_quotationcalldocheader'] 		= 'quotation/cQuotation/FCwCQUOCallDocHeader';
+$route['r_quotationeventcallitemslist'] 		= 'quotation/cQuotation/FCaCQUOCallItemsList';
 $route['r_quotationeventAddItems'] 		= 'quotation/cQuotation/FCaCQUOAddItem';
+$route['r_quotationeventDelItems'] 		= 'quotation/cQuotation/FCxCQUODelItem';
+$route['r_quotationeventEditItemsQty'] 		= 'quotation/cQuotation/FCxCQUOEditItemQty';
