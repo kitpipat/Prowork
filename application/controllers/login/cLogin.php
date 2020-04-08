@@ -53,7 +53,11 @@ class cLogin extends CI_Controller {
 				$this->session->set_userdata("tSesUserLevel",$tUserLevel);		//เลเวล HQ , BCH
 				$this->session->set_userdata("tSesCMPName",$tCmpName);			//สาขา
 				$this->session->set_userdata("tSesBCHCode",$tBchCode);			//บริษัท
-				$this->session->set_userdata("tSesBCHName",$tBchName);			//บริษัท
+				$this->session->set_userdata("tSesBCHName",$tBchName);			//ชื่อบริษัท
+
+				$this->session->set_userdata("tSesRoleUser",$aReturn['raItems'][0]['FNRhdID']);			//รหัสกลุ่มสิทธิ
+				$this->session->set_userdata("tSesPriceGroup",$aReturn['raItems'][0]['FTPriGrpID']);	//รหัสกลุ่มราคา
+
 			}
 		}else{
 			$this->session->sess_destroy();
