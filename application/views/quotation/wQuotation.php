@@ -82,7 +82,9 @@
 				                      <div class="col-lg-8 col-md-8 col-sm-8">
 
 				                            <div class="input-group md-form form-sm form-2 pl-0">
-				                                <input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="ค้นหาสินค้า" >
+				                                <input class="form-control my-0 py-1 red-border xCNFormSerach" type="text"
+																				       placeholder="ค้นหาจาก รหัส/ชื่อสินค้า"
+																							 onkeypress="return FSxQUOSearchItem(event,this)" >
 				                                <div class="input-group-append">
 				                                    <span class="input-group-text red lighten-3" id="basic-text1">
 				                                    <i class="fa fa-search" aria-hidden="true"></i>
