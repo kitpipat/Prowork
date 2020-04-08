@@ -222,3 +222,9 @@ table tbody .xCNTableGroupMenu{
 	opacity: 0.3;
     cursor: no-drop;
 }
+
+#oimImgInsertorEditsupplier{
+	width: 300px;
+    margin: 0px auto;
+    display: block;
+}

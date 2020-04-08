@@ -31,12 +31,12 @@
 					?>
 					<td class="xCNTdHaveImage"><img id="oimImgMastersupplier" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
 					<td><?=$aValue['FTSplName']?></td>
-					<td><?=($aValue['FTSplContact'] == '') ? '-' : $aValue['FTSplContact']?></td>
-					<td><?=$aValue['FTRhdName']?></td>
-					<td><?=$aValue['FTPriGrpName']?></td>
+					<td><?=($aValue['FTSplContact'] == '') ? '-' : $aValue['FTSplContact'] ?></td>
+					<td><?=($aValue['FTSplTel']  == '') ? '-' : $aValue['FTSplTel'] ?></td>
+					<td><?=($aValue['FTSplEmail']  == '') ? '-' : $aValue['FTSplEmail'] ?></td>
 					
 					<?php 
-						if($aValue['FNStaUse'] == 1){
+						if($aValue['FTSplStaActive'] == 1){
 							$tIconClassStatus 	= 'xCNIconStatus_open';
 							$tTextClassStatus 	= 'xCNTextClassStatus_open';
 							$tTextStatus 		= 'ใช้งาน';
@@ -47,8 +47,8 @@
 						}
 					?>
 					<td><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>
-					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwUserCallPageInsert('edit','<?=$aValue['FTUsrCode']?>');"></td>
-					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxUser_Delete('<?=$aValue['FTUsrCode']?>');"></td>
+					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwSupplierCallPageInsert('edit','<?=$aValue['FTSplCode']?>');"></td>
+					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxSupplier_Delete('<?=$aValue['FTSplCode']?>');"></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
@@ -59,7 +59,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <label>พบข้อมูลทั้งหมด <?=$aUserList['rnAllRow']?> รายการ แสดงหน้า <?=$aUserList['rnCurrentPage']?> / <?=$aUserList['rnAllPage']?></label>
+        <label>พบข้อมูลทั้งหมด <?=$aSUPList['rnAllRow']?> รายการ แสดงหน้า <?=$aSUPList['rnCurrentPage']?> / <?=$aSUPList['rnAllPage']?></label>
     </div>
     <div class="col-md-6">
 		<nav>
@@ -67,11 +67,11 @@
 				<!--ปุ่มย้อนกลับ-->
 				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvUser_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
+					<a class="page-link" aria-label="Previous" onclick="JSvSupplier_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
 				</li>
 
 				<!--ปุ่มจำนวนหน้า-->
-				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aUserList['rnAllPage'],$nPage+2)); $i++){?>
+				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aSUPList['rnAllPage'],$nPage+2)); $i++){?>
 					<?php 
 						if($nPage == $i){ 
 							$tActive 		= 'active'; 
@@ -81,13 +81,13 @@
 							$tDisPageNumber = '';
 						}
 					?>
-					<li class="page-item <?=$tActive;?> " onclick="JSvUser_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
+					<li class="page-item <?=$tActive;?> " onclick="JSvSupplier_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
 				<?php } ?>
 
 				<!--ปุ่มไปต่อ-->
-				<?php if($nPage >= $aUserList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
+				<?php if($nPage >= $aSUPList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvUser_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
+					<a class="page-link" aria-label="Next" onclick="JSvSupplier_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</ul>
 		</nav>
@@ -116,7 +116,7 @@
 
 <script>
 	//เปลี่ยนหน้า
-	function JSvUser_ClickPage(ptPage) {
+	function JSvSupplier_ClickPage(ptPage) {
 		var nPageCurrent = '';
 		switch (ptPage) {
 			case 'next': //กดปุ่ม Next
@@ -137,14 +137,14 @@
 	}
 
 	//ลบข้อมูล
-	function JSxUser_Delete(ptCode){
+	function JSxSupplier_Delete(ptCode){
 		$('#obtModalDelete').click();
 
 		$('.xCNConfirmDelete').off();
 		$('.xCNConfirmDelete').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: 'r_usereventdelete',
+				url		: 'r_suppliereventdelete',
 				data 	: { 'ptCode' : ptCode },
 				cache	: false,
 				timeout	: 0,
@@ -153,7 +153,7 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
-					JSxCallPageUserMain();
+					JSxCallPageSupplierMain();
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);

@@ -17,7 +17,7 @@ class cSupplier extends CI_Controller {
 		$nPage = $this->input->post('nPage');
 		$aCondition = array(
 			'nPage'         => $nPage,
-			'nRow'          => 10,
+			'nRow'          => 1,
 			'tSearchAll'    => $this->input->post('tSearchAll')
 		);
 
@@ -36,9 +36,8 @@ class cSupplier extends CI_Controller {
 			$aResult	= '';
 		}else if($tTypePage == 'edit'){
 			$tCode 		= $this->input->post('tCode');
-			$aResult 	= $this->mSupplier->FSaMSUPGetDataUserBYID($tCode);
+			$aResult 	= $this->mSupplier->FSaMUSRGetDataSupplierBYID($tCode);
 		}
-
 		$aPackData = array(
 			'tTypePage' 		=> $tTypePage,
 			'aResult'			=> $aResult
@@ -49,34 +48,44 @@ class cSupplier extends CI_Controller {
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCSUPEventInsert(){
 
-		$aLastUserCode 	= $this->mSupplier->FSaMSUPGetLastUsercode();
-		if($aLastUserCode['rtCode'] == 800){
-			$nUserCode = 1;
+		$aLastSUPCode 	= $this->mSupplier->FSaMSUPGetLastSuppliercode();
+		if($aLastSUPCode['rtCode'] == 800){
+			$nSUPCode = '00001';
 		}else{
-			$nUserCode = $aLastUserCode['raItems'][0]['FTUsrCode'];
-			$nUserCode = $nUserCode + 1;
+			$nSUPCode 		= $aLastSUPCode['raItems'][0]['FTSplCode'];
+			$nNumber		= $nSUPCode + 1;
+			$nCountNumber	= count($nNumber);
+			if($nCountNumber == 1){
+				$tFormat 		= '0000';
+			}else if($nCountNumber == 2){
+				$tFormat 		= '000';
+			}else if($nCountNumber == 3){
+				$tFormat 		= '00';
+			}else{
+				$tFormat 		= '0';
+			}
+
+			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
 		}
 
-		$aInsertUser = array(
-			// 'FTUsrCode'			=> $nUserCode,
-			// 'FTBchCode'			=> ($this->input->post('oetUserBCH') == 0) ? null : $this->input->post('oetUserBCH'),
-			// 'FTUsrFName'		=> $this->input->post('oetUserFirstname'),
-			// 'FTUsrLName'		=> $this->input->post('oetUserLastname'),
-			// 'FTUsrDep'			=> $this->input->post('oetUserDepartment'),
-			// 'FTUsrEmail'		=> $this->input->post('oetUserEmail'),
-			// 'FTUsrTel'			=> $this->input->post('oetUserTelphone'),
-			// 'FTUsrLogin'		=> $this->input->post('oetUserLogin'),
-			// 'FTUsrPwd'			=> $this->input->post('oetUserPassword'),
-			// 'FTUsrImgPath'		=> $this->input->post('oetImgInsertorEditUser'),
-			// 'FTUsrRmk'			=> $this->input->post('oetUserReason'),
-			// 'FNRhdID'			=> $this->input->post('oetUserPermission'),
-			// 'FTPriGrpID'		=> $this->input->post('oetUserPriGrp'),
-			// 'FNStaUse'			=> ($this->input->post('ocmUserStaUse') == 'on') ? 1 : 0,
-			// 'FNStaSysAdmin'		=> 0,
-			// 'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
-			// 'FDCreateOn'		=> date('Y-m-d H:i:s')
+		$aInsertSupplier = array(
+			'FTSplCode'				=> $tFormatCode,
+			'FTSplName'				=> $this->input->post('oetSupplierName'),
+			'FTSplAddress'			=> $this->input->post('oetSupplierAddress'),
+			'FTSplContact'			=> $this->input->post('oetSupplierContact'),
+			'FTSplTel'				=> $this->input->post('oetSupplierTel'),
+			'FTSplFax'				=> $this->input->post('oetSupplierTelNumber'),
+			'FTSplEmail'			=> $this->input->post('oetSupplierEmail'),
+			'FTSplPathImg'			=> $this->input->post('oetImgInsertorEditsupplier'),
+			'FNSplVat'				=> $this->input->post('oetSupplierVat'),
+			'FTSplVatType'			=> $this->input->post('oetSupplierVatType'),
+			'FTSplStaActive'		=> ($this->input->post('ocmSupplierStaUse') == 'on') ? 1 : 0,
+			'FTSplReason'			=> $this->input->post('oetSupplierReason'),
+			'FDCreateOn'			=> date('Y-m-d H:i:s'),
+			'FTCreateBy'			=> $this->session->userdata('tSesUsercode')
 		);
-		$this->mSupplier->FSxMSUPInsert($aInsertUser);
+
+		$this->mSupplier->FSxMSUPInsert($aInsertSupplier);
 		echo 'pass_insert';
 	}
 
@@ -90,25 +99,22 @@ class cSupplier extends CI_Controller {
 	public function FSxCSUPEventEdit(){
 		try{
 			$aSetUpdate = array(
-				// 'FTBchCode'			=> ($this->input->post('oetUserBCH') == 0) ? null : $this->input->post('oetUserBCH'),
-				// 'FTUsrFName'		=> $this->input->post('oetUserFirstname'),
-				// 'FTUsrLName'		=> $this->input->post('oetUserLastname'),
-				// 'FTUsrDep'			=> $this->input->post('oetUserDepartment'),
-				// 'FTUsrEmail'		=> $this->input->post('oetUserEmail'),
-				// 'FTUsrTel'			=> $this->input->post('oetUserTelphone'),
-				// 'FTUsrLogin'		=> $this->input->post('oetUserLogin'),
-				// 'FTUsrPwd'			=> $this->input->post('oetUserPassword'),
-				// 'FTUsrImgPath'		=> $this->input->post('oetImgInsertorEditUser'),
-				// 'FTUsrRmk'			=> $this->input->post('oetUserReason'),
-				// 'FNRhdID'			=> $this->input->post('oetUserPermission'),
-				// 'FTPriGrpID'		=> $this->input->post('oetUserPriGrp'),
-				// 'FNStaUse'			=> ($this->input->post('ocmUserStaUse') == 'on') ? 1 : 0,
-				// 'FNStaSysAdmin'		=> 0,
-				// 'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
-				// 'FDUpdateOn'		=> date('Y-m-d H:i:s')
+				'FTSplName'				=> $this->input->post('oetSupplierName'),
+				'FTSplAddress'			=> $this->input->post('oetSupplierAddress'),
+				'FTSplContact'			=> $this->input->post('oetSupplierContact'),
+				'FTSplTel'				=> $this->input->post('oetSupplierTel'),
+				'FTSplFax'				=> $this->input->post('oetSupplierTelNumber'),
+				'FTSplEmail'			=> $this->input->post('oetSupplierEmail'),
+				'FTSplPathImg'			=> $this->input->post('oetImgInsertorEditsupplier'),
+				'FNSplVat'				=> $this->input->post('oetSupplierVat'),
+				'FTSplVatType'			=> $this->input->post('oetSupplierVatType'),
+				'FTSplStaActive'		=> ($this->input->post('ocmSupplierStaUse') == 'on') ? 1 : 0,
+				'FTSplReason'			=> $this->input->post('oetSupplierReason'),
+				'FTLastUpdBy'			=> $this->session->userdata('tSesUsercode'),
+				'FDLastUpdOn'			=> date('Y-m-d H:i:s')
 			);
 			$aWhereUpdate = array(
-				'FTUsrCode'		 	=> $this->input->post('ohdUserCode')
+				'FTSplCode'		 	=> $this->input->post('ohdSupplierCode')
 			);
 			$this->mSupplier->FSxMSUPUpdate($aSetUpdate,$aWhereUpdate);
 			echo 'pass_update';
