@@ -35,11 +35,16 @@ class cQuotation extends CI_Controller {
 	*/
 	public function FCaCQUOGetProductList(){
 
-				 //get product list
-		     $aPdtList  = $this->mQuotation->FSaMQUPdtList();
+         $tKeySearch = $this->input->GET('tKeySearch');
 
+				 $aFilter = array("tKeySearch"=>$tKeySearch);
+
+
+				 //get product list
+		     $aPdtList  = $this->mQuotation->FSaMQUPdtList($aFilter);
+      
 				 //count rows of products result
-         $nTotalRecord = $this->mQuotation->FSaMQUOPdtCountRow('');
+         $nTotalRecord = $this->mQuotation->FSaMQUOPdtCountRow($aFilter);
 
 				 //data return to view
 				 $aData = array('aPdtList' => $aPdtList,

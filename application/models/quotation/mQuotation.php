@@ -99,7 +99,9 @@ class mQuotation extends CI_Model {
 	2.คำนวนราคาขายแล้ว
 	3.ราคานี้เป็นราคาตามกลุ่มราคาที่ผูกกับผู้ใช้ที่กำลังทำรายการ
 	*/
-  public function FSaMQUPdtList(){
+  public function FSaMQUPdtList($paFilter){
+
+			  $tKeySearch = $paFilter["tKeySearch"];
 
         $tSQL = "SELECT P.* FROM (
                  SELECT ROW_NUMBER() OVER(ORDER BY PDT.FTPdtCode) AS RowID,
@@ -129,8 +131,17 @@ class mQuotation extends CI_Model {
                      SELECT * FROM VCN_AdjSalePriActive WHERE FNRhdID = 1
                   )SP ON PDT.FTPdtCode = SP.FTPdtCode
                   LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode ) P
-                  WHERE  1=1
-									AND    P.RowID >=1 AND P.RowID <=10 ";
+                  WHERE  1=1 ";
+									
+
+									if($tKeySearch != ""){
+										 $tSQL.= " AND P.FTPdtName LIKE '%".$tKeySearch."%'";
+									}
+
+
+									$tSQL.=" AND    P.RowID >=1 AND P.RowID <=10 ";
+
+
 
                   $oQuery = $this->db->query($tSQL);
                   $aResult = array(
@@ -155,11 +166,18 @@ class mQuotation extends CI_Model {
 	*/
 	public function FSaMQUOPdtCountRow($paFilter){
 
+         $tKeySearch = $paFilter["tKeySearch"];
+
 		     $tSQL = "SELECT FTPDTCode
 				          FROM   TCNMPdt
 									WHERE  FTPdtStatus = 1
+
 									--AND    FTPdtCode='9999'
 									";
+
+        if($tKeySearch !=""){
+					  $tSQL.=" AND FTPdtName LIKE '%".$tKeySearch."%'";
+				}
 
 									$oQuery = $this->db->query($tSQL);
 									return $oQuery->num_rows();
@@ -271,6 +289,7 @@ class mQuotation extends CI_Model {
 
 				 $this->db->query($tSQL);
 	}
+
 	public function FCxMQUOEditItemQty($paItemData){
 
 		     $tQuoDocNo = $paItemData['tQuoDocNo'];

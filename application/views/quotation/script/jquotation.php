@@ -128,4 +128,24 @@
         }
     }
 
+   function FSxQUOSearchItem(e,poElm){
+
+     if (e.keyCode == 13) {
+         tKeySearch = $(poElm).val();
+      
+         $.ajax({
+         url: 'r_quotationeventGetPdtList',
+         type: 'GET',
+         data: {tKeySearch:tKeySearch},
+         datatype: 'json'
+         })
+         .done(function (data) {
+               $("#odvQuoPdtList").html(data);
+          })
+         .fail(function (jqXHR, textStatus, errorThrown) {
+              //serrorFunction();
+          });
+     }
+   }
+
 </script>
