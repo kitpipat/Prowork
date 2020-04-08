@@ -13,7 +13,7 @@ class cUser extends CI_Controller {
 	}
 
 	//โหลดข้อมูลผู้ใช้
-	public function FSwUSRLoadDatatable(){
+	public function FSwCUSRLoadDatatable(){
 		$nPage = $this->input->post('nPage');
 		$aCondition = array(
 			'nPage'         => $nPage,
@@ -30,7 +30,7 @@ class cUser extends CI_Controller {
 	}
 
 	//โหลดหน้าจอเพื่มผู้ใช้ + แก้ไขผู้ใช้
-	public function FSwUSRCallPageInsertorEdit(){
+	public function FSwCUSRCallPageInsertorEdit(){
 		$tTypePage = $this->input->post('tTypepage');
 		if($tTypePage == 'insert'){
 			$aResult	= '';
@@ -50,7 +50,7 @@ class cUser extends CI_Controller {
 	}
 
 	//อีเว้นท์เพิ่มข้อมูล
-	public function FSwUSREventInsert(){
+	public function FSwCUSREventInsert(){
 
 		$aCheckUserLogin 	= $this->mUser->FSaMUSRCheckUserLogin($this->input->post('oetUserLogin'),'');
 		if($aCheckUserLogin['rtCode'] == 1){
@@ -89,13 +89,13 @@ class cUser extends CI_Controller {
 	}
 
 	//ลบผู้ใช้
-	public function FSxUSREventDelete(){
+	public function FSxCUSREventDelete(){
 		$tCode = $this->input->post('ptCode');
 		$this->mUser->FSaMUSRDelete($tCode);
 	}
 
 	//อีเว้นท์แก้ไข
-	public function FSxUSREventEdit(){
+	public function FSxCUSREventEdit(){
 		try{
 
 			$aCheckUserLogin 	= $this->mUser->FSaMUSRCheckUserLogin($this->input->post('oetUserLogin'),$this->input->post('ohdUserCode'));

@@ -35,6 +35,8 @@ class cLogin extends CI_Controller {
 				$this->session->set_userdata("tSesFirstname",$aReturn['raItems'][0]['FTUsrFName']);		//ชื่อ
 				$this->session->set_userdata("tSesLastname",$aReturn['raItems'][0]['FTUsrLName']);		//นามสกุล
 				$this->session->set_userdata("tSesDepartment",$aReturn['raItems'][0]['FTUsrDep']);		//แผนก
+				$this->session->set_userdata("tSesRoleUser",$aReturn['raItems'][0]['FNRhdID']);			//รหัสกลุ่มสิทธิ
+				$this->session->set_userdata("tSesPriceGroup",$aReturn['raItems'][0]['FTPriGrpID']);	//รหัสกลุ่มราคา
 
 				if($aReturn['raItems'][0]['FTBchName'] == '' || $aReturn['raItems'][0]['FTBchName'] == null){
 					//USER : HQ ต้องวิ่งไปเอาบริษัท default
@@ -54,10 +56,6 @@ class cLogin extends CI_Controller {
 				$this->session->set_userdata("tSesCMPName",$tCmpName);			//สาขา
 				$this->session->set_userdata("tSesBCHCode",$tBchCode);			//บริษัท
 				$this->session->set_userdata("tSesBCHName",$tBchName);			//ชื่อบริษัท
-
-				$this->session->set_userdata("tSesRoleUser",$aReturn['raItems'][0]['FNRhdID']);			//รหัสกลุ่มสิทธิ
-				$this->session->set_userdata("tSesPriceGroup",$aReturn['raItems'][0]['FTPriGrpID']);	//รหัสกลุ่มราคา
-
 			}
 		}else{
 			$this->session->sess_destroy();

@@ -19,28 +19,36 @@ $route['Mainpage'] 		= 'common/cMain';
 $route['ImageUpload'] 					= 'common/cMain/FSvCUploadimage';
 
 //หน้าจอ : ผู้ใช้ ( start : 04-04-2020 / done : 06-04-2020 )
-$route['r_user'] 						= 'user/user/cUser/index';
-$route['r_loaduser'] 					= 'user/user/cUser/FSwUSRLoadDatatable';
-$route['r_usercallpageInsertorEdit'] 	= 'user/user/cUser/FSwUSRCallPageInsertorEdit';
-$route['r_usereventinsert'] 			= 'user/user/cUser/FSwUSREventInsert';
-$route['r_usereventdelete'] 			= 'user/user/cUser/FSxUSREventDelete';
-$route['r_usereventedit'] 				= 'user/user/cUser/FSxUSREventEdit';
+$route['r_user'] 							= 'user/user/cUser/index';
+$route['r_loaduser'] 						= 'user/user/cUser/FSwCUSRLoadDatatable';
+$route['r_usercallpageInsertorEdit'] 		= 'user/user/cUser/FSwCUSRCallPageInsertorEdit';
+$route['r_usereventinsert'] 				= 'user/user/cUser/FSwCUSREventInsert';
+$route['r_usereventdelete'] 				= 'user/user/cUser/FSxCUSREventDelete';
+$route['r_usereventedit'] 					= 'user/user/cUser/FSxCUSREventEdit';
 
 //หน้าจอ : กลุ่มสิทธิ์ ( start : 06-04-2020 / done : 06-04-2020 )
 $route['r_permission'] 						= 'user/permission/cPermission/index';
-$route['r_permissionload'] 					= 'user/permission/cPermission/FSwPERLoadDatatable';
-$route['r_permissioncallpageInsertorEdit'] 	= 'user/permission/cPermission/FSwPERCallPageInsertorEdit';
-$route['r_permissioneventinsert'] 			= 'user/permission/cPermission/FSwPEREventInsert';
-$route['r_permissioneventdelete'] 			= 'user/permission/cPermission/FSxPEREventDelete';
-$route['r_permissioneventedit'] 			= 'user/permission/cPermission/FSxPEREventEdit';
+$route['r_permissionload'] 					= 'user/permission/cPermission/FSwCPERLoadDatatable';
+$route['r_permissioncallpageInsertorEdit'] 	= 'user/permission/cPermission/FSwCPERCallPageInsertorEdit';
+$route['r_permissioneventinsert'] 			= 'user/permission/cPermission/FSwCPEREventInsert';
+$route['r_permissioneventdelete'] 			= 'user/permission/cPermission/FSxCPEREventDelete';
+$route['r_permissioneventedit'] 			= 'user/permission/cPermission/FSxCPEREventEdit';
 
 //หน้าจอ : กลุ่มราคา ( start : 07-04-2020 / done : 07-04-2020 )
 $route['r_userprice'] 						= 'user/userprice/cUserPrice/index';
-$route['r_userpriceload'] 					= 'user/userprice/cUserPrice/FSwUPILoadDatatable';
-$route['r_userpricecallpageInsertorEdit'] 	= 'user/userprice/cUserPrice/FSwUPICallPageInsertorEdit';
-$route['r_userpriceeventinsert'] 			= 'user/userprice/cUserPrice/FSwUPIEventInsert';
-$route['r_userpriceeventdelete'] 			= 'user/userprice/cUserPrice/FSxUPIEventDelete';
-$route['r_userpriceeventedit'] 				= 'user/userprice/cUserPrice/FSxUPIEventEdit';
+$route['r_userpriceload'] 					= 'user/userprice/cUserPrice/FSwCUPILoadDatatable';
+$route['r_userpricecallpageInsertorEdit'] 	= 'user/userprice/cUserPrice/FSwCUPICallPageInsertorEdit';
+$route['r_userpriceeventinsert'] 			= 'user/userprice/cUserPrice/FSwCUPIEventInsert';
+$route['r_userpriceeventdelete'] 			= 'user/userprice/cUserPrice/FSxCUPIEventDelete';
+$route['r_userpriceeventedit'] 				= 'user/userprice/cUserPrice/FSxCUPIEventEdit';
+
+//หน้าจอ : ผู้จำหน่าย ( start : 08-04-2020 / done : 08-04-2020 )
+$route['r_supplier'] 						= 'supplier/cSupplier/index';
+$route['r_supplierload'] 					= 'supplier/cSupplier/FSwCSUPLoadDatatable';
+$route['r_suppliercallpageInsertorEdit'] 	= 'supplier/cSupplier/FSwCSUPCallPageInsertorEdit';
+$route['r_suppliereventinsert'] 			= 'supplier/cSupplier/FSwCSUPEventInsert';
+$route['r_suppliereventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
+$route['r_suppliereventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
 
 //ใบเสนอราคา
 $route['r_quotation'] 		= 'quotation/cQuotation/index';

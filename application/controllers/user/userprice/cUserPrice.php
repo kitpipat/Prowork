@@ -12,7 +12,7 @@ class cUserprice extends CI_Controller {
 	}
 
 	//โหลดข้อมูลกลุ่มราคา
-	public function FSwUPILoadDatatable(){
+	public function FSwCUPILoadDatatable(){
 		$nPage = $this->input->post('nPage');
 		$aCondition = array(
 			'nPage'         => $nPage,
@@ -29,7 +29,7 @@ class cUserprice extends CI_Controller {
 	}
 
 	//โหลดหน้าจอเพื่มกลุ่มราคา + แก้ไขกลุ่มราคา
-	public function FSwUPICallPageInsertorEdit(){
+	public function FSwCUPICallPageInsertorEdit(){
 		$tTypePage = $this->input->post('tTypepage');
 		if($tTypePage == 'insert'){
 			$aResult	= '';
@@ -46,7 +46,7 @@ class cUserprice extends CI_Controller {
 	}
 
 	//อีเว้นท์เพิ่มข้อมูล
-	public function FSwUPIEventInsert(){
+	public function FSwCUPIEventInsert(){
 		$aLastCode 	= $this->mUserPrice->FSaMUPIGetLastGroupPricecode();
 		if($aLastCode['rtCode'] == 800){
 			$nUserCode = '00001';
@@ -79,13 +79,13 @@ class cUserprice extends CI_Controller {
 	}
 
 	//ลบกลุ่มราคา
-	public function FSxUPIEventDelete(){
+	public function FSxCUPIEventDelete(){
 		$tCode = $this->input->post('ptCode');
 		$this->mUserPrice->FSaMUPIDelete($tCode);
 	}
 
 	//อีเว้นท์แก้ไข
-	public function FSxUPIEventEdit(){
+	public function FSxCUPIEventEdit(){
 		try{
 			$aSetUpdate = array(
 				'FTPriGrpName'		=> $this->input->post('oetUPIName'),

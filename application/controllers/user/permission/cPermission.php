@@ -13,7 +13,7 @@ class cPermission extends CI_Controller {
 	}
 
 	//โหลดข้อมูลกลุ่มสิทธิ์
-	public function FSwPERLoadDatatable(){
+	public function FSwCPERLoadDatatable(){
 		$nPage = $this->input->post('nPage');
 		$aCondition = array(
 			'nPage'         => $nPage,
@@ -30,7 +30,7 @@ class cPermission extends CI_Controller {
 	}
 
 	//โหลดหน้าจอเพื่มผู้ใช้ + แก้ไขผู้ใช้
-	public function FSwPERCallPageInsertorEdit(){
+	public function FSwCPERCallPageInsertorEdit(){
 		$tTypePage = $this->input->post('tTypepage');
 		if($tTypePage == 'insert'){
 			$aResult	= '';
@@ -48,7 +48,7 @@ class cPermission extends CI_Controller {
 	}
 
 	//เพิ่มกลุ่มสิทธิ์
-	public function FSwPEREventInsert(){
+	public function FSwCPEREventInsert(){
 		$nRoleID 		= $this->input->post('nRoleID');
 		$tRoleName 		= $this->input->post('tRoleName');
 		$tRoleReason 	= $this->input->post('tRoleReason');
@@ -96,7 +96,7 @@ class cPermission extends CI_Controller {
 	}
 
 	//แก้ไขกลุ่มสิทธิ์
-	public function FSxPEREventEdit(){
+	public function FSxCPEREventEdit(){
 		$nRoleID 		= $this->input->post('nRoleID');
 		$tRoleName 		= $this->input->post('tRoleName');
 		$tRoleReason 	= $this->input->post('tRoleReason');
@@ -138,7 +138,7 @@ class cPermission extends CI_Controller {
 	}
 
 	//ลบข้อมูล
-	public function FSxPEREventDelete(){
+	public function FSxCPEREventDelete(){
 		$tCode = $this->input->post('ptCode');
 		$this->mPermission->FSaMPERDelete($tCode);
 	}
