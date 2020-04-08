@@ -132,10 +132,11 @@ class mQuotation extends CI_Model {
                   )SP ON PDT.FTPdtCode = SP.FTPdtCode
                   LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode ) P
                   WHERE  1=1 ";
-									
+
 
 									if($tKeySearch != ""){
 										 $tSQL.= " AND P.FTPdtName LIKE '%".$tKeySearch."%'";
+										 $tSQL.= " OR P.FTPdtCode LIKE '%".$tKeySearch."%'";
 									}
 
 
@@ -177,6 +178,7 @@ class mQuotation extends CI_Model {
 
         if($tKeySearch !=""){
 					  $tSQL.=" AND FTPdtName LIKE '%".$tKeySearch."%'";
+						$tSQL.=" OR FTPdtName LIKE '%".$tKeySearch."%'";
 				}
 
 									$oQuery = $this->db->query($tSQL);
