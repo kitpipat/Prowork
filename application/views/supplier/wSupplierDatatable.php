@@ -3,35 +3,35 @@
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
 		<th style="width:100px; text-align: center;">รูปภาพ</th>
-		<th style="text-align: left;">ชื่อ-นามสกุล</th>
-		<th style="width:15%; text-align: left;">แผนก</th>
-		<th style="width:10%; text-align: left;">กลุ่มสิทธิ์</th>
-		<th style="width:10%; text-align: left;">กลุ่มราคา</th>
-		<th style="width:10%; text-align: left;">สถานะ</th>
+		<th style="text-align: left;">ชื่อผู้จำหน่าย</th>
+		<th style="width:15%; text-align: left;">ชื่อผู้ติดต่อ</th>
+		<th style="width:10%; text-align: left;">เบอร์โทรศัพท์</th>
+		<th style="width:10%; text-align: left;">อีเมลล์</th>
+		<th style="width:10%; text-align: left;">สถานะติดต่อ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;">ลบ</th>
     </tr>
   </thead>
   <tbody>
-		<?php if($aUserList['rtCode'] != 800){ ?>
-			<?php foreach($aUserList['raItems'] AS $nKey => $aValue){ ?>
+		<?php if($aSUPList['rtCode'] != 800){ ?>
+			<?php foreach($aSUPList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
 					<th><?=$aValue['rtRowID']?></th>
 					<?php 
-						if($aValue['FTUsrImgPath'] != '' || $aValue['FTUsrImgPath'] != null){
-							$tPathImage = './application/assets/images/user/'.$aValue['FTUsrImgPath'];
+						if($aValue['FTSplPathImg'] != '' || $aValue['FTSplPathImg'] != null){
+							$tPathImage = './application/assets/images/supplier/'.$aValue['FTSplPathImg'];
 							if (file_exists($tPathImage)){
-								$tPathImage = base_url().'application/assets/images/user/'.$aValue['FTUsrImgPath'];
+								$tPathImage = base_url().'application/assets/images/supplier/'.$aValue['FTSplPathImg'];
 							}else{
-								$tPathImage = base_url().'application/assets/images/user/NoImage.png';
+								$tPathImage = base_url().'application/assets/images/supplier/NoImage.png';
 							}
 						}else{
-							$tPathImage = './application/assets/images/user/NoImage.png';
+							$tPathImage = './application/assets/images/supplier/NoImage.png';
 						}
 					?>
-					<td class="xCNTdHaveImage"><img id="oimImgMasteruser" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
-					<td><?=$aValue['FTUsrFName']?> <?=$aValue['FTUsrLName']?></td>
-					<td><?=($aValue['FTUsrDep'] == '') ? '-' : $aValue['FTUsrDep']?></td>
+					<td class="xCNTdHaveImage"><img id="oimImgMastersupplier" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
+					<td><?=$aValue['FTSplName']?></td>
+					<td><?=($aValue['FTSplContact'] == '') ? '-' : $aValue['FTSplContact']?></td>
 					<td><?=$aValue['FTRhdName']?></td>
 					<td><?=$aValue['FTPriGrpName']?></td>
 					

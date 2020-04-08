@@ -2,8 +2,8 @@
 
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ผู้ใช้</span></div>
-		<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right" onClick="JSwUserCallPageInsert('insert','')">+</button></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ผู้จำหน่าย</span></div>
+		<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right" onClick="JSwSupplierCallPageInsert('insert','')">+</button></div>
 	</div>
 
 	<!--Section ล่าง-->
@@ -21,7 +21,7 @@
 				</div>
 
 				<div class="col-lg-12">
-					<div id="odvContent_User" class="xCNContent"></div>
+					<div id="odvContent_Supplier" class="xCNContent"></div>
 				</div>
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 	function JSwLoadTableList(pnPage){
 		$.ajax({
 			type	: "POST",
-			url		: "r_loaduser",
+			url		: "r_supplierload",
 			data 	: {
 						'nPage' 		: pnPage,
 						'tSearchAll' 	: $('#oetSearch').val()
@@ -43,7 +43,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				$('#odvContent_User').html(tResult);
+				$('#odvContent_Supplier').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);
@@ -51,11 +51,11 @@
 		});
 	}
 
-	//โหลดหน้า เพิ่มข้อมูล
-	function JSwUserCallPageInsert(ptType,ptCode){
+	//โหลดหน้า ผู้จำหน่าย
+	function JSwSupplierCallPageInsert(ptType,ptCode){
 		$.ajax({
 			type	: "POST",
-			url		: "r_usercallpageInsertorEdit",
+			url		: "r_suppliercallpageInsertorEdit",
 			data 	: {
 						'tTypepage'  : ptType,
 						'tCode'	 	 : ptCode
@@ -71,11 +71,11 @@
 		});
 	}
 
-	//กด ผู้ใช้(กลับหน้า main)
-	function JSxCallPageUserMain(){
+	//กด ผู้จำหน่าย(กลับหน้า main)
+	function JSxCallPageSupplierMain(){
 		$.ajax({
 			type	: "POST",
-			url		: "r_user",
+			url		: "r_supplier",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {

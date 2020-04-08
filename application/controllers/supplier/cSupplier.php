@@ -21,9 +21,9 @@ class cSupplier extends CI_Controller {
 			'tSearchAll'    => $this->input->post('tSearchAll')
 		);
 
-		$aUserList = $this->mSupplier->FSaMSUPGetData($aCondition);
+		$aSUPList = $this->mSupplier->FSaMSUPGetData($aCondition);
 		$aPackData = array(
-			'aUserList'	=> $aUserList,
+			'aSUPList'	=> $aSUPList,
 			'nPage'		=> $nPage
 		);
 		$this->load->view('supplier/wSupplierDatatable',$aPackData);

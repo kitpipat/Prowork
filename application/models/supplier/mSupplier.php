@@ -3,49 +3,40 @@ defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
 
 class mSupplier extends CI_Model {
 	
-	public function FSaMUSRGetData($paData){
+	public function FSaMSUPGetData($paData){
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
-		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTUsrCode*1 ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTSplCode ASC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
-					USR.FTUsrImgPath,
-					USR.FTUsrCode,
-					USR.FTBchCode,
-					USR.FTUsrFName,
-					USR.FTUsrLName,
-					USR.FTUsrDep,
-					USR.FTUsrEmail,
-					USR.FTUsrTel,
-					USR.FNRhdID,
-					USR.FNStaUse,
-					USR.FTPriGrpID,
-					RHD.FTRhdName,
-					PRIG.FTPriGrpName,
-					BCH.FTBchName FROM TCNMUsr USR";
-		$tSQL .= " LEFT JOIN TCNMBranch BCH ON USR.FTBchCode = BCH.FTBchCode";
-		$tSQL .= " LEFT JOIN TCNMRoleHD RHD ON RHD.FNRhdID = USR.FNRhdID";
-		$tSQL .= " LEFT JOIN TCNMPriGrp PRIG ON PRIG.FTPriGrpID = USR.FTPriGrpID";
-		$tSQL .= " WHERE USR.FNStaSysAdmin = 0 ";
+					SPL.FTSplCode,
+					SPL.FTSplName,
+					SPL.FTSplAddress,
+					SPL.FTSplContact,
+					SPL.FTSplTel,
+					SPL.FTSplFax,
+					SPL.FTSplEmail,
+					SPL.FTSplPathImg,
+					SPL.FTSplStaActive,
+					SPL.FDLastUpdOn,
+					SPL.FTLastUpdBy,
+					SPL.FDCreateOn,
+					SPL.FTCreateBy
+ 					FROM TCNMSpl SPL";
+		$tSQL .= " WHERE 1=1 ";
 
 		if($tTextSearch != '' || $tTextSearch != null){
-			$tSQL .= " AND ( USR.FTUsrFName LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR USR.FTUsrLName LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR USR.FTUsrDep LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR RHD.FTRhdName LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR PRIG.FTPriGrpName LIKE '%$tTextSearch%' )";
-		}
-
-		//รองรับการมองเห็นตามสาขา
-		if($this->session->userdata('tSesUserLevel') == 'BCH'){
-			$tBCHCode = $this->session->userdata('tSesBCHCode');
-			$tSQL .= " AND USR.FTBchCode = '$tBCHCode' ";
+			$tSQL .= " AND ( SPL.FTSplName LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR SPL.FTSplAddress LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR SPL.FTSplContact LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR SPL.FTSplTel LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR SPL.FTSplEmail LIKE '%$tTextSearch%' )";
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
-			$oFoundRow 	= $this->FSaMUSRGetData_PageAll($paData);
+			$oFoundRow 	= $this->FSaMSUPGetData_PageAll($paData);
 			$nFoundRow 	= $oFoundRow[0]->counts;
 			$nPageAll 	= ceil($nFoundRow/$paData['nRow']); //หา Page All จำนวน Rec หาร จำนวนต่อหน้า
             $aResult 	= array(
@@ -69,26 +60,17 @@ class mSupplier extends CI_Model {
 	}
 
 	//หาจำนวนทั้งหมด
-	public function FSaMUSRGetData_PageAll($paData){
+	public function FSaMSUPGetData_PageAll($paData){
 		try{
 			$tTextSearch = trim($paData['tSearchAll']);
-			$tSQL 		= "SELECT COUNT (USR.FTUsrCode) AS counts FROM TCNMUsr USR ";
-			$tSQL 		.= " LEFT JOIN TCNMBranch BCH ON USR.FTBchCode = BCH.FTBchCode";
-			$tSQL 		.= " LEFT JOIN TCNMRoleHD RHD ON RHD.FNRhdID = USR.FNRhdID";
-			$tSQL 		.= " LEFT JOIN TCNMPriGrp PRIG ON PRIG.FTPriGrpID = USR.FTPriGrpID ";
-			$tSQL 		.= " WHERE 1=1 AND USR.FNStaSysAdmin = 0 ";
+			$tSQL 		= "SELECT COUNT (SPL.FTSplCode) AS counts FROM TCNMSpl SPL ";
+			$tSQL 		.= " WHERE 1=1 ";
 			if($tTextSearch != '' || $tTextSearch != null){
-				$tSQL .= " AND ( USR.FTUsrFName LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR USR.FTUsrLName LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR USR.FTUsrDep LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR RHD.FTRhdName LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR PRIG.FTPriGrpName LIKE '%$tTextSearch%' ) ";
-			}
-
-			//รองรับการมองเห็นตามสาขา
-			if($this->session->userdata('tSesUserLevel') == 'BCH'){
-				$tBCHCode = $this->session->userdata('tSesBCHCode');
-				$tSQL .= " AND USR.FTBchCode = '$tBCHCode' ";
+				$tSQL .= " AND ( SPL.FTSplName LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR SPL.FTSplAddress LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR SPL.FTSplContact LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR SPL.FTSplTel LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR SPL.FTSplEmail LIKE '%$tTextSearch%' )";
 			}
 
             $oQuery = $this->db->query($tSQL);
