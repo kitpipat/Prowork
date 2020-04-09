@@ -66,7 +66,7 @@
      datatype: 'json'
      })
      .done(function (data) {
-
+    
           FSvQUOCallItemList()
 
       })
@@ -132,7 +132,7 @@
 
      if (e.keyCode == 13) {
          tKeySearch = $(poElm).val();
-      
+
          $.ajax({
          url: 'r_quotationeventGetPdtList',
          type: 'GET',

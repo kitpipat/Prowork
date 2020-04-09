@@ -42,7 +42,7 @@ class cQuotation extends CI_Controller {
 
 				 //get product list
 		     $aPdtList  = $this->mQuotation->FSaMQUPdtList($aFilter);
-      
+
 				 //count rows of products result
          $nTotalRecord = $this->mQuotation->FSaMQUOPdtCountRow($aFilter);
 
@@ -62,7 +62,6 @@ class cQuotation extends CI_Controller {
 
 	public function FCaCQUOCallItemsList(){
 
-
 				 $aConditions = array( "nMode" => 1,
 					                     "tDocNo" => '',
 					                     "tWorkerID"=>'1234567890');
@@ -76,12 +75,21 @@ class cQuotation extends CI_Controller {
 	public function FCaCQUOAddItem(){
 
 				 $tQuoDocNo = $this->input->post("tQuoDocNo");
+
 				 $tWorkerID = "1234567890";
 
 				 $oItem = $this->input->post("Item");
-         $aItem = json_decode($oItem,true);
 
-				 $nXqdSeq = $this->mQuotation->FCaMQUOGetItemLastSeq(array("tDocNo"=>$tQuoDocNo,"tWorkerID"=>$tWorkerID));
+				 $aItem = json_decode($oItem,true);
+
+				 $nQTY = $this->mQuotation->FCnMQUExitingItem(array('tQuoDocNo' => $tQuoDocNo,
+				                                                    'tWorkerID' => $tWorkerID,
+																														'tPdtCode'  => $aItem['tPdtCode']
+																											));
+
+				 $nXqdSeq = $this->mQuotation->FCaMQUOGetItemLastSeq(array("tDocNo"=>$tQuoDocNo,
+				                                                           "tWorkerID"=>$tWorkerID
+			                                                       ));
 
 				 $aItemData = array(
 					 "FTXqhDocNo" => $tQuoDocNo,
@@ -91,14 +99,17 @@ class cQuotation extends CI_Controller {
 					 "FTPunCode" => $aItem['tPunCode'],
 					 "FTSplCode" => $aItem['tSplCode'],
 					 "FTXqdCost" => $aItem['nPdtCost'],
-					 "FCXqdUnitPrice" => $aItem['nPdtUnitPri'],
-					 "FCXqdQty" => 1,
-					 "FCXqdB4Dis" => $aItem['nPdtUnitPri'],
+					 "FCXqdUnitPrice" => $nQTY * $aItem['nPdtUnitPri'],
+					 "FCXqdQty" => $nQTY,
+					 "FCXqdB4Dis" => $nQTY * $aItem['nPdtUnitPri'],
 					 "FTWorkerID" => $tWorkerID
 				 );
 
-				 $this->mQuotation->FCaMQUOAddItem2Temp($aItemData);
-
+         if($nQTY == 1){
+					  $this->mQuotation->FCaMQUOAddItem2Temp($aItemData);
+				 }else{
+					 $this->mQuotation->FCxMQUOUpdateItem($aItemData);
+				 }
 
 	}
 

@@ -241,6 +241,37 @@ class mQuotation extends CI_Model {
 
 	}
 
+  public function FCnMQUExitingItem($paFilter){
+
+				 if(isset($paFilter['tDocNo'])){
+					  $tDocNo = $paFilter['tDocNo'];
+				 }else{
+					 $tDocNo = '';
+				 }
+
+				 $tWorkerID = $paFilter['tWorkerID'];
+				 $tPdtCode = $paFilter['tPdtCode'];
+
+         $tSQL = "SELECT FCXqdQty
+				         FROM   TARTSqDTTmp
+								 WHERE  FTPdtCode  = '$tPdtCode'
+								 AND    FTWorkerID = '$tWorkerID' ";
+
+				 if($tDocNo != ""){
+					  $tSQL.=" AND FTXqhDocNo = '$tDocNo' ";
+				 }
+
+				 $oQuery = $this->db->query($tSQL);
+				 $nCountRows = $oQuery->num_rows();
+
+				 if($nCountRows > 0){
+						 $aResult = $oQuery->result_array();
+						 return $aResult[0]["FCXqdQty"] + 1;
+				 }else{
+						 return 1; //Not Exiting
+				 }
+	}
+
 	public function FCaMQUOGetItemLastSeq($paFilter){
 
          $tDocNo = $paFilter['tDocNo'];
@@ -273,6 +304,21 @@ class mQuotation extends CI_Model {
 
 	public function FCaMQUOAddItem2Temp($paItemData){
 		     $this->db->insert('TARTSqDTTmp',$paItemData);
+	}
+
+  public function FCxMQUOUpdateItem($paItemData){
+
+         $tSQL = "UPDATE TARTSqDTTmp
+				          SET   FCXqdQty = '".$paItemData['FCXqdQty']."',
+									      FCXqdB4Dis = '".$paItemData['FCXqdB4Dis']."'
+									WHERE FTPdtCode  = '".$paItemData['FTPdtCode']."'
+									AND   FTWorkerID = '".$paItemData['FTWorkerID']."'";
+
+									if($paItemData['FTXqhDocNo'] != ""){
+										 $tSQL.= " AND FTXqhDocNo = '".$paItemData['FTXqhDocNo']."'";
+									}
+									
+									$this->db->query($tSQL);
 	}
 
 	public function FCxMQUODeleteItem($paItemData){
