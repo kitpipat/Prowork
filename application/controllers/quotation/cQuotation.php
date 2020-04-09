@@ -37,7 +37,10 @@ class cQuotation extends CI_Controller {
 
          $tKeySearch = $this->input->GET('tKeySearch');
 
-				 $aFilter = array("tKeySearch"=>$tKeySearch);
+         $tPriceGrp = $this->session->userdata('tSesPriceGroup');
+         
+				 $aFilter = array("tKeySearch" =>$tKeySearch,
+			                    "tPriceGrp"  => $tPriceGrp);
 
 
 				 //get product list
@@ -61,10 +64,10 @@ class cQuotation extends CI_Controller {
 	}
 
 	public function FCaCQUOCallItemsList(){
-
+         $tWorkerID = $this->session->userdata('tSesUsercode');
 				 $aConditions = array( "nMode" => 1,
 					                     "tDocNo" => '',
-					                     "tWorkerID"=>'1234567890');
+					                     "tWorkerID"=>$tWorkerID);
 
 				 $aQuoItemsList  = $this->mQuotation->FCaMQUOGetItemsList($aConditions);
 
@@ -76,7 +79,7 @@ class cQuotation extends CI_Controller {
 
 				 $tQuoDocNo = $this->input->post("tQuoDocNo");
 
-				 $tWorkerID = "1234567890";
+				 $tWorkerID = $this->session->userdata('tSesUsercode');
 
 				 $oItem = $this->input->post("Item");
 
@@ -116,7 +119,7 @@ class cQuotation extends CI_Controller {
 	public function FCxCQUODelItem(){
 
 				 $tQuoDocNo = $this->input->post("tQuoDocNo");
-				 $tWorkerID = "1234567890";
+				 $tWorkerID = $this->session->userdata('tSesUsercode');
 				 $nItemSeq = $this->input->post("nItemSeq");
 				 $aItemData = array("tQuoDocNo" => $tQuoDocNo,
 			                      "tWorkerID" => $tWorkerID,
@@ -129,7 +132,7 @@ class cQuotation extends CI_Controller {
 	public function FCxCQUOEditItemQty(){
 
 				 $tQuoDocNo = $this->input->post("tQuoDocNo");
-				 $tWorkerID = "1234567890";
+				 $tWorkerID = $this->session->userdata('tSesUsercode');
 				 $nItemSeq = $this->input->post("nItemSeq");
 				 $nItemQTY = $this->input->post("nItemQTY");
 				 $nUnitPrice = $this->input->post("nUnitPrice");

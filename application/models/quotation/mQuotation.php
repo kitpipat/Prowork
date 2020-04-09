@@ -102,6 +102,7 @@ class mQuotation extends CI_Model {
   public function FSaMQUPdtList($paFilter){
 
 			  $tKeySearch = $paFilter["tKeySearch"];
+				$tPriceGrp = $paFilter["tPriceGrp"];
 
         $tSQL = "SELECT P.* FROM (
                  SELECT ROW_NUMBER() OVER(ORDER BY PDT.FTPdtCode) AS RowID,
@@ -128,7 +129,7 @@ class mQuotation extends CI_Model {
                               END AS FCPdtNetSalPri
                   FROM VCN_Products PDT
                   LEFT JOIN (
-                     SELECT * FROM VCN_AdjSalePriActive WHERE FNRhdID = 1
+                     SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '".$tPriceGrp."'
                   )SP ON PDT.FTPdtCode = SP.FTPdtCode
                   LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode ) P
                   WHERE  1=1 ";
@@ -317,7 +318,7 @@ class mQuotation extends CI_Model {
 									if($paItemData['FTXqhDocNo'] != ""){
 										 $tSQL.= " AND FTXqhDocNo = '".$paItemData['FTXqhDocNo']."'";
 									}
-									
+
 									$this->db->query($tSQL);
 	}
 
