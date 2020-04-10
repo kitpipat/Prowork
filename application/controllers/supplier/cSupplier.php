@@ -17,7 +17,7 @@ class cSupplier extends CI_Controller {
 		$nPage = $this->input->post('nPage');
 		$aCondition = array(
 			'nPage'         => $nPage,
-			'nRow'          => 1,
+			'nRow'          => 10,
 			'tSearchAll'    => $this->input->post('tSearchAll')
 		);
 

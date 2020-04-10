@@ -58,3 +58,51 @@ $route['r_quotationeventcallitemslist'] 		= 'quotation/cQuotation/FCaCQUOCallIte
 $route['r_quotationeventAddItems'] 		= 'quotation/cQuotation/FCaCQUOAddItem';
 $route['r_quotationeventDelItems'] 		= 'quotation/cQuotation/FCxCQUODelItem';
 $route['r_quotationeventEditItemsQty'] 		= 'quotation/cQuotation/FCxCQUOEditItemQty';
+
+//หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
+$route['r_groupproduct'] 						= 'product/groupproduct/cGroupproduct/index';
+$route['r_groupproductload'] 					= 'product/groupproduct/cGroupproduct/FSwCGRPLoadDatatable';
+$route['r_groupproductcallpageInsertorEdit'] 	= 'product/groupproduct/cGroupproduct/FSwCGRPCallPageInsertorEdit';
+$route['r_groupproducteventinsert'] 			= 'product/groupproduct/cGroupproduct/FSwCGRPEventInsert';
+$route['r_groupproducteventdelete'] 			= 'product/groupproduct/cGroupproduct/FSxCGRPEventDelete';
+$route['r_groupproducteventedit'] 				= 'product/groupproduct/cGroupproduct/FSxCGRPEventEdit';
+
+//หน้าจอ : ประเภทสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
+$route['r_typeproduct'] 						= 'product/typeproduct/cTypeproduct/index';
+$route['r_typeproductload'] 					= 'product/typeproduct/cTypeproduct/FSwCTYPLoadDatatable';
+$route['r_typeproductcallpageInsertorEdit'] 	= 'product/typeproduct/cTypeproduct/FSwCTYPCallPageInsertorEdit';
+$route['r_typeproducteventinsert'] 				= 'product/typeproduct/cTypeproduct/FSwCTYPEventInsert';
+$route['r_typeproducteventdelete'] 				= 'product/typeproduct/cTypeproduct/FSxCTYPEventDelete';
+$route['r_typeproducteventedit'] 				= 'product/typeproduct/cTypeproduct/FSxCTYPEventEdit';
+
+//หน้าจอ : รุ่นสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
+$route['r_modalproduct'] 						= 'supplier/cSupplier/index';
+$route['r_modalproductload'] 					= 'supplier/cSupplier/FSwCSUPLoadDatatable';
+$route['r_modalproductcallpageInsertorEdit'] 	= 'supplier/cSupplier/FSwCSUPCallPageInsertorEdit';
+$route['r_modalproducteventinsert'] 			= 'supplier/cSupplier/FSwCSUPEventInsert';
+$route['r_modalproducteventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
+$route['r_modalproducteventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
+
+//หน้าจอ : ยี่ห้อสินค้า ( start : 08-04-2020 / done : 08-04-2020 )
+$route['r_brandproduct'] 						= 'supplier/cSupplier/index';
+$route['r_brandproductload'] 					= 'supplier/cSupplier/FSwCSUPLoadDatatable';
+$route['r_brandproductcallpageInsertorEdit'] 	= 'supplier/cSupplier/FSwCSUPCallPageInsertorEdit';
+$route['r_brandproducteventinsert'] 			= 'supplier/cSupplier/FSwCSUPEventInsert';
+$route['r_brandproducteventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
+$route['r_brandproducteventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
+
+//หน้าจอ : ไซด์สินค้า ( start : 08-04-2020 / done : 08-04-2020 )
+$route['r_sizeproduct'] 						= 'supplier/cSupplier/index';
+$route['r_sizeproductload'] 					= 'supplier/cSupplier/FSwCSUPLoadDatatable';
+$route['r_sizeproductcallpageInsertorEdit'] 	= 'supplier/cSupplier/FSwCSUPCallPageInsertorEdit';
+$route['r_sizeproducteventinsert'] 				= 'supplier/cSupplier/FSwCSUPEventInsert';
+$route['r_sizeproducteventdelete'] 				= 'supplier/cSupplier/FSxCSUPEventDelete';
+$route['r_sizeproducteventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
+
+//หน้าจอ : สีของสินค้า ( start : 08-04-2020 / done : 08-04-2020 )
+$route['r_colorproduct'] 						= 'supplier/cSupplier/index';
+$route['r_colorproductload'] 					= 'supplier/cSupplier/FSwCSUPLoadDatatable';
+$route['r_colorproductcallpageInsertorEdit'] 	= 'supplier/cSupplier/FSwCSUPCallPageInsertorEdit';
+$route['r_colorproducteventinsert'] 			= 'supplier/cSupplier/FSwCSUPEventInsert';
+$route['r_colorproducteventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
+$route['r_colorproducteventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
