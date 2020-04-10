@@ -49,7 +49,7 @@ class cUserprice extends CI_Controller {
 	public function FSwCUPIEventInsert(){
 		$aLastCode 	= $this->mUserPrice->FSaMUPIGetLastGroupPricecode();
 		if($aLastCode['rtCode'] == 800){
-			$nUserCode = '00001';
+			$tFormatCode = '00001';
 		}else{
 			$nUserCode 		= $aLastCode['raItems'][0]['FTPriGrpID'];
 			$nNumber		= $nUserCode + 1;

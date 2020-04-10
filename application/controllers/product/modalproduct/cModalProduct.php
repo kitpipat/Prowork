@@ -1,18 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class cTypeproduct extends CI_Controller {
+class cModalProduct extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('product/typeproduct/mTypeproduct');
+		$this->load->model('product/modalproduct/mModalproduct');
 	}
 
 	public function index(){
-		$this->load->view('product/typeproduct/wTypeproductMain');
+		$this->load->view('product/modalproduct/wModalproductMain');
 	}
 
-	//โหลดข้อมูลประเภทสินค้า
-	public function FSwCTYPLoadDatatable(){
+	//โหลดข้อมูลรุ่นสินค้า
+	public function FSwCMOPLoadDatatable(){
 		$nPage = $this->input->post('nPage');
 		$aCondition = array(
 			'nPage'         => $nPage,
@@ -20,38 +20,38 @@ class cTypeproduct extends CI_Controller {
 			'tSearchAll'    => $this->input->post('tSearchAll')
 		);
 
-		$aTypeProductList = $this->mTypeproduct->FSaMTYPGetData($aCondition);
+		$aModalProductList = $this->mModalproduct->FSaMMOPGetData($aCondition);
 		$aPackData = array(
-			'aTypeProductList'		=> $aTypeProductList,
+			'aModalProductList'		=> $aModalProductList,
 			'nPage'					=> $nPage
 		);
-		$this->load->view('product/typeproduct/wTypeproductDatatable',$aPackData);
+		$this->load->view('product/modalproduct/wModalproductDatatable',$aPackData);
 	}
 
-	//โหลดหน้าจอเพื่มประเภทสินค้า + แก้ไขประเภทสินค้า
-	public function FSwCTYPCallPageInsertorEdit(){
+	//โหลดหน้าจอเพื่มรุ่นสินค้า + แก้ไขรุ่นสินค้า
+	public function FSwCMOPCallPageInsertorEdit(){
 		$tTypePage = $this->input->post('tTypepage');
 		if($tTypePage == 'insert'){
 			$aResult	= '';
 		}else if($tTypePage == 'edit'){
 			$tCode 		= $this->input->post('tCode');
-			$aResult 	= $this->mTypeproduct->FSaMTYPGetDataTypeProductBYID($tCode);
+			$aResult 	= $this->mModalproduct->FSaMMOPGetDataModalProductBYID($tCode);
 		}
 
 		$aPackData = array(
 			'tTypePage' 		=> $tTypePage,
 			'aResult'			=> $aResult
 		);
-		$this->load->view('product/typeproduct/wTypeproductAdd',$aPackData);
+		$this->load->view('product/modalproduct/wModalproductAdd',$aPackData);
 	}
 
 	//อีเว้นท์เพิ่มข้อมูล
-	public function FSwCTYPEventInsert(){
-		$aLastCode 	= $this->mTypeproduct->FSaMTYPGetLastTypePDTcode();
+	public function FSwCMOPEventInsert(){
+		$aLastCode 	= $this->mModalproduct->FSaMMOPGetLastModalPDTcode();
 		if($aLastCode['rtCode'] == 800){
 			$tFormatCode = '00001';
 		}else{
-			$nLastCode 		= $aLastCode['raItems'][0]['FTPtyCode'];
+			$nLastCode 		= $aLastCode['raItems'][0]['FTMolCode'];
 			$nNumber		= $nLastCode + 1;
 			$nCountNumber	= count($nNumber);
 			if($nCountNumber == 1){
@@ -67,34 +67,34 @@ class cTypeproduct extends CI_Controller {
 			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
 		}
 
-		$aInsertTYPPDT = array(
-			'FTPtyCode'			=> $tFormatCode,
-			'FTPtyName'			=> $this->input->post('oetTYPName'),
+		$aInsertGroupPDT = array(
+			'FTMolCode'			=> $tFormatCode,
+			'FTMolName'			=> $this->input->post('oetMOLName'),
 			'FDCreateOn'		=> date('Y-m-d H:i:s'),
 			'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
 		);
-		$this->mTypeproduct->FSxMTYPInsert($aInsertTYPPDT);
+		$this->mModalproduct->FSxMMOPInsert($aInsertGroupPDT);
 		echo 'pass_insert';
 	}
 
-	//ลบประเภทสินค้า
-	public function FSxCTYPEventDelete(){
+	//ลบ
+	public function FSxCMOPEventDelete(){
 		$tCode = $this->input->post('ptCode');
-		$this->mTypeproduct->FSaMTYPDelete($tCode);
+		$this->mModalproduct->FSaMMOPDelete($tCode);
 	}
 
 	//อีเว้นท์แก้ไข
-	public function FSxCTYPEventEdit(){
+	public function FSxCMOPEventEdit(){
 		try{
 			$aSetUpdate = array(
-				'FTPtyName'			=> $this->input->post('oetTYPName'),
+				'FTMolName'			=> $this->input->post('oetMOLName'),
 				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
 				'FDUpdateOn'		=> date('Y-m-d H:i:s')
 			);
 			$aWhereUpdate = array(
-				'FTPtyCode'			=> $this->input->post('ohdTypeProductCode')
+				'FTMolCode'			=> $this->input->post('ohdModalProductCode')
 			);
-			$this->mTypeproduct->FSxMTYPUpdate($aSetUpdate,$aWhereUpdate);
+			$this->mModalproduct->FSxMMOPUpdate($aSetUpdate,$aWhereUpdate);
 			echo 'pass_update';
 		}catch(Exception $Error){
             echo $Error;

@@ -76,12 +76,12 @@ $route['r_typeproducteventdelete'] 				= 'product/typeproduct/cTypeproduct/FSxCT
 $route['r_typeproducteventedit'] 				= 'product/typeproduct/cTypeproduct/FSxCTYPEventEdit';
 
 //หน้าจอ : รุ่นสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
-$route['r_modalproduct'] 						= 'supplier/cSupplier/index';
-$route['r_modalproductload'] 					= 'supplier/cSupplier/FSwCSUPLoadDatatable';
-$route['r_modalproductcallpageInsertorEdit'] 	= 'supplier/cSupplier/FSwCSUPCallPageInsertorEdit';
-$route['r_modalproducteventinsert'] 			= 'supplier/cSupplier/FSwCSUPEventInsert';
-$route['r_modalproducteventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
-$route['r_modalproducteventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
+$route['r_modalproduct'] 						= 'product/modalproduct/cModalProduct/index';
+$route['r_modalproductload'] 					= 'product/modalproduct/cModalProduct/FSwCMOPLoadDatatable';
+$route['r_modalproductcallpageInsertorEdit'] 	= 'product/modalproduct/cModalProduct/FSwCMOPCallPageInsertorEdit';
+$route['r_modalproducteventinsert'] 			= 'product/modalproduct/cModalProduct/FSwCMOPEventInsert';
+$route['r_modalproducteventdelete'] 			= 'product/modalproduct/cModalProduct/FSxCMOPEventDelete';
+$route['r_modalproducteventedit'] 				= 'product/modalproduct/cModalProduct/FSxCMOPEventEdit';
 
 //หน้าจอ : ยี่ห้อสินค้า ( start : 08-04-2020 / done : 08-04-2020 )
 $route['r_brandproduct'] 						= 'supplier/cSupplier/index';

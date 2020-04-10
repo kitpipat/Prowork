@@ -49,7 +49,7 @@ class cGroupproduct extends CI_Controller {
 	public function FSwCGRPEventInsert(){
 		$aLastCode 	= $this->mGroupproduct->FSaMGRPGetLastGroupPDTcode();
 		if($aLastCode['rtCode'] == 800){
-			$nLastCode = '00001';
+			$tFormatCode = '00001';
 		}else{
 			$nLastCode 		= $aLastCode['raItems'][0]['FTPgpCode'];
 			$nNumber		= $nLastCode + 1;
