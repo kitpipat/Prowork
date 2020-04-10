@@ -84,12 +84,12 @@ $route['r_modalproducteventdelete'] 			= 'product/modalproduct/cModalProduct/FSx
 $route['r_modalproducteventedit'] 				= 'product/modalproduct/cModalProduct/FSxCMOPEventEdit';
 
 //หน้าจอ : ยี่ห้อสินค้า ( start : 08-04-2020 / done : 08-04-2020 )
-$route['r_brandproduct'] 						= 'supplier/cSupplier/index';
-$route['r_brandproductload'] 					= 'supplier/cSupplier/FSwCSUPLoadDatatable';
-$route['r_brandproductcallpageInsertorEdit'] 	= 'supplier/cSupplier/FSwCSUPCallPageInsertorEdit';
-$route['r_brandproducteventinsert'] 			= 'supplier/cSupplier/FSwCSUPEventInsert';
-$route['r_brandproducteventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
-$route['r_brandproducteventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
+$route['r_brandproduct'] 						= 'product/brandproduct/cBrandProduct/index';
+$route['r_brandproductload'] 					= 'product/brandproduct/cBrandProduct/FSwCBAPLoadDatatable';
+$route['r_brandproductcallpageInsertorEdit'] 	= 'product/brandproduct/cBrandProduct/FSwCBAPCallPageInsertorEdit';
+$route['r_brandproducteventinsert'] 			= 'product/brandproduct/cBrandProduct/FSwCBAPEventInsert';
+$route['r_brandproducteventdelete'] 			= 'product/brandproduct/cBrandProduct/FSxCBAPEventDelete';
+$route['r_brandproducteventedit'] 				= 'product/brandproduct/cBrandProduct/FSxCBAPEventEdit';
 
 //หน้าจอ : ไซด์สินค้า ( start : 08-04-2020 / done : 08-04-2020 )
 $route['r_sizeproduct'] 						= 'supplier/cSupplier/index';
