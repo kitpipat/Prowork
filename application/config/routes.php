@@ -100,9 +100,9 @@ $route['r_sizeproducteventdelete'] 				= 'product/sizeproduct/cSizeproduct/FSxCS
 $route['r_sizeproducteventedit'] 				= 'product/sizeproduct/cSizeproduct/FSxCSIZEventEdit';
 
 //หน้าจอ : สีของสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
-$route['r_colorproduct'] 						= 'supplier/cSupplier/index';
-$route['r_colorproductload'] 					= 'supplier/cSupplier/FSwCSUPLoadDatatable';
-$route['r_colorproductcallpageInsertorEdit'] 	= 'supplier/cSupplier/FSwCSUPCallPageInsertorEdit';
-$route['r_colorproducteventinsert'] 			= 'supplier/cSupplier/FSwCSUPEventInsert';
-$route['r_colorproducteventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
-$route['r_colorproducteventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
+$route['r_colorproduct'] 						= 'product/colorproduct/cColorproduct/index';
+$route['r_colorproductload'] 					= 'product/colorproduct/cColorproduct/FSwCCOPLoadDatatable';
+$route['r_colorproductcallpageInsertorEdit'] 	= 'product/colorproduct/cColorproduct/FSwCCOPCallPageInsertorEdit';
+$route['r_colorproducteventinsert'] 			= 'product/colorproduct/cColorproduct/FSwCCOPEventInsert';
+$route['r_colorproducteventdelete'] 			= 'product/colorproduct/cColorproduct/FSxCCOPEventDelete';
+$route['r_colorproducteventedit'] 				= 'product/colorproduct/cColorproduct/FSxCCOPEventEdit';
