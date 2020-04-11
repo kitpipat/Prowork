@@ -6,14 +6,14 @@
 		<th style="width:120px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
 		<!-- <th style="width:100px; text-align: left;">หน่วย</th> -->
-		<th style="width:120px; text-align: left;">กลุ่มสินค้า</th>
+		<th style="width:100px; text-align: left;">กลุ่มสินค้า</th>
 		<!-- <th style="width:120px; text-align: left;">สี</th> -->
 		<!-- <th style="width:120px; text-align: left;">รุ่น</th> -->
 		<!-- <th style="width:120px; text-align: left;">ยี่ห้อ</th> -->
-		<th style="width:200px; text-align: left;">ผู้จำหน่าย</th>
-		<th style="width:120px; text-align: left;">สถานะ</th>
-		<th style="width:80px; text-align: center;">แก้ไข</th>
-		<th style="width:80px; text-align: center;">ลบ</th>
+		<th style="width:100px; text-align: left;">ผู้จำหน่าย</th>
+		<th style="width:100px; text-align: left;">สถานะ</th>
+		<th style="width:50px; text-align: center;">แก้ไข</th>
+		<th style="width:50px; text-align: center;">ลบ</th>
     </tr>
   </thead>
   <tbody>
