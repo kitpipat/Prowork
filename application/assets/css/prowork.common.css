@@ -262,9 +262,13 @@ table tbody .xCNTableGroupMenu{
 }
 
 .xCNHeadFilter{
-	background-color: #67717d;
-	color: #FFF;
-	padding: 5px 10px;
+	background-color: #FFF;
+	color: black;
+	padding: 7px 10px;
+}
+
+.xCNLineBarFilter{
+	border-bottom: 1px solid #e8e8e8;
 }
 
 .xCNSubFilter{
@@ -276,23 +280,34 @@ table tbody .xCNTableGroupMenu{
 }
 
 .xCNFilter{
-	width: 34px;
+	width: 40px;
     background: #e9ecef;
     border: 1px solid #ced4da;
     border-radius: 3px;
     cursor: pointer;
-    height: 30px;
+    height: 35px;
+}
+
+.xCNFilterAdvParent{
+	margin-top: -15px; 
+	margin-bottom: -10px; 
 }
 
 .xCNIconFilter{
-	padding: 0px 10px;
+	padding: 2px 14px;
 	font-size: 0.65rem !important;
 }
 
 .xCNFilterSearch{
-    margin: -25px 0px -25px -10px;
-    padding: 0px;
-    border-right: 15px solid #f1f2f7;
+	padding: 0px;
+	position:fixed; 
+	background: #FFF; 
+}
+
+.xCNFilterAdvSub{
+	display: inline-block; 
+	width: 100%;
+	background: #FFF; 
 }
 
 .xCNCheckboxFilter{
@@ -317,14 +332,14 @@ table tbody .xCNTableGroupMenu{
 
 .xCNFilterBlockHide{
 	transform: translate(-50%, 0%);
-	transition-duration: 0.5s;
+	transition-duration: 0s;
 	height: 0px;
 	opacity: 0;
 }
 
 .xCNFilterBlockShow{
 	transform: translate(0%, 0%);
-	transition-duration: 0.5s;
+	transition-duration: 0.2s;
 	opacity: 1;
 }
 

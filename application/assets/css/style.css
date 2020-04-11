@@ -989,8 +989,8 @@ aside.left-panel:hover {
 }
 
 .open aside.left-panel {
-    max-width: 65px;
-    width: 65px;
+    max-width: 70px;
+    width: 70px;
 }
 
 .open aside.left-panel .navbar .navbar-header {
