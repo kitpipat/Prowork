@@ -107,10 +107,18 @@ $route['r_colorproducteventinsert'] 			= 'product/colorproduct/cColorproduct/FSw
 $route['r_colorproducteventdelete'] 			= 'product/colorproduct/cColorproduct/FSxCCOPEventDelete';
 $route['r_colorproducteventedit'] 				= 'product/colorproduct/cColorproduct/FSxCCOPEventEdit';
 
-//หน้าจอ : ลูกค้า
+//หน้าจอ : ลูกค้า ( start : 11-04-2020 / done : 11-04-2020 )
 $route['r_customer'] 							= 'customer/cCustomer/index';
 $route['r_customerload'] 						= 'customer/cCustomer/FSwCCUSLoadDatatable';
 $route['r_customercallpageInsertorEdit'] 		= 'customer/cCustomer/FSwCCUSCallPageInsertorEdit';
 $route['r_customereventinsert'] 				= 'customer/cCustomer/FSwCCUSEventInsert';
 $route['r_customereventdelete'] 				= 'customer/cCustomer/FSxCCUSEventDelete';
 $route['r_customereventedit'] 					= 'customer/cCustomer/FSxCCUSEventEdit';
+
+//หน้าจอ : สินค้า
+$route['r_product'] 							= 'product/product/cProduct/index';
+$route['r_productload'] 						= 'product/product/cProduct/FSwCPDTLoadDatatable';
+$route['r_productcallpageInsertorEdit'] 		= 'product/product/cProduct/FSwCPDTCallPageInsertorEdit';
+$route['r_producteventinsert'] 					= 'product/product/cProduct/FSwCPDTEventInsert';
+$route['r_producteventdelete'] 					= 'product/product/cProduct/FSxCPDTEventDelete';
+$route['r_producteventedit'] 					= 'product/product/cProduct/FSxCPDTEventEdit';
