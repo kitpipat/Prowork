@@ -30,8 +30,8 @@ table .container-checkbox{
     position: absolute;
     top: 0;
     left: 0;
-    height: 25px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
     background-color: #eee;
 }
 
@@ -59,8 +59,8 @@ table .container-checkbox{
 
 /* Style the checkmark/indicator */
 .container-checkbox .checkmark:after {
-    left: 10px;
-    top: 6px;
+    left: 8px;
+    top: 4px;
     width: 5px;
     height: 10px;
     border: solid white;
