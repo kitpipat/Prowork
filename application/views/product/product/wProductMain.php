@@ -218,7 +218,7 @@
 				$('#odvContent_Product').html(tResult);
 
 				// //กำหนดขนาดของตารางค้นหา จะเท่ากับ ตารางสินค้าเสมอ
-				var tHeightContent = $('.xCNContentProduct').height() - 50;
+				var tHeightContent = $('.xCNContentProduct').height() - 300;
 				$('.xCNSubFilter').css('height',tHeightContent+'px');
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
