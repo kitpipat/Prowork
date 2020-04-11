@@ -2,7 +2,7 @@
   <thead>
     <tr>
 		<th style="width:5px; text-align: center;">ลำดับ</th>
-		<th style="width:150px; text-align: center;">รูปภาพ</th>
+		<th style="width:80px; text-align: center;">รูปภาพ</th>
 		<th style="width:120px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
 		<!-- <th style="width:100px; text-align: left;">หน่วย</th> -->
