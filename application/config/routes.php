@@ -106,3 +106,11 @@ $route['r_colorproductcallpageInsertorEdit'] 	= 'product/colorproduct/cColorprod
 $route['r_colorproducteventinsert'] 			= 'product/colorproduct/cColorproduct/FSwCCOPEventInsert';
 $route['r_colorproducteventdelete'] 			= 'product/colorproduct/cColorproduct/FSxCCOPEventDelete';
 $route['r_colorproducteventedit'] 				= 'product/colorproduct/cColorproduct/FSxCCOPEventEdit';
+
+//หน้าจอ : ลูกค้า
+$route['r_customer'] 							= 'customer/cCustomer/index';
+$route['r_customerload'] 						= 'customer/cCustomer/FSwCCUSLoadDatatable';
+$route['r_customercallpageInsertorEdit'] 		= 'customer/cCustomer/FSwCCUSCallPageInsertorEdit';
+$route['r_customereventinsert'] 				= 'customer/cCustomer/FSwCCUSEventInsert';
+$route['r_customereventdelete'] 				= 'customer/cCustomer/FSxCCUSEventDelete';
+$route['r_customereventedit'] 					= 'customer/cCustomer/FSxCCUSEventEdit';
