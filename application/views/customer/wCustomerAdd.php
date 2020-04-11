@@ -5,6 +5,7 @@
 		$tRouteUrl			= 'สร้างลูกค้า';
 		$FTCstStaActive     = 1;
 	}else if($tTypePage == 'edit'){
+		$FTBchCode			= $aResult[0]['FTBchCode'];
 		$FTCstCode			= $aResult[0]['FTCstCode'];
 		$FTCstName			= $aResult[0]['FTCstName'];
 		$FTCstContactName	= $aResult[0]['FTCstContactName'];
@@ -65,6 +66,27 @@
 
 					<!--รายละเอียด-->
 					<div class="col-lg-5 col-md-5">
+						<!--สาขา-->
+						<?php if($tLevelUser == 'HQ'){ ?>
+							<div class="form-group">
+								<label><span style="color:red;">*</span> สาขา</label>
+								<select class="form-control" id="oetCUSBCH" name="oetCUSBCH">
+									<option value="0">สำนักงานใหญ่</option>
+									<?php foreach($aBCHList['raItems'] AS $nKey => $aValue){ ?>
+										<option <?=(@$FTBchCode == $aValue['FTBchCode'])? "selected" : "";?> value="<?=$aValue['FTBchCode'];?>"><?=$aValue['FTBchName'];?> - (<?=$aValue['FTCmpName'];?>)</option>
+									<?php } ?>
+								</select>
+							</div>
+						<?php }else{ ?>
+							<div class="form-group">
+								<?php $tBCHName = $this->session->userdata('tSesBCHName'); ?>
+								<?php $tBCHCode = $this->session->userdata('tSesBCHCode'); ?>
+								<label><span style="color:red;">*</span> สาขา</label>
+								<input type="text" class="form-control" value="<?=@$tBCHName?>" autocomplete="off" readonly>
+								<input type="hidden" id="oetCUSBCH" name="oetCUSBCH" value="<?=@$tBCHCode?>" autocomplete="off">
+							</div>
+						<?php } ?>
+
 						<!--ชื่อลูกค้า / ชื่อบริษัท-->
 						<div class="form-group">
 							<label><span style="color:red;">*</span> ชื่อลูกค้า / ชื่อบริษัท</label>

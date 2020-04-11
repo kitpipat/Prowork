@@ -25,8 +25,10 @@ class mCustomer extends CI_Model {
 						CUS.FTCstWebSite,
 						CUS.FTCstReason,
 						CUS.FTCstPathImg,
-						CUS.FTCstStaActive
-					FROM TCNMCst CUS ";
+						CUS.FTCstStaActive,
+						BCH.FTBchName
+					FROM TCNMCst CUS 
+					LEFT JOIN TCNMBranch BCH ON CUS.FTBchCode = BCH.FTBchCode ";
 		$tSQL .= " WHERE 1=1 ";
 
 		if($tTextSearch != '' || $tTextSearch != null){
@@ -39,6 +41,12 @@ class mCustomer extends CI_Model {
 			$tSQL .= " OR CUS.FTCstAddress LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR CUS.FTCstTel LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR CUS.FTCstWebSite LIKE '%$tTextSearch%' )";
+		}
+
+		//รองรับการมองเห็นตามสาขา
+		if($this->session->userdata('tSesUserLevel') == 'BCH'){
+			$tBCHCode = $this->session->userdata('tSesBCHCode');
+			$tSQL .= " AND CUS.FTBchCode = '$tBCHCode' ";
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
@@ -83,6 +91,12 @@ class mCustomer extends CI_Model {
 				$tSQL .= " OR CUS.FTCstAddress LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR CUS.FTCstTel LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR CUS.FTCstWebSite LIKE '%$tTextSearch%' )";
+			}
+
+			//รองรับการมองเห็นตามสาขา
+			if($this->session->userdata('tSesUserLevel') == 'BCH'){
+				$tBCHCode = $this->session->userdata('tSesBCHCode');
+				$tSQL .= " AND CUS.FTBchCode = '$tBCHCode' ";
 			}
 
             $oQuery = $this->db->query($tSQL);

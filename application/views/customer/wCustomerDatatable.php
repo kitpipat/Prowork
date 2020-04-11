@@ -1,9 +1,11 @@
+<?php $tLevelUser = $this->session->userdata('tSesUserLevel'); ?>
+
 <table class="table table-striped xCNTableCenter">
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
 		<th style="width:100px; text-align: center;">รูปภาพ</th>
-		<th style="width:100px; text-align: center;">รหัสลูกค้า</th>
+		<?php if($tLevelUser == 'HQ'){ ?><th style="width:300px; text-align: left;">สาขา</th><?php } ?>
 		<th style="text-align: left;">ชื่อลูกค้า / บริษัท</th>
 		<th style="width:15%; text-align: left;">ชื่อผู้ติดต่อ</th>
 		<th style="width:10%; text-align: left;">เบอร์โทรศัพท์</th>
@@ -30,7 +32,7 @@
 						}
 					?>
 					<td class="xCNTdHaveImage"><img id="oimImgMastercustomer" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
-					<td><?=$aValue['FTCstCode']?></td>
+					<?php if($tLevelUser == 'HQ'){ ?><td><?=($aValue['FTBchName'] == '') ? 'สำนักงานใหญ่' : $aValue['FTBchName']?></td><?php } ?>
 					<td><?=($aValue['FTCstName'] == '') ? '-' : $aValue['FTCstName']?></td>
 					<td><?=($aValue['FTCstContactName'] == '') ? '-' : $aValue['FTCstContactName']?></td>
 					<td><?=($aValue['FTCstTel'] == '') ? '-' : $aValue['FTCstTel']?></td>

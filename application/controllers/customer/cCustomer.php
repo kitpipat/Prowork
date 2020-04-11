@@ -5,6 +5,7 @@ class cCustomer extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('customer/mCustomer');
+		$this->load->model('user/user/mUser');
 	}
 
 	public function index(){
@@ -39,6 +40,7 @@ class cCustomer extends CI_Controller {
 		}
 
 		$aPackData = array(
+			'aBCHList'			=> $this->mUser->FSaMUSRGetBranch(),
 			'tTypePage' 		=> $tTypePage,
 			'aResult'			=> $aResult
 		);
@@ -72,6 +74,7 @@ class cCustomer extends CI_Controller {
 
 		$aInsert = array(
 			'FTCstCode'			=> $tFormatCode,
+			'FTBchCode'			=> ($this->input->post('oetCUSBCH') == 0) ? null : $this->input->post('oetCUSBCH'),
 			'FTCstName'			=> $this->input->post('oetCUSName'),
 			'FTCstContactName'	=> $this->input->post('oetCUSContactname'),
 			'FTCstCardID'		=> $this->input->post('oetCUSCardID'),
@@ -105,6 +108,7 @@ class cCustomer extends CI_Controller {
 	public function FSxCCUSEventEdit(){
 		try{
 			$aSetUpdate = array(
+				'FTBchCode'			=> ($this->input->post('oetCUSBCH') == 0) ? null : $this->input->post('oetCUSBCH'),
 				'FTCstName'			=> $this->input->post('oetCUSName'),
 				'FTCstContactName'	=> $this->input->post('oetCUSContactname'),
 				'FTCstCardID'		=> $this->input->post('oetCUSCardID'),
