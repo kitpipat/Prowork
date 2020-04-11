@@ -45,6 +45,7 @@
 																																		 echo  "<h5 style='margin-top:10px;'><b>".$tFilterGrpName."</b></h5>";
 
 																																		 $tLastFilterCode = $tFilterGrpCode;
+
 																																}
 																												?>
 
@@ -98,9 +99,9 @@
 				                       <!-- Gridview Options -->
 				                      <div class="col-lg-4 col-md-4 col-sm-4">
 				                            <div class="btn-group float-right" role="group">
-				                                <button class="btn-sm"><i class="fa fa-table"></i></button>
+				                                <button id="odvPdtTableView" data-viewtype = "1" class="wxBntPdtVTypeActive" onclick="FSvQUOSwitView(1)"><i class="fa fa-table"></i></button>
 				                                &nbsp;
-				                                <button class="btn-sm"><i class="fa fa-list"></i></button>
+				                                <button id="odvPdtListView" data-viewtype = "2" class="" onclick="FSvQUOSwitView(2)"><i class="fa fa-list"></i></button>
 				                            </div>
 				                      </div>
 				                       <!-- End Gridview Options -->

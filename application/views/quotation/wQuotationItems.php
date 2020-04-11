@@ -18,10 +18,11 @@
       <?php
             $nTotal = 0;
             for($i=0;$i<$aQuoItemsList['nTotalRes'];$i++){
-            $nTotal = $nTotal + $aQuoItemsList['raItems'][$i]['FCXqdB4Dis'];
             $nQty = $aQuoItemsList['raItems'][$i]['FCXqdQty'];
             $nItemSeq = $aQuoItemsList['raItems'][$i]['FNXqdSeq'];
             $nPdtUnitPri = $aQuoItemsList['raItems'][$i]['FCXqdUnitPrice'];
+            $nItemPrice = $nQty * $nPdtUnitPri;
+            $nTotal = $nTotal + $nItemPrice;
       ?>
 
           <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">

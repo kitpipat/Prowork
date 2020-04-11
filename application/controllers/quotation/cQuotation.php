@@ -7,12 +7,15 @@ class cQuotation extends CI_Controller {
 
 					parent::__construct();
 					$this->load->model('quotation/mQuotation');
+
 	}
 
 	public function index(){
 
 				 // Get filter Data
 		     $oFilterList  = $this->mQuotation->FSaMQUOGetFilterList();
+
+         $this->mQuotation->FSxMQUOClearTemp();
 
          $aData = array('aFilterList'=>$oFilterList);
 		     $this->load->view('quotation/wQuotation',$aData);
@@ -37,8 +40,10 @@ class cQuotation extends CI_Controller {
 
          $tKeySearch = $this->input->GET('tKeySearch');
 
+				 $tPdtViewType = $this->input->GET('tPdtViewType');
+
          $tPriceGrp = $this->session->userdata('tSesPriceGroup');
-         
+
 				 $aFilter = array("tKeySearch" =>$tKeySearch,
 			                    "tPriceGrp"  => $tPriceGrp);
 
@@ -51,7 +56,8 @@ class cQuotation extends CI_Controller {
 
 				 //data return to view
 				 $aData = array('aPdtList' => $aPdtList,
-			                  'nTotalRecord'=>$nTotalRecord);
+			                  'nTotalRecord'=>$nTotalRecord,
+											  'tPdtViewType' => $tPdtViewType);
 
 		     $this->load->view('quotation/wQuotationPdtList',$aData);
 
@@ -59,8 +65,22 @@ class cQuotation extends CI_Controller {
 
 	public function FCwCQUOCallDocHeader(){
 
-         $aData = array('' =>  '');
+		     $tWorkerID = $this->session->userdata('tSesUsercode');
+				 $tWorkerName = $this->session->userdata('tSesFirstname');
+
+				 $tQuoDocNo = $this->input->get("tQuoDocNo");
+
+				 $aConditions = array("tDocNo" => $tQuoDocNo ,"tWorkerID" =>$tWorkerID);
+
+				 $aDocHD = $this->mQuotation->FCaMQUOGetDocHD($aConditions);
+
+
+         $aData = array("aDocHD" =>  $aDocHD,
+			                  "tWorkerID" => $tWorkerID,
+											  "tWorkerName" => $tWorkerName);
+
 		     return $this->load->view('quotation/wQuotationHeader',$aData);
+
 	}
 
 	public function FCaCQUOCallItemsList(){
@@ -100,11 +120,13 @@ class cQuotation extends CI_Controller {
 					 "FTPdtCode" => $aItem['tPdtCode'],
 					 "FTPdtName" => $aItem['tPdtName'],
 					 "FTPunCode" => $aItem['tPunCode'],
+					 "FTPunName" => $aItem['tPunName'],
 					 "FTSplCode" => $aItem['tSplCode'],
 					 "FTXqdCost" => $aItem['nPdtCost'],
 					 "FCXqdUnitPrice" => $nQTY * $aItem['nPdtUnitPri'],
 					 "FCXqdQty" => $nQTY,
-					 "FCXqdB4Dis" => $nQTY * $aItem['nPdtUnitPri'],
+					 "FCXqdDis" => 0,
+					 "FCXqdFootAvg" => 0,
 					 "FTWorkerID" => $tWorkerID
 				 );
 

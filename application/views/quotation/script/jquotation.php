@@ -7,12 +7,27 @@
 
    });
 
+   function FSvQUOSwitView(ptViewType){
+
+            $('.btn-group > button ').removeClass("wxBntPdtVTypeActive")
+            if(ptViewType == 1){
+               $('#odvPdtTableView').addClass("wxBntPdtVTypeActive")
+
+            }else{
+                $('#odvPdtListView').addClass("wxBntPdtVTypeActive")
+            }
+
+            FSvQUOGetPdtList()
+   }
+
    function FSvQUOGetPdtList(){
+
+     tPdtViewType = $('.wxBntPdtVTypeActive').attr("data-viewtype")
 
      $.ajax({
      url: 'r_quotationeventGetPdtList',
      type: 'GET',
-     data: '',
+     data: {paFilter : '',tPdtViewType : tPdtViewType},
      datatype: 'json'
      })
      .done(function (data) {
@@ -23,12 +38,13 @@
       });
    }
 
-   function FSvQUOCallDocHeader(){
 
+   function FSvQUOCallDocHeader(){
+     tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
      $.ajax({
      url: 'r_quotationcalldocheader',
      type: 'GET',
-     data: '',
+     data: {tQuoDocNo : tQuoDocNo},
      datatype: 'json'
      })
      .done(function (data) {
@@ -40,11 +56,10 @@
    }
 
    function FSvQUOCallItemList(){
-
      $.ajax({
      url: 'r_quotationeventcallitemslist',
      type: 'GET',
-     data: '',
+     data: {},
      datatype: 'json'
      })
      .done(function (data) {
@@ -66,7 +81,7 @@
      datatype: 'json'
      })
      .done(function (data) {
-    
+
           FSvQUOCallItemList()
 
       })

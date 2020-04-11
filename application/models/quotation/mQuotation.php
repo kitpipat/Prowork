@@ -112,6 +112,7 @@ class mQuotation extends CI_Model {
                          PDT.FTPdtImage ,
                          PDT.FCPdtCostStd,
 												 PDT.FTPunCode,
+												 PUN.FTPunName,
 												 PDT.FTSplCode,
                          PDT.FCPdtCostAFDis,
                          PDT.FCPdtSalPrice AS FCPdtStdSalPri ,
@@ -131,7 +132,9 @@ class mQuotation extends CI_Model {
                   LEFT JOIN (
                      SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '".$tPriceGrp."'
                   )SP ON PDT.FTPdtCode = SP.FTPdtCode
-                  LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode ) P
+                  LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode
+									LEFT JOIN TCNMPdtUnit PUN ON PDT.FTPunCode = PUN.FTPunCode
+								  ) P
                   WHERE  1=1 ";
 
 
@@ -198,6 +201,48 @@ class mQuotation extends CI_Model {
 	กรณี create จะหาจาก tWorkerID
 	กรณี edit จะหาจาก Docno
 	*/
+  public function FSxMQUOClearTemp(){
+
+				 $tSQL = "DELETE
+				          FROM TARTSqDTTmp
+				          WHERE CONVERT(VARCHAR(10) , FDTmpTnsDate , 121) < CONVERT(VARCHAR(10) , GETDATE() , 121) ";
+				 $this->db->query($tSQL);
+	}
+
+  public function FCaMQUOGetDocHD($paFilter){
+
+					$tDocNo = $paFilter['tDocNo'];
+					$tWorkerID = $paFilter['tWorkerID'];
+          $tSQL = "SELECT    HD.*,USR.FTUsrDep
+					         FROM      TARTSqHDTmp HD
+									 LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode
+                   WHERE     HD.FTWorkerID ='".$tWorkerID."'
+									";
+							     if($tDocNo != ""){
+										  $tSQL.= " AND HD.FTXqhDocNo = '".$tWorkerID."'";
+									 }
+
+									 $oQuery = $this->db->query($tSQL);
+ 									 $nCountRows = $oQuery->num_rows();
+
+	 									if($nCountRows > 0){
+	                       $aResult = array(
+	                           'raItems'  => $oQuery->result_array(),
+	                           'nTotalRes' => $nCountRows,
+	                           'rtCode'   => '1',
+	                           'rtDesc'   => 'success',
+	                       );
+	                   }else{
+	                       $aResult = array(
+	                          'rtCode' => '800',
+	 													'nTotalRes' => 0,
+	                          'rtDesc' => 'data not found',
+	                       );
+	                   }
+	                   return $aResult;
+
+	}
+
 	public function FCaMQUOGetItemsList($paFilter){
 
 				 $tDocNo = $paFilter['tDocNo'];
@@ -209,7 +254,6 @@ class mQuotation extends CI_Model {
 									       D.FTPdtName,
 									       D.FCXqdUnitPrice,
 									       D.FCXqdQty,
-												 D.FCXqdB4Dis,
 									       P.FTPdtImage
 									FROM TARTSqDTTmp D
 									LEFT JOIN TCNMPdt P ON D.FTPdtCode = P.FTPdtCode
@@ -310,8 +354,7 @@ class mQuotation extends CI_Model {
   public function FCxMQUOUpdateItem($paItemData){
 
          $tSQL = "UPDATE TARTSqDTTmp
-				          SET   FCXqdQty = '".$paItemData['FCXqdQty']."',
-									      FCXqdB4Dis = '".$paItemData['FCXqdB4Dis']."'
+				          SET   FCXqdQty = '".$paItemData['FCXqdQty']."'
 									WHERE FTPdtCode  = '".$paItemData['FTPdtCode']."'
 									AND   FTWorkerID = '".$paItemData['FTWorkerID']."'";
 
@@ -345,10 +388,9 @@ class mQuotation extends CI_Model {
 				 $tWorkerID = $paItemData['tWorkerID'];
 				 $nItemSeq = $paItemData['nItemSeq'];
 				 $nItemQTY = $paItemData['nItemQTY'];
-				 $nPriB4Dis = $paItemData['nPriB4Dis'];
 
 		     $tSQL = "UPDATE TARTSqDTTmp
-				          SET    FCXqdQty = '$nItemQTY' , FCXqdB4Dis = '$nPriB4Dis'
+				          SET    FCXqdQty = '$nItemQTY'
 				          WHERE  FNXqdSeq = '$nItemSeq'
 									AND    FTWorkerID = '$tWorkerID' ";
 
@@ -358,4 +400,5 @@ class mQuotation extends CI_Model {
 
 				 $this->db->query($tSQL);
 	}
+
 }
