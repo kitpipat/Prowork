@@ -30,7 +30,7 @@
 				<div class="row">
 					<!--รายละเอียด-->
 					<div class="col-lg-4 col-md-4">
-						<!--แผนก-->
+						<!--ชื่อประเภทสินค้า-->
 						<div class="form-group">
 							<label>ชื่อประเภทสินค้า</label>
 							<input type="text" class="form-control" maxlength="100" id="oetTYPName" name="oetTYPName" placeholder="กรุณาระบุชื่อประเภทสินค้า" autocomplete="off" value="<?=@$FTPtyName;?>">

@@ -158,6 +158,11 @@ input.form-control {
     height: 35px;
 }
 
+#oimImgInsertorEditproducts{
+	width: 300px;
+    margin: 0px auto;
+    display: block;
+}
 
 #oimImgInsertorEditUser{
 	border-radius: 50%;

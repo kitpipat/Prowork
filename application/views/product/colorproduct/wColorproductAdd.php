@@ -30,7 +30,7 @@
 				<div class="row">
 					<!--รายละเอียด-->
 					<div class="col-lg-4 col-md-4">
-						<!--แผนก-->
+						<!--ชื่อสีสินค้า-->
 						<div class="form-group">
 							<label>ชื่อสีสินค้า</label>
 							<input type="text" class="form-control" maxlength="100" id="oetCOPName" name="oetCOPName" placeholder="กรุณาระบุชื่อสีสินค้า" autocomplete="off" value="<?=@$FTPClrName;?>">

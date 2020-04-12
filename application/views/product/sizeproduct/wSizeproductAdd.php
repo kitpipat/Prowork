@@ -30,7 +30,7 @@
 				<div class="row">
 					<!--รายละเอียด-->
 					<div class="col-lg-4 col-md-4">
-						<!--แผนก-->
+						<!--ชื่อขนาดสินค้า-->
 						<div class="form-group">
 							<label>ชื่อขนาดสินค้า</label>
 							<input type="text" class="form-control" maxlength="100" id="oetSIZName" name="oetSIZName" placeholder="กรุณาระบุชื่อขนาดสินค้า" autocomplete="off" value="<?=@$FTPzeName;?>">

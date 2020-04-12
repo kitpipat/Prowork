@@ -30,7 +30,7 @@
 				<div class="row">
 					<!--รายละเอียด-->
 					<div class="col-lg-4 col-md-4">
-						<!--แผนก-->
+						<!--ชื่อรุ่นสินค้า-->
 						<div class="form-group">
 							<label>ชื่อรุ่นสินค้า</label>
 							<input type="text" class="form-control" maxlength="100" id="oetMOLName" name="oetMOLName" placeholder="กรุณาระบุชื่อรุ่นสินค้า" autocomplete="off" value="<?=@$FTMolName;?>">

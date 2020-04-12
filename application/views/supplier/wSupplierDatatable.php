@@ -2,7 +2,7 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="width:150px; text-align: center;">รูปภาพ</th>
+		<th style="width:80px; text-align: center;">รูปภาพ</th>
 		<th style="text-align: left;">ชื่อผู้จำหน่าย</th>
 		<th style="width:15%; text-align: left;">ชื่อผู้ติดต่อ</th>
 		<th style="width:10%; text-align: left;">เบอร์โทรศัพท์</th>

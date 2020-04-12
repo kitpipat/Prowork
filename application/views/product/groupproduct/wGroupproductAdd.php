@@ -30,7 +30,7 @@
 				<div class="row">
 					<!--รายละเอียด-->
 					<div class="col-lg-4 col-md-4">
-						<!--แผนก-->
+						<!--ชื่อกลุ่มสินค้า-->
 						<div class="form-group">
 							<label>ชื่อกลุ่มสินค้า</label>
 							<input type="text" class="form-control" maxlength="100" id="oetGRPName" name="oetGRPName" placeholder="กรุณาระบุชื่อกลุ่มสินค้า" autocomplete="off" value="<?=@$FTPgpName;?>">
