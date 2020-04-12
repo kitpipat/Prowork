@@ -170,4 +170,9 @@ class cQuotation extends CI_Controller {
 
 	}
 
+	public function FCwCQUOCallDocPage(){
+		    
+				 $this->load->view("quotation/wQuotationDocForm");
+	}
+
 }
