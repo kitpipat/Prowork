@@ -15,7 +15,7 @@
 						<div class="xCNSubFilter">
 							<!--ยี่ห้อ-->
 							<?php if($aFilter_Brand['rtCode'] != 800){ ?>
-								<div class="form-group">
+								<div class="form-group xCNFilterMarginBottom">
 									<label><b>ยี่ห้อ</b></label>
 									<?php foreach($aFilter_Brand['raItems'] AS $nKey => $aValue){ ?>
 										<label class="container-checkbox xCNCheckboxFilter">
@@ -28,7 +28,7 @@
 
 							<!--สี-->
 							<?php if($aFilter_Color['rtCode'] != 800){ ?>
-								<div class="form-group">
+								<div class="form-group xCNFilterMarginBottom">
 									<label><b>สี</b></label>
 									<?php foreach($aFilter_Color['raItems'] AS $nKey => $aValue){ ?>
 										<label class="container-checkbox xCNCheckboxFilter">
@@ -41,7 +41,7 @@
 
 							<!--กลุ่ม-->
 							<?php if($aFilter_Group['rtCode'] != 800){ ?>
-								<div class="form-group">
+								<div class="form-group xCNFilterMarginBottom">
 									<label><b>กลุ่ม</b></label>
 									<?php foreach($aFilter_Group['raItems'] AS $nKey => $aValue){ ?>
 										<label class="container-checkbox xCNCheckboxFilter">
@@ -54,7 +54,7 @@
 
 							<!--รุ่น-->
 							<?php if($aFilter_Modal['rtCode'] != 800){ ?>
-								<div class="form-group">
+								<div class="form-group xCNFilterMarginBottom">
 									<label><b>รุ่น</b></label>
 									<?php foreach($aFilter_Modal['raItems'] AS $nKey => $aValue){ ?>
 										<label class="container-checkbox xCNCheckboxFilter">
@@ -67,7 +67,7 @@
 
 							<!--ขนาด-->
 							<?php if($aFilter_Size['rtCode'] != 800){ ?>
-								<div class="form-group">
+								<div class="form-group xCNFilterMarginBottom">
 									<label><b>ขนาด</b></label>
 									<?php foreach($aFilter_Size['raItems'] AS $nKey => $aValue){ ?>
 										<label class="container-checkbox xCNCheckboxFilter">
@@ -80,7 +80,7 @@
 
 							<!--ประเภท-->
 							<?php if($aFilter_Type['rtCode'] != 800){ ?>
-								<div class="form-group">
+								<div class="form-group xCNFilterMarginBottom">
 									<label><b>ประเภท</b></label>
 									<?php foreach($aFilter_Type['raItems'] AS $nKey => $aValue){ ?>
 										<label class="container-checkbox xCNCheckboxFilter">
@@ -93,7 +93,7 @@
 
 							<!--หน่วย-->
 							<?php if($aFilter_Unit['rtCode'] != 800){ ?>
-								<div class="form-group">
+								<div class="form-group xCNFilterMarginBottom">
 									<label><b>หน่วย</b></label>
 									<?php foreach($aFilter_Unit['raItems'] AS $nKey => $aValue){ ?>
 										<label class="container-checkbox xCNCheckboxFilter">
@@ -106,7 +106,7 @@
 
 							<!--ผู้จำหน่าย-->
 							<?php if($aFilter_Spl['rtCode'] != 800){ ?>
-								<div class="form-group">
+								<div class="form-group xCNFilterMarginBottom">
 									<label><b>ผู้จำหน่าย</b></label>
 									<?php foreach($aFilter_Spl['raItems'] AS $nKey => $aValue){ ?>
 										<label class="container-checkbox xCNCheckboxFilter">
@@ -141,6 +141,8 @@
 								<!--รายละเอียด-->
 								<div class="col-lg-12">
 									<div class="row">
+
+										<!--ค้นหา-->
 										<div class="col-lg-4">
 											<div class="input-group md-form form-sm form-2 pl-0">
 												<input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearch" onkeypress="Javascript:if(event.keyCode==13) JSwLoadTableList(1)">
@@ -149,13 +151,29 @@
 												</div>
 											</div>
 										</div>
-
+										
+										<!--ตัวกรองค้นหาขั้นสูง-->
 										<div class="col-lg-1">
 											<div class="xCNFilter">
 												<i class="fa fa-filter xCNIconFilter" aria-hidden="true"></i>
 											</div>
 										</div>
 
+										<!--นำเข้าข้อมูล-->
+										<div class="col-lg-7">
+											<div class="btn-group pull-right">
+												<button type="button" class="btn btn-secondary dropdown-toggle xCNImport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													นำเข้าข้อมูล
+												</button>
+												<div class="dropdown-menu dropdown-menu-left xCNDropdown">
+													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href='<?=base_url('application/assets/templates/Product_Import_Template.xlsx')?>'>ดาวน์โหลดแม่แบบ</a></button>
+													<button class="dropdown-item xCNDropdownSub" type="button">นำเข้าข้อมูล รูปภาพ</button>
+													<button class="dropdown-item xCNDropdownSub" type="button">นำเข้าข้อมูล ไฟล์</button>
+												</div>
+											</div>
+										</div>
+
+										<!--ตารางสินค้า-->
 										<div class="col-lg-12">
 											<div id="odvContent_Product" class="xCNContent"></div>
 										</div>
