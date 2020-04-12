@@ -288,7 +288,7 @@
 											<div class="col-lg-6"> 
 												<!--ส่วนลดต้นทุน %-->
 												<div class="form-group">
-													<label>ส่วนลดต้นทุน </label><label style="color:red;">&nbsp; ตัวอย่าง : 10%,20,30 </label>
+													<label>ส่วนลดต้นทุน </label><label style="color:red;">&nbsp; ( ตัวอย่างการกรอกข้อมูล : 10%,20,30 )</label>
 													<input type="text" class="form-control text-right" maxlength="50" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="10%,20,30" autocomplete="off" value="<?=@$FTPdtCostDis?>">
 												</div>
 											</div>
