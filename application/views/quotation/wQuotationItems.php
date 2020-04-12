@@ -30,7 +30,7 @@
           </div>
           <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
               <span style="color:red;cursor:pointer" data-seq="<?=$nItemSeq?>" onclick="FSxQUODelItem(this)">[x]</span>
-              <?php echo $aQuoItemsList['raItems'][$i]['FTPdtName'];?> <br>
+              <span class="ospItemInDoc"><?php echo $aQuoItemsList['raItems'][$i]['FTPdtName'];?></span><br>
               ราคา / หน่วย :   &#3647; <?php echo number_format($nPdtUnitPri,2);?> <br>
               <div class="row">
                   <div class="col-lg-6">จำนวน</div>

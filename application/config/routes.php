@@ -58,6 +58,7 @@ $route['r_quotationeventcallitemslist'] 		= 'quotation/cQuotation/FCaCQUOCallIte
 $route['r_quotationeventAddItems'] 		= 'quotation/cQuotation/FCaCQUOAddItem';
 $route['r_quotationeventDelItems'] 		= 'quotation/cQuotation/FCxCQUODelItem';
 $route['r_quotationeventEditItemsQty'] 		= 'quotation/cQuotation/FCxCQUOEditItemQty';
+$route['r_quotationcallsqdoc'] 		= 'quotation/cQuotation/FCwCQUOCallDocPage';
 
 //หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
 $route['r_groupproduct'] 						= 'product/groupproduct/cGroupproduct/index';

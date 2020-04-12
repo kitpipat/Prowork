@@ -40,6 +40,7 @@
 
 
    function FSvQUOCallDocHeader(){
+
      tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
      $.ajax({
      url: 'r_quotationcalldocheader',
@@ -161,6 +162,33 @@
               //serrorFunction();
           });
      }
+   }
+
+   function FSvQUOCallDocument(){
+
+            if($(".ospItemInDoc").length == 0){
+
+               alert("this document is empty product,please select either one ");
+
+            }else{
+
+                    tQuoDocNo = $("#odvQuoDocNo").attr("data-docno")
+
+                    $.ajax({
+                    url: 'r_quotationcallsqdoc',
+                    type: 'GET',
+                    data: {tQuoDocNo:tQuoDocNo},
+                    datatype: 'json'
+                    })
+                    .done(function (data) {
+                          $(".content").html(data)
+                     })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                         //serrorFunction();
+                     });
+
+            }
+
    }
 
 </script>
