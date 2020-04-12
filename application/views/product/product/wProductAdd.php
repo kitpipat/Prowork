@@ -4,6 +4,9 @@
 		$tRoute 			= 'r_producteventinsert';
 		$tRouteUrl			= 'สร้างสินค้า';
 		$FTPdtStatus       	= 1;
+		$FCPdtCostStd		= 0;
+		$FTPdtCostDis		= 0;
+		$FCPdtSalPrice		= 0;
 	}else if($tTypePage == 'edit'){
 		$FTPdtCode			= $aResult[0]['FTPdtCode'];
 		$FTBchCode 			= $aResult[0]['FTBchCode'];
@@ -82,7 +85,7 @@
 						<!--รหัสสินค้า-->
 						<div class="form-group">
 							<label><span style="color:red;">*</span> รหัสสินค้า</label>
-							<input type="text" class="form-control" maxlength="50" id="oetPDTCode" name="oetPDTCode" placeholder="กรุณาระบุรหัสสินค้า" autocomplete="off" value="<?=@$FTPdtCode;?>">
+							<input type="text" class="form-control" maxlength="50" id="oetPDTCode" name="oetPDTCode" placeholder="กรุณาระบุรหัสสินค้า" autocomplete="off" value="<?=@$FTPdtCode;?>"  <?=($tTypePage != 'insert') ? 'readonly' : '' ?> >
 						</div>
 
 						<!--ชื่อสินค้า-->
@@ -285,39 +288,21 @@
 											<div class="col-lg-6"> 
 												<!--ส่วนลดต้นทุน %-->
 												<div class="form-group">
-													<label>ส่วนลดต้นทุน (%)</label>
-													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="50" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="10,20,30" autocomplete="off" value="<?=@$FTPdtCostDis?>">
+													<label>ส่วนลดต้นทุน </label><label style="color:red;">&nbsp; ตัวอย่าง : 10%,20,30 </label>
+													<input type="text" class="form-control text-right" maxlength="50" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="10%,20,30" autocomplete="off" value="<?=@$FTPdtCostDis?>">
 												</div>
 											</div>
 										</div>
 
 										<div class="row">
-
-											<?php if($tTypePage == 'insert'){
-												$tColummnSumFooter = 'col-lg-12';
-											}else{ 
-												$tColummnSumFooter = 'col-lg-6';
-											} ?>
-
-											<div class="<?=$tColummnSumFooter?>"> 
+											<div class="col-lg-12"> 
 												<!--ขายบวกเพิ่มจากต้นทุน %-->
 												<div class="form-group">
-													<label><span style="color:red;">*</span> ขายบวกเพิ่มจากต้นทุน (%)</label>
-													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="3" id="oetPDTPriceSellPercent" name="oetPDTPriceSellPercent" placeholder="0 - 100" autocomplete="off" value="<?=@$FCPdtSalPrice?>">
+													<label> ขายบวกเพิ่มจากต้นทุน (%)</label>
+													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="5" id="oetPDTPriceSellPercent" name="oetPDTPriceSellPercent" placeholder="0 - 100" autocomplete="off" value="<?=@$FCPdtSalPrice?>">
 												</div>
 											</div>
-
-											<?php if($tTypePage != 'insert'){ ?>
-												<div class="col-lg-6"> 
-													<div class="form-group">
-														<label>ราคาขาย</label>
-														<div class="xCNResultSellPrice"> 9,000.00.- </div>
-													</div>
-												</div>
-											<?php } ?>
 										</div>
-
-
 									</div>
 
 								</div>
@@ -357,12 +342,12 @@
 
 	$( document ).ready(function() {
 		//ห้ามคีย์เกิน 100
-		$('#oetPDTPriceSellPercent').change(function(e) {
-			var tSUPVat = $(this).val();
-			if(tSUPVat > 100){
-				$(this).val(100);
-			}
-		});					
+		// $('#oetPDTPriceSellPercent').change(function(e) {
+		// 	var tSUPVat = $(this).val();
+		// 	if(tSUPVat > 100){
+		// 		$(this).val(100);
+		// 	}
+		// });					
 	});
 
 	//อัพโหลดรูปภาพ
@@ -388,11 +373,6 @@
 			return;
 		}
 
-		if($('#oetPDTPriceSellPercent').val() == ''){
-			$('#oetPDTPriceSellPercent').focus();
-			return;
-		}
-		
 		$.ajax({
 			type	: "POST",
 			url		: ptRoute,

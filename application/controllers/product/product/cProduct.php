@@ -84,15 +84,25 @@ class cProduct extends CI_Controller {
 				'FTSplCode'			=> $this->input->post('oetPDTSPL'),
 				'FTMolCode'			=> $this->input->post('oetPDTModal'),
 				'FCPdtCostStd'		=> $this->input->post('oetPDTCost'),
-				'FTPdtCostDis'		=> $this->input->post('oetPDTCostPercent'),
-				'FCPdtSalPrice'		=> $this->input->post('oetPDTPriceSellPercent'),
+				'FTPdtCostDis'		=> ($this->input->post('oetPDTCostPercent') == '' ) ? 0 : $this->input->post('oetPDTCostPercent'),
+				'FCPdtSalPrice'		=> ($this->input->post('oetPDTPriceSellPercent') == '' ) ? 0 : $this->input->post('oetPDTPriceSellPercent'),
 				'FTPdtImage'		=> $this->input->post('oetImgInsertorEditproducts'),
 				'FTPdtReason'		=> $this->input->post('oetPDTReason'),
 				'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
 				'FDCreateOn'		=> date('Y-m-d H:i:s'),
-				'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+				'FDUpdateOn'		=> date('Y-m-d H:i:s')
 			);
 			$this->mProduct->FSxMPDTInsert($aInsertPDT);
+
+			//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
+			$paData = array(
+				"tPdtCode"		=> $this->input->post('oetPDTCode'),
+				"dDateActive"	=> ''
+			);
+			FCNaHPDCAdjPdtCost($paData);
+
 			echo 'pass_insert';
 		}
 	}
@@ -111,7 +121,7 @@ class cProduct extends CI_Controller {
 				echo 'Duplicate';
 			}else{
 				$aSetUpdate = array(
-					'FTBchCode'			=> '',
+					'FTBchCode'			=> '', 
 					'FTPdtName'			=> $this->input->post('oetPDTName'),
 					'FTPdtNameOth'		=> $this->input->post('oetPDTNameOther'),
 					'FTPdtDesc'			=> $this->input->post('oetPDTDetail'),
@@ -124,8 +134,8 @@ class cProduct extends CI_Controller {
 					'FTSplCode'			=> $this->input->post('oetPDTSPL'),
 					'FTMolCode'			=> $this->input->post('oetPDTModal'),
 					'FCPdtCostStd'		=> $this->input->post('oetPDTCost'),
-					'FTPdtCostDis'		=> $this->input->post('oetPDTCostPercent'),
-					'FCPdtSalPrice'		=> $this->input->post('oetPDTPriceSellPercent'),
+					'FTPdtCostDis'		=> ($this->input->post('oetPDTCostPercent') == '' ) ? 0 : $this->input->post('oetPDTCostPercent'),
+					'FCPdtSalPrice'		=> ($this->input->post('oetPDTPriceSellPercent') == '' ) ? 0 : $this->input->post('oetPDTPriceSellPercent'),
 					'FTPdtImage'		=> $this->input->post('oetImgInsertorEditproducts'),
 					'FTPdtReason'		=> $this->input->post('oetPDTReason'),
 					'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
@@ -136,6 +146,14 @@ class cProduct extends CI_Controller {
 					'FTPdtCode'			=> $this->input->post('ohdProductCode')
 				);
 				$this->mProduct->FSxMPDTUpdate($aSetUpdate,$aWhereUpdate);
+
+				//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
+				$paData = array(
+					"tPdtCode"		=> $this->input->post('ohdProductCode'),
+					"dDateActive"	=> ''
+				);
+				FCNaHPDCAdjPdtCost($paData);
+
 				echo 'pass_update';
 			}
 		}catch(Exception $Error){
