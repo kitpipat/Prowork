@@ -359,3 +359,11 @@ table tbody .xCNTableGroupMenu{
     margin: -25px -25px 20px -25px !important;
 	padding: 5px 20px;
 }
+
+.xCNResultSellPrice{
+	background: #c7fbbb;
+    text-align: right;
+    font-weight: bold;
+    padding: 0px 10px;
+    height: 35px;
+}

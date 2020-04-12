@@ -65,90 +65,79 @@ class cProduct extends CI_Controller {
 
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCPDTEventInsert(){
-		$aLastCode 	= $this->mProduct->FSaMPDTGetLastPDTcode();
-		if($aLastCode['rtCode'] == 800){
-			$tFormatCode = 'P000001';
+		$aCheckDuplicate 	= $this->mProduct->FSaMPDTCheckCodeDuplicate($this->input->post('oetPDTCode'),'');
+		if($aCheckDuplicate['rtCode'] == 1){
+			echo 'Duplicate';
 		}else{
-			$nLastCode 		= $aLastCode['raItems'][0]['FTCstCode'];
-			$aCode			= explode('P',$nLastCode);
-			$nNumber		= $aCode[1] + 1;
-			$nCountNumber	= count($nNumber);
-			if($nCountNumber == 1){
-				$tFormat 		= '00000';
-			}else if($nCountNumber == 2){
-				$tFormat 		= '0000';
-			}else if($nCountNumber == 3){
-				$tFormat 		= '000';
-			}else if($nCountNumber == 1){
-				$tFormat 		= '00';
-			}else{
-				$tFormat 		= '0';
-			}
-
-			$tFormatCode = 'P' . str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
+			$aInsertPDT = array(
+				'FTPdtCode'			=> $this->input->post('oetPDTCode'),
+				'FTBchCode'			=> '',
+				'FTPdtName'			=> $this->input->post('oetPDTName'),
+				'FTPdtNameOth'		=> $this->input->post('oetPDTNameOther'),
+				'FTPdtDesc'			=> $this->input->post('oetPDTDetail'),
+				'FTPunCode'			=> $this->input->post('oetPDTPunCode'),
+				'FTPgpCode'			=> $this->input->post('oetPDTGroup'),
+				'FTPtyCode'			=> $this->input->post('oetPDTType'),
+				'FTPbnCode'			=> $this->input->post('oetPDTBrand'),
+				'FTPzeCode'			=> $this->input->post('oetPDTSize'),
+				'FTPClrCode'		=> $this->input->post('oetPDTColor'),
+				'FTSplCode'			=> $this->input->post('oetPDTSPL'),
+				'FTMolCode'			=> $this->input->post('oetPDTModal'),
+				'FCPdtCostStd'		=> $this->input->post('oetPDTCost'),
+				'FTPdtCostDis'		=> $this->input->post('oetPDTCostPercent'),
+				'FCPdtSalPrice'		=> $this->input->post('oetPDTPriceSellPercent'),
+				'FTPdtImage'		=> $this->input->post('oetImgInsertorEditproducts'),
+				'FTPdtReason'		=> $this->input->post('oetPDTReason'),
+				'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
+				'FDCreateOn'		=> date('Y-m-d H:i:s'),
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mProduct->FSxMPDTInsert($aInsertPDT);
+			echo 'pass_insert';
 		}
-
-		$aInsertPDTePDT = array(
-			'FTPdtCode'			=> $tFormatCode,
-			'FTBchCode'			=> '',
-			'FTPdtName'			=> $this->input->post('ptCode'),
-			'FTPdtNameOth'		=> $this->input->post('ptCode'),
-			'FTPdtDesc'			=> $this->input->post('ptCode'),
-			'FTPunCode'			=> $this->input->post('ptCode'),
-			'FTPgpCode'			=> $this->input->post('ptCode'),
-			'FTPtyCode'			=> $this->input->post('ptCode'),
-			'FTPbnCode'			=> $this->input->post('ptCode'),
-			'FTPzeCode'			=> $this->input->post('ptCode'),
-			'FTPClrCode'		=> $this->input->post('ptCode'),
-			'FTSplCode'			=> $this->input->post('ptCode'),
-			'FTMolCode'			=> $this->input->post('ptCode'),
-			'FCPdtCostStd'		=> $this->input->post('ptCode'),
-			'FTPdtCostDis'		=> $this->input->post('ptCode'),
-			'FCPdtSalPrice'		=> $this->input->post('ptCode'),
-			'FTPdtImage'		=> $this->input->post('ptCode'),
-			'FTPdtStatus'		=> $this->input->post('ptCode'),
-			'FDCreateOn'		=> date('Y-m-d H:i:s'),
-			'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
-		);
-		$this->mProduct->FSxMPDTInsert($aInsertPDTePDT);
-		echo 'pass_insert';
 	}
 
 	//ลบ
 	public function FSxCPDTEventDelete(){
-		$tCode = $this->input->post('FTPdtCode');
+		$tCode = $this->input->post('ptCode');
 		$this->mProduct->FSaMPDTDelete($tCode);
 	}
 
 	//อีเว้นท์แก้ไข
 	public function FSxCPDTEventEdit(){
 		try{
-			$aSetUpdate = array(
-				'FTBchCode'			=> '',
-				'FTPdtName'			=> $this->input->post('ptCode'),
-				'FTPdtNameOth'		=> $this->input->post('ptCode'),
-				'FTPdtDesc'			=> $this->input->post('ptCode'),
-				'FTPunCode'			=> $this->input->post('ptCode'),
-				'FTPgpCode'			=> $this->input->post('ptCode'),
-				'FTPtyCode'			=> $this->input->post('ptCode'),
-				'FTPbnCode'			=> $this->input->post('ptCode'),
-				'FTPzeCode'			=> $this->input->post('ptCode'),
-				'FTPClrCode'		=> $this->input->post('ptCode'),
-				'FTSplCode'			=> $this->input->post('ptCode'),
-				'FTMolCode'			=> $this->input->post('ptCode'),
-				'FCPdtCostStd'		=> $this->input->post('ptCode'),
-				'FTPdtCostDis'		=> $this->input->post('ptCode'),
-				'FCPdtSalPrice'		=> $this->input->post('ptCode'),
-				'FTPdtImage'		=> $this->input->post('ptCode'),
-				'FTPdtStatus'		=> $this->input->post('ptCode'),
-				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
-				'FDUpdateOn'		=> date('Y-m-d H:i:s')
-			);
-			$aWhereUpdate = array(
-				'FTPdtCode'			=> $this->input->post('xxxx')
-			);
-			$this->mProduct->FSxMPDTUpdate($aSetUpdate,$aWhereUpdate);
-			echo 'pass_update';
+			$aCheckDuplicate 	= $this->mProduct->FSaMPDTCheckCodeDuplicate($this->input->post('oetPDTCode'),$this->input->post('ohdProductCode'));
+			if($aCheckDuplicate['rtCode'] == 1){
+				echo 'Duplicate';
+			}else{
+				$aSetUpdate = array(
+					'FTBchCode'			=> '',
+					'FTPdtName'			=> $this->input->post('oetPDTName'),
+					'FTPdtNameOth'		=> $this->input->post('oetPDTNameOther'),
+					'FTPdtDesc'			=> $this->input->post('oetPDTDetail'),
+					'FTPunCode'			=> $this->input->post('oetPDTPunCode'),
+					'FTPgpCode'			=> $this->input->post('oetPDTGroup'),
+					'FTPtyCode'			=> $this->input->post('oetPDTType'),
+					'FTPbnCode'			=> $this->input->post('oetPDTBrand'),
+					'FTPzeCode'			=> $this->input->post('oetPDTSize'),
+					'FTPClrCode'		=> $this->input->post('oetPDTColor'),
+					'FTSplCode'			=> $this->input->post('oetPDTSPL'),
+					'FTMolCode'			=> $this->input->post('oetPDTModal'),
+					'FCPdtCostStd'		=> $this->input->post('oetPDTCost'),
+					'FTPdtCostDis'		=> $this->input->post('oetPDTCostPercent'),
+					'FCPdtSalPrice'		=> $this->input->post('oetPDTPriceSellPercent'),
+					'FTPdtImage'		=> $this->input->post('oetImgInsertorEditproducts'),
+					'FTPdtReason'		=> $this->input->post('oetPDTReason'),
+					'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
+					'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+					'FDUpdateOn'		=> date('Y-m-d H:i:s')
+				);
+				$aWhereUpdate = array(
+					'FTPdtCode'			=> $this->input->post('ohdProductCode')
+				);
+				$this->mProduct->FSxMPDTUpdate($aSetUpdate,$aWhereUpdate);
+				echo 'pass_update';
+			}
 		}catch(Exception $Error){
             echo $Error;
         }

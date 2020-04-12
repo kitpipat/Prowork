@@ -24,6 +24,8 @@
 		$FTPdtImage 		= $aResult[0]['FTPdtImage'];
 		$FTPdtStatus		= $aResult[0]['FTPdtStatus'];
 		$FTPdtReason		= $aResult[0]['FTPdtReason'];
+		$FDCreateOn			= date('d/m/Y',strtotime($aResult[0]['FDCreateOn']));
+		$FDUpdateOn			= date('d/m/Y',strtotime($aResult[0]['FDUpdateOn']));
 		$tRoute 			= 'r_producteventedit';
 		$tRouteUrl			= 'แก้ไขสินค้า';
 	}
@@ -69,17 +71,23 @@
 
 					<!--รายละเอียด-->
 					<div class="col-lg-5 col-md-5">
-						<div style="display: block; text-align: right;"><span> วันที่สร้างข้อมูล : <?=date('d/m/Y')?> </span> <span> ปรับปรุงล่าสุด : N/A </span></div>
+
+						<?php if($tTypePage == 'insert'){ ?>
+							<div style="display: block; text-align: right;"><span> วันที่สร้างข้อมูล : <?=date('d/m/Y')?> </span></div>
+						<?php }else{ ?>
+							<div style="display: block; text-align: right;"><span> วันที่สร้างข้อมูล : <?=@$FDCreateOn?> </span> <span> ปรับปรุงล่าสุด : <?=@$FDUpdateOn?> </span></div>
+						<?php } ?>
+
 						
 						<!--รหัสสินค้า-->
 						<div class="form-group">
-							<label>รหัสสินค้า</label>
+							<label><span style="color:red;">*</span> รหัสสินค้า</label>
 							<input type="text" class="form-control" maxlength="50" id="oetPDTCode" name="oetPDTCode" placeholder="กรุณาระบุรหัสสินค้า" autocomplete="off" value="<?=@$FTPdtCode;?>">
 						</div>
 
 						<!--ชื่อสินค้า-->
 						<div class="form-group">
-							<label>ชื่อสินค้า</label>
+							<label><span style="color:red;">*</span> ชื่อสินค้า</label>
 							<input type="text" class="form-control" maxlength="255" id="oetPDTName" name="oetPDTName" placeholder="กรุณาระบุชื่อสินค้า" autocomplete="off" value="<?=@$FTPdtName;?>">
 						</div>
 
@@ -100,11 +108,7 @@
 							<input type="checkbox" id="ocmPDTStaUse" name="ocmPDTStaUse" <?=@$FTPdtStatus == '1' ? 'checked' : ''; ?>>
 							<span class="checkmark"></span>
 						</label>
-
 					</div>
-
-
-
 				</div>
 			</div>
 		</div>
@@ -114,7 +118,7 @@
 		<div class="row">
 
 			<!--ข้อมูลอื่นๆ-->
-			<div class="col-lg-4">
+			<div class="col-lg-6">
 				<div class="card">
 					<div class="card-body">
 						<div class="row">
@@ -241,95 +245,101 @@
 				</div>
 			</div>
 
-			<!--ต้นทุนสินค้า และราคาขาย-->
-			<div class="col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="xCNHeadFooterINPDT"><span> ต้นทุนสินค้า และราคาขาย </span></div>
-							</div>
-							<div class="col-lg-12">
+			<div class="col-lg-6">
+				<div class="row">
+					<!--ต้นทุนสินค้า และราคาขาย-->
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="xCNHeadFooterINPDT"><span> ต้นทุนสินค้า และราคาขาย </span></div>
+									</div>
+									<div class="col-lg-12">
 
-								<!--ผู้จำหน่าย-->
-								<div class="form-group">
-									<label>ผู้จำหน่าย</label>
-									<select class="form-control" id="oetPDTSPL" name="oetPDTSPL">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Spl['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>
-											<?php foreach($aFilter_Spl['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTSplCode == $aValue['FTSplCode'])? "selected" : "";?> value="<?=$aValue['FTSplCode'];?>"><?=$aValue['FTSplName'];?></option>
+										<!--ผู้จำหน่าย-->
+										<div class="form-group">
+											<label>ผู้จำหน่าย</label>
+											<select class="form-control" id="oetPDTSPL" name="oetPDTSPL">
+												<option selected disabled>กรุณาเลือกข้อมูล</option>
+												<?php if($aFilter_Spl['rtCode'] == 800){ ?>
+													<option value="0">ไม่ระบุข้อมูล</option>
+												<?php }else{ ?> 
+													<option value="0">ไม่ระบุข้อมูล</option>
+													<?php foreach($aFilter_Spl['raItems'] AS $nKey => $aValue){ ?>
+														<option <?=(@$FTSplCode == $aValue['FTSplCode'])? "selected" : "";?> value="<?=$aValue['FTSplCode'];?>"><?=$aValue['FTSplName'];?></option>
+													<?php } ?>
+												<?php } ?>
+											</select>
+										</div>			
+														
+										<div class="row">
+											<div class="col-lg-6"> 
+												<!--ต้นทุนมาตราฐาน-->
+												<div class="form-group">
+													<label><span style="color:red;">*</span> ต้นทุนมาตราฐาน</label>
+													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="50" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off" value="<?=@$FCPdtCostStd?>">
+												</div>
+											</div>
+
+											<div class="col-lg-6"> 
+												<!--ส่วนลดต้นทุน %-->
+												<div class="form-group">
+													<label>ส่วนลดต้นทุน (%)</label>
+													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="50" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="10,20,30" autocomplete="off" value="<?=@$FTPdtCostDis?>">
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+
+											<?php if($tTypePage == 'insert'){
+												$tColummnSumFooter = 'col-lg-12';
+											}else{ 
+												$tColummnSumFooter = 'col-lg-6';
+											} ?>
+
+											<div class="<?=$tColummnSumFooter?>"> 
+												<!--ขายบวกเพิ่มจากต้นทุน %-->
+												<div class="form-group">
+													<label><span style="color:red;">*</span> ขายบวกเพิ่มจากต้นทุน (%)</label>
+													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="3" id="oetPDTPriceSellPercent" name="oetPDTPriceSellPercent" placeholder="0 - 100" autocomplete="off" value="<?=@$FCPdtSalPrice?>">
+												</div>
+											</div>
+
+											<?php if($tTypePage != 'insert'){ ?>
+												<div class="col-lg-6"> 
+													<div class="form-group">
+														<label>ราคาขาย</label>
+														<div class="xCNResultSellPrice"> 9,000.00.- </div>
+													</div>
+												</div>
 											<?php } ?>
-										<?php } ?>
-									</select>
-								</div>			
-												
-								<div class="row">
-									<div class="col-lg-6"> 
-										<!--ต้นทุนมาตราฐาน-->
-										<div class="form-group">
-											<label>ต้นทุนมาตราฐาน</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="50" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off">
 										</div>
+
+
 									</div>
 
-									<div class="col-lg-6"> 
-										<!--ส่วนลดต้นทุน %-->
-										<div class="form-group">
-											<label>ส่วนลดต้นทุน (%)</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="3" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="0 - 100" autocomplete="off">
-										</div>
-									</div>
 								</div>
-
-								<div class="row">
-
-									<?php if($tTypePage == 'insert'){
-										$tColummnSumFooter = 'col-lg-12';
-									}else{ 
-										$tColummnSumFooter = 'col-lg-6';
-									} ?>
-
-									<div class="<?=$tColummnSumFooter?>"> 
-										<!--ขายบวกเพิ่มจากต้นทุน %-->
-										<div class="form-group">
-											<label>ขายบวกเพิ่มจากต้นทุน (%)</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="3" id="oetPDTPriceSellPercent" name="oetPDTPriceSellPercent" placeholder="0 - 100" autocomplete="off">
-										</div>
-									</div>
-
-									<?php if($tTypePage != 'insert'){ ?>
-										<div class="form-group">
-											<label>ราคาขาย</label>
-											<!-- <input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="3" id="oetPDTPriceSellPercent" name="oetPDTPriceSellPercent" placeholder="0 - 100" autocomplete="off"> -->
-										</div>
-									<?php } ?>
-								</div>
-
-
 							</div>
-
 						</div>
 					</div>
-				</div>
-			</div>
 
-			<!--หมายเหตุ-->
-			<div class="col-lg-4">
-				<div class="card">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="xCNHeadFooterINPDT"><span> หมายเหตุ </span></div>
-							</div>
-							<div class="col-lg-12">
-								<!--หมายเหตุ-->
-								<div class="form-group">
-									<label>หมายเหตุ</label>
-									<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="7"><?=@$FTPdtReason;?></textarea>
+					<!--หมายเหตุ-->
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="xCNHeadFooterINPDT"><span> หมายเหตุ </span></div>
+									</div>
+									<div class="col-lg-12">
+										<!--หมายเหตุ-->
+										<div class="form-group" style="margin-bottom: 0.75rem;">
+											<label>หมายเหตุ</label>
+											<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="7"><?=@$FTPdtReason;?></textarea>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -345,14 +355,44 @@
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 
+	$( document ).ready(function() {
+		//ห้ามคีย์เกิน 100
+		$('#oetPDTPriceSellPercent').change(function(e) {
+			var tSUPVat = $(this).val();
+			if(tSUPVat > 100){
+				$(this).val(100);
+			}
+		});					
+	});
+
+	//อัพโหลดรูปภาพ
+	function JSxUploadImageproducts(){
+		$('#inputfileuploadImage').click(); 
+	}
+
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
 
-		if($('#oetBANName').val() == ''){
-			$('#oetBANName').focus();
+		if($('#oetPDTCode').val() == ''){
+			$('#oetPDTCode').focus();
 			return;
 		}
 
+		if($('#oetPDTName').val() == ''){
+			$('#oetPDTName').focus();
+			return;
+		}
+
+		if($('#oetPDTCost').val() == ''){
+			$('#oetPDTCost').focus();
+			return;
+		}
+
+		if($('#oetPDTPriceSellPercent').val() == ''){
+			$('#oetPDTPriceSellPercent').focus();
+			return;
+		}
+		
 		$.ajax({
 			type	: "POST",
 			url		: ptRoute,
@@ -360,7 +400,16 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				if(tResult == 'pass_insert'){
+				if(tResult == 'Duplicate'){
+					$('.alert-danger').addClass('show').fadeIn();
+					$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
+					$('.alert-danger').find('.xCNTextShow').text('รหัสสินค้านี้มีอยู่แล้วในระบบ กรุณาใส่ชื่อรหัสสินค้าใหม่อีกครั้ง');
+					$('#oetPDTCode').val('');
+					$('#oetPDTCode').focus();
+					setTimeout(function(){
+						$('.alert-danger').find('.close').click();
+					}, 3000);
+				}else if(tResult == 'pass_insert'){
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนสินค้าสำเร็จ');

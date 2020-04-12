@@ -7,7 +7,7 @@ class mProduct extends CI_Model {
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
-		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTPzeCode ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FDCreateOn DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
 						PDT.FTPdtCode,
 						PDT.FTBchCode,
@@ -26,6 +26,7 @@ class mProduct extends CI_Model {
 						PDT.FTPdtCostDis,
 						PDT.FCPdtSalPrice,
 						PDT.FTPdtImage,
+						PDT.FDCreateOn,
 						PDT.FTPdtStatus,
 						BAP.FTPbnName,
 						COP.FTPClrName,
@@ -148,19 +149,24 @@ class mProduct extends CI_Model {
 	}
 
 	//หาข้อมูลล่าสุด
-	public function FSaMPDTGetLastPDTcode(){
-		$tSQL = "SELECT TOP 1 FTPdtCode FROM TCNMPdt ORDER BY FTPdtCode DESC ";
+	public function FSaMPDTCheckCodeDuplicate($ptCheckCode,$ptCode){
+		$tSQL = " SELECT * FROM TCNMPdt PDT";
+		$tSQL .= " WHERE PDT.FTPdtCode = '$ptCheckCode' ";
+
+		if($ptCode != ''){
+			$tSQL .= " AND FTPdtCode NOT IN ('$ptCode')";
+		}
+
 		$oQuery = $this->db->query($tSQL);
 		if($oQuery->num_rows() > 0){
 			$aResult = array(
-				'raItems'  => $oQuery->result_array(),
 				'rtCode'   => '1',
-				'rtDesc'   => 'success',
+				'rtDesc'   => 'duplication',
 			);
 		}else{
 			$aResult = array(
 				'rtCode' => '800',
-				'rtDesc' => 'data not found',
+				'rtDesc' => 'pass',
 			);
 		}
 		return $aResult;
@@ -186,7 +192,7 @@ class mProduct extends CI_Model {
 	}
 
 	//หาข้อมูลจาก ไอดี
-	public function FSaMPDTGetDataPDTeProductBYID($ptCode){
+	public function FSaMPDTGetDataBYID($ptCode){
 		$tSQL = " SELECT * FROM TCNMPdt PDT";
 		$tSQL .= " WHERE PDT.FTPdtCode = '$ptCode' ";
 		$oQuery = $this->db->query($tSQL);
