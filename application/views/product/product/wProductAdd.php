@@ -23,6 +23,7 @@
 		$FCPdtSalPrice 		= $aResult[0]['FCPdtSalPrice'];
 		$FTPdtImage 		= $aResult[0]['FTPdtImage'];
 		$FTPdtStatus		= $aResult[0]['FTPdtStatus'];
+		$FTPdtReason		= $aResult[0]['FTPdtReason'];
 		$tRoute 			= 'r_producteventedit';
 		$tRouteUrl			= 'แก้ไขสินค้า';
 	}
@@ -67,14 +68,39 @@
 					</div>
 
 					<!--รายละเอียด-->
-					<div class="col-lg-8 col-md-8">
+					<div class="col-lg-5 col-md-5">
 						<div style="display: block; text-align: right;"><span> วันที่สร้างข้อมูล : <?=date('d/m/Y')?> </span> <span> ปรับปรุงล่าสุด : N/A </span></div>
 						
+						<!--รหัสสินค้า-->
+						<div class="form-group">
+							<label>รหัสสินค้า</label>
+							<input type="text" class="form-control" maxlength="50" id="oetPDTCode" name="oetPDTCode" placeholder="กรุณาระบุรหัสสินค้า" autocomplete="off" value="<?=@$FTPdtCode;?>">
+						</div>
+
 						<!--ชื่อสินค้า-->
 						<div class="form-group">
 							<label>ชื่อสินค้า</label>
-							<input type="text" class="form-control" maxlength="100" id="oetPDTName" name="oetPDTName" placeholder="กรุณาระบุชื่อสินค้า" autocomplete="off" value="<?=@$FTPdtCode;?>">
+							<input type="text" class="form-control" maxlength="255" id="oetPDTName" name="oetPDTName" placeholder="กรุณาระบุชื่อสินค้า" autocomplete="off" value="<?=@$FTPdtName;?>">
 						</div>
+
+						<!--ชื่ออื่น-->
+						<div class="form-group">
+							<label>ชื่ออื่น</label>
+							<input type="text" class="form-control" maxlength="255" id="oetPDTNameOther" name="oetPDTNameOther" placeholder="กรุณาระบุชื่อสินค้าอื่น" autocomplete="off" value="<?=@$FTPdtNameOth;?>">
+						</div>
+
+						<!--รายละเอียด-->
+						<div class="form-group">
+							<label>รายละเอียด</label>
+							<textarea type="text" class="form-control" id="oetPDTDetail" name="oetPDTDetail" placeholder="รายละเอียด" rows="3"><?=@$FTPdtDesc;?></textarea>
+						</div>
+
+						<!--สถานะการติดต่อ-->
+						<label class="container-checkbox">สถานะการใช้งาน
+							<input type="checkbox" id="ocmPDTStaUse" name="ocmPDTStaUse" <?=@$FTPdtStatus == '1' ? 'checked' : ''; ?>>
+							<span class="checkmark"></span>
+						</label>
+
 					</div>
 
 
@@ -82,6 +108,237 @@
 				</div>
 			</div>
 		</div>
+
+
+		<!--Section ล่าง-->
+		<div class="row">
+
+			<!--ข้อมูลอื่นๆ-->
+			<div class="col-lg-4">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="xCNHeadFooterINPDT"><span> ข้อมูลอื่นๆ </span></div>
+							</div>
+							<div class="col-lg-12">
+
+								<!--ยี่ห้อ-->
+								<div class="form-group">
+									<label>ยี่ห้อ</label>
+									<select class="form-control" id="oetPDTBrand" name="oetPDTBrand">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Brand['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>	
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>	
+											<?php foreach($aFilter_Brand['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTPbnCode == $aValue['FTPbnCode'])? "selected" : "";?> value="<?=$aValue['FTPbnCode'];?>"><?=$aValue['FTPbnName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>
+
+								<!--สี-->
+								<div class="form-group">
+									<label>สี</label>
+									<select class="form-control" id="oetPDTColor" name="oetPDTColor">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Color['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>
+											<?php foreach($aFilter_Color['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTPClrCode == $aValue['FTPClrCode'])? "selected" : "";?> value="<?=$aValue['FTPClrCode'];?>"><?=$aValue['FTPClrName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>
+
+								<!--กลุ่ม-->
+								<div class="form-group">
+									<label>กลุ่มสินค้า</label>
+									<select class="form-control" id="oetPDTGroup" name="oetPDTGroup">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Group['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>
+											<?php foreach($aFilter_Group['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTPgpCode == $aValue['FTPgpCode'])? "selected" : "";?> value="<?=$aValue['FTPgpCode'];?>"><?=$aValue['FTPgpName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>
+
+								<!--รุ่น-->
+								<div class="form-group">
+									<label>รุ่น</label>
+									<select class="form-control" id="oetPDTModal" name="oetPDTModal">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Modal['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>
+											<?php foreach($aFilter_Modal['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTMolCode == $aValue['FTMolCode'])? "selected" : "";?> value="<?=$aValue['FTMolCode'];?>"><?=$aValue['FTMolName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>
+
+								<!--ขนาด-->
+								<div class="form-group">
+									<label>ขนาด</label>
+									<select class="form-control" id="oetPDTSize" name="oetPDTSize">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Size['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>
+											<?php foreach($aFilter_Size['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTPzeCode == $aValue['FTPzeCode'])? "selected" : "";?> value="<?=$aValue['FTPzeCode'];?>"><?=$aValue['FTPzeName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>
+
+								<!--ประเภท-->
+								<div class="form-group">
+									<label>ประเภท</label>
+									<select class="form-control" id="oetPDTType" name="oetPDTType">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Type['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>
+											<?php foreach($aFilter_Type['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTPtyCode == $aValue['FTPtyCode'])? "selected" : "";?> value="<?=$aValue['FTPtyCode'];?>"><?=$aValue['FTPtyName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>
+
+								<!--หน่วย-->
+								<div class="form-group">
+									<label>หน่วย</label>
+									<select class="form-control" id="oetPDTPunCode" name="oetPDTPunCode">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Unit['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>
+											<?php foreach($aFilter_Unit['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTPunCode == $aValue['FTPunCode'])? "selected" : "";?> value="<?=$aValue['FTPunCode'];?>"><?=$aValue['FTPunName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--ต้นทุนสินค้า และราคาขาย-->
+			<div class="col-lg-4">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="xCNHeadFooterINPDT"><span> ต้นทุนสินค้า และราคาขาย </span></div>
+							</div>
+							<div class="col-lg-12">
+
+								<!--ผู้จำหน่าย-->
+								<div class="form-group">
+									<label>ผู้จำหน่าย</label>
+									<select class="form-control" id="oetPDTSPL" name="oetPDTSPL">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Spl['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>
+											<?php foreach($aFilter_Spl['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTSplCode == $aValue['FTSplCode'])? "selected" : "";?> value="<?=$aValue['FTSplCode'];?>"><?=$aValue['FTSplName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>			
+												
+								<div class="row">
+									<div class="col-lg-6"> 
+										<!--ต้นทุนมาตราฐาน-->
+										<div class="form-group">
+											<label>ต้นทุนมาตราฐาน</label>
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="50" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off">
+										</div>
+									</div>
+
+									<div class="col-lg-6"> 
+										<!--ส่วนลดต้นทุน %-->
+										<div class="form-group">
+											<label>ส่วนลดต้นทุน (%)</label>
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="3" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="0 - 100" autocomplete="off">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+
+									<?php if($tTypePage == 'insert'){
+										$tColummnSumFooter = 'col-lg-12';
+									}else{ 
+										$tColummnSumFooter = 'col-lg-6';
+									} ?>
+
+									<div class="<?=$tColummnSumFooter?>"> 
+										<!--ขายบวกเพิ่มจากต้นทุน %-->
+										<div class="form-group">
+											<label>ขายบวกเพิ่มจากต้นทุน (%)</label>
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="3" id="oetPDTPriceSellPercent" name="oetPDTPriceSellPercent" placeholder="0 - 100" autocomplete="off">
+										</div>
+									</div>
+
+									<?php if($tTypePage != 'insert'){ ?>
+										<div class="form-group">
+											<label>ราคาขาย</label>
+											<!-- <input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="3" id="oetPDTPriceSellPercent" name="oetPDTPriceSellPercent" placeholder="0 - 100" autocomplete="off"> -->
+										</div>
+									<?php } ?>
+								</div>
+
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--หมายเหตุ-->
+			<div class="col-lg-4">
+				<div class="card">
+					<div class="card-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="xCNHeadFooterINPDT"><span> หมายเหตุ </span></div>
+							</div>
+							<div class="col-lg-12">
+								<!--หมายเหตุ-->
+								<div class="form-group">
+									<label>หมายเหตุ</label>
+									<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="7"><?=@$FTPdtReason;?></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
 	</form>
 <div>
 

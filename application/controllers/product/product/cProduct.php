@@ -21,7 +21,7 @@ class cProduct extends CI_Controller {
 		$this->load->view('product/product/wProductMain',$aFilter);
 	}
 
-	//โหลดข้อมูลไซด์
+	//โหลดข้อมูลสินค้า
 	public function FSwCPDTLoadDatatable(){
 		$nPage = $this->input->post('nPage');
 		$aCondition = array(
@@ -38,7 +38,7 @@ class cProduct extends CI_Controller {
 		$this->load->view('product/product/wProductDatatable',$aPackData);
 	}
 
-	//โหลดหน้าจอเพื่มไซด์ + แก้ไขไซด์
+	//โหลดหน้าจอเพื่มสินค้า + แก้ไขสินค้า
 	public function FSwCPDTCallPageInsertorEdit(){
 		$tTypePage = $this->input->post('tTypepage');
 		if($tTypePage == 'insert'){
@@ -49,6 +49,14 @@ class cProduct extends CI_Controller {
 		}
 
 		$aPackData = array(
+			'aFilter_Brand'     => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtBrand'),
+			'aFilter_Color'     => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtColor'),
+			'aFilter_Group'     => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtGrp'),
+			'aFilter_Modal'     => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtModal'),
+			'aFilter_Size'      => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtSize'),
+			'aFilter_Type'      => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtType'),
+			'aFilter_Unit'      => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtUnit'),
+			'aFilter_Spl'       => $this->mProduct->FSaMPDTGetData_Filter('TCNMSpl'),
 			'tTypePage' 		=> $tTypePage,
 			'aResult'			=> $aResult
 		);

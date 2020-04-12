@@ -4,7 +4,7 @@
 		<!--Filter ค้นหาขั้นสูง-->
 		<div class="col-lg-3 xCNFilterAdvParent">
 			<!--ตัวกรองค้นหา-->
-			<div class="xCNFilterSearch">
+			<div class="xCNFilterSearch xCNFilterBlockHide">
 				<div class="row">
 
 					<div class="xCNFilterAdvSub">
@@ -78,7 +78,7 @@
 								</div>
 							<?php } ?> 
 
-							<!--ขนาด-->
+							<!--ประเภท-->
 							<?php if($aFilter_Type['rtCode'] != 800){ ?>
 								<div class="form-group">
 									<label><b>ประเภท</b></label>
@@ -125,7 +125,7 @@
 		</div>
 
 		<!--แสดงข้อมูลสินค้า-->
-		<div class="col-lg-9 xCNContentProduct">
+		<div class="col-lg-12 xCNContentProduct">
 			<!--Section บน-->
 			<div class="row">
 				<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">สินค้า</span></div>
@@ -175,6 +175,7 @@
 	//คำนวณหน้าจอ
 	JSxCalculateWidthFilterAdv();
 	function JSxCalculateWidthFilterAdv(){
+
 		//โหลดครั้งเเรก
 		var nWidth = $('.xCNFilterAdvParent').width();
 		$('.xCNFilterSearch').css('width', nWidth +'px');
@@ -198,11 +199,11 @@
 			$('.xCNFilterSearch').removeClass("xCNFilterBlockShow");
 			$('.xCNFilterSearch').addClass("xCNFilterBlockHide");
 
-		// 	//Content
+			//Content
 			$('.xCNContentProduct').addClass('xCNUseFilter12');
 			$('.xCNContentProduct').addClass('col-lg-12');
 		}else{
-		// 	//Filter
+			//Filter
 			$('.xCNFilterSearch').removeClass("xCNFilterBlockHide");
 			$('.xCNFilterSearch').addClass("xCNFilterBlockShow");
 

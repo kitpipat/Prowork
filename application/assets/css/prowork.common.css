@@ -351,3 +351,11 @@ table tbody .xCNTableGroupMenu{
 .page-link{
 	padding: 2px 12px !important;
 }
+
+
+.xCNHeadFooterINPDT{
+	background: #67717d;
+    color: #FFF;
+    margin: -25px -25px 20px -25px !important;
+	padding: 5px 20px;
+}
