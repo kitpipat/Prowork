@@ -84,6 +84,7 @@ class cQuotation extends CI_Controller {
 	}
 
 	public function FCaCQUOCallItemsList(){
+
          $tWorkerID = $this->session->userdata('tSesUsercode');
 				 $aConditions = array( "nMode" => 1,
 					                     "tDocNo" => '',
@@ -171,8 +172,10 @@ class cQuotation extends CI_Controller {
 	}
 
 	public function FCwCQUOCallDocPage(){
-		    
-				 $this->load->view("quotation/wQuotationDocForm");
+
+         $tDocNo = $this->input->get("tQuoDocNo");
+				 $aData = array("tDocNo"=>$tDocNo);
+				 $this->load->view("quotation/wQuotationDocForm",$aData);
 	}
 
 }

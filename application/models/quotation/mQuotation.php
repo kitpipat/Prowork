@@ -249,19 +249,23 @@ class mQuotation extends CI_Model {
 		     $tWorkerID = $paFilter['tWorkerID'];
 				 $nMode = $paFilter['nMode'];
 
-         $tSQL = "SELECT D.FNXqdSeq,
-									       D.FTPdtCode,
-									       D.FTPdtName,
-									       D.FCXqdUnitPrice,
-									       D.FCXqdQty,
-									       P.FTPdtImage
+         $tSQL = "SELECT D.FNXqdSeq
+									      ,D.FTPdtCode
+									      ,D.FTPdtName
+									      ,D.FTPunCode
+									      ,D.FTPunName
+									      ,D.FTXqdCost
+									      ,D.FCXqdUnitPrice
+									      ,D.FCXqdQty
+									      ,D.FTSplCode
+									      ,D.FCXqdDis
+									      ,D.FCXqdFootAvg
+												,P.FTPdtImage
 									FROM TARTSqDTTmp D
 									LEFT JOIN TCNMPdt P ON D.FTPdtCode = P.FTPdtCode
-									WHERE 1 = 1 ";
+									WHERE D.FTWorkerID = '".$tWorkerID."'";
 
-									if($nMode == 1){
-										 $tSQL.=" AND D.FTWorkerID = '".$tWorkerID."'";
-									}else{
+									if($tDocNo != ""){
 										 $tSQL.=" AND D.FTXqhDocNo = '".$tDocNo."'";
 									}
 

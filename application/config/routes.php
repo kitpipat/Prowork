@@ -60,6 +60,13 @@ $route['r_quotationeventDelItems'] 		= 'quotation/cQuotation/FCxCQUODelItem';
 $route['r_quotationeventEditItemsQty'] 		= 'quotation/cQuotation/FCxCQUOEditItemQty';
 $route['r_quotationcallsqdoc'] 		= 'quotation/cQuotation/FCwCQUOCallDocPage';
 
+
+//ใบเสนอราคา เอกสาร Step2
+$route['r_quodoccallitems'] 		= 'quotation/cQuotationDoc/FSvCQUODocItems';
+
+
+
+
 //หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
 $route['r_groupproduct'] 						= 'product/groupproduct/cGroupproduct/index';
 $route['r_groupproductload'] 					= 'product/groupproduct/cGroupproduct/FSwCGRPLoadDatatable';

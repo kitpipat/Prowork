@@ -47,7 +47,15 @@
              <div class="row">
                    <div class="col-lg-12">
                          <div style="background:#beecbb;padding:5px;">
-                              เลขที่เอกสาร : SQ202000000001
+                              เลขที่เอกสาร : <span id="ospDocNo" data-docno="<?=$tDocNo?>">
+                                             <?php
+                                                      if($tDocNo == ""){
+                                                          echo "SQ##########";
+                                                      }else{
+                                                          echo $tDocNo;
+                                                      }
+                                              ?>
+                                           </span>
                          </div>
 
                    </div>
@@ -123,7 +131,7 @@
                         <div>
                           หมายเลขอ้างอิง <input type="text" name="" value="" style="width:30%">
                           ประเภทภาษี
-                                      <select class="" name="" style="width:30%">
+                                      <select class="" name="" style="width:30%" id="ocmVatType">
                                             <option value="1">แยกนอก</option>
                                             <option value="2">รวมใน</option>
                                       </select>
@@ -136,35 +144,8 @@
   <div class="card">
        <div class="card-body" style="height:auto">
             <div class="row">
-                <div class="col-lg-12">
-                    <table class="table table-striped">
-                      <tr>
-                        <th>ลำดับ</th>
-                        <th>ลบ</th>
-                        <th>รูปภาพ</th>
-                        <th>รายการ</th>
-                        <th>หน่วย</th>
-                        <th>ราคา/หน่วย</th>
-                        <th>จำนวน</th>
-                        <th>จำนวนเงิน</th>
-                        <th>ส่วนลด</th>
-                        <th>จำนวนเงินรวม</th>
-                      </tr>
-                      <?php for($p = 1;$p<=10;$p++){?>
-                      <tr>
-                        <td><?=$p?></td>
-                        <td>[x]</td>
-                        <td><img src='<img src="<?=base_url('application/assets/images/products/NoImage.png') ?>" alt="...">'></td>
-                        <td>Floor Lamp X22 LED (Warmwhite)</td>
-                        <td>ชิ้น</td>
-                        <td>25000</td>
-                        <td>10</td>
-                        <td>250000</td>
-                        <td>0.00</td>
-                        <td>250000</td>
-                      </tr>
-                     <?php } ?>
-                    </table>
+                <div class="col-lg-12" id="odvQuoDocItems">
+
                 </div>
                 <div class="col-lg-12">
                      <div class="text-left">[+] เพิ่มรายการ</div>
@@ -190,27 +171,27 @@
                         <tr>
                           <td style="width:50%">จำนวนเงินรวม</td>
                           <td style="width:20%"></td>
-                          <td style="width:30%" class="text-right">100.00</td>
+                          <td style="width:30%" class="text-right" id="otdDocNetTotal">100.00</td>
                         </tr>
                         <tr>
                           <td>ส่วนลด</td>
                           <td> <input type="text" name="" value=""> </td>
-                          <td class="text-right">100.00</td>
+                          <td class="text-right">0</td>
                         </tr>
                         <tr>
                           <td>จำนวนเงินหลังหักส่วนลด</td>
                           <td></td>
-                          <td class="text-right">100.00</td>
+                          <td class="text-right" id="otdNetAFHD">100.00</td>
                         </tr>
                         <tr>
-                          <td>ภาษีมูลค่าเพิ่ม</td>
-                          <td> <input type="text" name="" value="7%"> </td>
-                          <td class="text-right">100.00</td>
+                          <td>ภาษีมูลค่าเพิ่ม (%)</td>
+                          <td> <input type="text" name="" value="7" id="oetVatRate"> </td>
+                          <td class="text-right" id="otdVat">100.00</td>
                         </tr>
                         <tr>
                           <td>จำนวนเงินรวมทั้งสิ้น</td>
                           <td></td>
-                          <td class="text-right">100.00</td>
+                          <td class="text-right" id="otdGrandTotal">100.00</td>
                         </tr>
                       </table>
                  </div>
@@ -228,3 +209,8 @@
      min-height: 530px;
    }
 </style>
+
+<script type="text/javascript" src="<?=base_url('application/assets/js/account.js') ?>"></script>
+<?php include ('script/jquotation_doc.php'); ?>
+<link rel="stylesheet" href="<?=base_url('application/assets/css/quotation.css') ?>">
+<link rel="stylesheet" href="<?=base_url('application/assets/css/check-radio.css') ?>">
