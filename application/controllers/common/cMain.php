@@ -97,7 +97,7 @@ class cMain extends CI_Controller {
 			// Set preference 
 			$config['upload_path'] 		= './application/assets/'.$tPath; 
 			$config['allowed_types'] 	= 'zip|rar'; 
-			$config['max_size'] 		= '5120'; // max_size in kb (5 MB) 
+			$config['max_size'] 		= '90000'; // max_size in kb (88.00 MB) 
 			$config['file_name'] 		= $_FILES['file']['name'];
 			$this->load->library('upload',$config); 
 			if($this->upload->do_upload('file')){ 
@@ -114,10 +114,10 @@ class cMain extends CI_Controller {
 					$this->session->set_flashdata('msg','Failed to extract.');
 				}
 			}else{ 
-				$this->session->set_flashdata('msg','Failed to upload');
+				$this->session->set_flashdata('msg','Failed to upload 1 ');
 			} 
 		}else{ 
-			$this->session->set_flashdata('msg','Failed to upload');
+			$this->session->set_flashdata('msg','Failed to upload 2');
 		} 
 	}
 }

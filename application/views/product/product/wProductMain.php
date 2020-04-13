@@ -189,6 +189,27 @@
 	</div>
 <div>
 
+
+
+<button id="obtModalProcess" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalProcess"></button>
+<div class="modal fade" id="odvModalProcess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title">อัพโหลดไฟล์</h5>
+		</div>
+		<div class="modal-body">
+			<label style="text-align: center; display: block;">กรุณารอสักครู่ กำลังตรวจสอบไฟล์รูปภาพ</label>
+			<label style="text-align: center; display: block; font-size: 17px;">โปรดอย่าปิดหน้าจอขณะอัพโหลดไฟล์</label>	
+			<div class="progress" style="height: 25px; width: 100%;">
+				<div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+
+
 <script>	
 	
 	//คำนวณหน้าจอ
@@ -242,15 +263,11 @@
 	function JSxReturnExtractFileImage(){
 		$.ajax({
 			type	: "POST",
-			url		: "r_productload",
-			data 	: {
-						'nPage' 		: pnPage,
-						'tSearchAll' 	: $('#oetSearch').val()
-					  },
+			url		: "r_productCallpageUplodeImage",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				$('#odvContent_Product').html(tResult);
+				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);

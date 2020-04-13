@@ -42,6 +42,9 @@
 				oImgFromZip.append('file',oImgData);
 				oImgFromZip.append('path', ptPath);
 				
+				$('#obtModalProcess').click();
+
+				//อัพโหลดรูปภาพแบบ Zip , rar
 				$.ajax({
 					type 			: "POST",
 					url 			: "ImageUpload_zip",
@@ -50,8 +53,11 @@
 					processData		: false,
 					data 			: oImgFromZip,
 					datatype		: "JSON",
-					success: function (tResult){
-						return window['JSxReturnExtractFileImage'](tResult);
+					complete: function(xhr) {
+						setTimeout(function(){
+							$('#obtModalProcess').click();
+							return window['JSxReturnExtractFileImage']();
+						}, 2000);
 					},
 					error: function (data){
 						console.log(data);

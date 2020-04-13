@@ -164,7 +164,8 @@ class cProduct extends CI_Controller {
 
 	//ไปหน้าของการอัพโหลดรูปภาพ
 	public function FSxCPDTCallpageUplodeImage(){
-		
+		$aPackData = array();
+		$this->load->view('product/product/Import/wDatatable',$aPackData);
 	}
 
 
