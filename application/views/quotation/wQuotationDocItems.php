@@ -6,10 +6,12 @@
     <th>รูปภาพ</th>
     <th>รายการ</th>
     <th>หน่วย</th>
+    <th>ผู้จำหน่าย</th>
+    <th>ต้นทุน</th>
     <th>ราคา/หน่วย</th>
-    <th>จำนวน</th>
+    <th  style="width:80px;">จำนวน</th>
     <th>จำนวนเงิน</th>
-    <th>ส่วนลด</th>
+    <th  style="width:80px;">ส่วนลด</th>
     <th>จำนวนเงินรวม</th>
   </tr>
   <?php
@@ -22,6 +24,7 @@
        $nDocNetTotal = 0;
        $nXqdDis = 0;
        for($p = 0;$p< $aDocItems["nTotalRes"] ;$p++){
+
             $tPdtCode = $aDocItems["raItems"][$p]["FTPdtCode"];
             $tPdtName = $aDocItems["raItems"][$p]["FTPdtName"];
             $tPunName = $aDocItems["raItems"][$p]["FTPunName"];
@@ -29,6 +32,10 @@
             $nXqdQty = $aDocItems["raItems"][$p]["FCXqdQty"];
             $nTotal = $nXqdQty * $nXqdUnitPrice;
             $nXqdDis = $aDocItems["raItems"][$p]["FCXqdDis"];
+            $nXqdCost = $aDocItems["raItems"][$p]["FTXqdCost"];
+            $tSplName = $aDocItems["raItems"][$p]["FTSplName"];
+
+
             if($nXqdDis == ""){
                $nXqdDis = 0;
             }else{
@@ -60,10 +67,12 @@
     <td><img src='<img src="<?=base_url('application/assets/images/products/NoImage.png') ?>" alt="...">'></td>
     <td> <?php echo $tPdtCode." - ".$tPdtName; ?> </td>
     <td> <?php echo $tPunName;?> </td>
+    <td><?php echo $tSplName;?></td>
+    <td><?php echo number_format($nXqdCost,2);?></td>
     <td class="text-right"> <?php echo number_format($nXqdUnitPrice,2); ?> </td>
-    <td><input type="text" class="text-right" name="" value="<?=$nXqdQty?>"></td>
+    <td><input type="text" class="text-right" name="" value="<?=$nXqdQty?>" style="width:80px;"></td>
     <td class="text-right"> <?php echo number_format($nTotal,2); ?> </td>
-    <td> <input type="text"class="text-right" name="" value="<?=$nXqdDis?>"> </td>
+    <td> <input type="text"class="text-right" name="" value="<?=$nXqdDis?>" style="width:80px;"> </td>
     <td class="text-right"><?php echo number_format($nPdtNetTotal,2);?></td>
   </tr>
   <?php } ?>

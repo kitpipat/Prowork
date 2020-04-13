@@ -17,25 +17,39 @@
                               <div class="card-body xWCardHead">
                                    <table style="width:100%">
                                      <tr>
-                                       <td>ลูกค้า <br> <input type="text" name="" value=""> </td>
+                                       <td>ลูกค้า <br>
+                                          <input type="text" id="oetCstName" value="">
+                                       </td>
                                      </tr>
                                      <tr>
-                                       <td>ที่อยู่ <br> <input type="text" name="" value=""> </td>
+                                       <td>ที่อยู่ <br>
+                                           <input type="text" id="oetAddress" value="">
+                                        </td>
                                      </tr>
                                      <tr>
-                                       <td>เลขที่ประจำตัวผู้เสียภาษี <br> <input type="text" name="" value=""> </td>
+                                       <td>เลขที่ประจำตัวผู้เสียภาษี <br>
+                                           <input type="text" id="oetTaxNo" name="" value="">
+                                        </td>
                                      </tr>
                                      <tr>
-                                       <td>ผู้ติดต่อ <br> <input type="text" name="" value=""> </td>
+                                       <td>ผู้ติดต่อ <br>
+                                          <input type="text" id="oetContact" value="">
+                                        </td>
                                      </tr>
                                      <tr>
-                                       <td>อีเมลล์ <br> <input type="text" name="" value=""> </td>
+                                       <td>อีเมลล์ <br>
+                                          <input type="text" id="oetEmail" value="">
+                                       </td>
                                      </tr>
                                      <tr>
-                                       <td>เบอร์โทรศัพท์ <br> <input type="text" name="" value=""> </td>
+                                       <td>เบอร์โทรศัพท์ <br>
+                                          <input type="text" id="oetTel" value="">
+                                       </td>
                                      </tr>
                                      <tr>
-                                       <td>เบอร์โทรสาร <br> <input type="text" name="" value=""> </td>
+                                       <td>เบอร์โทรสาร <br>
+                                           <input type="text" id="oetFax" value="">
+                                       </td>
                                      </tr>
                                    </table>
                               </div>
