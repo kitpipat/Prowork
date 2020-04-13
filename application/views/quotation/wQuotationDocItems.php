@@ -20,6 +20,7 @@
        $nTotal = 0;
        $nPdtNetTotal = 0;
        $nDocNetTotal = 0;
+       $nXqdDis = 0;
        for($p = 0;$p< $aDocItems["nTotalRes"] ;$p++){
             $tPdtCode = $aDocItems["raItems"][$p]["FTPdtCode"];
             $tPdtName = $aDocItems["raItems"][$p]["FTPdtName"];
@@ -28,15 +29,25 @@
             $nXqdQty = $aDocItems["raItems"][$p]["FCXqdQty"];
             $nTotal = $nXqdQty * $nXqdUnitPrice;
             $nXqdDis = $aDocItems["raItems"][$p]["FCXqdDis"];
+            if($nXqdDis == ""){
+               $nXqdDis = 0;
+            }else{
+               $nXqdDis = $nXqdDis;
+            }
 
             $tDisType = substr($nXqdDis,strlen($nXqdDis)-1);
+
             if($tDisType == ""){
+
                $nPdtNetTotal = $nTotal;
+
             }else if($tDisType == "%"){
 
                 $nPdtNetTotal = $nTotal - (($nTotal * substr($nXqdDis,0,strlen($nXqdDis)-1))/100);
+
             }else{
-                $nPdtNetTotal = $nTotal - substr($nXqdDis,0,strlen($nXqdDis)-1);
+
+                $nPdtNetTotal = $nTotal - $nXqdDis;
             }
 
             $nDocNetTotal = $nDocNetTotal + $nPdtNetTotal;
@@ -61,4 +72,4 @@
 <?php } ?>
 </table>
 
-<span id="ospDocNetTotal"><?php echo $nDocNetTotal;?></span>
+<span id="ospDocNetTotal" style="display:none"><?php echo $nDocNetTotal;?></span>
