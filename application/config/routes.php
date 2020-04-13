@@ -65,6 +65,8 @@ $route['r_quotationcallsqdoc'] 		= 'quotation/cQuotation/FCwCQUOCallDocPage';
 //ใบเสนอราคา เอกสาร Step2
 $route['r_quodoccallitems'] 		= 'quotation/cQuotationDoc/FSvCQUODocItems';
 $route['r_quodocgetdocheader'] 		= 'quotation/cQuotationDoc/FSaCQUODocHeader';
+$route['r_quodocgetdoccst'] 		= 'quotation/cQuotationDoc/FSaCQUODocCst';
+
 
 
 

@@ -126,12 +126,13 @@
             tDocNo = $("#ospDocNo").attr("data-docno");
             tDocNo = $("#ospDocNo").attr("data-docno");
             $.ajax({
-            url: 'r_quodocgetdocheader',
+            url: 'r_quodocgetdoccst',
             type: 'GET',
             data: {tDocNo : tDocNo},
             datatype: 'json'
             })
             .done(function (data) {
+              
              })
             .fail(function (jqXHR, textStatus, errorThrown) {
                  //serrorFunction();
