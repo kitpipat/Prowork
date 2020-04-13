@@ -5,7 +5,7 @@
 
 		<!--อัพโหลดรูปภาพ-->
 		<script>
-			//อัพโหลดรูปภาพ - ใช้ทั้งระบบ
+			//อัพโหลดรูปภาพ ไฟล์เดียว - ใช้ทั้งระบบ
 			function JSoImagUplodeResize(poImg,ptPath,ptIDelem){
 				var oImgData = poImg.files[0];
 				var oImgFrom = new FormData();
@@ -28,6 +28,32 @@
 							$('#oim' + ptIDelem).attr('src',tFullPath);
 							$('#oet' + ptIDelem).val(tImageName);
 						}
+					},
+					error: function (data){
+						console.log(data);
+					}
+				});
+			}
+
+			//อัพโหลดรูปภาพแบบ Zip , rar
+			function JSoExtractImageResize(poImg,ptPath){
+				var oImgData 	= poImg.files[0];
+				var oImgFromZip = new FormData();
+				oImgFromZip.append('file',oImgData);
+				oImgFromZip.append('path', ptPath);
+				
+				$.ajax({
+					type 			: "POST",
+					url 			: "ImageUpload_zip",
+					cache 			: false,
+					contentType		: false,
+					processData		: false,
+					data 			: oImgFromZip,
+					datatype		: "JSON",
+					success: function (tResult){
+						console.log(tResult);
+						var t = '<?php echo $this->session->flashdata('msg');?>';
+						console.log(t);
 					},
 					error: function (data){
 						console.log(data);

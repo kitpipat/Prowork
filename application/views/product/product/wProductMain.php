@@ -167,7 +167,8 @@
 												</button>
 												<div class="dropdown-menu dropdown-menu-left xCNDropdown">
 													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href='<?=base_url('application/assets/templates/Product_Import_Template.xlsx')?>'>ดาวน์โหลดแม่แบบ</a></button>
-													<button class="dropdown-item xCNDropdownSub" type="button">นำเข้าข้อมูล รูปภาพ</button>
+													<button class="dropdown-item xCNDropdownSub" type="button" onclick="JSxExtractImage()">นำเข้าข้อมูล รูปภาพ</button>
+													<input type="file" id="inputfileuploadImagePDT" style="display:none;" name="inputfileuploadImagePDT" accept=".zip,.rar,.7zip" onchange="JSoExtractImageResize(this,'images/products_temp')">
 													<button class="dropdown-item xCNDropdownSub" type="button">นำเข้าข้อมูล ไฟล์</button>
 												</div>
 											</div>
@@ -189,7 +190,7 @@
 <div>
 
 <script>	
-
+	
 	//คำนวณหน้าจอ
 	JSxCalculateWidthFilterAdv();
 	function JSxCalculateWidthFilterAdv(){
@@ -209,7 +210,6 @@
 		$('.xCNSubFilter').css('height',tHeightContent+'px');
 	}
 	
-
 	$('.xCNFilter').click(function() {
 		var tCheck = $('.xCNFilterSearch').hasClass('xCNFilterBlockHide');
 		if(tCheck == false){
@@ -231,6 +231,11 @@
 		}
 	});
 
+	/************************************************************************************/
+
+	function JSxExtractImage(){
+		$('#inputfileuploadImagePDT').click(); 
+	}
 
 	//กดนำไปใช้ หรือ ค้นหาขั้นสูง
 	var aFilter 		= [];

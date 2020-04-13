@@ -5,6 +5,7 @@ class cMain extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->library('zip');
 		$this->load->library("session");
 		if(@$_SESSION['tSesUsercode'] == true) { //มี session
 			$this->load->model('common/mCommon');
@@ -23,7 +24,7 @@ class cMain extends CI_Controller {
 		$this->load->view('common/wFooter');
 	}
 
-	//อัพโหลดรูปภาพ
+	//อัพโหลดรูปภาพ ภาพเดียว
 	public function FSvCUploadimage(){
 		$tPath = $this->input->post('path');
 
@@ -85,5 +86,36 @@ class cMain extends CI_Controller {
         } else{
             return "done";
         }
-    }
+	}
+	
+	//อัพโหลดรูปภาพ Zip , rar
+	public function FSvCUploadimage_zip(){
+		$tPath = $this->input->post('path');
+		if($_FILES['file']['name'] != ''){ 
+			// Set preference 
+			$config['upload_path'] 		= './application/assets/'.$tPath; 
+			$config['allowed_types'] 	= 'zip|rar'; 
+			$config['max_size'] 		= '5120'; // max_size in kb (5 MB) 
+			$config['file_name'] 		= $_FILES['file']['name'];
+			$this->load->library('upload',$config); 
+			if($this->upload->do_upload('file')){ 
+				$uploadData = $this->upload->data(); 
+				$filename 	= $uploadData['file_name'];
+				$zip 		= new ZipArchive;
+				$res 		= $zip->open('./application/assets/images/products_temp/'.$filename);
+				if ($res === TRUE) {
+					$extractpath = "./application/assets/images/products_temp/";
+					$zip->extractTo($extractpath);
+					$zip->close();
+					$this->session->set_flashdata('msg','Upload & Extract successfully.');
+				} else {
+					$this->session->set_flashdata('msg','Failed to extract.');
+				}
+			}else{ 
+				$this->session->set_flashdata('msg','Failed to upload');
+			} 
+		}else{ 
+			$this->session->set_flashdata('msg','Failed to upload');
+		} 
+	}
 }

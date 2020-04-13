@@ -16,7 +16,8 @@ $route['Logout'] 		= 'login/cLogin/Logout';
 $route['Mainpage'] 		= 'common/cMain';
 
 //อัพโหลดรูปภาพ
-$route['ImageUpload'] 					= 'common/cMain/FSvCUploadimage';
+$route['ImageUpload'] 						= 'common/cMain/FSvCUploadimage';
+$route['ImageUpload_zip'] 					= 'common/cMain/FSvCUploadimage_zip';
 
 //หน้าจอ : ผู้ใช้ ( start : 04-04-2020 / done : 06-04-2020 )
 $route['r_user'] 							= 'user/user/cUser/index';
