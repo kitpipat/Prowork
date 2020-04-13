@@ -21,6 +21,17 @@ class cQuotationDoc extends CI_Controller {
 				 echo json_encode($aDocHeader);
 	}
 
+	public function FSaCQUODocCst(){
+
+				$tWorkerID = $this->session->userdata('tSesUsercode');
+				$tDocNo = $this->input->get('tDocNo');
+        $aConditions = array("tDocNo"=>$tDocNo,"tWorkerID"=>$tWorkerID);
+
+				$aDocCst = $this->mQuotation->FCaMQUOGetDocCst($aConditions);
+				echo json_encode($aDocCst);
+
+	}
+
   public function FSvCQUODocItems(){
 
          $tWorkerID = $this->session->userdata('tSesUsercode');

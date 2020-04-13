@@ -344,8 +344,10 @@ class mQuotation extends CI_Model {
 									      ,D.FCXqdDis
 									      ,D.FCXqdFootAvg
 												,P.FTPdtImage
+												,SPL.FTSplName
 									FROM TARTSqDTTmp D
 									LEFT JOIN TCNMPdt P ON D.FTPdtCode = P.FTPdtCode
+									LEFT JOIN TCNMSpl SPL ON D.FTSplCode = SPL.FTSplCode
 									WHERE D.FTWorkerID = '".$tWorkerID."'";
 
 									if($tDocNo != ""){

@@ -14,9 +14,9 @@
              datatype: 'json'
              })
              .done(function (data) {
-                 console.log(data)
+                 //console.log(data)
                  aDocHD = JSON.parse(data)
-                 console.log(aDocHD["raItems"])
+                 //console.log(aDocHD["raItems"])
                  tBchCode = aDocHD["raItems"][0]["FTBchCode"]
                  tXqhDocNo = aDocHD["raItems"][0]["FTXqhDocNo"]
                  dXqhDocDate = aDocHD["raItems"][0]["FDXqhDocDate"]
@@ -114,6 +114,7 @@
                  }
                  $("#oetVatRate").val(tVatRate)
 
+                 FSoQUODocCst(); //load customer in sq
                  FSvQUODocItems();
 
               })
@@ -123,6 +124,7 @@
    }
 
    function FSoQUODocCst(){
+
             tDocNo = $("#ospDocNo").attr("data-docno");
             tDocNo = $("#ospDocNo").attr("data-docno");
             $.ajax({
@@ -132,7 +134,25 @@
             datatype: 'json'
             })
             .done(function (data) {
-              
+
+                aDocHD = JSON.parse(data)
+                //console.log(aDocHD["raItems"])
+                tXqcCstName = aDocHD["raItems"][0]["FTXqcCstName"]
+                tXqcAddress = aDocHD["raItems"][0]["FTXqcAddress"]
+                tXqhTaxNo = aDocHD["raItems"][0]["FTXqhTaxNo"]
+                tXqhContact = aDocHD["raItems"][0]["FTXqhContact"]
+                tXqhEmail = aDocHD["raItems"][0]["FTXqhEmail"]
+                tXqhTel = aDocHD["raItems"][0]["FTXqhTel"]
+                tXqhFax = aDocHD["raItems"][0]["FTXqhFax"]
+
+                $("#oetCstName").val(tXqcCstName)
+                $("#oetAddress").val(tXqcAddress)
+                $("#oetTaxNo").val(tXqhTaxNo)
+                $("#oetContact").val(tXqhContact)
+                $("#oetEmail").val(tXqhEmail)
+                $("#oetTel").val(tXqhTel)
+                $("#oetFax").val(tXqhFax)
+
              })
             .fail(function (jqXHR, textStatus, errorThrown) {
                  //serrorFunction();
