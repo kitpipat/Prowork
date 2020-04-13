@@ -8,6 +8,19 @@
 
    function FSvQUODocHeader(){
 
+             tDocNo = $("#ospDocNo").attr("data-docno");
+             $.ajax({
+             url: 'r_quodocgetdocheader',
+             type: 'GET',
+             data: {tDocNo : tDocNo},
+             datatype: 'json'
+             })
+             .done(function (data) {
+
+              })
+             .fail(function (jqXHR, textStatus, errorThrown) {
+                  //serrorFunction();
+              });
    }
 
    function FSvQUODocItems(){

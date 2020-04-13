@@ -44,80 +44,85 @@
              </div>
        </div>
        <div class="col-lg-6">
-             <div class="row">
-                   <div class="col-lg-12">
-                         <div style="background:#beecbb;padding:5px;">
-                              เลขที่เอกสาร : <span id="ospDocNo" data-docno="<?=$tDocNo?>">
-                                             <?php
-                                                      if($tDocNo == ""){
-                                                          echo "SQ##########";
-                                                      }else{
-                                                          echo $tDocNo;
-                                                      }
-                                              ?>
-                                           </span>
-                         </div>
+             <div class="row" id="odvQuoDocHeader">
+                 <div class="col-lg-6" style="padding-right:0px;margin-right:0px">
+                       <div style="background:#beecbb;padding:5px;">
+                            เลขที่เอกสาร :
+                            <span id="ospDocNo" data-docno="<?=$tDocNo?>">
+                            <?php
+                                    if($tDocNo == ""){
+                                        echo "<lable id='olbDocNo'> SQ########## </lable>";
+                                    }else{
+                                        echo " <lable id='olbDocNo'> ".$tDocNo." </label> ";
+                                    }
+                            ?>
+                            </span>
+                       </div>
+                 </div>
+                 <div class="col-lg-6" style="padding-left:0px;margin-left:0px">
+                      <div style="background:#beecbb;padding:5px;">วันที่เอกสาร : 2020-04-13</div>
+                 </div>
+                 <div class="col-lg-12">
+                       <div class="card">
+                            <div class="card-body xWCardHead">
+                                  สถานะเอกสาร : N/A
+                                  <hr>
+                                  <table style="width:100%">
+                                    <tr>
+                                      <td style="width:50%">
+                                            ยื่นราคาภายใน (วัน) <br>
+                                            <input type="text" name="" value="">
+                                      </td>
+                                      <td>
+                                            มีผลถึงวันที่ <br>
+                                            <input type="date" name="" value="">
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                            เงื่อนไขการชำระเงิน <br>
+                                            <select class="" name="">
+                                                    <option value="">เงินสด</option>
+                                            </select>
+                                      </td>
+                                      <td>
+                                            จำนวนวันเครดิต (วัน) <br>
+                                            <input type="text" name="" value="">
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                            กำหนดส่งของ <br>
+                                            <input type="date" name="" value="">
+                                      </td>
+                                      <td></td>
+                                    </tr>
+                                  </table>
+                                  <hr>
+                                  <table style="width:100%">
+                                    <tr>
+                                      <td style="width:50%"><input type="checkbox" name="" value=""> เอกสารด่วน</td>
+                                      <td>ผู้บันทึก : นายกิตติ์พิภัทร์</td>
+                                    </tr>
+                                    <tr>
+                                      <td><input type="checkbox" name="" value=""> เคลื่อนไหว</td>
+                                      <td>ผู้อนุมัติ : นายกิตติ์พิภัทร์</td>
+                                    </tr>
+                                    <tr>
+                                      <td><input type="checkbox" name="" value=""> จัดส่งสินค้าแล้ว</td>
+                                      <td>วันที่อนุมัติ : 2020-01-01</td>
+                                    </tr>
+                                  </table>
 
-                   </div>
-                   <div class="col-lg-12">
-                         <div class="card">
-                              <div class="card-body xWCardHead">
-                                    สถานะเอกสาร : N/A
-                                    <hr>
-                                    <table style="width:100%">
-                                      <tr>
-                                        <td style="width:50%">
-                                              ยื่นราคาภายใน (วัน) <br>
-                                              <input type="text" name="" value="">
-                                        </td>
-                                        <td>
-                                              มีผลถึงวันที่ <br>
-                                              <input type="date" name="" value="">
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <td>
-                                              เงื่อนไขการชำระเงิน <br>
-                                              <select class="" name="">
-                                                      <option value="">เงินสด</option>
-                                              </select>
-                                        </td>
-                                        <td>
-                                              จำนวนวันเครดิต (วัน) <br>
-                                              <input type="text" name="" value="">
-                                        </td>
-                                      </tr>
-                                      <tr>
-                                        <td>
-                                              กำหนดส่งของ <br>
-                                              <input type="date" name="" value="">
-                                        </td>
-                                        <td></td>
-                                      </tr>
-                                    </table>
-                                    <hr>
-                                    <table style="width:100%">
-                                      <tr>
-                                        <td style="width:50%"><input type="checkbox" name="" value=""> เอกสารด่วน</td>
-                                        <td>ผู้บันทึก : นายกิตติ์พิภัทร์</td>
-                                      </tr>
-                                      <tr>
-                                        <td><input type="checkbox" name="" value=""> เคลื่อนไหว</td>
-                                        <td>ผู้อนุมัติ : นายกิตติ์พิภัทร์</td>
-                                      </tr>
-                                      <tr>
-                                        <td><input type="checkbox" name="" value=""> จัดส่งสินค้าแล้ว</td>
-                                        <td>วันที่อนุมัติ : 2020-01-01</td>
-                                      </tr>
-                                    </table>
+                            </div>
+                       </div>
+                 </div>
 
-                              </div>
-                         </div>
-                   </div>
              </div>
        </div>
 
   </div>
+
   <div class="card">
        <div class="card-body" style="height:auto">
               <div class="row">
