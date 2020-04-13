@@ -233,8 +233,29 @@
 
 	/************************************************************************************/
 
+	//อัพโหลดไฟล์ zip
 	function JSxExtractImage(){
 		$('#inputfileuploadImagePDT').click(); 
+	}
+
+	//หลังจากอัพโหลด zip
+	function JSxReturnExtractFileImage(){
+		$.ajax({
+			type	: "POST",
+			url		: "r_productload",
+			data 	: {
+						'nPage' 		: pnPage,
+						'tSearchAll' 	: $('#oetSearch').val()
+					  },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('#odvContent_Product').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
 	}
 
 	//กดนำไปใช้ หรือ ค้นหาขั้นสูง

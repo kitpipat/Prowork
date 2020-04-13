@@ -131,3 +131,7 @@ $route['r_productcallpageInsertorEdit'] 		= 'product/product/cProduct/FSwCPDTCal
 $route['r_producteventinsert'] 					= 'product/product/cProduct/FSwCPDTEventInsert';
 $route['r_producteventdelete'] 					= 'product/product/cProduct/FSxCPDTEventDelete';
 $route['r_producteventedit'] 					= 'product/product/cProduct/FSxCPDTEventEdit';
+
+$route['r_productCallpageUplodeImage'] 			= 'product/product/cProduct/FSxCPDTCallpageUplodeImage';
+$route['r_productCallpageUplodeFile'] 			= 'product/product/cProduct/FSxCPDTCallpageUplodeFile';
+

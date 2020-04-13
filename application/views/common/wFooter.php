@@ -51,9 +51,7 @@
 					data 			: oImgFromZip,
 					datatype		: "JSON",
 					success: function (tResult){
-						console.log(tResult);
-						var t = '<?php echo $this->session->flashdata('msg');?>';
-						console.log(t);
+						return window['JSxReturnExtractFileImage'](tResult);
 					},
 					error: function (data){
 						console.log(data);

@@ -90,6 +90,8 @@ class cMain extends CI_Controller {
 	
 	//อัพโหลดรูปภาพ Zip , rar
 	public function FSvCUploadimage_zip(){
+
+		//เงื่อนไขคือ : นามสกุล zip และ file ไม่เกิน 5 MB
 		$tPath = $this->input->post('path');
 		if($_FILES['file']['name'] != ''){ 
 			// Set preference 

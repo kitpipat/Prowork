@@ -162,4 +162,10 @@ class cProduct extends CI_Controller {
 	}
 
 
+	//ไปหน้าของการอัพโหลดรูปภาพ
+	public function FSxCPDTCallpageUplodeImage(){
+		
+	}
+
+
 }
