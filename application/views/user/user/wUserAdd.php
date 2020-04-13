@@ -19,6 +19,7 @@
 		$FNRhdID		= $aResult[0]['FNRhdID'];
 		$FTPriGrpID		= $aResult[0]['FTPriGrpID'];
 		$FNStaUse		= $aResult[0]['FNStaUse'];
+		$FNUsrGrp		= $aResult[0]['FNUsrGrp'];
 		$tRoute 		= 'r_usereventedit';
 		$tRouteUrl		= 'แก้ไขผู้ใช้';
 	}
@@ -109,6 +110,22 @@
 									<option <?=(@$FTPriGrpID == $aValue['FTPriGrpID'])? "selected" : "";?> value="<?=$aValue['FTPriGrpID'];?>"><?=$aValue['FTPriGrpName'];?></option>
 								<?php } ?>
 							</select>
+						</div>
+
+						<!--กลุ่มของผู้ใช้จะมองเห็นเฉพาะ แอดมิน-->
+						<div class="form-group">
+							<label><span style="color:red;">*</span> กลุ่มของผู้ใช้</label>
+							<?php if($tLevelUser == 'HQ'){ ?>
+								<select class="form-control" id="oetUserGrp" name="oetUserGrp">
+									<option <?=(@$FNUsrGrp == 1)? "selected" : "";?> value="1">พนักงานจัดซื้อ</option>
+									<option <?=(@$FNUsrGrp == 2)? "selected" : "";?> value="2">พนักงานขาย</option>
+									<option <?=(@$FNUsrGrp == 3)? "selected" : "";?> value="3">ผู้จัดการ</option>
+									<option <?=(@$FNUsrGrp == 4)? "selected" : "";?> value="4">เจ้าของกิจการ</option>
+								</select>
+							<?php }else{ ?>
+								<input type="text" class="form-control" id="oetUserGrpName" name="oetUserGrpName" autocomplete="off" value="พนักงานขาย" readonly> 
+								<input type="hidden" class="form-control" id="oetUserGrp" name="oetUserGrp" autocomplete="off" value="2">
+							<?php } ?>
 						</div>
 
 						<!--ชื่อ-->

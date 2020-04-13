@@ -22,6 +22,7 @@ class mUser extends CI_Model {
 					USR.FTPriGrpID,
 					RHD.FTRhdName,
 					PRIG.FTPriGrpName,
+					USR.FNUsrGrp,
 					BCH.FTBchName FROM TCNMUsr USR";
 		$tSQL .= " LEFT JOIN TCNMBranch BCH ON USR.FTBchCode = BCH.FTBchCode";
 		$tSQL .= " LEFT JOIN TCNMRoleHD RHD ON RHD.FNRhdID = USR.FNRhdID";

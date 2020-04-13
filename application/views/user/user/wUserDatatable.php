@@ -4,7 +4,8 @@
 		<th style="width:10px; text-align: center;">ลำดับ</th>
 		<th style="width:100px; text-align: center;">รูปภาพ</th>
 		<th style="text-align: left;">ชื่อ-นามสกุล</th>
-		<th style="width:15%; text-align: left;">แผนก</th>
+		<th style="width:10%; text-align: left;">แผนก</th>
+		<th style="width:10%; text-align: left;">กลุ่มผู้ใช้</th>
 		<th style="width:10%; text-align: left;">กลุ่มสิทธิ์</th>
 		<th style="width:10%; text-align: left;">กลุ่มราคา</th>
 		<th style="width:10%; text-align: left;">สถานะ</th>
@@ -32,6 +33,26 @@
 					<td class="xCNTdHaveImage"><img id="oimImgMasteruser" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
 					<td><?=$aValue['FTUsrFName']?> <?=$aValue['FTUsrLName']?></td>
 					<td><?=($aValue['FTUsrDep'] == '') ? '-' : $aValue['FTUsrDep']?></td>
+
+					<?php 
+						switch($aValue['FNUsrGrp']){
+							case 1:
+								$tNameUserGroup = 'พนักงานจัดซื้อ';
+								break;
+							case 2:
+								$tNameUserGroup = 'พนักงานขาย';
+								break;
+							case 3:
+								$tNameUserGroup = 'ผู้จัดการ';
+								break;
+							case 4:
+								$tNameUserGroup = 'เจ้าของกิจการ';
+								break;
+							default:
+								$tNameUserGroup = 'N/A';
+						}
+					?>
+					<td><?=$tNameUserGroup;?></td>
 					<td><?=$aValue['FTRhdName']?></td>
 					<td><?=$aValue['FTPriGrpName']?></td>
 					

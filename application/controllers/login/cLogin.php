@@ -37,6 +37,7 @@ class cLogin extends CI_Controller {
 				$this->session->set_userdata("tSesDepartment",$aReturn['raItems'][0]['FTUsrDep']);		//แผนก
 				$this->session->set_userdata("tSesRoleUser",$aReturn['raItems'][0]['FNRhdID']);			//รหัสกลุ่มสิทธิ
 				$this->session->set_userdata("tSesPriceGroup",$aReturn['raItems'][0]['FTPriGrpID']);	//รหัสกลุ่มราคา
+				$this->session->set_userdata("tSesUserGroup",$aReturn['raItems'][0]['FNUsrGrp']);		//รหัสกลุ่มของผู้ใช้ (มีผลต่อการมองเห็น)
 
 				if($aReturn['raItems'][0]['FTBchName'] == '' || $aReturn['raItems'][0]['FTBchName'] == null){
 					//USER : HQ ต้องวิ่งไปเอาบริษัท default
