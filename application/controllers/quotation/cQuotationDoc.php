@@ -34,6 +34,7 @@ class cQuotationDoc extends CI_Controller {
 
   public function FSvCQUODocItems(){
 
+         $tSesUserGroup = $this->session->userdata('tSesUserGroup');
          $tWorkerID = $this->session->userdata('tSesUsercode');
          $tDocNo = $this->input->get('tDocNo');
 
@@ -41,7 +42,7 @@ class cQuotationDoc extends CI_Controller {
 
          $aDocItems = $this->mQuotation->FCaMQUOGetItemsList($aFilter);
 
-         $aData = array("aDocItems" => $aDocItems);
+         $aData = array("aDocItems" => $aDocItems,"tSesUserGroup"=>$tSesUserGroup);
 
          $this->load->view("quotation/wQuotationDocItems",$aData);
 

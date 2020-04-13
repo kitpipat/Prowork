@@ -6,8 +6,11 @@
     <th>รูปภาพ</th>
     <th>รายการ</th>
     <th>หน่วย</th>
+    <?php
+    if($tSesUserGroup == 4){?>
     <th>ผู้จำหน่าย</th>
     <th>ต้นทุน</th>
+    <?php } ?>
     <th>ราคา/หน่วย</th>
     <th  style="width:80px;">จำนวน</th>
     <th>จำนวนเงิน</th>
@@ -67,8 +70,10 @@
     <td><img src='<img src="<?=base_url('application/assets/images/products/NoImage.png') ?>" alt="...">'></td>
     <td> <?php echo $tPdtCode." - ".$tPdtName; ?> </td>
     <td> <?php echo $tPunName;?> </td>
+    <?php if($tSesUserGroup == 4){?>
     <td><?php echo $tSplName;?></td>
     <td><?php echo number_format($nXqdCost,2);?></td>
+    <?php } ?>
     <td class="text-right"> <?php echo number_format($nXqdUnitPrice,2); ?> </td>
     <td><input type="text" class="text-right" name="" value="<?=$nXqdQty?>" style="width:80px;"></td>
     <td class="text-right"> <?php echo number_format($nTotal,2); ?> </td>
