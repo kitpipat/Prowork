@@ -60,40 +60,42 @@
                        </div>
                  </div>
                  <div class="col-lg-6" style="padding-left:0px;margin-left:0px">
-                      <div style="background:#beecbb;padding:5px;">วันที่เอกสาร : 2020-04-13</div>
+                      <div style="background:#beecbb;padding:5px;">วันที่เอกสาร : <span id="ospDocDate"></span> </div>
                  </div>
                  <div class="col-lg-12">
                        <div class="card">
                             <div class="card-body xWCardHead">
-                                  สถานะเอกสาร : N/A
+                                  สถานะเอกสาร : <span id="ospStaDoc"></span>
                                   <hr>
                                   <table style="width:100%">
                                     <tr>
                                       <td style="width:50%">
                                             ยื่นราคาภายใน (วัน) <br>
-                                            <input type="text" name="" value="">
+                                            <input type="text" class="text-right" id="oetXqhSmpDay" name="" value="">
                                       </td>
                                       <td>
                                             มีผลถึงวันที่ <br>
-                                            <input type="date" name="" value="">
+                                            <input type="date" id="odpXqhEftTo" name="" value="">
                                       </td>
                                     </tr>
                                     <tr>
                                       <td>
                                             เงื่อนไขการชำระเงิน <br>
-                                            <select class="" name="">
-                                                    <option value="">เงินสด</option>
+                                            <select class="" name="" id="ocmXqhCshOrCrd">
+                                                    <option value="">เลือกประเภทการชำระ</option>
+                                                    <option value="1">เงินสด</option>
+                                                    <option value="2">เครดิต</option>
                                             </select>
                                       </td>
                                       <td>
                                             จำนวนวันเครดิต (วัน) <br>
-                                            <input type="text" name="" value="">
+                                            <input type="text" class="text-right" id="oetXqhCredit" name="" value="">
                                       </td>
                                     </tr>
                                     <tr>
                                       <td>
                                             กำหนดส่งของ <br>
-                                            <input type="date" name="" value="">
+                                            <input type="date" id="odpDeliveryDate" name="" value="">
                                       </td>
                                       <td></td>
                                     </tr>
@@ -101,16 +103,22 @@
                                   <hr>
                                   <table style="width:100%">
                                     <tr>
-                                      <td style="width:50%"><input type="checkbox" name="" value=""> เอกสารด่วน</td>
-                                      <td>ผู้บันทึก : นายกิตติ์พิภัทร์</td>
+                                      <td style="width:50%">
+                                          <input type="checkbox" id="ocbStaExpress" value=""> เอกสารด่วน
+                                      </td>
+                                      <td>ผู้บันทึก : <span id="ospCreateBy"></span></td>
                                     </tr>
                                     <tr>
-                                      <td><input type="checkbox" name="" value=""> เคลื่อนไหว</td>
-                                      <td>ผู้อนุมัติ : นายกิตติ์พิภัทร์</td>
+                                      <td>
+                                          <input type="checkbox" id="ocbtStaDocActive" value=""> เคลื่อนไหว
+                                      </td>
+                                      <td>ผู้อนุมัติ : <span id="ospApprovedBy"></span> </td>
                                     </tr>
                                     <tr>
-                                      <td><input type="checkbox" name="" value=""> จัดส่งสินค้าแล้ว</td>
-                                      <td>วันที่อนุมัติ : 2020-01-01</td>
+                                      <td>
+                                          <input type="checkbox" id="ocbStaDeli" value=""> จัดส่งสินค้าแล้ว
+                                      </td>
+                                      <td>วันที่อนุมัติ : <span id="ospApproveDate"></span></td>
                                     </tr>
                                   </table>
 
@@ -129,14 +137,14 @@
 
                    <div class="col-lg-6">
                         <div >
-                             ชื่อโครงการ <input type="text" name="" value="" style="width:80%">
+                             ชื่อโครงการ <input type="text" id="oetPrjName" value="" style="width:80%">
                         </div>
                    </div>
                    <div class="col-lg-6">
                         <div>
-                          หมายเลขอ้างอิง <input type="text" name="" value="" style="width:30%">
+                          หมายเลขอ้างอิง <input type="text" id="oetPrjCodeRef" value="" style="width:30%">
                           ประเภทภาษี
-                                      <select class="" name="" style="width:30%" id="ocmVatType">
+                                      <select class="" style="width:30%" id="ocmVatType">
                                             <option value="1">แยกนอก</option>
                                             <option value="2">รวมใน</option>
                                       </select>
@@ -165,7 +173,7 @@
                  <div class="card-body" style="height:auto">
                       <p>หมายเหตุ</p>
                       หมายเหตุ <br>
-                      <textarea rows="6"></textarea>
+                      <textarea rows="6" id="otaDocRemark"></textarea>
                  </div>
             </div>
        </div>
@@ -190,7 +198,7 @@
                         </tr>
                         <tr>
                           <td>ภาษีมูลค่าเพิ่ม (%)</td>
-                          <td> <input type="text" name="" value="7" id="oetVatRate"> </td>
+                          <td> <input type="text" value="" id="oetVatRate"> </td>
                           <td class="text-right" id="otdVat">100.00</td>
                         </tr>
                         <tr>
@@ -216,6 +224,7 @@
 </style>
 
 <script type="text/javascript" src="<?=base_url('application/assets/js/account.js') ?>"></script>
+<script type="text/javascript" src="<?=base_url('application/assets/js/moment.js') ?>"></script>
 <?php include ('script/jquotation_doc.php'); ?>
 <link rel="stylesheet" href="<?=base_url('application/assets/css/quotation.css') ?>">
 <link rel="stylesheet" href="<?=base_url('application/assets/css/check-radio.css') ?>">

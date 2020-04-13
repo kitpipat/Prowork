@@ -213,19 +213,53 @@ class mQuotation extends CI_Model {
 
 					$tDocNo = $paFilter['tDocNo'];
 					$tWorkerID = $paFilter['tWorkerID'];
-          $tSQL = "SELECT    HD.*,USR.FTUsrDep
+          $tSQL = "SELECT   HD.FTBchCode,
+											      ISNULL(HD.FTXqhDocNo,'') AS FTXqhDocNo,
+											      ISNULL(HD.FDXqhDocDate,'') AS FDXqhDocDate,
+											      ISNULL(HD.FTXqhCshOrCrd,'') AS FTXqhCshOrCrd,
+											      HD.FNXqhCredit,
+											      HD.FTXqhVATInOrEx,
+											      HD.FNXqhSmpDay,
+											      CONVERT(VARCHAR(10),HD.FDXqhEftTo,121) AS FDXqhEftTo,
+											      CONVERT(VARCHAR(10),HD.FDDeliveryDate,121) AS FDDeliveryDate,
+											      ISNULL(HD.FTXqhStaExpress,'') AS FTXqhStaExpress,
+											      ISNULL(HD.FTXqhStaDoc,'') AS FTXqhStaDoc,
+											      ISNULL(HD.FTXqhStaActive,'') AS  FTXqhStaActive,
+														ISNULL(HD.FTXqhStaDeli,'') AS  FTXqhStaDeli,
+											      HD.FTXqhPrjName,
+											      HD.FTXqhPrjCodeRef,
+											      HD.FCXqhB4Dis,
+											      HD.FCXqhDis,
+											      HD.FTXqhDisTxt,
+											      HD.FCXqhAFDis,
+											      ISNULL(HD.FCXqhVatRate,0) AS FCXqhVatRate,
+											      HD.FCXqhAmtVat,
+											      HD.FCXqhVatable,
+											      HD.FCXqhGrand,
+											      HD.FCXqhRnd,
+											      HD.FTXqhGndText,
+											      HD.FTXqhRmk,
+											      HD.FTUsrDep,
+											      HD.FTApprovedBy,
+														CONVERT(VARCHAR(10),FDApproveDate,121) AS FDApproveDate,
+											      HD.FTCreateBy,
+											      HD.FDCreateOn,
+											      HD.FTUpdateBy,
+											      HD.FDUpdateOn,
+											      HD.FTWorkerID,
+					                  USR.FTUsrDep,
+														USR.FTUsrFName
 					         FROM      TARTSqHDTmp HD
 									 LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode
-                   WHERE     HD.FTWorkerID ='".$tWorkerID."'
-									";
+                   WHERE     HD.FTWorkerID ='".$tWorkerID."' ";
 							     if($tDocNo != ""){
-										  $tSQL.= " AND HD.FTXqhDocNo = '".$tWorkerID."'";
+										  $tSQL.= " AND HD.FTXqhDocNo = '".$tDocNo."'";
 									 }
 
 									 $oQuery = $this->db->query($tSQL);
  									 $nCountRows = $oQuery->num_rows();
 
-	 									if($nCountRows > 0){
+	 								if($nCountRows > 0){
 	                       $aResult = array(
 	                           'raItems'  => $oQuery->result_array(),
 	                           'nTotalRes' => $nCountRows,
@@ -240,6 +274,55 @@ class mQuotation extends CI_Model {
 	                       );
 	                   }
 	                   return $aResult;
+
+	}
+
+	public function FCaMQUOGetDocCst($paFilter){
+
+					$tDocNo = $paFilter['tDocNo'];
+
+					$tWorkerID = $paFilter['tWorkerID'];
+
+					$tSQL = "SELECT   HCS.FTXqhDocNo,
+											      HCS.FTXqcCstCode,
+											      HCS.FTXqcCstName,
+											      HCS.FTXqcAddress,
+											      HCS.FTXqhTaxNo,
+											      HCS.FTXqhContact,
+											      HCS.FTXqhEmail,
+											      HCS.FTXqhTel,
+											      HCS.FTXqhFax,
+											      HCS.FTCreateBy,
+											      HCS.FDCreateOn,
+											      HCS.FTUpdateBy,
+											      HCS.FDUpdateOn,
+														CST.FTCstName
+					         FROM     TARTSqHDCstTmp HCS
+									 LEFT JOIN TCNMCst CST ON HCS.FTXqcCstCode = CST.FTCstCode
+									 WHERE     HCS.FTWorkerID ='".$tWorkerID."' ";
+
+									 if($tDocNo != ""){
+											$tSQL.= " AND HCS.FTXqhDocNo = '".$tDocNo."'";
+									 }
+
+									 $oQuery = $this->db->query($tSQL);
+									 $nCountRows = $oQuery->num_rows();
+
+									if($nCountRows > 0){
+												 $aResult = array(
+														 'raItems'  => $oQuery->result_array(),
+														 'nTotalRes' => $nCountRows,
+														 'rtCode'   => '1',
+														 'rtDesc'   => 'success',
+												 );
+										 }else{
+												 $aResult = array(
+														'rtCode' => '800',
+														'nTotalRes' => 0,
+														'rtDesc' => 'data not found',
+												 );
+										 }
+										 return $aResult;
 
 	}
 
