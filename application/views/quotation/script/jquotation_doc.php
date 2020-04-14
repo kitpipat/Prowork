@@ -146,7 +146,7 @@
                 tXqhFax = aDocHD["raItems"][0]["FTXqhFax"]
 
                 $("#oetCstName").val(tXqcCstName)
-                $("#oetAddress").val(tXqcAddress)
+                $("#oetAddress").text(tXqcAddress)
                 $("#oetTaxNo").val(tXqhTaxNo)
                 $("#oetContact").val(tXqhContact)
                 $("#oetEmail").val(tXqhEmail)
@@ -206,6 +206,28 @@
              .fail(function (jqXHR, textStatus, errorThrown) {
                   //serrorFunction();
               });
+
+   }
+
+   function FSxQUOSaveDoc(){
+
+            oDocCstInfo = $("#ofmQuotationCst").serializeArray()
+            oDocHeaderInfo = $("#ofmQuotationHeader").serializeArray()
+
+            tDocNo = $("#ospDocNo").attr("data-docno");
+
+            $.ajax({
+            url: 'r_quodocsavedoc',
+            type: 'GET',
+            data: {oDocHeaderInfo:oDocHeaderInfo,oDocCstInfo : oDocCstInfo,tDocNo:tDocNo},
+            datatype: 'json'
+            })
+            .done(function (data) {
+
+             })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                 //serrorFunction();
+             });
 
    }
 

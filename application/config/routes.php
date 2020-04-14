@@ -66,7 +66,7 @@ $route['r_quotationcallsqdoc'] 		= 'quotation/cQuotation/FCwCQUOCallDocPage';
 $route['r_quodoccallitems'] 		= 'quotation/cQuotationDoc/FSvCQUODocItems';
 $route['r_quodocgetdocheader'] 		= 'quotation/cQuotationDoc/FSaCQUODocHeader';
 $route['r_quodocgetdoccst'] 		= 'quotation/cQuotationDoc/FSaCQUODocCst';
-
+$route['r_quodocsavedoc'] 		= 'quotation/cQuotationDoc/FSxCQUODocSave';
 
 
 
@@ -138,4 +138,3 @@ $route['r_productCallpageUplodeImage'] 			= 'product/product/cProduct/FSxCPDTCal
 $route['r_productCallpageUplodeFile'] 			= 'product/product/cProduct/FSxCPDTCallpageUplodeFile';
 $route['r_producteventDeleteImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEventDeleteImgInTmp';
 $route['r_producteventAproveImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEventAproveImgInTmp';
-

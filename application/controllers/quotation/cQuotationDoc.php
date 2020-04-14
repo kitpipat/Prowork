@@ -48,4 +48,8 @@ class cQuotationDoc extends CI_Controller {
 
   }
 
+	public function FSxCQUODocSave(){
+		
+	}
+
 }
