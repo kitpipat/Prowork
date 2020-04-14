@@ -490,4 +490,28 @@ class mQuotation extends CI_Model {
 				 $this->db->query($tSQL);
 	}
 
+	public function FCxMQUODocUpdHeader($paItemData){
+
+		     $tSQL ="UPDATE TARTSqHDTmp ";
+				 $tSQL.=" SET FNXqhSmpDay = '".$paItemData['FNXqhSmpDay']."',";
+				 $tSQL.=" FDXqhEftTo = '".$paItemData['FDXqhEftTo']."',";
+				 $tSQL.=" FTXqhCshOrCrd = '".$paItemData['FTXqhCshOrCrd']."',";
+				 $tSQL.=" FNXqhCredit = '".$paItemData['FNXqhCredit']."',";
+				 $tSQL.=" FDDeliveryDate = '".$paItemData['FDDeliveryDate']."',";
+				 $tSQL.=" FTXqhVATInOrEx = '".$paItemData['FTXqhVATInOrEx']."',";
+				 $tSQL.=" FTXqhStaExpress = '".$paItemData['FTXqhStaExpress']."',";
+				 $tSQL.=" FTXqhStaActive = '".$paItemData['FTXqhStaActive']."',";
+				 $tSQL.=" FTXqhStaDeli = '".$paItemData['FTXqhStaDeli']."',";
+				 $tSQL.=" FTXqhPrjName = '".$paItemData['FTXqhPrjName']."',";
+				 $tSQL.=" FTXqhPrjCodeRef = '".$paItemData['FTXqhPrjCodeRef']."'";
+				 $tSQL.=" WHERE FTWorkerID='".$paItemData['tWorkerID']."'";
+
+				 if($paItemData['tDocNo'] !=""){
+					  $tSQL.=" AND FTXqhDocNo='".$paItemData['tDocNo']."'";
+				 }
+				 $this->db->query($tSQL);
+				 //echo $tSQL;
+
+	}
+
 }

@@ -146,7 +146,7 @@
                 tXqhFax = aDocHD["raItems"][0]["FTXqhFax"]
 
                 $("#oetCstName").val(tXqcCstName)
-                $("#oetAddress").val(tXqcAddress)
+                $("#oetAddress").text(tXqcAddress)
                 $("#oetTaxNo").val(tXqhTaxNo)
                 $("#oetContact").val(tXqhContact)
                 $("#oetEmail").val(tXqhEmail)
@@ -206,6 +206,51 @@
              .fail(function (jqXHR, textStatus, errorThrown) {
                   //serrorFunction();
               });
+
+   }
+
+   function FSxQUOSaveDoc(){
+
+            oDocCstInfo = $("#ofmQuotationCst").serializeArray()
+            oDocHeaderInfo = $("#ofmQuotationHeader").serializeArray()
+
+            if ($('#ocbStaExpress').is(':checked')) {
+                nStaExpress = 1
+            }else{
+                nStaExpress = ''
+            }
+            if ($('#ocbtStaDocActive').is(':checked')) {
+                nStaDocActive = 1
+            }else{
+                nStaDocActive = ''
+            }
+            if ($('#ocbStaDeli').is(':checked')) {
+                nStaDeli = 1
+            }else{
+                nStaDeli = ''
+            }
+
+            tDocNo = $("#ospDocNo").attr("data-docno");
+
+            $.ajax({
+            url: 'r_quodocsavedoc',
+            type: 'POST',
+            data: {oDocHeaderInfo:oDocHeaderInfo,
+                   oDocCstInfo : oDocCstInfo,
+                   tDocNo:tDocNo,
+                   nStaExpress:nStaExpress,
+                   nStaDocActive:nStaDocActive,
+                   nStaDeli : nStaDeli
+                   },
+            datatype: 'json'
+            })
+            .done(function (data) {
+               //console.log(data)
+               alert("บันทึกข้อมูลสำเร็จ")
+             })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                 //serrorFunction();
+             });
 
    }
 

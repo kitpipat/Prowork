@@ -1,7 +1,13 @@
 <div class="container-fulid">
 
-  <div class="row">
-        <div class="col-lg-12 col-md-12"><span class="xCNHeadMenu">ใบเสนอราคา / รายละเอียด</span></div>
+  <div class="row" style="margin-bottom:15px;">
+        <div class="col-lg-8 col-md-8"><span class="xCNHeadMenu">ใบเสนอราคา / รายละเอียด</span></div>
+        <div class="col-lg-4 col-md-4 text-right">
+            <button type="button" class="button">ยกเลิก</button>
+            <button type="button" class="button">พิมพ์</button>
+            <button type="button" class="button">อนุมัติ</button>
+            <button type="button" class="button" onclick="FSxQUOSaveDoc()">บันทึก</button>
+        </div>
   </div>
 
   <div class="row">
@@ -13,47 +19,57 @@
                         </div>
                    </div>
                    <div class="col-lg-12">
+                         <!-- form customer section -->
                          <div class="card">
                               <div class="card-body xWCardHead">
-                                   <table style="width:100%">
-                                     <tr>
-                                       <td>ลูกค้า <br>
-                                          <input type="text" id="oetCstName" value="">
-                                       </td>
-                                     </tr>
-                                     <tr>
-                                       <td>ที่อยู่ <br>
-                                           <input type="text" id="oetAddress" value="">
-                                        </td>
-                                     </tr>
-                                     <tr>
-                                       <td>เลขที่ประจำตัวผู้เสียภาษี <br>
-                                           <input type="text" id="oetTaxNo" name="" value="">
-                                        </td>
-                                     </tr>
-                                     <tr>
-                                       <td>ผู้ติดต่อ <br>
-                                          <input type="text" id="oetContact" value="">
-                                        </td>
-                                     </tr>
-                                     <tr>
-                                       <td>อีเมลล์ <br>
-                                          <input type="text" id="oetEmail" value="">
-                                       </td>
-                                     </tr>
-                                     <tr>
-                                       <td>เบอร์โทรศัพท์ <br>
-                                          <input type="text" id="oetTel" value="">
-                                       </td>
-                                     </tr>
-                                     <tr>
-                                       <td>เบอร์โทรสาร <br>
-                                           <input type="text" id="oetFax" value="">
-                                       </td>
-                                     </tr>
-                                   </table>
+                                   <form id="ofmQuotationCst">
+                                         <table style="width:100%">
+                                           <tr>
+                                             <td colspan="2">ลูกค้า <br>
+                                                <input type="text" id="oetCstName" name="oetCstName">
+                                             </td>
+                                           </tr>
+                                           <tr>
+                                             <td colspan="2">ที่อยู่ <br>
+                                                 <textarea id="oetAddress" name="oetAddress"></textarea>
+                                              </td>
+                                           </tr>
+                                           <tr>
+                                             <td colspan="2">เลขที่ประจำตัวผู้เสียภาษี <br>
+                                                 <input type="text" id="oetTaxNo" name="oetTaxNo">
+                                              </td>
+                                           </tr>
+                                           <tr>
+                                             <td>ผู้ติดต่อ <br>
+                                                <input type="text" id="oetContact" name="oetContact">
+                                              </td>
+                                              <td>อีเมลล์ <br>
+                                                 <input type="text" id="oetEmail" name="oetEmail">
+                                              </td>
+                                           </tr>
+                                           <tr>
+                                             <td>เบอร์โทรศัพท์ <br>
+                                                <input type="text" id="oetTel" name="oetTel">
+                                             </td>
+                                             <td>เบอร์โทรสาร <br>
+                                                 <input type="text" id="oetFax" name="oetFax">
+                                             </td>
+                                           </tr>
+                                           <tr>
+                                               <td>
+                                                   ชื่อโครงการ <br>
+                                                   <input type="text" id="oetPrjName" name="oetPrjName">
+                                               </td>
+                                               <td>
+                                                    หมายเลขอ้างอิง <br>
+                                                    <input type="text" id="oetPrjCodeRef" name="oetPrjCodeRef">
+                                               </td>
+                                           </tr>
+                                         </table>
+                                   </form>
                               </div>
                          </div>
+                         <!-- end form customer section -->
                    </div>
              </div>
        </div>
@@ -77,95 +93,83 @@
                       <div style="background:#beecbb;padding:5px;">วันที่เอกสาร : <span id="ospDocDate"></span> </div>
                  </div>
                  <div class="col-lg-12">
+                       <!-- form document header -->
                        <div class="card">
-                            <div class="card-body xWCardHead">
-                                  สถานะเอกสาร : <span id="ospStaDoc"></span>
-                                  <hr>
-                                  <table style="width:100%">
-                                    <tr>
-                                      <td style="width:50%">
-                                            ยื่นราคาภายใน (วัน) <br>
-                                            <input type="text" class="text-right" id="oetXqhSmpDay" name="" value="">
-                                      </td>
-                                      <td>
-                                            มีผลถึงวันที่ <br>
-                                            <input type="date" id="odpXqhEftTo" name="" value="">
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                            เงื่อนไขการชำระเงิน <br>
-                                            <select class="" name="" id="ocmXqhCshOrCrd">
-                                                    <option value="">เลือกประเภทการชำระ</option>
-                                                    <option value="1">เงินสด</option>
-                                                    <option value="2">เครดิต</option>
-                                            </select>
-                                      </td>
-                                      <td>
-                                            จำนวนวันเครดิต (วัน) <br>
-                                            <input type="text" class="text-right" id="oetXqhCredit" name="" value="">
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                            กำหนดส่งของ <br>
-                                            <input type="date" id="odpDeliveryDate" name="" value="">
-                                      </td>
-                                      <td></td>
-                                    </tr>
-                                  </table>
-                                  <hr>
-                                  <table style="width:100%">
-                                    <tr>
-                                      <td style="width:50%">
-                                          <input type="checkbox" id="ocbStaExpress" value=""> เอกสารด่วน
-                                      </td>
-                                      <td>ผู้บันทึก : <span id="ospCreateBy"></span></td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                          <input type="checkbox" id="ocbtStaDocActive" value=""> เคลื่อนไหว
-                                      </td>
-                                      <td>ผู้อนุมัติ : <span id="ospApprovedBy"></span> </td>
-                                    </tr>
-                                    <tr>
-                                      <td>
-                                          <input type="checkbox" id="ocbStaDeli" value=""> จัดส่งสินค้าแล้ว
-                                      </td>
-                                      <td>วันที่อนุมัติ : <span id="ospApproveDate"></span></td>
-                                    </tr>
-                                  </table>
 
-                            </div>
+                                    <div class="card-body xWCardHead">
+                                          สถานะเอกสาร : <span id="ospStaDoc"></span>
+                                          <hr>
+                                          <form id="ofmQuotationHeader">
+                                                <table style="width:100%">
+                                                  <tr>
+                                                    <td style="width:50%">
+                                                          ยื่นราคาภายใน (วัน) <br>
+                                                          <input type="text" class="text-right" id="oetXqhSmpDay" name="oetXqhSmpDay">
+                                                    </td>
+                                                    <td>
+                                                          มีผลถึงวันที่ <br>
+                                                          <input type="date" id="odpXqhEftTo" name="odpXqhEftTo">
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>
+                                                          เงื่อนไขการชำระเงิน <br>
+                                                          <select  name="ocmXqhCshOrCrd" id="ocmXqhCshOrCrd">
+                                                                  <option value="">เลือกประเภทการชำระ</option>
+                                                                  <option value="1">เงินสด</option>
+                                                                  <option value="2">เครดิต</option>
+                                                          </select>
+                                                    </td>
+                                                    <td>
+                                                          จำนวนวันเครดิต (วัน) <br>
+                                                          <input type="text" class="text-right" id="oetXqhCredit" name="oetXqhCredit">
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>
+                                                          กำหนดส่งของ <br>
+                                                          <input type="date" id="odpDeliveryDate" name="odpDeliveryDate">
+                                                    </td>
+                                                    <td>
+                                                           ประเภทภาษี <br>
+                                                            <select name="ocmVatType" id="ocmVatType">
+                                                                  <option value="1">แยกนอก</option>
+                                                                  <option value="2">รวมใน</option>
+                                                            </select>
+                                                    </td>
+                                                  </tr>
+                                                </table>
+                                          </form>
+                                          <hr>
+                                          <table style="width:100%">
+                                            <tr>
+                                              <td style="width:50%">
+                                                  <input type="checkbox" id="ocbStaExpress" name="ocbStaExpress" value="1"> เอกสารด่วน
+                                              </td>
+                                              <td>ผู้บันทึก : <span id="ospCreateBy"></span></td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                  <input type="checkbox" id="ocbtStaDocActive" name="ocbtStaDocActive" value="1"> เคลื่อนไหว
+                                              </td>
+                                              <td>ผู้อนุมัติ : <span id="ospApprovedBy"></span> </td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                  <input type="checkbox" id="ocbStaDeli" name="ocbStaDeli" value="1"> จัดส่งสินค้าแล้ว
+                                              </td>
+                                              <td>วันที่อนุมัติ : <span id="ospApproveDate"></span></td>
+                                            </tr>
+                                          </table>
+
+                                    </div>
+
                        </div>
+                       <!-- end form document header -->
                  </div>
 
              </div>
        </div>
-
-  </div>
-
-  <div class="card">
-       <div class="card-body" style="height:auto">
-              <div class="row">
-
-                   <div class="col-lg-6">
-                        <div >
-                             ชื่อโครงการ <input type="text" id="oetPrjName" value="" style="width:80%">
-                        </div>
-                   </div>
-                   <div class="col-lg-6">
-                        <div>
-                          หมายเลขอ้างอิง <input type="text" id="oetPrjCodeRef" value="" style="width:30%">
-                          ประเภทภาษี
-                                      <select class="" style="width:30%" id="ocmVatType">
-                                            <option value="1">แยกนอก</option>
-                                            <option value="2">รวมใน</option>
-                                      </select>
-                        </div>
-                   </div>
-              </div>
-      </div>
   </div>
 
   <div class="card">
@@ -233,7 +237,7 @@
      width: 100%;
    }
    .xWCardHead{
-     min-height: 530px;
+     min-height: 488px;
    }
 </style>
 
