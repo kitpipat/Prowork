@@ -156,8 +156,6 @@
 				data 	: {'aData' : aUpdateImg},
 				timeout	: 0,
 				success	: function (tResult) {
-					
-					console.log(tResult);
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('นำเข้ารูปภาพสินค้าสำเร็จ');
