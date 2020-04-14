@@ -136,4 +136,5 @@ $route['r_producteventedit'] 					= 'product/product/cProduct/FSxCPDTEventEdit';
 
 $route['r_productCallpageUplodeImage'] 			= 'product/product/cProduct/FSxCPDTCallpageUplodeImage';
 $route['r_productCallpageUplodeFile'] 			= 'product/product/cProduct/FSxCPDTCallpageUplodeFile';
+$route['r_producteventDeleteImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEventDeleteImgInTmp';
 
