@@ -174,25 +174,26 @@ class cProduct extends CI_Controller {
 		$this->mProduct->FSxMPDTImportImgPDTDelete();
 
 		//ลบข้อมูลในโฟลเดอร์ Tmp
-		array_map('unlink', array_filter((array) glob("./application/assets/images/products_temp/*")));
+		array_map('unlink', array_filter((array) glob("./application/assets/Tmp/TmpImg_user".$this->session->userdata('tSesUsercode')."/*")));
 	}
 
 	//ยินยันการนำเข้ารูปภาพ Tmp (การนำเข้ารูปภาพ)
 	public function FSxCPDTEventAproveImgInTmp(){
 		$aData 		= $this->input->post('aData');
 		$nCountData = count($aData);
+
 		for($i=0; $i<$nCountData; $i++){
-			$tFileName 		= $aData[0]['tPathImg'];
-			$aExplode		= explode('products_temp/',$tFileName);
+			$tFileName 		= $aData[$i]['tPathImg'];
+			$aExplode		= explode('TmpImg_user'.$this->session->userdata('tSesUsercode').'/',$tFileName);
 
 			//ย้ายไฟล์
-			$tPathFileFrom	= './application/assets/images/products_temp/'.$aExplode[1];
+			$tPathFileFrom	= './application/assets/Tmp/TmpImg_user'.$this->session->userdata('tSesUsercode').'/'.$aExplode[1];
 			$tPathFileTo	= './application/assets/images/products/'.$aExplode[1];
 			rename($tPathFileFrom,$tPathFileTo);
 
 			//Update ฐานข้อมูล
 			$aWhere = array(
-				'FTPdtCode'			=> $aData[0]['nPDTCode'],
+				'FTPdtCode'			=> $aData[$i]['nPDTCode'],
 			);
 
 			$aSet = array(

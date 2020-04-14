@@ -48,7 +48,7 @@
 				$.ajax({
 					type 			: "POST",
 					url 			: "ImageUpload_zip",
-					cache 			: false,
+					cache 			: true,
 					contentType		: false,
 					processData		: false,
 					data 			: oImgFromZip,

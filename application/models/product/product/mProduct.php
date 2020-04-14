@@ -258,7 +258,9 @@ class mProduct extends CI_Model {
 	//นำเข้ารูปภาพ - ลบรูปภาพ
 	public function FSxMPDTImportImgPDTDelete(){
 		try{
-            $this->db->empty_table('TCNMPdt_ImgTmp');
+			$FTWorkerID = $this->session->userdata('tSesUsercode');
+			$this->db->where_in('FTWorkerID', $FTWorkerID);
+			$this->db->delete('TCNMPdt_ImgTmp');
 		}catch(Exception $Error){
             echo $Error;
         }

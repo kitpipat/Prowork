@@ -56,7 +56,7 @@
 
 								<tr data-pdtcode="<?=$aValue['FTPdtCode'];?>" data-staapv='<?=$tStatusAprove;?>' data-pathimg='<?=$aValue['FTPathImgTmp']?>'>
 									<th><?=$nKey+1?></th>
-									<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
+									<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter NO-CACHE" src="<?=@$tPathImage;?>"></td>
 									<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtCode'] == '') ? '-' : $aValue['FTPdtCode'];?></label></td>
 									<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtName'] == '') ? '-' : $aValue['FTPdtName'];?></label></td>
 									<td><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>
@@ -97,6 +97,8 @@
 
 <script>
 
+	$('.NO-CACHE').attr('src',function () { return $(this).attr('src') + "?a=" + Math.random() });
+ 
 	//ยกเลิกการนำเข้า
 	function JSxCancleImportImg(){
 		$('#obtModalCancleImport').click();
@@ -154,6 +156,8 @@
 				data 	: {'aData' : aUpdateImg},
 				timeout	: 0,
 				success	: function (tResult) {
+					
+					console.log(tResult);
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('นำเข้ารูปภาพสินค้าสำเร็จ');

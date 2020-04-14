@@ -92,43 +92,51 @@ class cMain extends CI_Controller {
 	//อัพโหลดรูปภาพ Zip , rar
 	public function FSvCUploadimage_zip(){
 
+		//สร้าง Folder Tmp ตาม User
+		if(!is_dir('./application/assets/Tmp/TmpImg_user'.$this->session->userdata('tSesUsercode'))){
+            mkdir('./application/assets/Tmp/TmpImg_user'.$this->session->userdata('tSesUsercode'));
+		}
+
 		//ลบข้อมูลในตารางก่อนทุกครั้งที่มีการ อัพโหลด
 		$this->mProduct->FSxMPDTImportImgPDTDelete();
 
 		//ลบข้อมูลในโฟลเดอร์ก่อนทุกครั้งที่มีการ อัพโหลด
-		array_map('unlink', array_filter((array) glob("./application/assets/images/products_temp/*")));
-
-		//เงื่อนไขคือ : นามสกุล zip และ file ไม่เกิน 5 MB
+		array_map('unlink', array_filter((array) glob("./application/assets/Tmp/TmpImg_user".$this->session->userdata('tSesUsercode')."/*")));
+		
+		//เงื่อนไขคือ : นามสกุล zip และ file ไม่เกิน 88 MB
 		$tPath = $this->input->post('path');
 		if($_FILES['file']['name'] != ''){ 
 			// Set preference 
-			$config['upload_path'] 		= './application/assets/'.$tPath; 
+			$config['upload_path'] 		= './application/assets/Tmp/TmpImg_user'.$this->session->userdata('tSesUsercode'); 
 			$config['allowed_types'] 	= 'zip|rar'; 
 			$config['max_size'] 		= '90000'; // max_size in kb (88.00 MB) 
 			$config['file_name'] 		= $_FILES['file']['name'];
 			$this->load->library('upload',$config); 
 			if($this->upload->do_upload('file')){ 
-				$uploadData = $this->upload->data(); 
-				$filename 	= $uploadData['file_name'];
-				$zip 		= new ZipArchive;
-				$res 		= $zip->open('./application/assets/images/products_temp/'.$filename);
+				$uploadData 	= $this->upload->data(); 
+				$filename 		= $uploadData['file_name'];
+				$zip 			= new ZipArchive;
+				$tFolderUser 	= './application/assets/Tmp/TmpImg_user'.$this->session->userdata('tSesUsercode'); 
+				$res 			= $zip->open($tFolderUser.'/'.$filename);
 				if ($res === TRUE) {
 
 					//แตกไฟล์
-					$extractpath = "./application/assets/images/products_temp/";
+					$extractpath = $tFolderUser;
 					$zip->extractTo($extractpath);
 					$zip->close();
 					$tStatus = 'success';
 
 					//เพิ่มข้อมูลลง TCNMPdt_ImgTmp
-					$tFiles = glob("./application/assets/images/products_temp/".'*.jpg');
+					
+					$tFiles = glob($tFolderUser."/*.{jpg,gif,png}",GLOB_BRACE);
 					foreach($tFiles as $tJpg){
-						$aExplode = explode('products_temp/',$tJpg);
+						$aExplode = explode("TmpImg_user".$this->session->userdata('tSesUsercode')."/",$tJpg);
 						$aExplode = explode('.',$aExplode[1]);
 
 						$aResult = array(
 							'FTPdtCode' 	=> $aExplode[0],
-							'FTPathImgTmp' 	=> $tJpg
+							'FTPathImgTmp' 	=> $tJpg,
+							'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
 						);
 						$this->mProduct->FSxMPDTImportImgPDTInsert($aResult);
 					}

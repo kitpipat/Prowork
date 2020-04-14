@@ -55,12 +55,11 @@ jQuery(document).ready(function($) {
                 $('#left-panel').slideToggle();
             } else {
                 $('#left-panel').toggleClass('open-menu');
-            }
+			}
         } else {
-            $('body').toggleClass('open');
-            $('#left-panel').removeClass('open-menu');
-        }
-
+			$('body').toggleClass('open');
+			$('#left-panel').removeClass('open-menu');
+		}
     });
 
 
@@ -94,7 +93,12 @@ jQuery(document).ready(function($) {
             cache: false,
             timeout: 0,
             success: function(tResult) {
-				$('#menuToggle').click();
+
+				var nWidth = $('#left-panel').width();
+				if(nWidth > 70){
+					$('#menuToggle').click();
+				}
+
                 $('.content').html(tResult);
             },
             error: function(jqXHR, textStatus, errorThrown) {

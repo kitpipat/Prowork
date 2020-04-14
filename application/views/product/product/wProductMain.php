@@ -264,7 +264,8 @@
 		$.ajax({
 			type	: "POST",
 			url		: "r_productCallpageUplodeImage",
-			cache	: false,
+			cache	: true,
+			async	: false,
 			timeout	: 0,
 			success	: function (tResult) {
 				$('.content').html(tResult);
