@@ -226,6 +226,60 @@ class mProduct extends CI_Model {
 			);
 		}
 		return $aResult;
+	}	
+
+	//นำเข้ารูปภาพ - เอาข้อมูลมาโชว์
+	public function FSxMPDTImportImgPDTSelect(){
+		$tSQL = " SELECT 
+					PDTTmp.FTPdtCode,
+					PDTTmp.FTPathImgTmp,
+					PDT.FTPdtName
+				FROM TCNMPdt_ImgTmp PDTTmp 
+				LEFT JOIN TCNMPdt PDT ON PDT.FTPdtCode 	= PDTTmp.FTPdtCode";
+		$tSQL .= " WHERE 1=1 ";
+        $oQuery = $this->db->query($tSQL);
+        if($oQuery->num_rows() > 0){
+            $aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+                'rtCode'   		=> '1',
+                'rtDesc'   		=> 'success',
+            );
+        }else{
+            $aResult = array(
+                'rtCode' 		=> '800',
+                'rtDesc' 		=> 'data not found',
+            );
+        }
+        return $aResult;
 	}
 
+
+
+	//นำเข้ารูปภาพ - ลบรูปภาพ
+	public function FSxMPDTImportImgPDTDelete(){
+		try{
+            $this->db->empty_table('TCNMPdt_ImgTmp');
+		}catch(Exception $Error){
+            echo $Error;
+        }
+	}
+
+	//นำเข้ารูปภาพ - เพิ่มลงในตาราง Tmp
+	public function FSxMPDTImportImgPDTInsert($aResult){
+		try{
+			$this->db->insert('TCNMPdt_ImgTmp', $aResult);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//นำเข้ารูปภาพ - อัพเดทรูปภาพใหม่
+	public function FSxMPDTImportImgPDTUpdate($ptSet,$ptWhere){
+		try{
+			$this->db->where('FTPdtCode', $ptWhere['FTPdtCode']);
+			$this->db->update('TCNMPdt', $ptSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
 }

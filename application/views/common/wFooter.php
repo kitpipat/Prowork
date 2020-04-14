@@ -54,6 +54,7 @@
 					data 			: oImgFromZip,
 					datatype		: "JSON",
 					complete: function(xhr) {
+						console.log(xhr);
 						setTimeout(function(){
 							$('#obtModalProcess').click();
 							return window['JSxReturnExtractFileImage']();

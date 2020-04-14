@@ -161,12 +161,49 @@ class cProduct extends CI_Controller {
         }
 	}
 
-
-	//ไปหน้าของการอัพโหลดรูปภาพ
+	//ไปหน้าของการอัพโหลดรูปภาพ Tmp (การนำเข้ารูปภาพ)
 	public function FSxCPDTCallpageUplodeImage(){
-		$aPackData = array();
+		$aList 		= $this->mProduct->FSxMPDTImportImgPDTSelect();
+		$aPackData 	= array('aList' => $aList);
 		$this->load->view('product/product/Import/wDatatable',$aPackData);
 	}
 
+	//ลบข้อมูลรูปภาพใน Tmp (การนำเข้ารูปภาพ)
+	public function FSxCPDTEventDeleteImgInTmp(){
+		//ลบข้อมูลในตาราง Tmp
+		$this->mProduct->FSxMPDTImportImgPDTDelete();
 
+		//ลบข้อมูลในโฟลเดอร์ Tmp
+		array_map('unlink', array_filter((array) glob("./application/assets/images/products_temp/*")));
+	}
+
+	//ยินยันการนำเข้ารูปภาพ Tmp (การนำเข้ารูปภาพ)
+	public function FSxCPDTEventAproveImgInTmp(){
+		$aData 		= $this->input->post('aData');
+		$nCountData = count($aData);
+		for($i=0; $i<$nCountData; $i++){
+			$tFileName 		= $aData[0]['tPathImg'];
+			$aExplode		= explode('products_temp/',$tFileName);
+
+			//ย้ายไฟล์
+			$tPathFileFrom	= './application/assets/images/products_temp/'.$aExplode[1];
+			$tPathFileTo	= './application/assets/images/products/'.$aExplode[1];
+			rename($tPathFileFrom,$tPathFileTo);
+
+			//Update ฐานข้อมูล
+			$aWhere = array(
+				'FTPdtCode'			=> $aData[0]['nPDTCode'],
+			);
+
+			$aSet = array(
+				'FTPdtImage' 		=> $aExplode[1],
+				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+				'FDUpdateOn'		=> date('Y-m-d H:i:s')
+			);
+			$this->mProduct->FSxMPDTImportImgPDTUpdate($aSet,$aWhere);
+		}
+
+		//ลบข้อมูลในฐานข้อมูล และ รูปภาพใน Tmp
+		$this->FSxCPDTEventDeleteImgInTmp();
+	}
 }

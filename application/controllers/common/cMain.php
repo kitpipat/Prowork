@@ -9,6 +9,7 @@ class cMain extends CI_Controller {
 		$this->load->library("session");
 		if(@$_SESSION['tSesUsercode'] == true) { //มี session
 			$this->load->model('common/mCommon');
+			$this->load->model('product/product/mProduct');
 		}else{//ไม่มี session
 			redirect('Login', '');
 			exit();
@@ -91,6 +92,12 @@ class cMain extends CI_Controller {
 	//อัพโหลดรูปภาพ Zip , rar
 	public function FSvCUploadimage_zip(){
 
+		//ลบข้อมูลในตารางก่อนทุกครั้งที่มีการ อัพโหลด
+		$this->mProduct->FSxMPDTImportImgPDTDelete();
+
+		//ลบข้อมูลในโฟลเดอร์ก่อนทุกครั้งที่มีการ อัพโหลด
+		array_map('unlink', array_filter((array) glob("./application/assets/images/products_temp/*")));
+
 		//เงื่อนไขคือ : นามสกุล zip และ file ไม่เกิน 5 MB
 		$tPath = $this->input->post('path');
 		if($_FILES['file']['name'] != ''){ 
@@ -106,18 +113,36 @@ class cMain extends CI_Controller {
 				$zip 		= new ZipArchive;
 				$res 		= $zip->open('./application/assets/images/products_temp/'.$filename);
 				if ($res === TRUE) {
+
+					//แตกไฟล์
 					$extractpath = "./application/assets/images/products_temp/";
 					$zip->extractTo($extractpath);
 					$zip->close();
-					$this->session->set_flashdata('msg','Upload & Extract successfully.');
+					$tStatus = 'success';
+
+					//เพิ่มข้อมูลลง TCNMPdt_ImgTmp
+					$tFiles = glob("./application/assets/images/products_temp/".'*.jpg');
+					foreach($tFiles as $tJpg){
+						$aExplode = explode('products_temp/',$tJpg);
+						$aExplode = explode('.',$aExplode[1]);
+
+						$aResult = array(
+							'FTPdtCode' 	=> $aExplode[0],
+							'FTPathImgTmp' 	=> $tJpg
+						);
+						$this->mProduct->FSxMPDTImportImgPDTInsert($aResult);
+					}
+
 				} else {
-					$this->session->set_flashdata('msg','Failed to extract.');
+					$tStatus = 'Failed to extract.';
 				}
 			}else{ 
-				$this->session->set_flashdata('msg','Failed to upload 1 ');
+				$tStatus = 'Failed to upload';
 			} 
 		}else{ 
-			$this->session->set_flashdata('msg','Failed to upload 2');
+			$tStatus = 'Failed to upload';
 		} 
+
+		return $tStatus;
 	}
 }
