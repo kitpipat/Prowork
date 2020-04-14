@@ -49,7 +49,38 @@ class cQuotationDoc extends CI_Controller {
   }
 
 	public function FSxCQUODocSave(){
-		
+
+				 $oDocHeaderInfo = $this->input->post("oDocHeaderInfo");
+				 $oDocCstInfo = $this->input->post("oDocCstInfo");
+				 //var_dump($oDocCstInfo);
+				 //var_dump($oDocCstInfo);
+
+				 $tWorkerID = $this->session->userdata('tSesUsercode');
+         $tDocNo = $this->input->post('tDocNo');
+				 $nStaExpress= $this->input->post('nStaExpress');
+				 $nStaDocActive = $this->input->post('nStaDocActive');
+				 $nStaDeli = $this->input->post('nStaDeli');
+
+				 //if(isset)
+
+				 $aDocHD = array("FNXqhSmpDay" => $oDocHeaderInfo[0]["value"],
+			                   "FDXqhEftTo" =>  $oDocHeaderInfo[1]["value"],
+											   "FTXqhCshOrCrd" => $oDocHeaderInfo[2]["value"],
+											   "FNXqhCredit" => $oDocHeaderInfo[3]["value"],
+											   "FDDeliveryDate" => $oDocHeaderInfo[4]["value"],
+											   "FTXqhVATInOrEx" => $oDocHeaderInfo[5]["value"],
+											   "FTXqhStaExpress" => $nStaExpress,
+											   "FTXqhStaActive" => $nStaDocActive,
+											   "FTXqhStaDeli" => $nStaDeli,
+												 "FTXqhPrjName" => $oDocCstInfo[7]["value"],
+												 "FTXqhPrjCodeRef" => $oDocCstInfo[8]["value"],
+												 "tWorkerID" =>$tWorkerID,
+												 "tDocNo" =>$tDocNo
+											   );
+        $this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
+         //Update Header Information
+
+
 	}
 
 }
