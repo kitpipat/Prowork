@@ -165,7 +165,7 @@ class cProduct extends CI_Controller {
 	public function FSxCPDTCallpageUplodeImage(){
 		$aList 		= $this->mProduct->FSxMPDTImportImgPDTSelect();
 		$aPackData 	= array('aList' => $aList);
-		$this->load->view('product/product/Import/wDatatable',$aPackData);
+		$this->load->view('product/product/Import/wDatatableImg',$aPackData);
 	}
 
 	//ลบข้อมูลรูปภาพใน Tmp (การนำเข้ารูปภาพ)
@@ -207,5 +207,38 @@ class cProduct extends CI_Controller {
 
 		//ลบข้อมูลในฐานข้อมูล และ รูปภาพใน Tmp
 		$this->FSxCPDTEventDeleteImgInTmp();
+	}
+
+	//นำข้อมูลใน Excel เข้า
+	public function FSxCPDTCallpageUplodeFile(){
+		$aPackData = $this->input->post('aPackdata');
+		$nPackData = count($aPackData['Product']);
+		$aResult   = $aPackData['Product'];
+
+		//ลบข้อมูลก่อน
+		$aDelete = array(
+			'FTWorkerID' => $this->session->userdata('tSesUsercode')
+		);
+		$this->mProduct->FSxMPDTImportExcelDelete($aDelete);
+
+		for($i=1; $i<$nPackData; $i++){
+			$aIns = array(
+				'FTPdtCode' 	=> $aResult[$i][0],
+				'FTPdtName' 	=> $aResult[$i][1],
+				'FTPgpCode' 	=> $aResult[$i][2],
+				'FTPtyCode' 	=> $aResult[$i][3],
+				'FTSplCode' 	=> $aResult[$i][4],
+				'FCPdtCostStd' 	=> $aResult[$i][5],
+				'FTPdtCostDis' 	=> $aResult[$i][6],
+				'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
+			);
+			//Insert ข้อมูล
+			$this->mProduct->FSxMPDTImportExcelInsert($aIns);
+		}
+
+		//Get ข้อมูล
+		$aList 		= $this->mProduct->FSxMPDTImportExcelSelect();
+		$aPackData 	= array('aList' => $aList);
+		$this->load->view('product/product/Import/wDatatable',$aPackData);
 	}
 }

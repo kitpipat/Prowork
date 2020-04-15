@@ -41,7 +41,8 @@
 				var oImgFromZip = new FormData();
 				oImgFromZip.append('file',oImgData);
 				oImgFromZip.append('path', ptPath);
-				
+
+				('#olbModalProcessText').text('กรุณารอสักครู่ กำลังตรวจสอบไฟล์รูปภาพ');
 				$('#obtModalProcess').click();
 
 				//อัพโหลดรูปภาพแบบ Zip , rar
@@ -54,7 +55,6 @@
 					data 			: oImgFromZip,
 					datatype		: "JSON",
 					complete: function(xhr) {
-						console.log(xhr);
 						setTimeout(function(){
 							$('#obtModalProcess').click();
 							return window['JSxReturnExtractFileImage']();

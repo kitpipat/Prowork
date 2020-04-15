@@ -228,6 +228,8 @@ class mProduct extends CI_Model {
 		return $aResult;
 	}	
 
+	//////////////////////////////////////////////////////////////////////// นำเข้ารูปภาพ */
+
 	//นำเข้ารูปภาพ - เอาข้อมูลมาโชว์
 	public function FSxMPDTImportImgPDTSelect(){
 		$tSQL = " SELECT 
@@ -252,8 +254,6 @@ class mProduct extends CI_Model {
         }
         return $aResult;
 	}
-
-
 
 	//นำเข้ารูปภาพ - ลบรูปภาพ
 	public function FSxMPDTImportImgPDTDelete(){
@@ -283,5 +283,57 @@ class mProduct extends CI_Model {
 		}catch(Exception $Error){
 			echo $Error;
 		}
+	}
+
+	//////////////////////////////////////////////////////////////////////// นำเข้าข้อมูล */
+
+	//น้ำเข้าข้อมูล - เพิ่มข้อมูล
+	public function FSxMPDTImportExcelInsert($aResult){
+		try{
+			$this->db->insert('TCNMPdt_DataTmp', $aResult);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//นำเข้าข้อมูล - ลบข้อมูล
+	public function FSxMPDTImportExcelDelete($ptWorkerID){
+		try{
+			$FTWorkerID = $ptWorkerID['FTWorkerID'];
+			$this->db->where_in('FTWorkerID', $FTWorkerID);
+			$this->db->delete('TCNMPdt_DataTmp');
+		}catch(Exception $Error){
+            echo $Error;
+        }
+	}
+
+	//นำเข้าข้อมูล - โชว์ข้อมูล
+	public function FSxMPDTImportExcelSelect(){
+		$tSQL = " SELECT 
+				 	PDTTmp.FTPdtCode,
+					PDTTmp.FTPdtName,
+					PDTTmp.FTPgpCode,
+					PDTTmp.FTPtyCode,
+					PDTTmp.FTSplCode,
+					PDTTmp.FCPdtCostStd,
+					PDTTmp.FTPdtCostDis,
+					PDTTmp.FTWorkerID
+			FROM TCNMPdt_DataTmp PDTTmp 
+			LEFT JOIN TCNMPdt PDT ON PDT.FTPdtCode 	= PDTTmp.FTPdtCode";
+		$tSQL .= " WHERE 1=1 ";
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 		=> '800',
+				'rtDesc' 		=> 'data not found',
+			);
+		}
+		return $aResult;
 	}
 }
