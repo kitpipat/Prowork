@@ -42,7 +42,7 @@
 				oImgFromZip.append('file',oImgData);
 				oImgFromZip.append('path', ptPath);
 
-				('#olbModalProcessText').text('กรุณารอสักครู่ กำลังตรวจสอบไฟล์รูปภาพ');
+				$('#olbModalProcessText').text('กรุณารอสักครู่ กำลังตรวจสอบไฟล์รูปภาพ');
 				$('#obtModalProcess').click();
 
 				//อัพโหลดรูปภาพแบบ Zip , rar

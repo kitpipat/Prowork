@@ -239,6 +239,6 @@ class cProduct extends CI_Controller {
 		//Get ข้อมูล
 		$aList 		= $this->mProduct->FSxMPDTImportExcelSelect();
 		$aPackData 	= array('aList' => $aList);
-		$this->load->view('product/product/Import/wDatatable',$aPackData);
+		$this->load->view('product/product/Import/wDatatableData',$aPackData);
 	}
 }

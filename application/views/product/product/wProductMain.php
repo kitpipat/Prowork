@@ -238,9 +238,10 @@
 						async	: false,
 						timeout	: 0,
 						success	: function (tResult) {
-							$('#obtModalProcess').click();
-							console.log(tResult);
-							// $('.content').html(tResult);
+							setTimeout(function(){
+								$('#obtModalProcess').click();
+								$('.content').html(tResult);
+							}, 2000);
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
 							alert(jqXHR, textStatus, errorThrown);

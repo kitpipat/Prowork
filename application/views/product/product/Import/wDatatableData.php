@@ -1,10 +1,10 @@
 <div class="container-fulid">
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCancleImportImg();">สินค้า</span><span class="xCNHeadMenu">  /  นำเข้ารูปภาพ</span></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCancleImportExcel();">สินค้า</span><span class="xCNHeadMenu">  /  นำเข้าข้อมูล</span></div>
 		<div class="col-lg-6 col-md-6">
-			<button class="xCNButtonSave pull-right" onclick="JSxApvImportImg();">ยืนยันการนำเข้า</button>
-			<button class="xCNCalcelImport btn btn-outline-danger pull-right" onclick="JSxCancleImportImg();">ยกเลิกการนำเข้า</button>
+			<button class="xCNButtonSave pull-right" onclick="JSxApvImportExcel();">ยืนยันการนำเข้า</button>
+			<button class="xCNCalcelImport btn btn-outline-danger pull-right" onclick="JSxCancleImportExcel();">ยกเลิกการนำเข้า</button>
 		</div>
 	</div>
 
@@ -17,10 +17,14 @@
 					<thead>
 						<tr>
 							<th style="width:5px; text-align: center;">ลำดับ</th>
-							<th style="width:80px; text-align: center;">รูปภาพ</th>
 							<th style="width:100px; text-align: left;">รหัสสินค้า</th>
 							<th style="text-align: left;">ชื่อสินค้า</th>
-							<th style="width:200px; text-align: left;">สถานะ</th>
+							<th style="text-align: left;">ชื่อกลุ่มสินค้า</th>
+							<th style="text-align: left;">ชื่อประเภทสินค้า</th>
+							<th style="text-align: left;">ชื่อผู้จำหน่าย</th>
+							<th style="width:80px; text-align: left;">ต้นทุน</th>
+							<th style="width:100px; text-align: left;">ส่วนลดต้นทุน</th>
+							<th style="width:300px; text-align: left;">สถานะ</th>
 							<th style="width:50px; text-align: center;">ลบ</th>
 						</tr>
 					</thead>
@@ -28,37 +32,91 @@
 						<?php if($aList['rtCode'] != 800){ ?>
 							<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
 								<?php 
-									//สถานะการอนุมัติ
-									if($aValue['FTPdtName'] == '' || $aValue['FTPdtName'] == null){			
-										$tIconClassStatus 	= 'xCNIconStatus_close';
-										$tTextClassStatus 	= 'xCNTextClassStatus_close';
-										$tTextStatus 		= 'ไม่พบสินค้าในระบบ';
-										$tStatusAprove		= 'fail';
-									}else{
-										$tIconClassStatus 	= 'xCNIconStatus_open';
-										$tTextClassStatus 	= 'xCNTextClassStatus_open';
-										$tTextStatus 		= 'รอยืนยัน'; 
-										$tStatusAprove		= 'pass';
+									//สถานะ
+									$tPDTClassStatus	= '';
+									switch ($aValue) {
+										case strlen($aValue['FTPdtCode']) > 50:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'รหัสสินค้าเกิน';
+											$tStatusAprove		= 'fail';
+											$tPDTClassStatus 	= 'xCNTextClassStatus_close';
+											break;
+										case $aValue['RealPDT'] != null:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'สินค้ามีอยู่แล้วในระบบ';
+											$tStatusAprove		= 'fail';
+											break;
+										case $aValue['FTPgpName'] == null:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'ไม่พบกลุ่มสินค้า';
+											$tStatusAprove		= 'fail';
+											break;
+										case $aValue['FTPtyName'] == null:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'ไม่พบประเภทสินค้า';
+											$tStatusAprove		= 'fail';
+											break;
+										case $aValue['FTSplName'] == null:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'ไม่พบผู้จำหน่าย';
+											$tStatusAprove		= 'fail';
+											break;
+										case is_numeric($aValue['FCPdtCostStd']) != 1:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'ข้อมูลต้นทุนไม่ถูกต้อง';
+											$tStatusAprove		= 'fail';
+											break;
+										default:
+											$tIconClassStatus 	= 'xCNIconStatus_open';
+											$tTextClassStatus 	= 'xCNTextClassStatus_open';
+											$tTextStatus 		= 'รอยืนยัน'; 
+											$tStatusAprove		= 'pass';
 									}
 
-									//รูปภาพ
-									if($aValue['FTPathImgTmp'] != '' || $aValue['FTPathImgTmp'] != null){
-										$tPathImage = $aValue['FTPathImgTmp'];
-										if (file_exists($tPathImage)){
-											$tPathImage = base_url().$aValue['FTPathImgTmp'];
-										}else{
-											$tPathImage = base_url().'application/assets/images/products/NoImage.png';
-										}
+									//รหัสกลุ่มสินค้า
+									if($aValue['FTPgpName'] == '' || $aValue['FTPgpName'] == null){
+										$tPgpName 			= $aValue['FTPgpCode'];
+										$tPgpClassStatus 	= 'xCNTextClassStatus_close';
 									}else{
-										$tPathImage = './application/assets/images/products/NoImage.png';
+										$tPgpName = $aValue['FTPgpName'];
+										$tPgpClassStatus 	= '';
 									}
+
+									//รหัสประเภทสินค้า
+									if($aValue['FTPtyName'] == '' || $aValue['FTPtyName'] == null){
+										$tPtyName 			= $aValue['FTPtyCode'];
+										$tPtyClassStatus 	= 'xCNTextClassStatus_close';
+									}else{
+										$tPtyName 			= $aValue['FTPtyName'];
+										$tPtyClassStatus 	= '';
+									}
+
+									//รหัสผู้จำหน่าย
+									if($aValue['FTSplName'] == '' || $aValue['FTSplName'] == null){
+										$tSplName 			= $aValue['FTSplCode'];
+										$tSplClassStatus 	= 'xCNTextClassStatus_close';
+									}else{
+										$tSplName 			= $aValue['FTSplName'];
+										$tSplClassStatus	= '';
+									}
+								
 								?>
 
-								<tr data-pdtcode="<?=$aValue['FTPdtCode'];?>" data-staapv='<?=$tStatusAprove;?>' data-pathimg='<?=$aValue['FTPathImgTmp']?>'>
+								<tr data-pdtcode="<?=$aValue['FTPdtCode'];?>" data-staapv='<?=$tStatusAprove;?>'>
 									<th><?=$nKey+1?></th>
-									<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter NO-CACHE" src="<?=@$tPathImage;?>"></td>
-									<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtCode'] == '') ? '-' : $aValue['FTPdtCode'];?></label></td>
+									<td><label class="xCNLineHeightInTable <?=$tPDTClassStatus;?>"><?=($aValue['FTPdtCode'] == '') ? '-' : $aValue['FTPdtCode'];?></label></td>
 									<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtName'] == '') ? '-' : $aValue['FTPdtName'];?></label></td>
+									<td><label class="xCNLineHeightInTable <?=$tPgpClassStatus;?>"><?=$tPgpName;?></label></td>
+									<td><label class="xCNLineHeightInTable <?=$tPtyClassStatus;?>"><?=$tPtyName;?></label></td>
+									<td><label class="xCNLineHeightInTable <?=$tSplClassStatus;?>"><?=$tSplName;?></label></td>
+									<td style="text-align: right;"><label class="xCNLineHeightInTable"><?=($aValue['FCPdtCostStd'] == '') ? '-' : $aValue['FCPdtCostStd'];?></label></td>
+									<td style="text-align: right;"><label class="xCNLineHeightInTable"><?=($aValue['FTPdtCostDis'] == '') ? '-' : $aValue['FTPdtCostDis'];?></label></td>
 									<td><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>
 									<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxProductTmp_Delete(this);"></td>
 								</tr>
@@ -96,8 +154,6 @@
 
 
 <script>
-
-	$('.NO-CACHE').attr('src',function () { return $(this).attr('src') + "?a=" + Math.random() });
  
 	//ยกเลิกการนำเข้า
 	function JSxCancleImportImg(){

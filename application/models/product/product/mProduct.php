@@ -317,9 +317,16 @@ class mProduct extends CI_Model {
 					PDTTmp.FTSplCode,
 					PDTTmp.FCPdtCostStd,
 					PDTTmp.FTPdtCostDis,
-					PDTTmp.FTWorkerID
+					PDTTmp.FTWorkerID,
+					PDT.FTPdtCode as RealPDT,
+					PDTGRP.FTPgpName,
+					PDTTYP.FTPtyName,
+					SPL.FTSplName
 			FROM TCNMPdt_DataTmp PDTTmp 
-			LEFT JOIN TCNMPdt PDT ON PDT.FTPdtCode 	= PDTTmp.FTPdtCode";
+			LEFT JOIN TCNMPdt PDT			ON PDTTmp.FTPdtCode = PDT.FTPdtCode
+			LEFT JOIN TCNMPdtGrp PDTGRP	ON PDTTmp.FTPgpCode = PDTGRP.FTPgpCode
+			LEFT JOIN TCNMPdtType PDTTYP	ON PDTTmp.FTPtyCode = PDTTYP.FTPtyCode
+			LEFT JOIN TCNMSpl SPL			ON PDTTmp.FTSplCode = SPL.FTSplCode";
 		$tSQL .= " WHERE 1=1 ";
 		$oQuery = $this->db->query($tSQL);
 		if($oQuery->num_rows() > 0){
