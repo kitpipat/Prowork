@@ -343,4 +343,72 @@ class mProduct extends CI_Model {
 		}
 		return $aResult;
 	}
+
+	//นำเข้าข้อมูล - ย้ายข้อมูลจาก Tmp ไป ตารางจริง
+	public function FSxMPDTImportExcelMoveTmpToHD($ptDataTmp){
+		$FTPdtCode 	= $ptDataTmp['FTPdtCode'];
+		$FTWorkerID = $ptDataTmp['FTWorkerID'];
+		$tSession  	= $this->session->userdata('tSesUsercode');
+		$dCurrent	= date('Y-m-d H:i:s');
+
+		$tSQL = "INSERT INTO TCNMPdt (
+					FTPdtCode
+					,FTBchCode
+					,FTPdtName
+					,FTPdtNameOth
+					,FTPdtDesc
+					,FTPunCode
+					,FTPgpCode
+					,FTPtyCode
+					,FTPbnCode
+					,FTPzeCode
+					,FTPClrCode
+					,FTSplCode
+					,FTMolCode
+					,FCPdtCostStd
+					,FTPdtCostDis
+					,FCPdtSalPrice
+					,FTPdtImage
+					,FTPdtStatus
+					,FTCreateBy
+					,FDCreateOn
+					,FTPdtReason 
+				)
+				SELECT 
+					FTPdtCode
+					,'' AS FTBchCode
+					,FTPdtName
+					,'' AS FTPdtNameOth
+					,'' AS FTPdtDesc
+					,'' AS FTPunCode
+					,FTPgpCode
+					,FTPtyCode
+					,'' AS FTPbnCode
+					,'' AS FTPzeCode
+					,'' AS FTPClrCode
+					,FTSplCode
+					,'' AS FTMolCode
+					,FCPdtCostStd
+					,FTPdtCostDis
+					,0 AS FCPdtSalPrice
+					,'' AS FTPdtImage
+					,1 AS FTPdtStatus
+					,$tSession
+					,'$dCurrent'
+					,'' AS FTPdtReason
+				FROM TCNMPdt_DataTmp
+				WHERE FTPdtCode = '$FTPdtCode' AND FTWorkerID = '$FTWorkerID' ";
+				$this->db->query($tSQL);
+	}
+
+	//นำเข้าข้อมูล - ลบข้อมูล 
+	public function FSxMPDTImportExcelDeleteTmp(){
+		try{
+			$FTWorkerID = $this->session->userdata('tSesUsercode');
+			$this->db->where_in('FTWorkerID', $FTWorkerID);
+			$this->db->delete('TCNMPdt_DataTmp');
+		}catch(Exception $Error){
+            echo $Error;
+        }
+	}
 }

@@ -138,3 +138,4 @@ $route['r_productCallpageUplodeImage'] 			= 'product/product/cProduct/FSxCPDTCal
 $route['r_productCallpageUplodeFile'] 			= 'product/product/cProduct/FSxCPDTCallpageUplodeFile';
 $route['r_producteventDeleteImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEventDeleteImgInTmp';
 $route['r_producteventAproveImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEventAproveImgInTmp';
+$route['r_producteventAproveDataInTmp'] 		= 'product/product/cProduct/FSxCPDTEventAproveDataInTmp';

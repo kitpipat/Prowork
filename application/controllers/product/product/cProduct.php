@@ -161,6 +161,8 @@ class cProduct extends CI_Controller {
         }
 	}
 
+	//*************************************************************************************** */
+
 	//ไปหน้าของการอัพโหลดรูปภาพ Tmp (การนำเข้ารูปภาพ)
 	public function FSxCPDTCallpageUplodeImage(){
 		$aList 		= $this->mProduct->FSxMPDTImportImgPDTSelect();
@@ -209,7 +211,9 @@ class cProduct extends CI_Controller {
 		$this->FSxCPDTEventDeleteImgInTmp();
 	}
 
-	//นำข้อมูลใน Excel เข้า
+	//*************************************************************************************** */
+
+	//นำข้อมูลใน Excel เข้า (Excel)
 	public function FSxCPDTCallpageUplodeFile(){
 		$aPackData = $this->input->post('aPackdata');
 		$nPackData = count($aPackData['Product']);
@@ -222,23 +226,56 @@ class cProduct extends CI_Controller {
 		$this->mProduct->FSxMPDTImportExcelDelete($aDelete);
 
 		for($i=1; $i<$nPackData; $i++){
-			$aIns = array(
-				'FTPdtCode' 	=> $aResult[$i][0],
-				'FTPdtName' 	=> $aResult[$i][1],
-				'FTPgpCode' 	=> $aResult[$i][2],
-				'FTPtyCode' 	=> $aResult[$i][3],
-				'FTSplCode' 	=> $aResult[$i][4],
-				'FCPdtCostStd' 	=> $aResult[$i][5],
-				'FTPdtCostDis' 	=> $aResult[$i][6],
-				'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
-			);
+
+			if(isset($aResult[$i][0])){
+				$aIns = array(
+					'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
+					'FTPdtName' 	=> (isset($aResult[$i][1])) ? $aResult[$i][1] : '',
+					'FTPgpCode' 	=> (isset($aResult[$i][2])) ? $aResult[$i][2] : '',
+					'FTPtyCode' 	=> (isset($aResult[$i][3])) ? $aResult[$i][3] : '',
+					'FTSplCode' 	=> (isset($aResult[$i][4])) ? $aResult[$i][4] : '',
+					'FCPdtCostStd' 	=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '',
+					'FTPdtCostDis' 	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '',
+					'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
+				);
+			}
+
 			//Insert ข้อมูล
-			$this->mProduct->FSxMPDTImportExcelInsert($aIns);
+			if($aIns['FTPdtCode'] != '' || $aIns['FTPdtCode'] != null){
+				$this->mProduct->FSxMPDTImportExcelInsert($aIns);
+			}
 		}
 
 		//Get ข้อมูล
 		$aList 		= $this->mProduct->FSxMPDTImportExcelSelect();
 		$aPackData 	= array('aList' => $aList);
 		$this->load->view('product/product/Import/wDatatableData',$aPackData);
+	}
+
+	//ยินยันการนำข้อมูลใน Excel เข้า (Excel)
+	public function FSxCPDTEventAproveDataInTmp(){
+		$aData 		= $this->input->post('aData');
+		$nCountData = count($aData);
+		if($nCountData != 0){
+			for($i=0; $i<$nCountData; $i++){
+
+				//Insert ฐานข้อมูล
+				$aIns = array(
+					'FTPdtCode'			=> $aData[$i]['nPDTCode'],
+					'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
+				);
+				$this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns);
+
+				//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
+				$paData = array(
+					"tPdtCode"		=> $aData[$i]['nPDTCode'],
+					"dDateActive"	=> ''
+				);
+				FCNaHPDCAdjPdtCost($paData);
+			}
+		}
+
+		//ลบข้อมูลในฐานข้อมูล
+		$this->mProduct->FSxMPDTImportExcelDeleteTmp();
 	}
 }

@@ -13,7 +13,7 @@
 		<div class="card-body">
 			<div class="row">
 				
-				<table class="table table-striped xCNTableCenter" id="otbConfirmImgPDT">
+				<table class="table table-striped xCNTableCenter" id="otbConfirmDataPDT">
 					<thead>
 						<tr>
 							<th style="width:5px; text-align: center;">ลำดับ</th>
@@ -33,7 +33,7 @@
 							<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
 								<?php 
 									//สถานะ
-									$tPDTClassStatus	= '';
+									$tPDTClassStatus		= '';
 									switch ($aValue) {
 										case strlen($aValue['FTPdtCode']) > 50:
 											$tIconClassStatus 	= 'xCNIconStatus_close';
@@ -67,10 +67,10 @@
 											$tStatusAprove		= 'fail';
 											break;
 										case is_numeric($aValue['FCPdtCostStd']) != 1:
-											$tIconClassStatus 	= 'xCNIconStatus_close';
-											$tTextClassStatus 	= 'xCNTextClassStatus_close';
-											$tTextStatus 		= 'ข้อมูลต้นทุนไม่ถูกต้อง';
-											$tStatusAprove		= 'fail';
+											$tIconClassStatus 			= 'xCNIconStatus_close';
+											$tTextClassStatus 			= 'xCNTextClassStatus_close';
+											$tTextStatus 				= 'ข้อมูลต้นทุนไม่ถูกต้อง';
+											$tStatusAprove				= 'fail';
 											break;
 										default:
 											$tIconClassStatus 	= 'xCNIconStatus_open';
@@ -79,9 +79,30 @@
 											$tStatusAprove		= 'pass';
 									}
 
+									//เช็คว่าต้นทุน มีอักษรไหม
+									if(is_numeric($aValue['FCPdtCostStd']) != 1){
+										$tCostSTDDisClassStatus = 'xCNTextClassStatus_close';
+									}else{
+										$tCostSTDDisClassStatus = '';
+									}
+
+									//เช็คว่าส่วนลดต้นทุนมี ภาษาไทยไหม
+									if(preg_replace('/[^ก-ฮA-Za-z]/u','',$aValue['FTPdtCostDis'])){
+										$tIconClassStatus 		= 'xCNIconStatus_close';
+										$tTextClassStatus 		= 'xCNTextClassStatus_close';
+										$tTextStatus 			= 'ข้อมูลส่วนลดต้นทุนไม่ถูกต้อง';
+										$tStatusAprove			= 'fail';
+										$tCostDisClassStatus 	= 'xCNTextClassStatus_close';
+									}else{
+										$tCostDisClassStatus	= '';
+									}
+									
 									//รหัสกลุ่มสินค้า
 									if($aValue['FTPgpName'] == '' || $aValue['FTPgpName'] == null){
 										$tPgpName 			= $aValue['FTPgpCode'];
+										if($tPgpName == '' || $tPgpName == null){
+											$tPgpName 		= '-';
+										}
 										$tPgpClassStatus 	= 'xCNTextClassStatus_close';
 									}else{
 										$tPgpName = $aValue['FTPgpName'];
@@ -91,6 +112,9 @@
 									//รหัสประเภทสินค้า
 									if($aValue['FTPtyName'] == '' || $aValue['FTPtyName'] == null){
 										$tPtyName 			= $aValue['FTPtyCode'];
+										if($tPtyName == '' || $tPtyName == null){
+											$tPtyName 		= '-';
+										}
 										$tPtyClassStatus 	= 'xCNTextClassStatus_close';
 									}else{
 										$tPtyName 			= $aValue['FTPtyName'];
@@ -100,6 +124,9 @@
 									//รหัสผู้จำหน่าย
 									if($aValue['FTSplName'] == '' || $aValue['FTSplName'] == null){
 										$tSplName 			= $aValue['FTSplCode'];
+										if($tSplName == '' || $tSplName == null){
+											$tSplName 		= '-';
+										}
 										$tSplClassStatus 	= 'xCNTextClassStatus_close';
 									}else{
 										$tSplName 			= $aValue['FTSplName'];
@@ -115,8 +142,8 @@
 									<td><label class="xCNLineHeightInTable <?=$tPgpClassStatus;?>"><?=$tPgpName;?></label></td>
 									<td><label class="xCNLineHeightInTable <?=$tPtyClassStatus;?>"><?=$tPtyName;?></label></td>
 									<td><label class="xCNLineHeightInTable <?=$tSplClassStatus;?>"><?=$tSplName;?></label></td>
-									<td style="text-align: right;"><label class="xCNLineHeightInTable"><?=($aValue['FCPdtCostStd'] == '') ? '-' : $aValue['FCPdtCostStd'];?></label></td>
-									<td style="text-align: right;"><label class="xCNLineHeightInTable"><?=($aValue['FTPdtCostDis'] == '') ? '-' : $aValue['FTPdtCostDis'];?></label></td>
+									<td style="text-align: right;"><label class="xCNLineHeightInTable <?=$tCostSTDDisClassStatus;?>"><?=($aValue['FCPdtCostStd'] == '') ? '-' : $aValue['FCPdtCostStd'];?></label></td>
+									<td style="text-align: right;"><label class="xCNLineHeightInTable <?=$tCostDisClassStatus;?>"><?=($aValue['FTPdtCostDis'] == '') ? '-' : $aValue['FTPdtCostDis'];?></label></td>
 									<td><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>
 									<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxProductTmp_Delete(this);"></td>
 								</tr>
@@ -142,7 +169,7 @@
 			<h5 class="modal-title">ยกเลิกการนำเข้า</h5>
 		</div>
 		<div class="modal-body">
-			<label>ข้อมูลรูปภาพที่นำเข้าจะหายทั้งหมด ยืนยันการยกเลิกนำเข้า ? </label>
+			<label>ข้อมูลที่นำเข้าจะหายทั้งหมด ยืนยันการยกเลิกนำเข้า ? </label>
 		</div>
 		<div class="modal-footer">
 			<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
@@ -156,65 +183,54 @@
 <script>
  
 	//ยกเลิกการนำเข้า
-	function JSxCancleImportImg(){
+	function JSxCancleImportExcel(){
 		$('#obtModalCancleImport').click();
 
 		$('.xCNConfirmDelete').off();
 		$('.xCNConfirmDelete').on("click",function(){
-			$.ajax({
-				type	: "POST",
-				url		: 'r_producteventDeleteImgInTmp',
-				cache	: false,
-				timeout	: 0,
-				success	: function (tResult) {
-					$('.xCNCloseDelete').click();
-					setTimeout(function(){
-						JSxCallPageProductMain();
-					}, 1500);
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					alert(jqXHR, textStatus, errorThrown);
-				}
-			});
+			$('.xCNCloseDelete').click();
+			setTimeout(function(){
+				JSxCallPageProductMain();
+			}, 1500);
 		});
 	}
 
 	//ลบข้อมูลการนำเข้า
 	function JSxProductTmp_Delete(elem){
 		$(elem).parent().parent().remove();
-		var nLen = $('#otbConfirmImgPDT > tbody  > tr').length;
+		var nLen = $('#otbConfirmDataPDT > tbody  > tr').length;
 		for(var i=0; i<nLen; i++){
-			$("#otbConfirmImgPDT tbody tr:eq("+i+") th:eq(0)").text(i + 1);
+			$("#otbConfirmDataPDT tbody tr:eq("+i+") th:eq(0)").text(i + 1);
 		}
 	}
 
 	//ยืนยันการนำเข้า
-	function JSxApvImportImg(){
-		var aUpdateImg = [];
-		var nLen = $('#otbConfirmImgPDT > tbody  > tr').length;
+	function JSxApvImportExcel(){
+		var aUpdateExcel = [];
+		var nLen = $('#otbConfirmDataPDT > tbody  > tr').length;
 		for(var i=0; i<nLen; i++){
-			var nPDTCode = $("#otbConfirmImgPDT tbody tr:eq("+i+")").data('pdtcode');
-			var tStaApv	 = $("#otbConfirmImgPDT tbody tr:eq("+i+")").data('staapv');
-			var tPathImg = $("#otbConfirmImgPDT tbody tr:eq("+i+")").data('pathimg');
+			var nPDTCode = $("#otbConfirmDataPDT tbody tr:eq("+i+")").data('pdtcode');
+			var tStaApv	 = $("#otbConfirmDataPDT tbody tr:eq("+i+")").data('staapv');
 			if(tStaApv == 'pass'){
-				var tResult = {'nPDTCode' : nPDTCode , 'tStaApv' : tStaApv , 'tPathImg' : tPathImg}
-				aUpdateImg.push(tResult);
+				var tResult = {'nPDTCode' : nPDTCode , 'tStaApv' : tStaApv }
+				aUpdateExcel.push(tResult);
 			}
 		}
 
-		if(aUpdateImg.length == 0){
+		if(aUpdateExcel.length == 0){
 			console.log('empty');
 		}else{
 			$.ajax({
 				type	: "POST",
-				url		: 'r_producteventAproveImgInTmp',
+				url		: 'r_producteventAproveDataInTmp',
 				cache	: false,
-				data 	: {'aData' : aUpdateImg},
+				data 	: {'aData' : aUpdateExcel},
 				timeout	: 0,
 				success	: function (tResult) {
+					console.log(tResult);
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
-					$('.alert-success').find('.xCNTextShow').text('นำเข้ารูปภาพสินค้าสำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('นำเข้าข้อมูลสินค้าสำเร็จ');
 					JSxCallPageProductMain();
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
