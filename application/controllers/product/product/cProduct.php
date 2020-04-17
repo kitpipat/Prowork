@@ -27,7 +27,8 @@ class cProduct extends CI_Controller {
 		$aCondition = array(
 			'nPage'         => $nPage,
 			'nRow'          => 10,
-			'tSearchAll'    => $this->input->post('tSearchAll')
+			'tSearchAll'    => $this->input->post('tSearchAll'),
+			'aFilterAdv'	=> $this->input->post('aFilterAdv')
 		);
 
 		$aList = $this->mProduct->FSaMPDTGetData($aCondition);

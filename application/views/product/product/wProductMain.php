@@ -280,7 +280,6 @@
 
 
 <script>	
-	
 	//คำนวณหน้าจอ
 	JSxCalculateWidthFilterAdv();
 	function JSxCalculateWidthFilterAdv(){
@@ -347,35 +346,37 @@
 
 	/*************************************************************************************/
 	
-
 	//กดนำไปใช้ หรือ ค้นหาขั้นสูง
 	var aFilter 		= [];
-	var tFilterOld 		= '';
 	function JSxPDTFilterAdv(){
 		$('.xCNFilterAdv:checked').each(function() {
 			var tFilter 	= $(this).data('filter');
 			var tValue 		= $(this).val();
-
-			if(tFilterOld != tFilter){
-				aFilter.push(tFilter);
-			}
-
-			tFilterOld == tFilter;
+			aFilter.push({'tFilter' : tFilter , 'tValue' : tValue});
 		});
 
-
-		console.log(aFilter);
+		var nPage = 1;
+		var aFilterAdv = aFilter;
+		JSwLoadTableList(nPage,aFilterAdv)
+		aFilter = [];
 	}
 
 	//หน้าตาราง
 	JSwLoadTableList(1);
-	function JSwLoadTableList(pnPage){
+	function JSwLoadTableList(pnPage,paFilterAdv){
+		if(paFilterAdv == '' || paFilterAdv == null){
+			paFilterAdv = '';
+		}else{
+			paFilterAdv = paFilterAdv;
+		}
+
 		$.ajax({
 			type	: "POST",
 			url		: "r_productload",
 			data 	: {
 						'nPage' 		: pnPage,
-						'tSearchAll' 	: $('#oetSearch').val()
+						'tSearchAll' 	: $('#oetSearch').val(),
+						'aFilterAdv'	: paFilterAdv
 					  },
 			cache	: false,
 			timeout	: 0,
