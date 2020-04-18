@@ -52,7 +52,7 @@ $route['r_suppliereventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
 $route['r_suppliereventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
 
 //ใบเสนอราคา
-$route['r_quotation'] 		= 'quotation/cQuotation/index';
+$route['r_quotation/(:num)'] 		= 'quotation/cQuotation/index/$1';
 $route['r_quotationeventGetPdtList'] 		= 'quotation/cQuotation/FCaCQUOGetProductList';
 $route['r_quotationcalldocheader'] 		= 'quotation/cQuotation/FCwCQUOCallDocHeader';
 $route['r_quotationeventcallitemslist'] 		= 'quotation/cQuotation/FCaCQUOCallItemsList';

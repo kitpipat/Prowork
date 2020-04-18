@@ -41,6 +41,9 @@
                  tXqhStaDeli = aDocHD["raItems"][0]["FTXqhStaDeli"]
                  tXqhRmk = aDocHD["raItems"][0]["FTXqhRmk"]
                  tVatRate = aDocHD["raItems"][0]["FCXqhVatRate"]
+                 tXqhDisTxt = aDocHD["raItems"][0]["FTXqhDisTxt"]
+                 nXqhDis = aDocHD["raItems"][0]["FCXqhDis"]
+
 
                  if(tXqhDocNo == ""){
                     tXqhDocNo = "SQ######-#####"
@@ -113,6 +116,13 @@
                     tVatRate = tVatRate
                  }
                  $("#oetVatRate").val(tVatRate)
+                 $("#oetXqhDisText").val(tXqhDisTxt)
+
+                 //nXqhDis = accounting.formatMoney(nXqhDis.toFixed(2),"")
+                 nXqhDis = parseFloat(nXqhDis)
+                 nXqhDis = accounting.formatMoney(nXqhDis.toFixed(2),"")
+                 //console.log(nXqhDis);
+                 $("#ospXqhDis").text(nXqhDis)
 
                  FSoQUODocCst(); //load customer in sq
                  FSvQUODocItems();
@@ -177,8 +187,9 @@
 
 
                    $("#otdDocNetTotal").text(accounting.formatMoney(nDocNetTotal.toFixed(2),""))
-
-                   nFooterDis = 0
+                   nFooterDis = $("#ospXqhDis").text()
+                   nFooterDis = parseFloat(nFooterDis.replace(',',' ').replace(' ',''))
+                   console.log(nFooterDis)
                    nNetAFHD = nDocNetTotal - ( nFooterDis);
 
 
@@ -192,6 +203,7 @@
                    if(nVatType == "1"){
 
                        nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
+
                    }else{
                        nVat = nNetAFHD-((nNetAFHD * 100)/(100+parseInt(nVatRate)))
                    }
@@ -199,6 +211,7 @@
                    $("#otdVat").text(accounting.formatMoney(nVat.toFixed(2),""))
 
                    nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
+
                    $("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2),""))
 
 
@@ -231,6 +244,14 @@
             }
 
             tDocNo = $("#ospDocNo").attr("data-docno");
+            nB4Dis = $("#otdDocNetTotal").text();
+            nDis = $("#ospXqhDis").text();
+            tDisText = $("#oetXqhDisText").val();
+            nAfDis = $("#otdNetAFHD").text();
+            nVatRate = $("#oetVatRate").val();
+            nAmtVat = $("#otdVat").text();
+            nGrandTotal = $("#otdGrandTotal").text();
+            tDocRemark = $("#otaDocRemark").val();
 
             $.ajax({
             url: 'r_quodocsavedoc',
@@ -240,13 +261,27 @@
                    tDocNo:tDocNo,
                    nStaExpress:nStaExpress,
                    nStaDocActive:nStaDocActive,
-                   nStaDeli : nStaDeli
+                   nStaDeli : nStaDeli,
+                   nB4Dis : nB4Dis,
+                   nDis : nDis,
+                   nAfDis : nAfDis,
+                   tDisText : tDisText,
+                   nVatRate : nVatRate,
+                   nAmtVat : nAmtVat,
+                   nGrandTotal : nGrandTotal,
+                   tDocRemark : tDocRemark
                    },
             datatype: 'json'
             })
             .done(function (data) {
-               //console.log(data)
+
                alert("บันทึกข้อมูลสำเร็จ")
+               aDocInfo = JSON.parse(data)
+               if(aDocInfo['nStaRender'] == 1){
+                  $('#olbDocNo').text(aDocInfo['tXqhDocNo'])
+                  $('#olbDocNo').attr("data-docno",aDocInfo['tXqhDocNo'])
+                  $('#ospDocDate').text(aDocInfo['dDocDate'])
+               }
              })
             .fail(function (jqXHR, textStatus, errorThrown) {
                  //serrorFunction();

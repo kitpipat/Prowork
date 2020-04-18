@@ -34,7 +34,9 @@
             $ci = &get_instance();
             $ci->load->database();
 
-             $tSQL = "SELECT FTPdtCode FROM TCNTPdtCost WHERE FTBchCode = '".$aData['FTBchCode']."' ";
+             $tSQL = "SELECT FTPdtCode
+                      FROM   TCNTPdtCost
+                      WHERE FTBchCode = '".$aData['FTBchCode']."' ";
              $tSQL.= " AND FTPdtCode = '".$aData['FTPdtCode']."'";
              $tSQL.= " AND ISNULL(FDCosActive,'') = '".$aData['FDCosActive']."'";
 

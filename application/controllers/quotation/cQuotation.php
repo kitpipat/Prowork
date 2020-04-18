@@ -10,9 +10,16 @@ class cQuotation extends CI_Controller {
 
 	}
 
-	public function index(){
+	public function index($pnMode){
 
 				 // Get filter Data
+         $tWorkerID = $this->session->userdata('tSesUsercode');
+				 if($pnMode == 1){
+					  $this->mQuotation->FSxMQUOClearTempByWorkID($tWorkerID);
+						$this->mQuotation->FSxMQUPrepareHD($tWorkerID);
+				 }
+
+
 		     $oFilterList  = $this->mQuotation->FSaMQUOGetFilterList();
 
          $this->mQuotation->FSxMQUOClearTemp();

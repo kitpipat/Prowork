@@ -206,8 +206,8 @@
                         </tr>
                         <tr>
                           <td>ส่วนลด</td>
-                          <td> <input type="text" name="" value=""> </td>
-                          <td class="text-right">0</td>
+                          <td> <input type="text" id="oetXqhDisText" class="text-right"> </td>
+                          <td class="text-right"><span id="ospXqhDis">0</span></td>
                         </tr>
                         <tr>
                           <td>จำนวนเงินหลังหักส่วนลด</td>
@@ -216,7 +216,7 @@
                         </tr>
                         <tr>
                           <td>ภาษีมูลค่าเพิ่ม (%)</td>
-                          <td> <input type="text" value="" id="oetVatRate"> </td>
+                          <td> <input type="text" class="text-right" id="oetVatRate"> </td>
                           <td class="text-right" id="otdVat">100.00</td>
                         </tr>
                         <tr>

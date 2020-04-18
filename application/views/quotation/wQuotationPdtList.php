@@ -1,8 +1,12 @@
 <?php
 if($nTotalRecord > 0){
+    //echo $nTotalRecord;
     if($tPdtViewType == 1) {
 ?>
-                <?php for($p=0;$p<$nTotalRecord;$p++){
+                <?php
+                     //var_dump($aPdtList['raItems']);
+                     for($p=0;$p<$nTotalRecord;$p++){
+
                       $tPdtCode = $aPdtList['raItems'][$p]['FTPdtCode'];
                       $tPdtName = $aPdtList['raItems'][$p]['FTPdtName'];
                       $tPunCode = $aPdtList['raItems'][$p]['FTPunCode'];
