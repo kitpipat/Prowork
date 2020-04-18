@@ -148,5 +148,9 @@ $route['r_adjpriceeventdelete'] 				= 'adjprice/cAdjprice/FSxCAJPEventDelete';
 $route['r_adjpriceeventedit'] 					= 'adjprice/cAdjprice/FSxCAJPEventEdit';
 $route['r_adjpriceloadtableDTTmp'] 				= 'adjprice/cAdjprice/FSxCAJPLoadTableDTTmp';
 
+//บราว์เซ็นเตอร์
+$route['BrowseData']                   			= 'common/cBrowse/index';
+
+
 //หน้าจอใบปรับต้นทุน
 $route['r_adjcost'] 							= '';
