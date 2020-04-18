@@ -418,3 +418,31 @@ table tbody .xCNTableGroupMenu{
     border-radius: 0px;
 	padding: 1.5px 20px !important;
 }
+
+.xCNSubPanelDocument{
+	margin-bottom: 0.25rem;
+}
+
+
+.xCNBrowsePDTinDocument{
+	float: right;
+    width: 40px;
+    height: 40px;
+    background: #51c448;
+    border-radius: 50px;
+    border: 1px solid #FFF;
+	cursor: pointer;
+	color : #FFF;
+}
+
+.xCNBrowsePDTinDocument:hover{
+	float: right;
+    width: 40px;
+    height: 40px;
+    background: #26c919;
+    border-radius: 50px;
+    border: 1px solid #FFF;
+	cursor: pointer;
+	color : #FFF;
+}
+
