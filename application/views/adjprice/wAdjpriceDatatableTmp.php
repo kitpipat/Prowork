@@ -4,7 +4,7 @@
 		<th style="width:20px; text-align: center;">ลำดับ</th>
 		<th style="width:200px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
-		<th style="width:150px; text-align: left;">ราคาขายบวกเพิ่ม</th>
+		<th style="width:230px; text-align: left;">ราคาขายบวกเพิ่ม (%)</th>
 		<th style="width:80px; text-align: center;">ลบ</th>
     </tr>
   </thead>
@@ -15,9 +15,10 @@
 					<th><?=$aValue['rtRowID']?></th>
 					<td><?=$aValue['FTPdtCode']?></td>
 					<td><?=$aValue['FTPdtName']?></td>
-					<td><?=$aValue['FCXpdAddPri']?></td>
+					<td>
+						<input type="text" maxlength="5" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdatePriceSell(this);" onchange="JSxUpdatePriceSell(this);" class="xCNEditInline xCNInputNumericWithDecimal" style="text-align: right;" id="oetAddPri<?=$aValue['FTPdtCode']?>" value="<?=$aValue['FCXpdAddPri'];?>" >
+					</td>
 					<?php $oEventDelete = "JSxAJP_DeleteInTmp('".$aValue['FTPdtCode']."')"; ?>
-					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwAJPCallPageInsert('edit','<?=$aValue['FTXphDocNo']?>');"></td>
 					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>
 			<?php } ?>
@@ -64,26 +65,7 @@
     </div>
 </div>
 
-
-<!-- Modal Delete -->
-<button id="obtModalDelete" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalDelete"></button>
-<div class="modal fade" id="odvModalDelete" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-		<div class="modal-header">
-			<h5 class="modal-title">ลบข้อมูล</h5>
-		</div>
-		<div class="modal-body">
-			<label>ยืนยันการลบข้อมูล ? </label>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
-			<button type="button" class="btn btn-danger xCNConfirmDelete">ยืนยัน</button>
-		</div>
-		</div>
-	</div>
-</div>
-
+<script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 	//เปลี่ยนหน้า
 	function JSvAJP_ClickPage(ptPage) {
@@ -103,35 +85,69 @@
 				nPageCurrent = ptPage
 		}
 
-		JSwLoadTableList(nPageCurrent);
+		JSvLoadTableDTTmp(nPageCurrent);
 	}
 
 	//ลบข้อมูล
-	function JSxAJP_DeleteInTmp(ptCode){
-		$('#obtModalDelete').click();
+	function JSxAJP_DeleteInTmp(tPDTCode){
+		$.ajax({
+			type	: "POST",
+			url		: 'r_adjpricePDTDeleteInTmp',
+			data 	: { 
+						'tPdtCode' : tPDTCode,
+						'tCode'	   : $('#ohdDocumentNumber').val()
+					},
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('.xCNCloseDelete').click();
+				$('.alert-success').addClass('show').fadeIn();
+				$('.alert-success').find('.badge-success').text('สำเร็จ');
+				$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
+				JSvLoadTableDTTmp(1);
+				setTimeout(function(){
+					$('.alert-success').find('.close').click();
+				}, 800);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
 
-		$('.xCNConfirmDelete').off();
-		$('.xCNConfirmDelete').on("click",function(){
-			$.ajax({
-				type	: "POST",
-				url		: 'r_brandproducteventdelete',
-				data 	: { 'ptCode' : ptCode },
-				cache	: false,
-				timeout	: 0,
-				success	: function (tResult) {
-					$('.xCNCloseDelete').click();
-					$('.alert-success').addClass('show').fadeIn();
-					$('.alert-success').find('.badge-success').text('สำเร็จ');
-					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
-					JSxCallPageBrandProductMain();
-					setTimeout(function(){
-						$('.alert-success').find('.close').click();
-					}, 3000);
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					alert(jqXHR, textStatus, errorThrown);
-				}
-			});
+	//อัพเดทข้อมูล
+	function JSxUpdatePriceSell(e){
+		var tValueUpdate 	= $(e).val();
+		var tPDTCode 		= $(e).data('pdtcode');
+
+		if(tValueUpdate > 100){
+			$(e).val(100);
+			tValueUpdate = 100;
+		}
+
+		$.ajax({
+			type	: "POST",
+			url		: 'r_adjpricePDTUpdateInlineInTmp',
+			data 	: { 
+						'tPdtCode' 		: tPDTCode,
+						'tValueUpdate' 	: tValueUpdate,
+						'tCode'	   		: $('#ohdDocumentNumber').val()
+					},
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('.xCNCloseDelete').click();
+				$('.alert-success').addClass('show').fadeIn();
+				$('.alert-success').find('.badge-success').text('สำเร็จ');
+				$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลสำเร็จ');
+				JSvLoadTableDTTmp(1);
+				setTimeout(function(){
+					$('.alert-success').find('.close').click();
+				}, 800);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
 		});
 	}
 

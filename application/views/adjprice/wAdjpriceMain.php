@@ -63,6 +63,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				localStorage.clear();
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

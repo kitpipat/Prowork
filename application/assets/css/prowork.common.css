@@ -446,3 +446,47 @@ table tbody .xCNTableGroupMenu{
 	color : #FFF;
 }
 
+.xCNConfirmPDT{
+	background: #51c448;
+    color: #FFF;
+    width: 90px;
+}
+
+.xCNBTNDefult{
+	width: 90px;
+}
+
+.xCNModalHead{
+	height: 50px !important;
+    padding: 8px 20px !important;
+}
+
+.xCNSelectPDT{
+	cursor: pointer;
+}
+
+.xCNSelectPDTActive{
+	background : #51c448 !important;
+	color : #FFF;
+	border-bottom: 1px solid #ffffff;
+    cursor: pointer;
+}
+
+.xCNSelectPDT:hover{
+	background : #bafdb65c !important;
+
+}
+
+.xCNSelectPDT{
+	border-bottom: 1px solid #ffffff;
+}
+
+.xCNEditInline{
+	border-radius: 5px;
+    border: 1px solid #ebebeb;
+    box-shadow: 1px 1px 1px 1px rgba(222, 222, 222, 0.41)
+}
+
+.xCNImportBTN{
+	height:35px;
+}

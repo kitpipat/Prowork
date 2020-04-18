@@ -161,7 +161,7 @@
 
 										<!--นำเข้าข้อมูล-->
 										<div class="col-lg-7">
-											<div class="btn-group pull-right">
+											<div class="btn-group pull-right xCNImportBTN">
 												<button type="button" class="btn btn-secondary dropdown-toggle xCNImport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 													นำเข้าข้อมูล
 												</button>

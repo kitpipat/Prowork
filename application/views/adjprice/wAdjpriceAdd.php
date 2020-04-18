@@ -21,8 +21,6 @@
 	
 	<form id="ofmAJP" class="form-signin" method="post" action="javascript:void(0)">
 
-		<input type="hidden" id="ohdAJPCode" name="ohdAJPCode" value="">
-
 		<!--Section บน-->
 		<div class="row">
 			<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPageAJPMain();">ใบปรับราคาสินค้า</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
@@ -48,6 +46,7 @@
 										<div class="form-group xCNSubPanelDocument">
 											<span>เลขที่เอกสาร : </span>
 											<span class="pull-right"><?=$tDocumentNumber?></span>
+											<input type="hidden" id="ohdDocumentNumber" value="<?=$tDocumentNumber?>" >
 										</div>
 
 										<div class="form-group xCNSubPanelDocument">
@@ -125,13 +124,28 @@
 								<div class="row">
 									<div class="col-lg-4 col-md-4">
 										<div class="input-group md-form form-sm form-2 pl-0">
-											<input class="form-control my-0 py-1 red-border xCNFormSerach" autocomplete="off" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchTmp" onkeypress="Javascript:if(event.keyCode==13) JSwLoadTableList(1)">
+											<input class="form-control my-0 py-1 red-border xCNFormSerach" autocomplete="off" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchTmp" onkeypress="Javascript:if(event.keyCode==13) JSvLoadTableDTTmp(1)">
 											<div class="input-group-append">
-												<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSwLoadTableList(1);"><i class="fa fa-search" aria-hidden="true"></i></span>
+												<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSvLoadTableDTTmp(1);"><i class="fa fa-search" aria-hidden="true"></i></span>
 											</div>
 										</div>
 									</div>
-									<div class="col-lg-8 col-md-8">
+
+									<!--นำเข้าข้อมูล-->
+									<div class="col-lg-4 col-md-4">
+										<div class="btn-group pull-left xCNImportBTN">
+											<button type="button" class="btn btn-secondary dropdown-toggle xCNImport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+												นำเข้าข้อมูล
+											</button>
+											<div class="dropdown-menu dropdown-menu-left xCNDropdown">
+												<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href='<?=base_url('application/assets/templates/Priceadjustment_Import_Template.xlsx')?>'>ดาวน์โหลดแม่แบบ</a></button>
+												<button class="dropdown-item xCNDropdownSub" type="button" onclick="JSxImportDataExcel()">นำเข้าข้อมูล ไฟล์</button>
+												<input style="display:none;" type="file" id="ofeImportExcel" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
+											</div>
+										</div>
+									</div>
+									
+									<div class="col-lg-4 col-md-4">
 										<button class="xCNBrowsePDTinDocument"><span>+</span></button>
 									</div>
 								</div>
@@ -151,6 +165,48 @@
 		</div>
 	</form>
 <div>
+
+
+<!-- Modal ให้เลือกสินค้า -->
+<button id="obtModalSelectPDT" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSelectPDT"></button>
+<div class="modal fade" id="odvModalSelectPDT" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<h5 class="modal-title">เลือกสินค้า</h5>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<!-- <button type="button" class="btn  btn-success xCNConfirmPDT" style="float: right;">ยืนยัน</button> -->
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="input-group md-form form-sm form-2 pl-0">
+							<input class="form-control my-0 py-1 red-border xCNFormSerach" autocomplete="off" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchPDTToTmp" onkeypress="Javascript:if(event.keyCode==13) JSxSelectPDTToTmp(1)">
+							<div class="input-group-append">
+								<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxSelectPDTToTmp(1);"><i class="fa fa-search" aria-hidden="true"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<button type="button" class="btn  btn-success xCNConfirmPDT" onclick="JSxInsPDTToTmp();" style="float: right;">ยืนยัน</button>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div id="odvContentSelectPDT" style="margin-top:10px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>	
@@ -219,40 +275,60 @@
 
 	//เลือกสินค้า
 	$('.xCNBrowsePDTinDocument').on('click',function(){
-		var oBrowseTROutToShp = {
-            Title   : ['company/shop/shop','tSHPTitle'],
-            Table   : {Master:'TCNMShop', PK:'FTShpCode'},
-            Join    : {
-                Table   : ['TCNMShop_L', 'TCNMBranch_L'],
-                On      : [
-                    'TCNMShop.FTBchCode = TCNMShop_L.FTBchCode      AND TCNMShop.FTShpCode = TCNMShop_L.FTShpCode AND TCNMShop_L.FNLngID = '+nLangEdits,
-                    'TCNMShop.FTBchCode = TCNMBranch_L.FTBchCode    AND TCNMBranch_L.FNLngID = '+nLangEdits
-                ]
-            },
-            Where   : {
-                Condition : []
-            },
-            GrideView:{
-                ColumnPathLang	    : 'company/shop/shop',
-                ColumnKeyLang	    : ['tSHPTBBranch','tSHPTBCode','tSHPTBName'],
-                ColumnsSize         : ['15%','15%','75%'],
-                WidthModal          : 50,
-                DataColumns		    : ['TCNMBranch_L.FTBchName', 'TCNMShop.FTShpCode', 'TCNMShop_L.FTShpName'],
-                DataColumnsFormat   : ['','',''],
-                Perpage			    : 10,
-                OrderBy			    : ['TCNMShop.FTBchCode ASC,TCNMShop.FTShpCode ASC'],
-            },
-            CallBack: {
-                ReturnType	: 'S',
-                Value		: ['oetTROutShpToCode',"TCNMShop.FTShpCode"],
-                Text		: ['oetTROutShpToName',"TCNMShop_L.FTShpName"]
-            },
-            NextFunc:{
-                FuncName    :   'JSxSelectTRToFromShp',
-                ArgReturn   :   ['FTShpCode'],
-            }
-		}
-		JCNxBrowseData('oBrowseTROutToShp');
+		$('#obtModalSelectPDT').click();
+		JSxSelectPDTToTmp(1);
 	});
+
+	//เลือกสินค้า
+	var obj = [];
+	function JSxSelectPDTToTmp(pnPage){
+		$.ajax({
+			type	: "POST",
+			url		: "r_adjpriceloadPDT",
+			data 	: {
+						'tTypepage'  	: '<?=$tTypePage?>',
+						'tCode'	 	 	: '<?=$tDocumentNumber?>',
+						'nPage' 		: pnPage,
+						'tSearchPDT'	: $('#oetSearchPDTToTmp').val()
+					  },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('#odvContentSelectPDT').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+
+	//บันทึกข้อมูลสินค้าลงตาราง Tmp
+	function JSxInsPDTToTmp(){
+		var LocalItemSelect = localStorage.getItem("LocalItemData");
+		if(LocalItemSelect !== null){
+			$.ajax({
+				type	: "POST",
+				url		: "r_adjpriceInsPDTToTmp",
+				data 	: {
+							'tTypepage'  	: '<?=$tTypePage?>',
+							'tCode'	 	 	: '<?=$tDocumentNumber?>',
+							'aData'			: LocalItemSelect
+						},
+				cache	: false,
+				timeout	: 0,
+				success	: function (tResult) {
+					obj = [];
+					localStorage.clear();
+					$('#obtModalSelectPDT').click();
+					JSvLoadTableDTTmp(1);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
+		}else{
+			$('#obtModalSelectPDT').click();
+		}
+	}
 
 </script>

@@ -47,7 +47,6 @@ class cAdjprice extends CI_Controller {
 		$this->load->view('adjprice/wAdjpriceAdd',$aPackData);
 	}
 
-
 	//โหลดข้อมูลในตาราง Tmp
 	public function FSxCAJPLoadTableDTTmp(){
 		$tTypePage 	= $this->input->post('tTypepage');
@@ -55,7 +54,7 @@ class cAdjprice extends CI_Controller {
 		$nPage 		= $this->input->post('nPage');
 		$aCondition = array(
 			'nPage'         => $nPage,
-			'nRow'          => 10,
+			'nRow'          => 20,
 			'tSearchTmp'    => $this->input->post('tSearchTmp')
 		);
 
@@ -67,7 +66,78 @@ class cAdjprice extends CI_Controller {
 		$this->load->view('adjprice/wAdjpriceDatatableTmp',$aPackData);
 	}
 
+	//โหลดข้อมูลสินค้า (Master)
+	public function FSvCAJPLoadPDT(){
+		$tTypepage 		= $this->input->post('tTypepage');
+		$tCode			= $this->input->post('tCode');
+		$nPage			= $this->input->post('nPage');
+		$tSearchPDT		= $this->input->post('tSearchPDT');
 
+		$aCondition = array(
+			'nPage'         => $nPage,
+			'nRow'          => 5,
+			'tSearchPDT'    => $this->input->post('tSearchPDT')
+		);
+
+		$aListPDT 	= $this->mAdjprice->FSaMAJPGetPDTToTmp($aCondition);
+		$aPackData 	= array(
+			'aListPDT'			=> $aListPDT,
+			'nPage'				=> $nPage
+		);
+		$this->load->view('adjprice/wAdjpriceDatatableBrowsePDT',$aPackData);
+	}
+
+	//เพิ่มข้อมูลลงในตาราง Tmp
+	public function FSvCAJPInsPDTToTmp(){
+		$tTypepage 		= $this->input->post('tTypepage');
+		$tCode			= $this->input->post('tCode');
+		$aData			= $this->input->post('aData');
+		if($aData !== null){
+			$aResult = explode(",",$aData);
+			for($i=0; $i<count($aResult); $i++){
+				$aIns = array(
+					'FTXphDocNo'	=> $tCode,
+					'FTPdtCode'		=> $aResult[$i],
+					'FCXpdAddPri'	=> '0.00',	
+					'FDXphDateAtv'	=> date('Y-m-d H:i:s'),
+					'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
+				);
+
+				$this->mAdjprice->FSaMAJPInsertPDTToTmp($aIns);
+			}
+		}
+		
+	}
+
+	//ลบข้อมูลในตาราง Tmp
+	public function FSvCAJPDeletePDTInTmp(){
+		$tPDTCode 	= $this->input->post('tPdtCode');
+		$tCode 		= $this->input->post('tCode');
+		$tWorkerID 	= $this->session->userdata('tSesUsercode');
+		$aDelete 	= array(
+			'FTXphDocNo' 	=> $tCode,
+			'FTPdtCode'		=> $tPDTCode,
+			'FTWorkerID'	=> $tWorkerID
+		);
+		$this->mAdjprice->FSaMAJPDeletePDTInTmp($aDelete);
+	}
+
+	//แก้ไขจำนวนในตาราง Tmp
+	public function FSvCAJPUpdateInlinePDTInTmp(){
+		$tPDTCode 		= $this->input->post('tPdtCode');
+		$tCode 			= $this->input->post('tCode');
+		$tValueUpdate	= $this->input->post('tValueUpdate'); 
+		$tWorkerID 		= $this->session->userdata('tSesUsercode');
+		$aSet 		= array(
+			'FCXpdAddPri'	=> $tValueUpdate
+		);
+		$aWhere 	= array(
+			'FTXphDocNo' 	=> $tCode,
+			'FTPdtCode'		=> $tPDTCode,
+			'FTWorkerID'	=> $tWorkerID
+		);
+		$this->mAdjprice->FSaMAJPUpdatePDTInTmp($aSet,$aWhere);
+	}
 
 
 

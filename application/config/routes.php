@@ -147,9 +147,11 @@ $route['r_adjpriceeventinsert'] 				= 'adjprice/cAdjprice/FSwCAJPEventInsert';
 $route['r_adjpriceeventdelete'] 				= 'adjprice/cAdjprice/FSxCAJPEventDelete';
 $route['r_adjpriceeventedit'] 					= 'adjprice/cAdjprice/FSxCAJPEventEdit';
 $route['r_adjpriceloadtableDTTmp'] 				= 'adjprice/cAdjprice/FSxCAJPLoadTableDTTmp';
+$route['r_adjpriceloadPDT']                   	= 'adjprice/cAdjprice/FSvCAJPLoadPDT';
+$route['r_adjpriceInsPDTToTmp']   				= 'adjprice/cAdjprice/FSvCAJPInsPDTToTmp';
+$route['r_adjpricePDTDeleteInTmp']   			= 'adjprice/cAdjprice/FSvCAJPDeletePDTInTmp';
+$route['r_adjpricePDTUpdateInlineInTmp']   		= 'adjprice/cAdjprice/FSvCAJPUpdateInlinePDTInTmp';
 
-//บราว์เซ็นเตอร์
-$route['BrowseData']                   			= 'common/cBrowse/index';
 
 
 //หน้าจอใบปรับต้นทุน
