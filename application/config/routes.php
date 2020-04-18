@@ -133,9 +133,24 @@ $route['r_productcallpageInsertorEdit'] 		= 'product/product/cProduct/FSwCPDTCal
 $route['r_producteventinsert'] 					= 'product/product/cProduct/FSwCPDTEventInsert';
 $route['r_producteventdelete'] 					= 'product/product/cProduct/FSxCPDTEventDelete';
 $route['r_producteventedit'] 					= 'product/product/cProduct/FSxCPDTEventEdit';
-
 $route['r_productCallpageUplodeImage'] 			= 'product/product/cProduct/FSxCPDTCallpageUplodeImage';
 $route['r_productCallpageUplodeFile'] 			= 'product/product/cProduct/FSxCPDTCallpageUplodeFile';
 $route['r_producteventDeleteImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEventDeleteImgInTmp';
 $route['r_producteventAproveImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEventAproveImgInTmp';
 $route['r_producteventAproveDataInTmp'] 		= 'product/product/cProduct/FSxCPDTEventAproveDataInTmp';
+
+//หน้าจอใบปรับราคา ( start : 18-04-2020 / done : xx-04-2020 )
+$route['r_adjprice'] 							= 'adjprice/cAdjprice/index';
+$route['r_adjpriceload'] 						= 'adjprice/cAdjprice/FSwCAJPLoadDatatable';
+$route['r_adjpricecallpageInsertorEdit'] 		= 'adjprice/cAdjprice/FSwCAJPCallPageInsertorEdit';
+$route['r_adjpriceeventinsert'] 				= 'adjprice/cAdjprice/FSwCAJPEventInsert';
+$route['r_adjpriceeventdelete'] 				= 'adjprice/cAdjprice/FSxCAJPEventDelete';
+$route['r_adjpriceeventedit'] 					= 'adjprice/cAdjprice/FSxCAJPEventEdit';
+$route['r_adjpriceloadtableDTTmp'] 				= 'adjprice/cAdjprice/FSxCAJPLoadTableDTTmp';
+
+//บราว์เซ็นเตอร์
+$route['BrowseData']                   			= 'common/cBrowse/index';
+
+
+//หน้าจอใบปรับต้นทุน
+$route['r_adjcost'] 							= '';
