@@ -166,6 +166,24 @@
 	</form>
 <div>
 
+<!--Modal กำลังประมวลผล-->
+<button id="obtModalProcess" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalProcess"></button>
+<div class="modal fade" id="odvModalProcess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title">อัพโหลดไฟล์</h5>
+		</div>
+		<div class="modal-body">
+			<label style="text-align: center; display: block;" id="olbModalProcessText">กรุณารอสักครู่ กำลังตรวจสอบไฟล์รูปภาพ</label>
+			<label style="text-align: center; display: block; font-size: 17px;">โปรดอย่าปิดหน้าจอขณะอัพโหลดไฟล์</label>	
+			<div class="progress" style="height: 25px; width: 100%;">
+				<div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
 
 <!-- Modal ให้เลือกสินค้า -->
 <button id="obtModalSelectPDT" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSelectPDT"></button>
@@ -209,6 +227,95 @@
 
 
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
+
+<!--อัพโหลดไฟล์ excel-->
+<script>
+	//อัพโหลดไฟล์ excel
+	function JSxImportDataExcel(){
+		$('#ofeImportExcel').click(); 
+	}
+
+	//Import Excel
+	var file = $('#ofeImportExcel')[0];
+	file.addEventListener('change', importFile);
+
+	function importFile(evt) {
+		var f = evt.target.files[0];
+		if (f) {
+			var r = new FileReader();
+			r.onload = e => {
+				var contents = processExcel(e.target.result);
+				var aJSON = JSON.parse(contents);
+
+					$('#olbModalProcessText').text('กรุณารอสักครู่ กำลังตรวจสอบไฟล์ข้อมูล');
+					$('#obtModalProcess').click();
+
+					$.ajax({
+						type	: "POST",
+						url		: "r_adjpricePDTCallpageUplodeFile",
+						data	: { 'aPackdata' : aJSON , 'tCode' : '<?=$tDocumentNumber?>' },
+						cache	: true,
+						async	: false,
+						timeout	: 0,
+						success	: function (tResult) {
+							// console.log(tResult);
+							if(tResult == 'Fail'){
+								setTimeout(function(){
+									$('#obtModalProcess').click();
+								}, 800);
+
+								setTimeout(function(){
+									$('.alert-danger').addClass('show').fadeIn();
+									$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
+									$('.alert-danger').find('.xCNTextShow').text('รูปแบบไฟล์ไม่ถูกต้อง');
+									$('#oetUserLogin').val('');
+									$('#oetUserLogin').focus();
+								}, 1000);
+
+								setTimeout(function(){
+									$('.alert-danger').find('.close').click();
+								}, 3000);
+							}else{
+								setTimeout(function(){
+									$('#obtModalProcess').click();
+									JSvLoadTableDTTmp(1);
+								}, 2000);
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							alert(jqXHR, textStatus, errorThrown);
+						}
+					});
+
+			}
+			r.readAsBinaryString(f);
+		} else {
+			console.log("Failed to load file");
+		}
+	}
+
+	function processExcel(data) {
+		var workbook = XLSX.read(data, {
+			type: 'binary'
+		});
+
+		var firstSheet = workbook.SheetNames[0];
+		var data = to_json(workbook);
+		return data
+	};
+
+	function to_json(workbook) {
+		var result = {};
+		workbook.SheetNames.forEach(function(sheetName) {
+			var roa = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+				header: 1
+			});
+			if (roa.length) result[sheetName] = roa;
+		});
+		return JSON.stringify(result, 2, 2);
+	};
+</script>
+
 <script>	
 
 	//โหลดข้อมูลตารางสินค้า

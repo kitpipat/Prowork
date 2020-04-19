@@ -5,6 +5,7 @@
 		<th style="width:200px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
 		<th style="width:230px; text-align: left;">ราคาขายบวกเพิ่ม (%)</th>
+		<!-- <th style="width:180px; text-align: left;">สถานะ</th> -->
 		<th style="width:80px; text-align: center;">ลบ</th>
     </tr>
   </thead>
@@ -12,12 +13,23 @@
 		<?php if($aListTmp['rtCode'] != 800){ ?>
 			<?php foreach($aListTmp['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
-					<th><?=$aValue['rtRowID']?></th>
-					<td><?=$aValue['FTPdtCode']?></td>
-					<td><?=$aValue['FTPdtName']?></td>
+					<?php if($aValue['FTPdtName'] == null){
+						$tTextClassStatus 	= 'xCNTextClassStatus_close';
+						$tDisabledBTN		= 'disabled';
+						$tPDTName			= 'รหัสสินค้าไม่ถูกต้อง';
+					}else{
+						$tTextClassStatus 	= '';
+						$tDisabledBTN		= '';
+						$tPDTName			= $aValue['FTPdtName'];
+					} ?>
+
+					<th><label class="xCNLineHeightInTable"><?=$aValue['rtRowID']?></label></th>
+					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$aValue['FTPdtCode']?></label></td>
+					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$tPDTName;?></label></td>
 					<td>
-						<input type="text" maxlength="5" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdatePriceSell(this);" onchange="JSxUpdatePriceSell(this);" class="xCNEditInline xCNInputNumericWithDecimal" style="text-align: right;" id="oetAddPri<?=$aValue['FTPdtCode']?>" value="<?=$aValue['FCXpdAddPri'];?>" >
+						<input <?=$tDisabledBTN?> type="text" maxlength="5" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdatePriceSell(this);" onchange="JSxUpdatePriceSell(this);" class="xCNEditInline xCNInputNumericWithDecimal" style="text-align: right;" id="oetAddPri<?=$aValue['FTPdtCode']?>" value="<?=$aValue['FCXpdAddPri'];?>" >
 					</td>
+					<!-- <td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$tTextPdtCode;?></label></td> -->
 					<?php $oEventDelete = "JSxAJP_DeleteInTmp('".$aValue['FTPdtCode']."')"; ?>
 					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>

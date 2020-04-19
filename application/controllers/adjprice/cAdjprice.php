@@ -139,6 +139,63 @@ class cAdjprice extends CI_Controller {
 		$this->mAdjprice->FSaMAJPUpdatePDTInTmp($aSet,$aWhere);
 	}
 
+	//เอาไฟล์เข้า Tmp
+	public function FSxCAJPCallpageUplodeFile(){
+		$aPackData 	= $this->input->post('aPackdata');
+		$tCode 		= $this->input->post('tCode');
+
+		if(isset($aPackData['Adjustment'])){
+			// echo 'Correct';
+		}else{
+			echo 'Fail';
+			exit;
+		}
+
+		$nPackData 	= count($aPackData['Adjustment']);
+		$aResult   	= $aPackData['Adjustment'];
+		for($i=1; $i<$nPackData; $i++){
+
+			if(isset($aResult[$i][0])){
+				$aCheck = array(
+					'FTXphDocNo'	=> $tCode,
+					'FTWorkerID'	=> $this->session->userdata('tSesUsercode'),
+					'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : ''
+				);
+				$aCheckDuplicate = $this->mAdjprice->FSaMAJPCheckDataDuplicate($aCheck);
+				if($aCheckDuplicate['rtCode'] == 1){
+					//Duplicate;
+				}else{
+
+					if((isset($aResult[$i][1]))){
+						if($aResult[$i][1] > 100){
+							$nAddPri = 100;
+						}else{
+							$nAddPri = $aResult[$i][1];
+							if(preg_replace('/[^ก-ฮA-Za-z]/u','',$nAddPri)){
+								$nAddPri = 0.00;
+							}else{
+								$nAddPri = $aResult[$i][1];
+							}
+						}
+					}else{
+						$nAddPri = 0.00;
+					}
+
+					$aIns = array(
+						'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
+						'FTXphDocNo'	=> $tCode,
+						'FCXpdAddPri' 	=> $nAddPri,
+						'FDXphDateAtv'	=> date('Y-m-d H:i:s'),
+						'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
+					);
+
+					if($aIns['FTPdtCode'] != '' || $aIns['FTPdtCode'] != null){
+						$this->mAdjprice->FSaMAJPImportExcelInsert($aIns);
+					}
+				}
+			}
+		}
+	}
 
 
 

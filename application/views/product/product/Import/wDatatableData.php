@@ -67,10 +67,10 @@
 											$tStatusAprove		= 'fail';
 											break;
 										case is_numeric($aValue['FCPdtCostStd']) != 1:
-											$tIconClassStatus 			= 'xCNIconStatus_close';
-											$tTextClassStatus 			= 'xCNTextClassStatus_close';
-											$tTextStatus 				= 'ข้อมูลต้นทุนไม่ถูกต้อง';
-											$tStatusAprove				= 'fail';
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'ข้อมูลต้นทุนไม่ถูกต้อง';
+											$tStatusAprove		= 'fail';
 											break;
 										default:
 											$tIconClassStatus 	= 'xCNIconStatus_open';

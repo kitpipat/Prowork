@@ -361,5 +361,43 @@ class mAdjprice extends CI_Model {
 		}
 	}
 
+	//เช็คข้อมูลซ้ำก่อนว่า มีแล้วหรือยัง
+	public function FSaMAJPCheckDataDuplicate($paData){
+
+		$FTPdtCode	= $paData['FTPdtCode'];
+		$FTWorkerID	= $paData['FTWorkerID'];
+		$FTXphDocNo	= $paData['FTXphDocNo'];
+
+		$tSQL = " SELECT * FROM TCNTPdtAdjPriDTTmp AJP ";
+		$tSQL .= " WHERE AJP.FTPdtCode = '$FTPdtCode' ";
+		$tSQL .= " AND AJP.FTWorkerID = '$FTWorkerID' ";
+		$tSQL .= " AND AJP.FTXphDocNo = '$FTXphDocNo' ";
+	
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'rtCode'   => '1',
+				'rtDesc'   => 'duplication',
+				'tSQL'	   => $tSQL
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'pass',
+				'tSQL'	   	=> $tSQL
+			);
+		}
+		return $aResult;
+	}
+
+	//เพิ่มข้อมูล
+	public function FSaMAJPImportExcelInsert($aResult){
+		try{
+			$this->db->insert('TCNTPdtAdjPriDTTmp', $aResult);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
 
 }

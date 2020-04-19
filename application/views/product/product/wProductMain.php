@@ -238,10 +238,28 @@
 						async	: false,
 						timeout	: 0,
 						success	: function (tResult) {
-							setTimeout(function(){
-								$('#obtModalProcess').click();
-								$('.content').html(tResult);
-							}, 2000);
+							if(tResult == 'Fail'){
+								setTimeout(function(){
+									$('#obtModalProcess').click();
+								}, 800);
+
+								setTimeout(function(){
+									$('.alert-danger').addClass('show').fadeIn();
+									$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
+									$('.alert-danger').find('.xCNTextShow').text('รูปแบบไฟล์ไม่ถูกต้อง');
+									$('#oetUserLogin').val('');
+									$('#oetUserLogin').focus();
+								}, 1000);
+
+								setTimeout(function(){
+									$('.alert-danger').find('.close').click();
+								}, 3000);
+							}else{
+								setTimeout(function(){
+									$('#obtModalProcess').click();
+									$('.content').html(tResult);
+								}, 2000);
+							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
 							alert(jqXHR, textStatus, errorThrown);

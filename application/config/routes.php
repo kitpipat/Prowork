@@ -151,6 +151,7 @@ $route['r_adjpriceloadPDT']                   	= 'adjprice/cAdjprice/FSvCAJPLoad
 $route['r_adjpriceInsPDTToTmp']   				= 'adjprice/cAdjprice/FSvCAJPInsPDTToTmp';
 $route['r_adjpricePDTDeleteInTmp']   			= 'adjprice/cAdjprice/FSvCAJPDeletePDTInTmp';
 $route['r_adjpricePDTUpdateInlineInTmp']   		= 'adjprice/cAdjprice/FSvCAJPUpdateInlinePDTInTmp';
+$route['r_adjpricePDTCallpageUplodeFile'] 		= 'adjprice/cAdjprice/FSxCAJPCallpageUplodeFile';
 
 
 

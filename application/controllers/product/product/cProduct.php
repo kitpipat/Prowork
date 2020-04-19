@@ -217,6 +217,14 @@ class cProduct extends CI_Controller {
 	//นำข้อมูลใน Excel เข้า (Excel)
 	public function FSxCPDTCallpageUplodeFile(){
 		$aPackData = $this->input->post('aPackdata');
+
+		if(isset($aPackData['Product'])){
+			// echo 'Correct';
+		}else{
+			echo 'Fail';
+			exit;
+		}
+
 		$nPackData = count($aPackData['Product']);
 		$aResult   = $aPackData['Product'];
 
