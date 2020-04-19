@@ -417,6 +417,7 @@ table tbody .xCNTableGroupMenu{
 	margin-right: 10px;
     border-radius: 0px;
 	padding: 1.5px 20px !important;
+	box-shadow: 2px 2px 6px rgba(178, 178, 178, 0.69);
 }
 
 .xCNSubPanelDocument{
@@ -489,4 +490,16 @@ table tbody .xCNTableGroupMenu{
 
 .xCNImportBTN{
 	height:35px;
+}
+
+.xCNButtonAprove-outline{
+	background-color: transparent;
+	border: 1px solid #51c448 !important;
+	border-radius: 0px;
+    color: #51c448;
+    border: 0px solid;
+    box-shadow: 2px 2px 6px rgba(178, 178, 178, 0.69);
+	cursor: pointer;
+	width: 100px;
+    height: 35px;
 }

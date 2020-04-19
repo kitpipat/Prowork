@@ -21,14 +21,34 @@
 		$FTPriGrpID			= $aResult[0]['FTPriGrpID'];
 		$FTXphRmk			= $aResult[0]['FTXphRmk'];
 	}
+
+	//ถ้าเอกสารถูกยกเลิก หรือ อนุมัติแล้ว
+	if($tDocumentStaDoc == 2 || $tDocumentStaApv == 1){
+		$tDisabledInput = 'disabled';
+	}else{
+		$tDisabledInput = '';
+	}
 ?>
 
 <div class="container-fulid">
-
 	<!--Section บน-->
 	<div class="row">
 		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPageAJPMain();">ใบปรับราคาสินค้า</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
-		<div class="col-lg-6 col-md-6"><button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button></div>
+		<div class="col-lg-6 col-md-6">
+
+			<?php if($tTypePage == 'edit'){ ?>
+				<?php if($tDocumentStaDoc == 2 || $tDocumentStaApv == 1){ ?>
+					<!--ไม่โชว์สักเมนู ถ้ามันอนุมัติเเล้ว-->
+				<?php }else{ ?>
+					<button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
+					<button class="xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-right:10px;" onclick="JSxEventAproveDocument('<?=$tRoute?>');">อนุมัติ</button>
+					<button class="xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="JSxEventCancleDocument('<?=$tRoute?>');">ยกเลิกเอกสาร</button>
+				<?php } ?>
+			<?php }else{ ?>
+				<button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
+			<?php } ?>
+
+		</div>
 	</div>
 
 	<form id="ofmAJP" class="form-signin" method="post" action="javascript:void(0)">
@@ -68,7 +88,7 @@
 											<span>สถานะเอกสาร : </span>
 											<?php if($tDocumentStaDoc == '1'){
 												$tDocumentStaDoc = 'สมบูรณ์';
-											}else if($tDocumentStaDoc == '3'){
+											}else if($tDocumentStaDoc == '2'){
 												$tDocumentStaDoc = 'ยกเลิก';
 											}else{
 												$tDocumentStaDoc = '-';
@@ -80,7 +100,7 @@
 											<span>สถานะอนุมัติเอกสาร : </span>
 											<?php if($tDocumentStaApv == '1'){
 												$tDocumentStaApv = 'อนุมัติแล้ว';
-											}else if($tDocumentStaApv == null){
+											}else if($tDocumentStaApv == null && $tDocumentStaDoc == 1){
 												$tDocumentStaApv = 'รออนุมัติ';
 											}else{
 												$tDocumentStaApv = '-';
@@ -107,7 +127,7 @@
 										<!--กลุ่มราคาที่มีผล-->
 										<div class="form-group">
 											<label><span style="color:red;">*</span> กลุ่มราคาที่มีผล</label>
-											<select class="form-control" id="oetAJPPriGrp" name="oetAJPPriGrp">
+											<select <?=$tDisabledInput?> class="form-control" id="oetAJPPriGrp" name="oetAJPPriGrp">
 												<?php foreach($aPriGrp['raItems'] AS $nKey => $aValue){ ?>
 													<option <?=(@$FTPriGrpID == $aValue['FTPriGrpID'])? "selected" : "";?> value="<?=$aValue['FTPriGrpID'];?>"><?=$aValue['FTPriGrpName'];?></option>
 												<?php } ?>
@@ -116,7 +136,7 @@
 										<!--หมายเหตุ-->
 										<div class="form-group">
 											<label>หมายเหตุ</label>
-											<textarea type="text" class="form-control" id="oetAJPReason" name="oetAJPReason" placeholder="หมายเหตุ" rows="3"><?=@$FTXphRmk?></textarea>
+											<textarea <?=$tDisabledInput?> type="text" class="form-control" id="oetAJPReason" name="oetAJPReason" placeholder="หมายเหตุ" rows="3"><?=@$FTXphRmk?></textarea>
 										</div>
 									</div>
 
@@ -153,20 +173,24 @@
 									<!--นำเข้าข้อมูล-->
 									<div class="col-lg-4 col-md-4">
 										<div class="btn-group pull-left xCNImportBTN">
-											<button type="button" class="btn btn-secondary dropdown-toggle xCNImport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-												นำเข้าข้อมูล
-											</button>
+											<?php if($tDisabledInput != "disabled"){ ?>
+												<button type="button" class="btn btn-secondary dropdown-toggle xCNImport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">นำเข้าข้อมูล</button>
+											<?php } ?>
 											<div class="dropdown-menu dropdown-menu-left xCNDropdown">
-												<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href='<?=base_url('application/assets/templates/Priceadjustment_Import_Template.xlsx')?>'>ดาวน์โหลดแม่แบบ</a></button>
-												<button class="dropdown-item xCNDropdownSub" type="button" onclick="JSxImportDataExcel()">นำเข้าข้อมูล ไฟล์</button>
+												<?php if($tDisabledInput != "disabled"){ ?>
+													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href="<?=base_url('application/assets/templates/Priceadjustment_Import_Template.xlsx');?>">ดาวน์โหลดแม่แบบ</a></button>
+													<button class="dropdown-item xCNDropdownSub" type="button" onclick="JSxImportDataExcel();">นำเข้าข้อมูล ไฟล์</button>
+												<?php } ?>
 												<input style="display:none;" type="file" id="ofeImportExcel" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
 											</div>
 										</div>
 									</div>
-									
-									<div class="col-lg-4 col-md-4">
-										<button class="xCNBrowsePDTinDocument" type="button" onclick="JSxBrowsePDTInDocument();"><span>+</span></button>
-									</div>
+
+									<?php if($tDisabledInput != "disabled"){ ?>
+										<div class="col-lg-4 col-md-4">
+											<button class="xCNBrowsePDTinDocument" type="button" onclick="JSxBrowsePDTInDocument();"><span>+</span></button>
+										</div>
+									<?php } ?>
 								</div>
 
 								<!--รายการสินค้า-->
@@ -184,6 +208,50 @@
 		</div>
 	</form>
 <div>
+
+<!--Modal ยกเลิกเอกสาร-->
+<button id="obtModalCancleDocument" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalCancleDocument"></button>
+<div class="modal fade" id="odvModalCancleDocument" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">ยกเลิกเอกสาร</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;">เอกสารยกเลิก จะไม่สามารถแก้ไขได้ คุณต้องการที่จะยกเลิกเอกสารนี้หรือไม่?</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+				<button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmCancleDocument">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Modal อนุมัติเอกสาร-->
+<button id="obtModalAproveDocument" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalAproveDocument"></button>
+<div class="modal fade" id="odvModalAproveDocument" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">อนุมัติเอกสาร</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;">คำเตือน : การอนุมัติจะมีผลดังนี้</label>
+				<label style="text-align: left; display: block; margin: 0px;">1. เอกสาร จะถูกปรับสถานะว่ามีการอนุมัติแล้ว</label>
+				<label style="text-align: left; display: block; margin: 0px;">2. เอกสารจะไม่สามารถ แก้ไข, ยกเลิก, หรือลบได้อีก</label>
+				<label style="text-align: left; display: block; margin: 0px;">3. เอกสารสามารถค้นหา และแสดงข้อมูล เพื่อตรวจสอบข้อมูลได้</label>
+				<label style="text-align: left; display: block; margin: 0px;">4. สินค้าในเอกสารจะถูกนำไปปรับราคา</label>
+				<label style="text-align: left; display: block;">ดังนั้น ควรตรวจเช็คความถูกต้อง ของเอกสารให้เรียบร้อย ก่อนการอนุมัติ</label>
+				<label style="text-align: left; display: block;">คุณต้องการยืนยัน การอนุมัติเอกสารหรือไม่?</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+				<button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmDeleteAprove">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!--Modal กรุณาให้เลือกสินค้า-->
 <button id="obtModalPlzSelectPDT" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalPlzSeletePDT"></button>
@@ -361,10 +429,11 @@
 			type	: "POST",
 			url		: "r_adjpriceloadtableDTTmp",
 			data 	: {
-						'tTypepage'  	: '<?=$tTypePage?>',
-						'tCode'	 	 	: '<?=$tDocumentNumber?>',
-						'nPage' 		: pnPage,
-						'tSearchTmp' 	: $('#oetSearchTmp').val()
+						'tTypepage'  			: '<?=$tTypePage?>',
+						'tCode'	 	 			: '<?=$tDocumentNumber?>',
+						'nPage' 				: pnPage,
+						'tSearchTmp' 			: $('#oetSearchTmp').val(),
+						'tControlWhenAprOrCan' 	: '<?=$tDisabledInput?>'
 					  },
 			cache	: false,
 			timeout	: 0,
@@ -475,6 +544,64 @@
 		}else{
 			$('#obtModalSelectPDT').click();
 		}
+	}
+
+	//ยกเลิกเอกสาร
+	function JSxEventCancleDocument(){
+		$('#obtModalCancleDocument').click();
+
+		$('.xCNConfirmCancleDocument').off();
+		$('.xCNConfirmCancleDocument').on("click",function(){
+			$.ajax({
+				type	: "POST",
+				url		: "r_adjpriceCancleDocument",
+				data 	: { 'tCode'	: '<?=$tDocumentNumber?>' },
+				cache	: false,
+				timeout	: 0,
+				success	: function (tResult) {
+					$('#obtModalCancleDocument').click();
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('ยกเลิกเอกสารสำเร็จ');
+					JSxCallPageAJPMain();
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
+		});
+	}
+
+	//อนุมัติเอกสาร
+	function JSxEventAproveDocument(){
+		$('#obtModalAproveDocument').click();
+
+		$('.xCNConfirmDeleteAprove').off();
+		$('.xCNConfirmDeleteAprove').on("click",function(){
+			$.ajax({
+				type	: "POST",
+				url		: 'r_adjpriceAprove',
+				data 	: { 'tCode'	: '<?=$tDocumentNumber?>' },
+				cache	: false,
+				timeout	: 0,
+				success	: function (tResult) {
+					$('#obtModalAproveDocument').click();
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('เอกสารอนุมัติสำเร็จ');
+					JSxCallPageAJPMain();
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
+		});
 	}
 
 </script>

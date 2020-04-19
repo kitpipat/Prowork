@@ -558,4 +558,33 @@ class mAdjprice extends CI_Model {
         }
 	}
 
+	//ยกเลิกเอกสาร
+	public function FSaMAJPCancleDocument($ptCode){
+		try{
+			$aSet = array(
+				'FTXphStaDoc' 	=> 2,
+				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
+				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+			);
+			$this->db->where('FTXphDocNo', $ptCode);
+			$this->db->update('TCNTPdtAdjPriHD', $aSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//อนุมัติเอกสาร
+	public function FSaMAJPAproveDocument($ptCode){
+		try{
+			$aSet = array(
+				'FTXphStaApv'  	=> 1,
+				'FTXphApvBy'	=> $this->session->userdata('tSesUsercode')
+			);
+			$this->db->where('FTXphDocNo', $ptCode);
+			$this->db->update('TCNTPdtAdjPriHD', $aSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
 }

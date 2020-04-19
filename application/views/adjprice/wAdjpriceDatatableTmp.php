@@ -1,12 +1,14 @@
+
 <table class="table table-striped xCNTableCenter" id="otbAJPTable">
   <thead>
     <tr>
 		<th style="width:20px; text-align: center;">ลำดับ</th>
 		<th style="width:200px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
-		<th style="width:230px; text-align: left;">ราคาขายบวกเพิ่ม (%)</th>
-		<!-- <th style="width:180px; text-align: left;">สถานะ</th> -->
-		<th style="width:80px; text-align: center;">ลบ</th>
+		<th style="width:230px; text-align: right;">ราคาขายบวกเพิ่ม (%)</th>
+		<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
+			<th style="width:80px; text-align: center;">ลบ</th>
+		<?php } ?>
     </tr>
   </thead>
   <tbody>
@@ -26,12 +28,21 @@
 					<th><label class="xCNLineHeightInTable"><?=$aValue['rtRowID']?></label></th>
 					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$aValue['FTPdtCode']?></label></td>
 					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$tPDTName;?></label></td>
-					<td>
-						<input <?=$tDisabledBTN?> type="text" maxlength="5" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdatePriceSell(this);" onchange="JSxUpdatePriceSell(this);" class="xCNEditInline xCNInputNumericWithDecimal" style="text-align: right;" id="oetAddPri<?=$aValue['FTPdtCode']?>" value="<?=$aValue['FCXpdAddPri'];?>" >
-					</td>
-					<!-- <td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$tTextPdtCode;?></label></td> -->
-					<?php $oEventDelete = "JSxAJP_DeleteInTmp('".$aValue['FTPdtCode']."')"; ?>
-					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
+					
+					<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
+						<td>
+							<input <?=$tDisabledBTN?> type="text" maxlength="5" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdatePriceSell(this);" onchange="JSxUpdatePriceSell(this);" class="xCNEditInline xCNInputNumericWithDecimal" style="text-align: right; width: 100%;" id="oetAddPri<?=$aValue['FTPdtCode']?>" value="<?=$aValue['FCXpdAddPri'];?>" >
+						</td>
+					<?php }else{ ?>
+						<td>
+							<label style="text-align: right; width: 100%;" class="xCNLineHeightInTable"><?=$aValue['FCXpdAddPri'];?></label>
+						</td>
+					<?php } ?>
+
+					<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
+						<?php $oEventDelete = "JSxAJP_DeleteInTmp('".$aValue['FTPdtCode']."')"; ?>
+						<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
+					<?php } ?>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>

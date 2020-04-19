@@ -56,9 +56,10 @@ class cAdjprice extends CI_Controller {
 
 	//โหลดข้อมูลในตาราง Tmp
 	public function FSxCAJPLoadTableDTTmp(){
-		$tTypePage 	= $this->input->post('tTypepage');
-		$tCode 		= $this->input->post('tCode');
-		$nPage 		= $this->input->post('nPage');
+		$tTypePage 				= $this->input->post('tTypepage');
+		$tCode 					= $this->input->post('tCode');
+		$nPage 					= $this->input->post('nPage');
+		$tControlWhenAprOrCan 	= $this->input->post('tControlWhenAprOrCan');
 		$aCondition = array(
 			'nPage'         => $nPage,
 			'nRow'          => 20,
@@ -67,8 +68,9 @@ class cAdjprice extends CI_Controller {
 
 		$aListTmp 	= $this->mAdjprice->FSaMAJPGetDataInTmp($aCondition);
 		$aPackData 	= array(
-			'aListTmp'			=> $aListTmp,
-			'nPage'				=> $nPage
+			'aListTmp'				=> $aListTmp,
+			'nPage'					=> $nPage,
+			'tControlWhenAprOrCan' 	=> $tControlWhenAprOrCan
 		);
 		$this->load->view('adjprice/wAdjpriceDatatableTmp',$aPackData);
 	}
@@ -82,7 +84,7 @@ class cAdjprice extends CI_Controller {
 
 		$aCondition = array(
 			'nPage'         => $nPage,
-			'nRow'          => 5,
+			'nRow'          => 10,
 			'tSearchPDT'    => $this->input->post('tSearchPDT')
 		);
 
@@ -295,6 +297,18 @@ class cAdjprice extends CI_Controller {
 	public function FSxCAJPEventDelete(){
 		$tCode = $this->input->post('ptCode');
 		$this->mAdjprice->FSaMAJPDelete($tCode);
+	}
+
+	//ยกเลิกเอกสาร
+	public function FSxCAJPCancleDocument(){
+		$tCode = $this->input->post('tCode');
+		$this->mAdjprice->FSaMAJPCancleDocument($tCode);
+	}
+
+	//อนุมัติเอกสาร
+	public function FSxCAJPAproveDocument(){
+		$tCode = $this->input->post('tCode');
+		$this->mAdjprice->FSaMAJPAproveDocument($tCode);
 	}
 
 }

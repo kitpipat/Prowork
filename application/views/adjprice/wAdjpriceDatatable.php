@@ -40,9 +40,15 @@
 							$tClassStaApv 			= 'xCNTextClassStatus_open';
 							$tIconClassStaApv 		= 'xCNIconStatus_open';
 						}else{
-							$tTextStaApv 			= "รออนุมัติ";
-							$tClassStaApv 			= 'xCNTextClassStatus_close';
-							$tIconClassStaApv 		= 'xCNIconStatus_close';
+							if($aValue['FTXphStaDoc'] == 2){
+								$tTextStaApv 			= "-";
+								$tClassStaApv 			= '';
+								$tIconClassStaApv 		= '';
+							}else{
+								$tTextStaApv 			= "รออนุมัติ";
+								$tClassStaApv 			= 'xCNTextClassStatus_close';
+								$tIconClassStaApv 		= 'xCNIconStatus_close';
+							}
 						}
 					?>
 					<td><div class="<?=$tIconClassStaApv?>"></div><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td>
@@ -50,9 +56,14 @@
 
 					<!--ถ้าอนุมัติแล้วจะลบไม่ได้-->
 					<?php 
-						if($aValue['FTXphStaApv'] != 1){
-							$oEventDelete 			= "JSxAJP_Delete('".$aValue['FTXphDocNo']."')";
-							$tClassDisabledDelete 	= '';
+						if($aValue['FTXphStaApv'] != 1 ){
+							if($aValue['FTXphStaDoc'] == 2){
+								$oEventDelete 			= '';
+								$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
+							}else{
+								$oEventDelete 			= "JSxAJP_Delete('".$aValue['FTXphDocNo']."')";
+								$tClassDisabledDelete 	= '';
+							}
 						}else{
 							$oEventDelete 			= '';
 							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';

@@ -152,6 +152,9 @@ $route['r_adjpriceInsPDTToTmp']   				= 'adjprice/cAdjprice/FSvCAJPInsPDTToTmp';
 $route['r_adjpricePDTDeleteInTmp']   			= 'adjprice/cAdjprice/FSvCAJPDeletePDTInTmp';
 $route['r_adjpricePDTUpdateInlineInTmp']   		= 'adjprice/cAdjprice/FSvCAJPUpdateInlinePDTInTmp';
 $route['r_adjpricePDTCallpageUplodeFile'] 		= 'adjprice/cAdjprice/FSxCAJPCallpageUplodeFile';
+$route['r_adjpriceCancleDocument'] 				= 'adjprice/cAdjprice/FSxCAJPCancleDocument';
+$route['r_adjpriceAprove'] 						= 'adjprice/cAdjprice/FSxCAJPAproveDocument';
+
 
 
 
