@@ -32,11 +32,18 @@ class cAdjprice extends CI_Controller {
 	//โหลดหน้าจอเพื่มข้อมูล + แก้ไขข้อมูล
 	public function FSwCAJPCallPageInsertorEdit(){
 		$tTypePage = $this->input->post('tTypepage');
+
+		//ลบข้อมูลใน Tmp ก่อน
+		$this->mAdjprice->FSxMAJPDeleteTmpAfterInsDT('');
+
 		if($tTypePage == 'insert'){
 			$aResult	= '';
 		}else if($tTypePage == 'edit'){
 			$tCode 		= $this->input->post('tCode');
 			$aResult 	= $this->mAdjprice->FSaMAJPGetDataBYID($tCode);
+
+			//Move DT To Tmp
+			$this->mAdjprice->FSaMAJPMoveDTToTmp($tCode);
 		}
 
 		$aPackData = array(
@@ -197,19 +204,15 @@ class cAdjprice extends CI_Controller {
 		}
 	}
 
-
-
-
-
-
 	//อีเว้นท์เพิ่มข้อมูล
-	public function FSwCGRPEventInsert(){
-		$aLastCode 	= $this->mGroupproduct->FSaMGRPGetLastGroupPDTcode();
+	public function FSwCAJPEventInsert(){
+		$aLastCode 	= $this->mAdjprice->FSaMAJPGetLastDocumentAdjCode();
 		if($aLastCode['rtCode'] == 800){
-			$tFormatCode = '00001';
+			$tFormatCode = 'AJP00001';
 		}else{
-			$nLastCode 		= $aLastCode['raItems'][0]['FTPgpCode'];
-			$nNumber		= $nLastCode + 1;
+			$nLastCode 		= $aLastCode['raItems'][0]['FTXphDocNo'];
+			$aExplode		= explode("AJP",$nLastCode);
+			$nNumber		= $aExplode[1] + 1;
 			$nCountNumber	= count($nNumber);
 			if($nCountNumber == 1){
 				$tFormat 		= '0000';
@@ -221,42 +224,77 @@ class cAdjprice extends CI_Controller {
 				$tFormat 		= '0';
 			}
 
-			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
+			$tFormatCode = 'AJP'.str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
 		}
 
-		$aInsertGroupPDT = array(
-			'FTPgpCode'			=> $tFormatCode,
-			'FTPgpName'			=> $this->input->post('oetGRPName'),
-			'FDCreateOn'		=> date('Y-m-d H:i:s'),
-			'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
+		$aInsertHD = array(
+			'FTXphDocNo'	=> $tFormatCode,
+			'FDXphDocDate'	=> date('Y-m-d H:i:s'),
+			'FTXphDocTime'	=> date('H:i:s'),
+			'FTBchCode'		=> $this->session->userdata('tSesBCHCode'),
+			'FTPriGrpID'	=> $this->input->post('oetAJPPriGrp'),
+			'FTXphStaDoc'	=> 1,
+			'FTXphStaApv'	=> null,
+			'FTXphRmk'		=> $this->input->post('oetAJPReason'),
+			'FTCreateBy' 	=> $this->session->userdata('tSesUsercode'),
+			'FDCreateOn'	=> date('Y-m-d H:i:s'),
 		);
-		$this->mGroupproduct->FSxMGRPInsert($aInsertGroupPDT);
-		echo 'pass_insert';
-	}
 
-	//ลบกลุ่มสินค้า
-	public function FSxCGRPEventDelete(){
-		$tCode = $this->input->post('ptCode');
-		$this->mGroupproduct->FSaMGRPDelete($tCode);
+		//เพิ่มข้อมูลลง HD
+		$this->mAdjprice->FSxMAJPInsertHD($aInsertHD);
+
+		//เพิ่มข้อมูลลง DT
+		$this->mAdjprice->FSxMAJPInsertDT($tFormatCode);
+
+		//ลบข้อมูลใน Tmp หลังจาก เพิ่มลงใน DT แล้ว
+		$this->mAdjprice->FSxMAJPDeleteTmpAfterInsDT('');
+
+		$aReturn = array(
+			'tStatus' 			=> 'pass_insert',
+			'tDocuementnumber'	=> $tFormatCode
+		);
+		echo json_encode($aReturn);
 	}
 
 	//อีเว้นท์แก้ไข
-	public function FSxCGRPEventEdit(){
+	public function FSxCAJPEventEdit(){
 		try{
-			$aSetUpdate = array(
-				'FTPgpName'			=> $this->input->post('oetGRPName'),
-				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
-				'FDUpdateOn'		=> date('Y-m-d H:i:s')
+			$tFormatCode = $this->input->post('ohdDocumentNumber');
+			$aSetUpdate  = array(
+				'FTPriGrpID'	=> $this->input->post('oetAJPPriGrp'),
+				'FTXphRmk'		=> $this->input->post('oetAJPReason'),
+				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
+				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
 			);
+
 			$aWhereUpdate = array(
-				'FTPgpCode'			=> $this->input->post('ohdGroupProductCode')
+				'FTXphDocNo'	=> $tFormatCode
 			);
-			$this->mGroupproduct->FSxMGRPUpdate($aSetUpdate,$aWhereUpdate);
-			echo 'pass_update';
+			$this->mAdjprice->FSxMGRPUpdate($aSetUpdate,$aWhereUpdate);
+			
+			//ลบข้อมูลใน DT
+			$this->mAdjprice->FSxMAJPDeleteDT($tFormatCode);
+
+			//เพิ่มข้อมูลลง DT
+			$this->mAdjprice->FSxMAJPInsertDT($tFormatCode);
+
+			//ลบข้อมูลใน Tmp หลังจาก เพิ่มลงใน DT แล้ว
+			$this->mAdjprice->FSxMAJPDeleteTmpAfterInsDT($tFormatCode);
+
+			$aReturn = array(
+				'tStatus' 			=> 'pass_update',
+				'tDocuementnumber'	=> $tFormatCode
+			);
+			echo json_encode($aReturn);
 		}catch(Exception $Error){
             echo $Error;
         }
 	}
 
+	//ลบเอกสาร
+	public function FSxCAJPEventDelete(){
+		$tCode = $this->input->post('ptCode');
+		$this->mAdjprice->FSaMAJPDelete($tCode);
+	}
 
 }

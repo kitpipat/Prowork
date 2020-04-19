@@ -13,23 +13,28 @@
 		$tRoute 			= 'r_adjpriceeventedit';
 		$tRouteUrl			= 'แก้ไขใบปรับราคาสินค้า';
 
-		$tDocumentNumber	= '-';
+		$tDocumentNumber	= $aResult[0]['FTXphDocNo'];
+		$dDocumentDate		= date('d/m/Y',strtotime($aResult[0]['FDXphDocDate'])) . ' - ' . $aResult[0]['FTXphDocTime'];
+		$tDocumentCreate	= $aResult[0]['FTUsrFName']; ' - ' . $aResult[0]['FTUsrLName'];
+		$tDocumentStaDoc	= $aResult[0]['FTXphStaDoc'];
+		$tDocumentStaApv	= $aResult[0]['FTXphStaApv'];
+		$FTPriGrpID			= $aResult[0]['FTPriGrpID'];
+		$FTXphRmk			= $aResult[0]['FTXphRmk'];
 	}
 ?>
 
 <div class="container-fulid">
-	
-	<form id="ofmAJP" class="form-signin" method="post" action="javascript:void(0)">
 
-		<!--Section บน-->
-		<div class="row">
-			<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPageAJPMain();">ใบปรับราคาสินค้า</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
-			<div class="col-lg-6 col-md-6"><button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button></div>
-		</div>
+	<!--Section บน-->
+	<div class="row">
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPageAJPMain();">ใบปรับราคาสินค้า</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
+		<div class="col-lg-6 col-md-6"><button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button></div>
+	</div>
+
+	<form id="ofmAJP" class="form-signin" method="post" action="javascript:void(0)">
 
 		<!--Section ล่าง-->
 		<div class="row">
-			
 			<!--section ซ้าย พวกรายละเอียด HD-->
 			<div class="col-lg-3 col-md-3">
 				<div class="row">
@@ -46,7 +51,7 @@
 										<div class="form-group xCNSubPanelDocument">
 											<span>เลขที่เอกสาร : </span>
 											<span class="pull-right"><?=$tDocumentNumber?></span>
-											<input type="hidden" id="ohdDocumentNumber" value="<?=$tDocumentNumber?>" >
+											<input type="hidden" id="ohdDocumentNumber" name="ohdDocumentNumber" value="<?=$tDocumentNumber?>" >
 										</div>
 
 										<div class="form-group xCNSubPanelDocument">
@@ -61,11 +66,25 @@
 
 										<div class="form-group xCNSubPanelDocument">
 											<span>สถานะเอกสาร : </span>
+											<?php if($tDocumentStaDoc == '1'){
+												$tDocumentStaDoc = 'สมบูรณ์';
+											}else if($tDocumentStaDoc == '3'){
+												$tDocumentStaDoc = 'ยกเลิก';
+											}else{
+												$tDocumentStaDoc = '-';
+											}?>
 											<span class="pull-right"><?=$tDocumentStaDoc?></span>
 										</div>
 
 										<div class="form-group xCNSubPanelDocument">
 											<span>สถานะอนุมัติเอกสาร : </span>
+											<?php if($tDocumentStaApv == '1'){
+												$tDocumentStaApv = 'อนุมัติแล้ว';
+											}else if($tDocumentStaApv == null){
+												$tDocumentStaApv = 'รออนุมัติ';
+											}else{
+												$tDocumentStaApv = '-';
+											}?>
 											<span class="pull-right"><?=$tDocumentStaApv?></span>
 										</div>
 									</div>
@@ -97,7 +116,7 @@
 										<!--หมายเหตุ-->
 										<div class="form-group">
 											<label>หมายเหตุ</label>
-											<textarea type="text" class="form-control" id="oetAJPReason" name="oetAJPReason" placeholder="หมายเหตุ" rows="3"></textarea>
+											<textarea type="text" class="form-control" id="oetAJPReason" name="oetAJPReason" placeholder="หมายเหตุ" rows="3"><?=@$FTXphRmk?></textarea>
 										</div>
 									</div>
 
@@ -146,7 +165,7 @@
 									</div>
 									
 									<div class="col-lg-4 col-md-4">
-										<button class="xCNBrowsePDTinDocument"><span>+</span></button>
+										<button class="xCNBrowsePDTinDocument" type="button" onclick="JSxBrowsePDTInDocument();"><span>+</span></button>
 									</div>
 								</div>
 
@@ -166,6 +185,24 @@
 	</form>
 <div>
 
+<!--Modal กรุณาให้เลือกสินค้า-->
+<button id="obtModalPlzSelectPDT" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalPlzSeletePDT"></button>
+<div class="modal fade" id="odvModalPlzSeletePDT" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">กรุณาเลือกสินค้า</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;" id="olbModalProcessText">ไม่พบสินค้า กรุณาเลือกสินค้า เพื่อทำการปรับราคา</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <!--Modal กำลังประมวลผล-->
 <button id="obtModalProcess" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalProcess"></button>
 <div class="modal fade" id="odvModalProcess" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -175,7 +212,7 @@
 			<h5 class="modal-title">อัพโหลดไฟล์</h5>
 		</div>
 		<div class="modal-body">
-			<label style="text-align: center; display: block;" id="olbModalProcessText">กรุณารอสักครู่ กำลังตรวจสอบไฟล์รูปภาพ</label>
+			<label style="text-align: center; display: block;" id="olbModalProcessText">กรุณารอสักครู่ กำลังตรวจสอบไฟล์ข้อมูล</label>
 			<label style="text-align: center; display: block; font-size: 17px;">โปรดอย่าปิดหน้าจอขณะอัพโหลดไฟล์</label>	
 			<div class="progress" style="height: 25px; width: 100%;">
 				<div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
@@ -224,7 +261,6 @@
 		</div>
 	</div>
 </div>
-
 
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 
@@ -344,47 +380,50 @@
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
 
-		// if($('#oetBANName').val() == ''){
-		// 	$('#oetBANName').focus();
-		// 	return;
-		// }
-
-		// $.ajax({
-		// 	type	: "POST",
-		// 	url		: ptRoute,
-		// 	data 	: $('#ofmBrandProduct').serialize(),
-		// 	cache	: false,
-		// 	timeout	: 0,
-		// 	success	: function (tResult) {
-		// 		if(tResult == 'pass_insert'){
-		// 			$('.alert-success').addClass('show').fadeIn();
-		// 			$('.alert-success').find('.badge-success').text('สำเร็จ');
-		// 			$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนยี่ห้อสินค้าสำเร็จ');
-		// 			JSxCallPageBrandProductMain();
-		// 			setTimeout(function(){
-		// 				$('.alert-success').find('.close').click();
-		// 			}, 3000);
-		// 		}else if(tResult == 'pass_update'){
-		// 			$('.alert-success').addClass('show').fadeIn();
-		// 			$('.alert-success').find('.badge-success').text('สำเร็จ');
-		// 			$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลยี่ห้อสินค้าสำเร็จ');
-		// 			JSxCallPageBrandProductMain();
-		// 			setTimeout(function(){
-		// 				$('.alert-success').find('.close').click();
-		// 			}, 3000);
-		// 		}
-		// 	},
-		// 	error: function (jqXHR, textStatus, errorThrown) {
-		// 		alert(jqXHR, textStatus, errorThrown);
-		// 	}
-		// });
+		if($('#otbAJPTable tbody tr').hasClass('otrAJPTmpEmpty') == true){
+			$('#obtModalPlzSelectPDT').click();
+			return;
+		}
+		$.ajax({
+			type	: "POST",
+			url		: ptRoute,
+			data 	: $('#ofmAJP').serialize(),
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				oResult 			= JSON.parse(tResult);
+				console.log(oResult);
+				var tResult 		= oResult.tStatus;
+				var tDocumentNumber = oResult.tDocuementnumber;
+				if(tResult == 'pass_insert'){
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนเอกสารปรับราคาสำเร็จ');
+					JSwAJPCallPageInsert('edit',tDocumentNumber);
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				}else if(tResult == 'pass_update'){
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อเอกสารปรับราคาสำเร็จ');
+					JSwAJPCallPageInsert('edit',tDocumentNumber);
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
 	}
 
 	//เลือกสินค้า
-	$('.xCNBrowsePDTinDocument').on('click',function(){
+	function JSxBrowsePDTInDocument(){
 		$('#obtModalSelectPDT').click();
 		JSxSelectPDTToTmp(1);
-	});
+	}
 
 	//เลือกสินค้า
 	var obj = [];

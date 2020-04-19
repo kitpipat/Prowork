@@ -155,7 +155,7 @@
 		$('.xCNConfirmDelete').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: 'r_brandproducteventdelete',
+				url		: 'r_adjpriceeventdelete',
 				data 	: { 'ptCode' : ptCode },
 				cache	: false,
 				timeout	: 0,
@@ -164,7 +164,7 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
-					JSxCallPageBrandProductMain();
+					JSxCallPageAJPMain();
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);

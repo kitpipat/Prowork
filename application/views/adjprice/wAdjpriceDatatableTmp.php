@@ -1,4 +1,4 @@
-<table class="table table-striped xCNTableCenter">
+<table class="table table-striped xCNTableCenter" id="otbAJPTable">
   <thead>
     <tr>
 		<th style="width:20px; text-align: center;">ลำดับ</th>
@@ -35,7 +35,7 @@
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
-			<tr><td colspan="99" style="text-align: center;"> - ไม่พบข้อมูล - </td></tr>
+			<tr class="otrAJPTmpEmpty"><td colspan="99" style="text-align: center;"> - ไม่พบข้อมูล - </td></tr>
 		<?php } ?>
   </tbody>
 </table>
