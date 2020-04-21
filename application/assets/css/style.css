@@ -1468,7 +1468,7 @@ header .form-inline .search-form.close {
 }
 
 .dropdown-menu {
-	top:100% !important;
+	top:100% ;
     border-radius: 0;
     -webkit-transform: none !important;
     transform: none !important;

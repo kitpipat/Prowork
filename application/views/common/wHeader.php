@@ -14,6 +14,8 @@
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.menu.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.common.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.checkbox.css')?>">
+	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/bootstrap-datepicker.css')?>">
+
 </head>
 <body style="background: #f1f2f7;">
 	<!-- เมนู -->
@@ -98,12 +100,13 @@
 	
 		
 <!-- Scripts -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="<?=base_url('application/assets/js/')?>jquery.min.js"></script>
+<script src="<?=base_url('application/assets/js/')?>jquery-3.5.0.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>jquery-ui.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>popper.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>bootstrap.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>jquery.validate.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>jquery.matchHeight.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>main.js"></script>
+<script src="<?=base_url('application/assets/js/')?>bootstrap-datepicker.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>

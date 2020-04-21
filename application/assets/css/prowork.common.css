@@ -369,6 +369,7 @@ table tbody .xCNTableGroupMenu{
 }
 
 .xCNDropdown{
+	top : 100% !important;
 	transform : translate3d(-60px, 0px, 0px) !important;
 }
 

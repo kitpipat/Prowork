@@ -139,7 +139,7 @@ $route['r_producteventDeleteImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEve
 $route['r_producteventAproveImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEventAproveImgInTmp';
 $route['r_producteventAproveDataInTmp'] 		= 'product/product/cProduct/FSxCPDTEventAproveDataInTmp';
 
-//หน้าจอใบปรับราคา ( start : 18-04-2020 / done : xx-04-2020 )
+//หน้าจอใบปรับราคา ( start : 18-04-2020 / done : 19-04-2020 )
 $route['r_adjprice'] 							= 'adjprice/cAdjprice/index';
 $route['r_adjpriceload'] 						= 'adjprice/cAdjprice/FSwCAJPLoadDatatable';
 $route['r_adjpricecallpageInsertorEdit'] 		= 'adjprice/cAdjprice/FSwCAJPCallPageInsertorEdit';
@@ -156,7 +156,19 @@ $route['r_adjpriceCancleDocument'] 				= 'adjprice/cAdjprice/FSxCAJPCancleDocume
 $route['r_adjpriceAprove'] 						= 'adjprice/cAdjprice/FSxCAJPAproveDocument';
 
 
+//หน้าจอใบปรับต้นทุน ( start : 21-04-2020 / done : xx-04-2020 )
+$route['r_adjcost'] 							= 'adjcost/cAdjcost/index';
+$route['r_adjcostload'] 						= 'adjcost/cAdjcost/FSwCAJCLoadDatatable';
+$route['r_adjcostcallpageInsertorEdit'] 		= 'adjcost/cAdjcost/FSwCAJCCallPageInsertorEdit';
+$route['r_adjcosteventinsert'] 					= 'adjcost/cAdjcost/FSwCAJCEventInsert';
+$route['r_adjcosteventdelete'] 					= 'adjcost/cAdjcost/FSxCAJCEventDelete';
+$route['r_adjcosteventedit'] 					= 'adjcost/cAdjcost/FSxCAJCEventEdit';
+$route['r_adjcostloadtableDTTmp'] 				= 'adjcost/cAdjcost/FSxCAJCLoadTableDTTmp';
+$route['r_adjcostloadPDT']                   	= 'adjcost/cAdjcost/FSvCAJCLoadPDT';
+$route['r_adjcostInsPDTToTmp']   				= 'adjcost/cAdjcost/FSvCAJCInsPDTToTmp';
+$route['r_adjcostPDTDeleteInTmp']   			= 'adjcost/cAdjcost/FSvCAJCDeletePDTInTmp';
+$route['r_adjcostPDTUpdateInlineInTmp']   		= 'adjcost/cAdjcost/FSvCAJCUpdateInlinePDTInTmp';
+$route['r_adjcostPDTCallpageUplodeFile'] 		= 'adjcost/cAdjcost/FSxCAJCCallpageUplodeFile';
+$route['r_adjcostCancleDocument'] 				= 'adjcost/cAdjcost/FSxCAJCCancleDocument';
+$route['r_adjcostAprove'] 						= 'adjcost/cAdjcost/FSxCAJCAproveDocument';
 
-
-//หน้าจอใบปรับต้นทุน
-$route['r_adjcost'] 							= '';

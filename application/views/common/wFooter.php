@@ -89,7 +89,11 @@
 				</button>
 			</div>
 
-			<script> $('.xCNCloseDialog').click(function() { $(this).parent().removeClass('show'); }); </script>
+			<script> 
+				$(document).ready(function() {
+					$('.xCNCloseDialog').click(function() { $(this).parent().removeClass('show'); }); 
+				});
+			</script>
 
 		</div>
 	</body>
