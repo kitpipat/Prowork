@@ -20,7 +20,7 @@
                         FROM
                         (
                         SELECT FTPdtCode,
-                               $tPdtCostStd AS FCPdtCostStd , 
+                               $tPdtCostStd AS FCPdtCostStd ,
                                CAST('<XMLRoot><RowData>' + REPLACE($tPdtCostDis,',','</RowData><RowData>') + '</RowData></XMLRoot>' AS XML) AS X
                         FROM   $tTblName
                         WHERE FTPdtCode='$ptPdtCode'
@@ -66,8 +66,8 @@
              $nStaPrc = FCNtPDCChkProcess($aData);
 
              if($nStaPrc == 0){
-                 $tSQL = " INSERT INTO TCNTPdtCost (FTBchCode,FTPdtCode,FCPdtCost) VALUES ";
-                 $tSQL.= " ('".$aData['FTBchCode']."','".$aData['FTPdtCode']."','".$aData['FCPdtCost']."')";
+                 $tSQL = " INSERT INTO TCNTPdtCost (FTBchCode,FTPdtCode,FCPdtCost,FDCosActive) VALUES ";
+                 $tSQL.= " ('".$aData['FTBchCode']."','".$aData['FTPdtCode']."','".$aData['FCPdtCost']."','".$aData['FDCosActive']."')";
              }else{
                  $tSQL = "UPDATE TCNTPdtCost SET FCPdtCost = '".$aData['FCPdtCost']."'";
                  $tSQL.= " WHERE FTBchCode = '".$aData['FTBchCode']."' AND FTPdtCode = '".$aData['FTPdtCode']."'";
