@@ -132,7 +132,11 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
-					JSxCallPageGroupProductMain();
+
+					setTimeout(function(){
+						JSxCallPageGroupProductMain();
+					}, 500);
+					
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);

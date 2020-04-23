@@ -35,7 +35,7 @@
 						</td>
 					<?php }else{ ?>
 						<td>
-							<label style="text-align: right; width: 100%;" class="xCNLineHeightInTable"><?=$aValue['FTXpdDisCost'];?></label>
+							<label style="text-align: left; width: 100%;" class="xCNLineHeightInTable"><?=$aValue['FTXpdDisCost'];?></label>
 						</td>
 					<?php } ?>
 
@@ -142,7 +142,7 @@
 	function JSxUpdateCost(e){
 		var tValueUpdate 	= $(e).val();
 		var tPDTCode 		= $(e).data('pdtcode');
-		
+
 		$.ajax({
 			type	: "POST",
 			url		: 'r_adjcostPDTUpdateInlineInTmp',

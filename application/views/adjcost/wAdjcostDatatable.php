@@ -2,8 +2,9 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="width:200px; text-align: left;">เลขที่เอกสาร</th>
-		<th style="text-align: left;">วันที่-เวลาเอกสาร</th>
+		<th style="width:150px; text-align: left;">เลขที่เอกสาร</th>
+		<th style="width:200px; text-align: left;">วันที่-เวลาเอกสาร</th>
+		<th style="text-align: left;">วันที่มีผล</th>
 		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
 		<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>
 		<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
@@ -18,6 +19,7 @@
 					<th><?=$aValue['rtRowID']?></th>
 					<td><?=$aValue['FTXphDocNo']?></td>
 					<td><?=date('d/m/Y',strtotime($aValue['FDXphDocDate'])) . ' - ' . $aValue['FTXphDocTime'];?></td>
+					<td><?=date('d/m/Y',strtotime($aValue['FDXphDStart']))?></td>
 
 					<!--สถานะเอกสาร-->
 					<?php 
@@ -173,7 +175,11 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
-					JSxCallPageAJCMain();
+
+					setTimeout(function(){
+						JSxCallPageAJCMain();
+					}, 500);
+
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);

@@ -6,7 +6,7 @@
 
 		$tDocumentNumber	= '-';
 		$dDocumentDate		= date('d/m/Y') . ' - ' . date("H:i:s");
-		$dDocumentDateActive= date('d/m/Y');
+		$dDocumentDateActive= '';
 		$tDocumentCreate	= $this->session->userdata('tSesFirstname') . ' ' . $this->session->userdata('tSesLastname');
 		$tDocumentStaDoc	= '-';
 		$tDocumentStaApv	= '-';
@@ -14,14 +14,13 @@
 		$tRoute 			= 'r_adjcosteventedit';
 		$tRouteUrl			= 'แก้ไขใบปรับราคาต้นทุน';
 
-		$tDocumentNumber	= '';
-		$dDocumentDate		= '';
-		$dDocumentDateActive= '';
-		$tDocumentCreate	= '';
-		$tDocumentStaDoc	= '';
-		$tDocumentStaApv	= '';
-		$FTPriGrpID			= '';
-		$FTXphRmk			= '';
+		$tDocumentNumber	= $aResult[0]['FTXphDocNo'];
+		$dDocumentDate		= date('d/m/Y',strtotime($aResult[0]['FDXphDocDate'])) . ' - ' . $aResult[0]['FTXphDocTime'];
+		$dDocumentDateActive= date('d/m/Y',strtotime($aResult[0]['FDXphDStart']));
+		$tDocumentCreate	= $aResult[0]['FTUsrFName']; ' - ' . $aResult[0]['FTUsrLName'];
+		$tDocumentStaDoc	= $aResult[0]['FTXphStaDoc'];
+		$tDocumentStaApv	= $aResult[0]['FTXphStaApv'];
+		$FTXphRmk			= $aResult[0]['FTXphRmk'];
 	}
 
 	//ถ้าเอกสารถูกยกเลิก หรือ อนุมัติแล้ว
@@ -131,7 +130,7 @@
 										<div class='form-group'>
 											<label><span style="color:red;">*</span> วันที่มีผล</label>
 											<div class='input-group'>
-												<input placeholder="DD/MM/YYYY" type='text' class='form-control xCNDatePicker' autocomplete='off' id='oetDateActive' name='oetDateActive'>
+												<input <?=$tDisabledInput?> placeholder="DD/MM/YYYY" type='text' class='form-control xCNDatePicker' autocomplete='off' id='oetDateActive' name='oetDateActive' value='<?=$dDocumentDateActive?>'>
 											</div>
 										</div>
 
@@ -377,13 +376,12 @@
 
 					$.ajax({
 						type	: "POST",
-						url		: "r_adjpricePDTCallpageUplodeFile",
+						url		: "r_adjcostPDTCallpageUplodeFile",
 						data	: { 'aPackdata' : aJSON , 'tCode' : '<?=$tDocumentNumber?>' },
 						cache	: true,
 						async	: false,
 						timeout	: 0,
 						success	: function (tResult) {
-							// console.log(tResult);
 							if(tResult == 'Fail'){
 								setTimeout(function(){
 									$('#obtModalProcess').click();
@@ -602,7 +600,11 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ยกเลิกเอกสารสำเร็จ');
-					JSxCallPageAJCMain();
+					
+					setTimeout(function(){
+						JSxCallPageAJCMain();
+					}, 500);
+
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
@@ -631,7 +633,11 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('เอกสารอนุมัติสำเร็จ');
-					JSxCallPageAJCMain();
+
+					setTimeout(function(){
+						JSxCallPageAJCMain();
+					}, 500);
+
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);

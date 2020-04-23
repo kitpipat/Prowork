@@ -558,7 +558,9 @@ class mAdjcost extends CI_Model {
 						HD.FDLastUpdOn,
 						HD.FTLastUpdBy,
 						HD.FDCreateOn,
-						HD.FTCreateBy		
+						HD.FTCreateBy,
+						USR.FTUsrFName,
+						USR.FTUsrLName	
 		 			FROM TCNTPdtAdjCostHD HD";
 		$tSQL .= " LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode";
 		$tSQL .= " WHERE HD.FTXphDocNo = '$ptCode' ";
@@ -598,7 +600,7 @@ class mAdjcost extends CI_Model {
 				FTLastUpdBy,
 				FDCreateOn,
 				FTCreateBy,
-				,$tSession AS FTWorkerID
+				$tSession AS FTWorkerID
 			FROM TCNTPdtAdjCostDT DT
 			WHERE DT.FTXphDocNo = '$ptCode'";
 			$this->db->query($tSQL);
@@ -645,8 +647,8 @@ class mAdjcost extends CI_Model {
 		try{
 			$aSet = array(
 				'FTXphStaDoc' 	=> 2,
-				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
-				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+				'FDLastUpdOn'	=> date('Y-m-d H:i:s'),
+				'FTLastUpdBy'	=> $this->session->userdata('tSesUsercode')
 			);
 			$this->db->where('FTXphDocNo', $ptCode);
 			$this->db->update('TCNTPdtAdjCostHD', $aSet);
@@ -660,7 +662,7 @@ class mAdjcost extends CI_Model {
 		try{
 			$aSet = array(
 				'FTXphStaApv'  	=> 1,
-				'FTXphApvBy'	=> $this->session->userdata('tSesUsercode')
+				'FTXphUsrApv'	=> $this->session->userdata('tSesUsercode')
 			);
 			$this->db->where('FTXphDocNo', $ptCode);
 			$this->db->update('TCNTPdtAdjCostHD', $aSet);

@@ -180,16 +180,21 @@ class cAdjcost extends CI_Controller {
 
 		$nPackData 	= count($aPackData['Adjustment']);
 		$aResult   	= $aPackData['Adjustment'];
+		$nSeq = $this->mAdjcost->FSaMAJCGetSeqLast($tCode,$this->session->userdata('tSesUsercode'));
+		if($nSeq['rtCode'] == 800){
+			$nSeq = '1';
+		}else{
+			$nLastCode 		= $nSeq['raItems'][0]['FNXpdSeq'];
+			$nSeq			= $nLastCode+1;
+		}
+
 		for($i=1; $i<$nPackData; $i++){
 
 			if(isset($aResult[$i][0])){
 				$aCheck = array(
 					'FTXphDocNo'	=> $tCode,
 					'FTWorkerID'	=> $this->session->userdata('tSesUsercode'),
-					'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
-					'FCXpdCost'		=> 'wait',
-					'FTXpdDisCost'	=> 'wait',
-					'FTXpdSplCode'	=> 'wait'
+					'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : ''
 				);
 				$aCheckDuplicate = $this->mAdjcost->FSaMAJCCheckDataDuplicate($aCheck);
 				if($aCheckDuplicate['rtCode'] == 1){
@@ -197,31 +202,40 @@ class cAdjcost extends CI_Controller {
 				}else{
 
 					if((isset($aResult[$i][1]))){
-						if($aResult[$i][1] > 100){
-							$nAddPri = 100;
+						$nDisCost = $aResult[$i][1];
+						if(preg_replace('/[^ก-ฮA-Za-z]/u','',$nDisCost)){
+							$nDisCost = 0.00;
 						}else{
-							$nAddPri = $aResult[$i][1];
-							if(preg_replace('/[^ก-ฮA-Za-z]/u','',$nAddPri)){
-								$nAddPri = 0.00;
-							}else{
-								$nAddPri = $aResult[$i][1];
-							}
+							$nDisCost = $aResult[$i][1];
 						}
 					}else{
-						$nAddPri = 0.00;
+						$nDisCost = 0.00;
+					}
+
+					$aMasterPDT = $this->mAdjcost->FSaMAJCFindSplAndSTDCost($aResult[$i][0]);
+					if($aMasterPDT['rtCode'] == 800){
+						$tSPLCode = null;
+						$tCostSTD = 0.00;
+					}else{
+						$tSPLCode = $aMasterPDT['raItems'][0]['FTSplCode'];
+						$tCostSTD = $aMasterPDT['raItems'][0]['FCPdtCostStd'];
 					}
 
 					$aIns = array(
 						'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
+						'FTXpdSplCode'	=> $tSPLCode,
+						'FCXpdCost'		=> $tCostSTD,
+						'FNXpdSeq'		=> $nSeq,
 						'FTXphDocNo'	=> $tCode,
-						'FCXpdAddPri' 	=> $nAddPri,
-						'FDXphDateAtv'	=> date('Y-m-d H:i:s'),
+						'FTXpdDisCost'	=> $nDisCost,
 						'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
 					);
 
 					if($aIns['FTPdtCode'] != '' || $aIns['FTPdtCode'] != null){
 						$this->mAdjcost->FSaMAJCImportExcelInsert($aIns);
 					}
+
+					$nSeq++;
 				}
 			}
 		}
@@ -285,10 +299,10 @@ class cAdjcost extends CI_Controller {
 		try{
 			$tFormatCode = $this->input->post('ohdDocumentNumber');
 			$aSetUpdate  = array(
-				'FTPriGrpID'	=> $this->input->post('oetAJCPriGrp'),
+				'FDXphDStart'	=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))),
 				'FTXphRmk'		=> $this->input->post('oetAJCReason'),
-				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
-				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+				'FDLastUpdOn'	=> date('Y-m-d H:i:s'),
+				'FTLastUpdBy'	=> $this->session->userdata('tSesUsercode')
 			);
 
 			$aWhereUpdate = array(
