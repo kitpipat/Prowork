@@ -100,7 +100,8 @@ class cProduct extends CI_Controller {
 			//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
 			$paData = array(
 				"tPdtCode"		=> $this->input->post('oetPDTCode'),
-				"dDateActive"	=> ''
+				"dDateActive"	=> '',
+				"tDocno"		=> ''
 			);
 			FCNaHPDCAdjPdtCost($paData);
 
@@ -151,7 +152,8 @@ class cProduct extends CI_Controller {
 				//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
 				$paData = array(
 					"tPdtCode"		=> $this->input->post('ohdProductCode'),
-					"dDateActive"	=> ''
+					"dDateActive"	=> '',
+					"tDocno"		=> ''
 				);
 				FCNaHPDCAdjPdtCost($paData);
 
@@ -278,7 +280,8 @@ class cProduct extends CI_Controller {
 				//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
 				$paData = array(
 					"tPdtCode"		=> $aData[$i]['nPDTCode'],
-					"dDateActive"	=> ''
+					"dDateActive"	=> '',
+					"tDocno"		=> ''
 				);
 				FCNaHPDCAdjPdtCost($paData);
 			}

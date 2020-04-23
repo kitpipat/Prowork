@@ -126,6 +126,9 @@ class mQuotation extends CI_Model {
                               WHEN ISNULL(PDT.FCPdtSalPrice,0) = 0 AND  ISNULL(SP.FCXpdAddPri,0) <> 0
                               THEN ISNULL(PDT.FCPdtCostAFDis,0) + (ISNULL(PDT.FCPdtCostAFDis,0) * ISNULL(SP.FCXpdAddPri,0))/100
 
+							  WHEN ISNULL(PDT.FCPdtSalPrice, 0) <> 0 AND ISNULL(SP.FCXpdAddPri, 0) <> 0
+							  THEN ISNULL(PDT.FCPdtCostAFDis, 0) + (ISNULL(PDT.FCPdtCostAFDis, 0) * ISNULL(SP.FCXpdAddPri, 0)) / 100
+
                               ELSE 0
                               END AS FCPdtNetSalPri
                   FROM VCN_Products PDT

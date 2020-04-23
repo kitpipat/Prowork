@@ -158,7 +158,7 @@
 				$('.alert-success').addClass('show').fadeIn();
 				$('.alert-success').find('.badge-success').text('สำเร็จ');
 				$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลสำเร็จ');
-				JSvLoadTableDTTmp(1);
+				// JSvLoadTableDTTmp(1);
 				setTimeout(function(){
 					$('.alert-success').find('.close').click();
 				}, 800);

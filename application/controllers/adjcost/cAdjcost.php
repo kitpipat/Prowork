@@ -345,6 +345,19 @@ class cAdjcost extends CI_Controller {
 	public function FSxCAJCAproveDocument(){
 		$tCode = $this->input->post('tCode');
 		$this->mAdjcost->FSaMAJCAproveDocument($tCode);
+
+		$aPDTItem = $this->mAdjcost->FSaMAJCGetItemInPDT($tCode);
+		if(isset($aPDTItem)){
+			for($i=0; $i<count($aPDTItem); $i++){
+				$paData = array(
+					"tPdtCode"		=> $aPDTItem[$i]['FTPdtCode'],
+					"dDateActive"	=> $aPDTItem[$i]['FDXphDStart'],
+					"tDocno"		=> $tCode
+				);
+				FCNaHPDCAdjPdtCost($paData);
+			}
+		}
+
 	}
 
 }

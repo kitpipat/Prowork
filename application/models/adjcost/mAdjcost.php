@@ -671,4 +671,16 @@ class mAdjcost extends CI_Model {
 		}
 	}
 
+	//หาสินค้าใน DT เพื่อเอาไปทำ cost 
+	public function FSaMAJCGetItemInPDT($ptCode){
+		$tSQL = " SELECT 
+						HD.FDXphDStart,
+						DT.FTPdtCode
+		 			FROM TCNTPdtAdjCostHD HD";
+		$tSQL .= " LEFT JOIN TCNTPdtAdjCostDT DT ON HD.FTXphDocNo = DT.FTXphDocNo";
+		$tSQL .= " WHERE HD.FTXphDocNo = '$ptCode' ";
+		$oQuery = $this->db->query($tSQL);
+		return $oQuery->result_array();
+	}
+
 }

@@ -6,7 +6,7 @@ class test extends CI_Controller {
 	public function index(){
 
 
-         $paData = array("tPdtCode"=>'P131','dDateActive'=>'');
+         $paData = array("tPdtCode"=>'P2','dDateActive'=>'','tDocno'=>'');
          // Process Pdt cost 
          FCNaHPDCAdjPdtCost($paData);
 	}
