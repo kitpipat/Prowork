@@ -1,17 +1,34 @@
 <?php
     //หาข้อมูลสินค้าว่ามีส่วนลดอะไรบ้าง
-    function FCNtPDCGetProduct($ptPdtCode){
+    function FCNtPDCGetProduct($ptPdtCode,$pdDateActive,$ptDocNo){
 
               $ci = &get_instance();
         	    $ci->load->database();
+
+              if($pdDateActive != ''){
+                 $tTblName = 'TCNTPdtAdjCostDT';
+                 $tPdtCostDis = 'FTXpdDisCost';
+                 $tPdtCostStd = 'FCXpdCost';
+              }else{
+                 $tTblName = 'TCNMPdt';
+                 $tPdtCostDis = 'FTPdtCostDis';
+                 $tPdtCostStd = 'FCPdtCostStd';
+              }
+              $tCondition = '';
+              if($ptDocNo !=''){
+                 $tCondition+=" AND FTXphDocNo ='$ptDocNo' ";
+              }
 
               $tSQL = "SELECT FTPdtCode,FCPdtCostStd,
                         LTRIM(RTRIM(M.N.value('.[1]','varchar(8000)'))) AS FTPdtCostDis
                         FROM
                         (
-                        SELECT FTPdtCode, FCPdtCostStd, CAST('<XMLRoot><RowData>' + REPLACE(FTPdtCostDis,',','</RowData><RowData>') + '</RowData></XMLRoot>' AS XML) AS X
-                        FROM   TCNMPdt
-                        WHERE FTPdtCode='$ptPdtCode'
+                        SELECT FTPdtCode,
+                               $tPdtCostStd AS FCPdtCostStd ,
+                               CAST('<XMLRoot><RowData>' + REPLACE($tPdtCostDis,',','</RowData><RowData>') + '</RowData></XMLRoot>' AS XML) AS X
+                        FROM   $tTblName
+                        WHERE FTPdtCode='$ptPdtCode'  $tCondition
+
                         )T
                         CROSS APPLY X.nodes('/XMLRoot/RowData')M(N) ";
 
@@ -54,8 +71,8 @@
              $nStaPrc = FCNtPDCChkProcess($aData);
 
              if($nStaPrc == 0){
-                 $tSQL = " INSERT INTO TCNTPdtCost (FTBchCode,FTPdtCode,FCPdtCost) VALUES ";
-                 $tSQL.= " ('".$aData['FTBchCode']."','".$aData['FTPdtCode']."','".$aData['FCPdtCost']."')";
+                 $tSQL = " INSERT INTO TCNTPdtCost (FTBchCode,FTPdtCode,FCPdtCost,FDCosActive) VALUES ";
+                 $tSQL.= " ('".$aData['FTBchCode']."','".$aData['FTPdtCode']."','".$aData['FCPdtCost']."','".$aData['FDCosActive']."')";
              }else{
                  $tSQL = "UPDATE TCNTPdtCost SET FCPdtCost = '".$aData['FCPdtCost']."'";
                  $tSQL.= " WHERE FTBchCode = '".$aData['FTBchCode']."' AND FTPdtCode = '".$aData['FTPdtCode']."'";
@@ -71,7 +88,7 @@
     */
     function FCNaHPDCAdjPdtCost($paData){
 
-       $aProducts = FCNtPDCGetProduct($paData['tPdtCode']);
+       $aProducts = FCNtPDCGetProduct($paData['tPdtCode'],$paData['dDateActive'],$paData['tDocno']);
       // echo "<pre>";
       // var_dump($aProducts);
       // echo "</pre>";
