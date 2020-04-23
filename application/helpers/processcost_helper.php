@@ -75,7 +75,7 @@
                  $tSQL.= " ('".$aData['FTBchCode']."','".$aData['FTPdtCode']."','".$aData['FCPdtCost']."','".$aData['FDCosActive']."')";
              }else{
                  $tSQL = "UPDATE TCNTPdtCost SET FCPdtCost = '".$aData['FCPdtCost']."'";
-					  $tSQL.= " WHERE FTBchCode = '".$aData['FTBchCode']."' AND FTPdtCode = '".$aData['FTPdtCode']."' AND isnull(FDCosActive,'') = '' ";
+					       $tSQL.= " WHERE FTBchCode = '".$aData['FTBchCode']."' AND FTPdtCode = '".$aData['FTPdtCode']."' AND ISNULL(FDCosActive,'') = '".$aData['FDCosActive']."' ";
              }
 
              //return $tSQL;
