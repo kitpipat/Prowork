@@ -1,6 +1,6 @@
 <?php
     //หาข้อมูลสินค้าว่ามีส่วนลดอะไรบ้าง
-    function FCNtPDCGetProduct($ptPdtCode,$pdDateActive){
+    function FCNtPDCGetProduct($ptPdtCode,$pdDateActive,$ptDocNo){
 
               $ci = &get_instance();
         	    $ci->load->database();
@@ -14,6 +14,10 @@
                  $tPdtCostDis = 'FTPdtCostDis';
                  $tPdtCostStd = 'FCPdtCostStd';
               }
+              $tCondition = '';
+              if($ptDocNo !=''){
+                 $tCondition+=" AND FTXphDocNo ='$tCondition' ";
+              }
 
               $tSQL = "SELECT FTPdtCode,FCPdtCostStd,
                         LTRIM(RTRIM(M.N.value('.[1]','varchar(8000)'))) AS FTPdtCostDis
@@ -23,7 +27,8 @@
                                $tPdtCostStd AS FCPdtCostStd ,
                                CAST('<XMLRoot><RowData>' + REPLACE($tPdtCostDis,',','</RowData><RowData>') + '</RowData></XMLRoot>' AS XML) AS X
                         FROM   $tTblName
-                        WHERE FTPdtCode='$ptPdtCode'
+                        WHERE FTPdtCode='$ptPdtCode'  $tCondition
+
                         )T
                         CROSS APPLY X.nodes('/XMLRoot/RowData')M(N) ";
 
@@ -83,7 +88,7 @@
     */
     function FCNaHPDCAdjPdtCost($paData){
 
-       $aProducts = FCNtPDCGetProduct($paData['tPdtCode'],$paData['dDateActive']);
+       $aProducts = FCNtPDCGetProduct($paData['tPdtCode'],$paData['dDateActive'],$paData['tDocno']);
       // echo "<pre>";
       // var_dump($aProducts);
       // echo "</pre>";
