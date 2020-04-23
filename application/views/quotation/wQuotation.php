@@ -175,7 +175,7 @@
 							</div>
 
 							<!--content-->
-							<div class="row xCNQuCategoryList" id="odvQuoPdtList"></div>
+							<div class="xCNQuCategoryList" id="odvQuoPdtList"></div>
 						</div>
 					</div>
 				</div>

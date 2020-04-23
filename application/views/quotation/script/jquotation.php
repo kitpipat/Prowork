@@ -1,10 +1,8 @@
 <script type="text/javascript">
 	$(document).ready(function() {
-
-		FSvQUOGetPdtList();
+		FSvQUOGetPdtList(1);
 		FSvQUOCallDocHeader();
 		FSvQUOCallItemList();
-
 	});
 
 	function FSvQUOSwitView(ptViewType) {
@@ -27,10 +25,10 @@
 			url: 'r_quotationeventGetPdtList',
 			type: 'GET',
 			data: {
-				pnPage		: pnPage,
+				pnPage			: pnPage,
 				paFilter		: '',
 				tPdtViewType	: tPdtViewType,
-				aFilterAdv	: ''
+				aFilterAdv		: ''
 			},
 			datatype: 'json'
 		})

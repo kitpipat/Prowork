@@ -1,96 +1,159 @@
-	<?php if ($tPdtViewType == 1) { ?>
-		
-		<!--เลือกการมองเห็นแบบรูปภาพ-->
-		<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){ 
 
-				$tPdtCode 		= $aValue['FTPdtCode'];
-				$tPdtName 		= $aValue['FTPdtName'];
-				$tPunCode 		= $aValue['FTPunCode'];
-				$tSplCode 		= $aValue['FTSplCode'];
-				$nPdtCost 		= $aValue['FCPdtCostAFDis'];
-				$nPdtUnitPri 	= $aValue['FCPdtNetSalPri'];
-				$tPunName 		= $aValue['FTPunName'];
-				
-				$aItemsInfo = array(
-					"tPdtCode" 		=> $tPdtCode,
-					"tPdtName" 		=> $tPdtName,
-					"tPunCode" 		=> $tPunCode,
-					"tPunName" 		=> $tPunName,
-					"tSplCode" 		=> $tSplCode,
-					"nPdtCost" 		=> $nPdtCost,
-					"nPdtUnitPri" => $nPdtUnitPri
-				);
-				$tItemInfo = json_encode($aItemsInfo);
-			?>
-			<div class="col-sm-3 col-md-3 col-lg-3">
-				<div class="thumbnail" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
-					<img src="<?= base_url('application/assets/images/products/NoImage.png') ?>" alt="...">
-					<div class="caption">
-						<h4><?php echo $tPdtName; ?></h4>
-						<span>&#3647;<?php echo number_format($nPdtUnitPri, 2); ?></span>
-					</div>
-				</div>
-			</div>
-			<?php } ?>
-		<?php } else { ?>
-			<table class="table table-striped xCNTableCenter">
-				<thead>
-					<tr>
-						<th style="width:20px;">ลำดับ</th>
-						<th style="width:100px;">รหัสสินค้า</th>
-						<th >ชื่อสินค้า</th>
-						<th style="width:250px; text-align: right;">ราคา/หน่วย</th>
-						<th style="width:100px; text-align: center;">เลือก</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php for($p2 = 0; $p2 < $nTotalRecord; $p2++) {
-								$tPdtCode 		= $aPdtList['raItems'][$p2]['FTPdtCode'];
-								$tPdtName 		= $aPdtList['raItems'][$p2]['FTPdtName'];
-								$tPunCode 		= $aPdtList['raItems'][$p2]['FTPunCode'];
-								$tSplCode 		= $aPdtList['raItems'][$p2]['FTSplCode'];
-								$nPdtCost 		= $aPdtList['raItems'][$p2]['FCPdtCostAFDis'];
-								$nPdtUnitPri 	= $aPdtList['raItems'][$p2]['FCPdtNetSalPri'];
-								$tPunName 		= $aPdtList['raItems'][$p2]['FTPunName'];
-								$aItemsInfo = array(
-									"tPdtCode" 		=> $tPdtCode,
-									"tPdtName" 		=> $tPdtName,
-									"tPunCode" 		=> $tPunCode,
-									"tPunName" 		=> $tPunName,
-									"tSplCode" 		=> $tSplCode,
-									"nPdtCost" 		=> $nPdtCost,
-									"nPdtUnitPri" => $nPdtUnitPri
-								);
-							$tItemInfo = json_encode($aItemsInfo); ?>
-						<tr>
-							<td >ลำดับ</td>
-							<td ><?=$tPdtCode;?></td>
-							<td style="text-align: left;"><?=$tPdtName;?></td>
-							<td style="text-align: right;"><?=number_format($nPdtUnitPri,2);?></td>
-							<td><button class="sm-button xCNSelectPDTInPI" data-iteminfo='<?= $tItemInfo ?>' onclick="FSvQUOAddItemToTemp(this)">เลือกสินค้า</button></td>
-						</tr>
+<div class="row">
+
+	<div class="col-lg-12">
+		<div class="row">
+			<!--เลือกการมองเห็นแบบรูปภาพ-->
+			<?php if ($tPdtViewType == 1) { ?>
+					<?php if($aPdtList['rtCode'] != 800){ ?>
+						<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){ 
+									$tPdtCode 		= $aValue['FTPdtCode'];
+									$tPdtName 		= $aValue['FTPdtName'];
+									$tPunCode 		= $aValue['FTPunCode'];
+									$tSplCode 		= $aValue['FTSplCode'];
+									$nPdtCost 		= $aValue['FCPdtCostAFDis'];
+									$nPdtUnitPri 	= $aValue['FCPdtNetSalPri'];
+									$tPunName 		= $aValue['FTPunName'];
+							
+									$aItemsInfo = array(
+										"tPdtCode" 		=> $tPdtCode,
+										"tPdtName" 		=> $tPdtName,
+										"tPunCode" 		=> $tPunCode,
+										"tPunName" 		=> $tPunName,
+										"tSplCode" 		=> $tSplCode,
+										"nPdtCost" 		=> $nPdtCost,
+										"nPdtUnitPri" => $nPdtUnitPri
+									);
+									$tItemInfo = json_encode($aItemsInfo);
+							?>
+							<div class="col-sm-3 col-md-3 col-lg-3">
+								<div class="xCNImageCardPDT" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
+									<img src="<?= base_url('application/assets/images/products/NoImage.png') ?>" alt="...">
+									<div class="caption">
+										<span class="xCNPIPDTCode"><?=$tPdtCode;?></span>
+										<span class="xCNPIPDTName"><?=$tPdtName;?></span>
+										<span class="xCNPIPDTPrice">&#3647;<?php echo number_format($nPdtUnitPri, 2); ?></span>
+									</div>
+								</div>
+							</div>
+						<?php } ?>
+					<?php } else{ ?>
+						<div class="col-lg-12">
+							<lable style="color:red">[การแจ้งเตือน]</label> ไม่พบสินค้าในระบบ.
+						</div>
 					<?php } ?>
-				</tbody>
-			</table>
-	<?php } ?>
+			<?php } else { ?>
+					<!--เลือกการมองเห็นแบบรายการ-->
+					<div class="col-lg-12">
+						<table class="table table-striped xCNTableCenter">
+							<thead>
+								<tr>
+									<th style="width:20px;">ลำดับ</th>
+									<th style="width:100px;">รหัสสินค้า</th>
+									<th >ชื่อสินค้า</th>
+									<th style="width:250px; text-align: right;">ราคา/หน่วย</th>
+									<th style="width:100px; text-align: center;">เลือก</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php if($aPdtList['rtCode'] != 800){ ?>
+									<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){ 
+												$tPdtCode 		= $aValue['FTPdtCode'];
+												$tPdtName 		= $aValue['FTPdtName'];
+												$tPunCode 		= $aValue['FTPunCode'];
+												$tSplCode 		= $aValue['FTSplCode'];
+												$nPdtCost 		= $aValue['FCPdtCostAFDis'];
+												$nPdtUnitPri 	= $aValue['FCPdtNetSalPri'];
+												$tPunName 		= $aValue['FTPunName'];
+												$aItemsInfo 	= array(
+													"tPdtCode" 		=> $tPdtCode,
+													"tPdtName" 		=> $tPdtName,
+													"tPunCode" 		=> $tPunCode,
+													"tPunName" 		=> $tPunName,
+													"tSplCode" 		=> $tSplCode,
+													"nPdtCost" 		=> $nPdtCost,
+													"nPdtUnitPri" => $nPdtUnitPri
+												);
+												$tItemInfo = json_encode($aItemsInfo); ?>
+										<tr>
+											<th ><?=$aValue['RowID']?></th>
+											<td ><?=$tPdtCode;?></td>
+											<td style="text-align: left;"><?=$tPdtName;?></td>
+											<td style="text-align: right;"><?=number_format($nPdtUnitPri,2);?></td>
+											<td><button class="sm-button xCNSelectPDTInPI" data-iteminfo='<?= $tItemInfo ?>' onclick="FSvQUOAddItemToTemp(this)">เลือกสินค้า</button></td>
+										</tr>
+									<?php } ?>
+								<?php }else{ ?>
+									<tbody>
+										<tr><td colspan="99" style="text-align: center;"> - ไม่พบข้อมูล - </td></tr>
+									</tbody>
+								<?php } ?>
+							</tbody>
+						</table>
+					</div>
+			<?php } ?>
+		</div>
+	</div>
 
+</div>
 
+<!--หน้าของข้อมูล-->
+<div class="row" style="margin-top:10px;">
+    <div class="col-md-6">
+        <label>พบข้อมูลทั้งหมด <?=$aPdtList['rnAllRow']?> รายการ แสดงหน้า <?=$aPdtList['rnCurrentPage']?> / <?=$aPdtList['rnAllPage']?></label>
+    </div>
+    <div class="col-md-6">
+		<nav>
+			<ul class="xCNPagenation pagination justify-content-end">
+				<!--ปุ่มย้อนกลับ-->
+				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
+				<li class="page-item <?=$tDisabledLeft;?>">
+					<a class="page-link" aria-label="Previous" onclick="JSvPI_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
+				</li>
 
+				<!--ปุ่มจำนวนหน้า-->
+				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aPdtList['rnAllPage'],$nPage+2)); $i++){?>
+					<?php 
+						if($nPage == $i){ 
+							$tActive 		= 'active'; 
+							$tDisPageNumber = 'disabled';
+						}else{ 
+							$tActive 		= '';
+							$tDisPageNumber = '';
+						}
+					?>
+					<li class="page-item <?=$tActive;?> " onclick="JSvPI_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
+				<?php } ?>
 
+				<!--ปุ่มไปต่อ-->
+				<?php if($nPage >= $aPdtList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
+				<li class="page-item <?=$tDisabledRight?>">
+					<a class="page-link" aria-label="Next" onclick="JSvPI_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
+				</li>
+			</ul>
+		</nav>
+    </div>
+</div>
 
+<script>
+	//เปลี่ยนหน้า
+	function JSvPI_ClickPage(ptPage) {
+		var nPageCurrent = '';
+		switch (ptPage) {
+			case 'next': //กดปุ่ม Next
+				nPageOld 		= $('.xCNPagenation .active').text(); 
+				nPageNew 		= parseInt(nPageOld, 10) + 1; 
+				nPageCurrent 	= nPageNew
+			break;
+			case 'previous': //กดปุ่ม Previous
+				nPageOld 		= $('.xCNPagenation .active').text(); 
+				nPageNew 		= parseInt(nPageOld, 10) - 1; 
+				nPageCurrent 	= nPageNew
+			break;
+			default:
+				nPageCurrent = ptPage
+		}
 
-
-
-
-
-
-
-
-<style media="screen">
-	.thumbnail:hover {
-		padding: 2px;
-		border: 1px solid green !important;
-		border-radius: 5px !important;
-		cursor: pointer !important;
+		FSvQUOGetPdtList(nPageCurrent);
 	}
-</style>
+</script>

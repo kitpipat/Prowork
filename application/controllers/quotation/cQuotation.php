@@ -57,16 +57,24 @@ class cQuotation extends CI_Controller
 	*/
 	public function FCaCQUOGetProductList()
 	{
-		$nPage			= $this->input->post('pnPage');
+		$nPage			= $this->input->GET('pnPage');
 		$tKeySearch 	= $this->input->GET('tKeySearch');
 		$tPdtViewType 	= $this->input->GET('tPdtViewType');
 		$tPriceGrp 		= $this->session->userdata('tSesPriceGroup');
+
+		//การแสดงผลแบบรูปภาพ
+		if(	$tPdtViewType == 1){
+			$nRow = 12;
+		}else{ //การแสดงข้อมูลแบบรายการ
+			$nRow = 20;
+		}
+
 		$aFilter = array(
 			'nPage'         => $nPage,
-			'nRow'          => 10,
+			'nRow'          => $nRow,
 			"tKeySearch" 	=> $tKeySearch,
 			"tPriceGrp"  	=> $tPriceGrp,
-			'aFilterAdv'	=> $this->input->post('aFilterAdv')
+			'aFilterAdv'	=> $this->input->GET('aFilterAdv')
 		);
 
 		//get product list

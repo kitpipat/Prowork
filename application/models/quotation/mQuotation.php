@@ -133,21 +133,19 @@ class mQuotation extends CI_Model
 
 						ELSE 0
 						END AS FCPdtNetSalPri
-                  FROM VCN_Products PDT
-                  LEFT JOIN (
-                     SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '" . $tPriceGrp . "'
-                  )SP ON PDT.FTPdtCode = SP.FTPdtCode
-                  LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode
-									LEFT JOIN TCNMPdtUnit PUN ON PDT.FTPunCode = PUN.FTPunCode
-								  ) P
-                  WHERE  1=1 ";
+                  	FROM VCN_Products PDT
+                  	LEFT JOIN ( SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '" . $tPriceGrp . "' )SP ON PDT.FTPdtCode = SP.FTPdtCode
+                	LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode
+					LEFT JOIN TCNMPdtUnit PUN ON PDT.FTPunCode = PUN.FTPunCode
+				) P
+            	WHERE  1=1 ";
 
 		if ($tKeySearch != "") {
 			$tSQL .= " AND P.FTPdtName LIKE '%" . $tKeySearch . "%'";
 			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tKeySearch . "%'";
 		}
 
-		$tSQL .= " AND P.RowID >=$aRowLen[0] AND P.RowID <=$aRowLen[1] ";
+		$tSQL .= " AND P.RowID > $aRowLen[0] AND P.RowID <=$aRowLen[1] ";
 		$oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paFilter);
