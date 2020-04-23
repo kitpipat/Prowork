@@ -163,9 +163,12 @@
 								<!-- Gridview Options -->
 								<div class="col-lg-4 col-md-4 col-sm-4">
 									<div class="btn-group float-right" role="group">
-										<button id="odvPdtTableView" data-viewtype="1" class="wxBntPdtVTypeActive" onclick="FSvQUOSwitView(1)"><i class="fa fa-table"></i></button>
-										&nbsp;
-										<button id="odvPdtListView" data-viewtype="2" class="" onclick="FSvQUOSwitView(2)"><i class="fa fa-list"></i></button>
+										<button id="odvPdtTableView" data-viewtype="1" class="wxBntPdtVTypeActive xCNSelectMenuTableOrList" onclick="FSvQUOSwitView(1)">
+											<i class="fa fa-table xCNIconFilterTableOrList"></i>
+										</button>
+										<button id="odvPdtListView" data-viewtype="2" class="xCNSelectMenuTableOrList" onclick="FSvQUOSwitView(2)">
+											<i class="fa fa-list xCNIconFilterTableOrList"></i>
+										</button>
 									</div>
 								</div>
 								<!-- End Gridview Options -->
@@ -180,34 +183,33 @@
 				<div class="col-lg-3 col-md-3 col-sm-3">
 					<div class="card">
 						<div class="card-body">
-							<div id="odvContent_Detail">
+							<div class="row">
 
-								<div class="panel panel-default">
-									<div class="panel-heading">เอกสาร</div>
-									<div class="panel-body" style="height:auto">
-										<div class="row" id="odvQuoHeader">
-
-										</div>
-										<!-- <hr> -->
-										<!-- แสดงรายการสินค้าที่เลือกในใบเสนอราคา -->
-										<div class="row" id="odvQuoItemsList">
-											....
-										</div>
-										<hr>
-										<div class="row">
-											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-												<button type="button" class="btn btn-secondary" style="width:100%">ยกเลิก</button>
-											</div>
-											<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-												<button type="button" class="btn btn-secondary" style="width:100%" onclick="FSvQUOCallDocument()">
-													ถัดไป
-												</button>
-											</div>
-
-										</div>
+								<div class="col-lg-12">
+									<div class="xCNHeadFooterINPDT">
+										<span>เอกสาร</span>
 									</div>
 								</div>
 
+								<div class="col-lg-12">
+
+									<!--รายละเอียดหัวตาราง-->
+									<div class="row" id="odvQuoHeader"></div>
+
+									<!-- แสดงรายการสินค้าที่เลือกในใบเสนอราคา -->
+									<div class="row" id="odvQuoItemsList"></div><hr>
+
+									<!--สรุปบิล-->
+									<div class="row">
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+											<button type="button" class="xCNCalcelImport btn btn-outline-danger pull-right" style="width:100%">ยกเลิก</button>
+										</div>
+										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+											<button type="button" class="xCNButtonSave pull-right" style="width:100%" onclick="FSvQUOCallDocument()">ถัดไป</button>
+										</div>
+									</div>
+
+								</div>
 							</div>
 						</div>
 					</div>

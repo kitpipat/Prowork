@@ -504,3 +504,32 @@ table tbody .xCNTableGroupMenu{
 	width: 100px;
     height: 35px;
 }
+
+.xWQuotationTtems-Title{
+	margin-top: 10px;
+	border-bottom: 1px solid #969696 !important;
+    border-top: 1px solid #969696 !important;
+}
+
+.xCNWaringEmptyPDT{
+	font-size: 18px;
+    text-align: center;
+    color: #837d7d;
+	margin: 100px 0px;
+	display: block;
+}
+
+.xCNSelectMenuTableOrList{
+	width: 40px;
+    background: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 3px;
+    cursor: pointer;
+	height: 35px;
+	margin-left: 10px;
+}
+
+.xCNIconFilterTableOrList{
+	font-size: 0.65rem !important;
+	color: black;
+}

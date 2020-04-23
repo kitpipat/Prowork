@@ -52,14 +52,14 @@ $route['r_suppliereventdelete'] 			= 'supplier/cSupplier/FSxCSUPEventDelete';
 $route['r_suppliereventedit'] 				= 'supplier/cSupplier/FSxCSUPEventEdit';
 
 //ใบเสนอราคา
-$route['r_quotation/(:num)'] 		= 'quotation/cQuotation/index/$1';
+$route['r_quotation/(:num)'] 				= 'quotation/cQuotation/index/$1';
 $route['r_quotationeventGetPdtList'] 		= 'quotation/cQuotation/FCaCQUOGetProductList';
-$route['r_quotationcalldocheader'] 		= 'quotation/cQuotation/FCwCQUOCallDocHeader';
-$route['r_quotationeventcallitemslist'] 		= 'quotation/cQuotation/FCaCQUOCallItemsList';
-$route['r_quotationeventAddItems'] 		= 'quotation/cQuotation/FCaCQUOAddItem';
-$route['r_quotationeventDelItems'] 		= 'quotation/cQuotation/FCxCQUODelItem';
+$route['r_quotationcalldocheader'] 			= 'quotation/cQuotation/FCwCQUOCallDocHeader';
+$route['r_quotationeventcallitemslist'] 	= 'quotation/cQuotation/FCaCQUOCallItemsList';
+$route['r_quotationeventAddItems'] 			= 'quotation/cQuotation/FCaCQUOAddItem';
+$route['r_quotationeventDelItems'] 			= 'quotation/cQuotation/FCxCQUODelItem';
 $route['r_quotationeventEditItemsQty'] 		= 'quotation/cQuotation/FCxCQUOEditItemQty';
-$route['r_quotationcallsqdoc'] 		= 'quotation/cQuotation/FCwCQUOCallDocPage';
+$route['r_quotationcallsqdoc'] 				= 'quotation/cQuotation/FCwCQUOCallDocPage';
 
 
 //ใบเสนอราคา เอกสาร Step2
