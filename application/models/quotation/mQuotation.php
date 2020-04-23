@@ -1,7 +1,8 @@
 <?php
-defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class mQuotation extends CI_Model {
+class mQuotation extends CI_Model
+{
 
 	/*
 	Create On : 05/04/2020
@@ -15,9 +16,10 @@ class mQuotation extends CI_Model {
 	ข้อมูลที่สามารถกรองได้
 	ผู้จำหน่าย,กลุ่มสินค้า,ประเภทสินค้า,ยี่ห้อ,ขนาด,สี
 	*/
-	public function FSaMQUOGetFilterList(){
+	public function FSaMQUOGetFilterList()
+	{
 
-         $tSQL = "SELECT F.* FROM (
+		$tSQL = "SELECT F.* FROM (
                                        SELECT 'FGSPL' AS FTFilGrpCode,
                                                'ผู้จำหน่าย'  AS FTFilGrpName ,
                                                FTSplCode  AS FTFilCode ,
@@ -66,23 +68,22 @@ class mQuotation extends CI_Model {
                   ) F
                   --WHERE FTFilCode = 'xxx'";
 
-                  $oQuery = $this->db->query($tSQL);
-                  $nCountRows = $oQuery->num_rows();
-                  if($nCountRows > 0){
-                      $aResult = array(
-                          'raItems'  => $oQuery->result_array(),
-                          'nTotalRes' => $nCountRows,
-                          'rtCode'   => '1',
-                          'rtDesc'   => 'success',
-                      );
-                  }else{
-                      $aResult = array(
-                          'rtCode' => '800',
-                          'rtDesc' => 'data not found',
-                      );
-                  }
-                  return $aResult;
-
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
+		if ($nCountRows > 0) {
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'nTotalRes' => $nCountRows,
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		} else {
+			$aResult = array(
+				'rtCode' => '800',
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
 	}
 
 	/*
@@ -99,12 +100,13 @@ class mQuotation extends CI_Model {
 	2.คำนวนราคาขายแล้ว
 	3.ราคานี้เป็นราคาตามกลุ่มราคาที่ผูกกับผู้ใช้ที่กำลังทำรายการ
 	*/
-  public function FSaMQUPdtList($paFilter){
+	public function FSaMQUPdtList($paFilter)
+	{
+		$aRowLen   		= FCNaHCallLenData($paFilter['nRow'],$paFilter['nPage']);
+		$tKeySearch 	= $paFilter["tKeySearch"];
+		$tPriceGrp 		= $paFilter["tPriceGrp"];
 
-			  $tKeySearch = $paFilter["tKeySearch"];
-				$tPriceGrp = $paFilter["tPriceGrp"];
-
-        $tSQL = "SELECT P.* FROM (
+		$tSQL = "SELECT P.* FROM (
                  SELECT ROW_NUMBER() OVER(ORDER BY PDT.FTPdtCode) AS RowID,
                          PDT.FTPdtCode,
                          PDT.FTPdtName,
@@ -133,34 +135,43 @@ class mQuotation extends CI_Model {
                               END AS FCPdtNetSalPri
                   FROM VCN_Products PDT
                   LEFT JOIN (
-                     SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '".$tPriceGrp."'
+                     SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '" . $tPriceGrp . "'
                   )SP ON PDT.FTPdtCode = SP.FTPdtCode
                   LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode
 									LEFT JOIN TCNMPdtUnit PUN ON PDT.FTPunCode = PUN.FTPunCode
 								  ) P
                   WHERE  1=1 ";
 
+		if ($tKeySearch != "") {
+			$tSQL .= " AND P.FTPdtName LIKE '%" . $tKeySearch . "%'";
+			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tKeySearch . "%'";
+		}
 
-									if($tKeySearch != ""){
-										 $tSQL.= " AND P.FTPdtName LIKE '%".$tKeySearch."%'";
-										 $tSQL.= " OR P.FTPdtCode LIKE '%".$tKeySearch."%'";
-									}
-
-
-									$tSQL.=" AND    P.RowID >=1 AND P.RowID <=100 ";
-
-
-
-                  $oQuery = $this->db->query($tSQL);
-                  $aResult = array(
-                      'raItems'  => $oQuery->result_array(),
-                      'rtCode'   => '1',
-                      'rtDesc'   => 'success'
-                  );
-
-                  return $aResult;
-
-  }
+		$tSQL .= " AND    P.RowID >=$aRowLen[0] AND P.RowID <=$aRowLen[1] ";
+		$oQuery = $this->db->query($tSQL);
+        if($oQuery->num_rows() > 0){
+			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paData);
+			$nFoundRow 	= $oFoundRow[0]->counts;
+			$nPageAll 	= ceil($nFoundRow/$paData['nRow']); //หา Page All จำนวน Rec หาร จำนวนต่อหน้า
+            $aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+				'rnAllRow'      => $nFoundRow,
+				'rnCurrentPage' => $paData['nPage'],
+				'rnAllPage'     => $nPageAll,
+                'rtCode'   		=> '1',
+                'rtDesc'   		=> 'success',
+            );
+        }else{
+            $aResult = array(
+				'rnAllRow' 		=> 0,
+				'rnCurrentPage' => $paData['nPage'],
+				"rnAllPage"		=> 0,
+                'rtCode' 		=> '800',
+                'rtDesc' 		=> 'data not found',
+            );
+        }
+		return $aResult;
+	}
 
 	/*
 	Create On : 06/04/2020 14:03:00
@@ -172,24 +183,27 @@ class mQuotation extends CI_Model {
 	----------------------------------------------
 	หาจำนวนข้อมูลสินค้าตามเงื่อนไขการกรอง
 	*/
-	public function FSaMQUOPdtCountRow($paFilter){
+	public function FSaMQUOPdtCountRow_PageAll($paFilter){
+		try{
+			$tTextSearch = trim($paFilter['tSearchAll']);
+			$tSQL 		= "SELECT FTPDTCode FROM   TCNMPdt WHERE  FTPdtStatus = 1";
+			if($tTextSearch != '' || $tTextSearch != null){
+				$tSQL .= " AND FTPdtName LIKE '%" . $tTextSearch . "%'";
+				$tSQL .= " OR FTPdtName LIKE '%" . $tTextSearch . "%'";
+			}
 
-         $tKeySearch = $paFilter["tKeySearch"];
-
-		     $tSQL = "SELECT FTPDTCode
-				          FROM   TCNMPdt
-									WHERE  FTPdtStatus = 1
-
-									--AND    FTPdtCode='9999'
-									";
-
-        if($tKeySearch !=""){
-					  $tSQL.=" AND FTPdtName LIKE '%".$tKeySearch."%'";
-						$tSQL.=" OR FTPdtName LIKE '%".$tKeySearch."%'";
-				}
-
-									$oQuery = $this->db->query($tSQL);
-									return $oQuery->num_rows();
+            $oQuery = $this->db->query($tSQL);
+            if ($oQuery->num_rows() > 0) {
+                return $oQuery->result();
+            }else{
+                return false;
+            }
+        }catch(Exception $Error){
+            echo $Error;
+		}
+		
+		$oQuery = $this->db->query($tSQL);
+		return $oQuery->num_rows();
 	}
 
 	/*
@@ -204,53 +218,53 @@ class mQuotation extends CI_Model {
 	กรณี create จะหาจาก tWorkerID
 	กรณี edit จะหาจาก Docno
 	*/
-  public function FSxMQUOClearTemp(){
+	public function FSxMQUOClearTemp()
+	{
 
-				 $tSQL = "DELETE
+		$tSQL = "DELETE
 				          FROM TARTSqDTTmp
 				          WHERE CONVERT(VARCHAR(10) , FDTmpTnsDate , 121) < CONVERT(VARCHAR(10) , GETDATE() , 121) ";
-				 $this->db->query($tSQL);
-
+		$this->db->query($tSQL);
 	}
 
-	public function FSxMQUOClearTempByWorkID($ptWorkerID){
+	public function FSxMQUOClearTempByWorkID($ptWorkerID)
+	{
 
-				 $tSQL1 = "DELETE
+		$tSQL1 = "DELETE
 								 FROM TARTSqHDTmp
-								 WHERE FTWorkerID = '".$ptWorkerID."'";
-				 $this->db->query($tSQL1);
+								 WHERE FTWorkerID = '" . $ptWorkerID . "'";
+		$this->db->query($tSQL1);
 
-				 $tSQL2 = "DELETE
+		$tSQL2 = "DELETE
 								 FROM TARTSqHDCstTmp
-								 WHERE FTWorkerID = '".$ptWorkerID."'";
-				 $this->db->query($tSQL2);
+								 WHERE FTWorkerID = '" . $ptWorkerID . "'";
+		$this->db->query($tSQL2);
 
-				 $tSQL3 = "DELETE
+		$tSQL3 = "DELETE
 									FROM TARTSqDTTmp
-									WHERE FTWorkerID = '".$ptWorkerID."'";
-				 $this->db->query($tSQL3);
-
+									WHERE FTWorkerID = '" . $ptWorkerID . "'";
+		$this->db->query($tSQL3);
 	}
 
-	public function FSxMQUPrepareHD($ptWorkerID){
+	public function FSxMQUPrepareHD($ptWorkerID)
+	{
 
-         $dDocDate = date('Y-m-d H:i:s');
-				 $tSQL1 = "INSERT INTO TARTSqHDTmp(FDXqhDocDate,FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
-				 $tSQL1.= "('".$dDocDate."','".$ptWorkerID."','".$ptWorkerID."','".$dDocDate."')";
-				 $this->db->query($tSQL1);
+		$dDocDate = date('Y-m-d H:i:s');
+		$tSQL1 = "INSERT INTO TARTSqHDTmp(FDXqhDocDate,FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
+		$tSQL1 .= "('" . $dDocDate . "','" . $ptWorkerID . "','" . $ptWorkerID . "','" . $dDocDate . "')";
+		$this->db->query($tSQL1);
 
-				 $tSQL2 = "INSERT INTO TARTSqHDCstTmp(FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
-				 $tSQL2.= "('".$ptWorkerID."','".$ptWorkerID."','".$dDocDate."')";
-				 $this->db->query($tSQL2);
-
-
+		$tSQL2 = "INSERT INTO TARTSqHDCstTmp(FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
+		$tSQL2 .= "('" . $ptWorkerID . "','" . $ptWorkerID . "','" . $dDocDate . "')";
+		$this->db->query($tSQL2);
 	}
 
-  public function FCaMQUOGetDocHD($paFilter){
+	public function FCaMQUOGetDocHD($paFilter)
+	{
 
-					$tDocNo = $paFilter['tDocNo'];
-					$tWorkerID = $paFilter['tWorkerID'];
-          $tSQL = "SELECT   HD.FTBchCode,
+		$tDocNo = $paFilter['tDocNo'];
+		$tWorkerID = $paFilter['tWorkerID'];
+		$tSQL = "SELECT   HD.FTBchCode,
 											      ISNULL(HD.FTXqhDocNo,'') AS FTXqhDocNo,
 											      ISNULL(HD.FDXqhDocDate,'') AS FDXqhDocDate,
 											      ISNULL(HD.FTXqhCshOrCrd,'') AS FTXqhCshOrCrd,
@@ -288,39 +302,39 @@ class mQuotation extends CI_Model {
 														USR.FTUsrFName
 					         FROM      TARTSqHDTmp HD
 									 LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode
-                   WHERE     HD.FTWorkerID ='".$tWorkerID."' ";
-							     if($tDocNo != ""){
-										  $tSQL.= " AND HD.FTXqhDocNo = '".$tDocNo."'";
-									 }
+                   WHERE     HD.FTWorkerID ='" . $tWorkerID . "' ";
+		if ($tDocNo != "") {
+			$tSQL .= " AND HD.FTXqhDocNo = '" . $tDocNo . "'";
+		}
 
-									 $oQuery = $this->db->query($tSQL);
- 									 $nCountRows = $oQuery->num_rows();
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
 
-	 								if($nCountRows > 0){
-	                       $aResult = array(
-	                           'raItems'  => $oQuery->result_array(),
-	                           'nTotalRes' => $nCountRows,
-	                           'rtCode'   => '1',
-	                           'rtDesc'   => 'success',
-	                       );
-	                   }else{
-	                       $aResult = array(
-	                          'rtCode' => '800',
-	 													'nTotalRes' => 0,
-	                          'rtDesc' => 'data not found',
-	                       );
-	                   }
-	                   return $aResult;
-
+		if ($nCountRows > 0) {
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'nTotalRes' => $nCountRows,
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		} else {
+			$aResult = array(
+				'rtCode' => '800',
+				'nTotalRes' => 0,
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
 	}
 
-	public function FCaMQUOGetDocCst($paFilter){
+	public function FCaMQUOGetDocCst($paFilter)
+	{
 
-					$tDocNo = $paFilter['tDocNo'];
+		$tDocNo = $paFilter['tDocNo'];
 
-					$tWorkerID = $paFilter['tWorkerID'];
+		$tWorkerID = $paFilter['tWorkerID'];
 
-					$tSQL = "SELECT   HCS.FTXqhDocNo,
+		$tSQL = "SELECT   HCS.FTXqhDocNo,
 											      HCS.FTXqcCstCode,
 											      HCS.FTXqcCstName,
 											      HCS.FTXqcAddress,
@@ -336,40 +350,40 @@ class mQuotation extends CI_Model {
 														CST.FTCstName
 					         FROM     TARTSqHDCstTmp HCS
 									 LEFT JOIN TCNMCst CST ON HCS.FTXqcCstCode = CST.FTCstCode
-									 WHERE     HCS.FTWorkerID ='".$tWorkerID."' ";
+									 WHERE     HCS.FTWorkerID ='" . $tWorkerID . "' ";
 
-									 if($tDocNo != ""){
-											$tSQL.= " AND HCS.FTXqhDocNo = '".$tDocNo."'";
-									 }
+		if ($tDocNo != "") {
+			$tSQL .= " AND HCS.FTXqhDocNo = '" . $tDocNo . "'";
+		}
 
-									 $oQuery = $this->db->query($tSQL);
-									 $nCountRows = $oQuery->num_rows();
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
 
-									if($nCountRows > 0){
-												 $aResult = array(
-														 'raItems'  => $oQuery->result_array(),
-														 'nTotalRes' => $nCountRows,
-														 'rtCode'   => '1',
-														 'rtDesc'   => 'success',
-												 );
-										 }else{
-												 $aResult = array(
-														'rtCode' => '800',
-														'nTotalRes' => 0,
-														'rtDesc' => 'data not found',
-												 );
-										 }
-										 return $aResult;
-
+		if ($nCountRows > 0) {
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'nTotalRes' => $nCountRows,
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		} else {
+			$aResult = array(
+				'rtCode' => '800',
+				'nTotalRes' => 0,
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
 	}
 
-	public function FCaMQUOGetItemsList($paFilter){
+	public function FCaMQUOGetItemsList($paFilter)
+	{
 
-				 $tDocNo = $paFilter['tDocNo'];
-		     $tWorkerID = $paFilter['tWorkerID'];
-				 $nMode = $paFilter['nMode'];
+		$tDocNo = $paFilter['tDocNo'];
+		$tWorkerID = $paFilter['tWorkerID'];
+		$nMode = $paFilter['nMode'];
 
-         $tSQL = "SELECT D.FNXqdSeq
+		$tSQL = "SELECT D.FNXqdSeq
 									      ,D.FTPdtCode
 									      ,D.FTPdtName
 									      ,D.FTPunCode
@@ -385,275 +399,280 @@ class mQuotation extends CI_Model {
 									FROM TARTSqDTTmp D
 									LEFT JOIN TCNMPdt P ON D.FTPdtCode = P.FTPdtCode
 									LEFT JOIN TCNMSpl SPL ON D.FTSplCode = SPL.FTSplCode
-									WHERE D.FTWorkerID = '".$tWorkerID."'";
+									WHERE D.FTWorkerID = '" . $tWorkerID . "'";
 
-									if($tDocNo != ""){
-										 $tSQL.=" AND D.FTXqhDocNo = '".$tDocNo."'";
-									}
+		if ($tDocNo != "") {
+			$tSQL .= " AND D.FTXqhDocNo = '" . $tDocNo . "'";
+		}
 
-									$oQuery = $this->db->query($tSQL);
-									$nCountRows = $oQuery->num_rows();
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
 
-									if($nCountRows > 0){
-                      $aResult = array(
-                          'raItems'  => $oQuery->result_array(),
-                          'nTotalRes' => $nCountRows,
-                          'rtCode'   => '1',
-                          'rtDesc'   => 'success',
-                      );
-                  }else{
-                      $aResult = array(
-                          'rtCode' => '800',
-													'nTotalRes' => 0,
-                          'rtDesc' => 'data not found',
-                      );
-                  }
-                  return $aResult;
-
+		if ($nCountRows > 0) {
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'nTotalRes' => $nCountRows,
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		} else {
+			$aResult = array(
+				'rtCode' => '800',
+				'nTotalRes' => 0,
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
 	}
 
-  public function FCnMQUExitingItem($paFilter){
+	public function FCnMQUExitingItem($paFilter)
+	{
 
-				 if(isset($paFilter['tDocNo'])){
-					  $tDocNo = $paFilter['tDocNo'];
-				 }else{
-					 $tDocNo = '';
-				 }
+		if (isset($paFilter['tDocNo'])) {
+			$tDocNo = $paFilter['tDocNo'];
+		} else {
+			$tDocNo = '';
+		}
 
-				 $tWorkerID = $paFilter['tWorkerID'];
-				 $tPdtCode = $paFilter['tPdtCode'];
+		$tWorkerID = $paFilter['tWorkerID'];
+		$tPdtCode = $paFilter['tPdtCode'];
 
-         $tSQL = "SELECT FCXqdQty
+		$tSQL = "SELECT FCXqdQty
 				         FROM   TARTSqDTTmp
 								 WHERE  FTPdtCode  = '$tPdtCode'
 								 AND    FTWorkerID = '$tWorkerID' ";
 
-				 if($tDocNo != ""){
-					  $tSQL.=" AND FTXqhDocNo = '$tDocNo' ";
-				 }
+		if ($tDocNo != "") {
+			$tSQL .= " AND FTXqhDocNo = '$tDocNo' ";
+		}
 
-				 $oQuery = $this->db->query($tSQL);
-				 $nCountRows = $oQuery->num_rows();
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
 
-				 if($nCountRows > 0){
-						 $aResult = $oQuery->result_array();
-						 return $aResult[0]["FCXqdQty"] + 1;
-				 }else{
-						 return 1; //Not Exiting
-				 }
+		if ($nCountRows > 0) {
+			$aResult = $oQuery->result_array();
+			return $aResult[0]["FCXqdQty"] + 1;
+		} else {
+			return 1; //Not Exiting
+		}
 	}
 
-	public function FCaMQUOGetItemLastSeq($paFilter){
+	public function FCaMQUOGetItemLastSeq($paFilter)
+	{
 
-         $tDocNo = $paFilter['tDocNo'];
-		     $tWorkerID = $paFilter['tWorkerID'];
+		$tDocNo = $paFilter['tDocNo'];
+		$tWorkerID = $paFilter['tWorkerID'];
 
-         $tSQL = "SELECT TOP 1 FNXqdSeq
+		$tSQL = "SELECT TOP 1 FNXqdSeq
 									FROM TARTSqDTTmp
 									WHERE 1=1 ";
 
-									if($tDocNo != ""){
-										 $tSQL.=" AND FTXqhDocNo = '".$tDocNo."'";
-									}else{
-										 $tSQL.=" AND FTWorkerID = '".$tWorkerID."'";
-									}
+		if ($tDocNo != "") {
+			$tSQL .= " AND FTXqhDocNo = '" . $tDocNo . "'";
+		} else {
+			$tSQL .= " AND FTWorkerID = '" . $tWorkerID . "'";
+		}
 
-									$tSQL.="  ORDER BY FNXqdSeq DESC ";
+		$tSQL .= "  ORDER BY FNXqdSeq DESC ";
 
-									$oQuery = $this->db->query($tSQL);
-									$nCountRows = $oQuery->num_rows();
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
 
-									if($nCountRows > 0){
-                      $aResult = $oQuery->result_array();
-											return $aResult[0]["FNXqdSeq"] + 1;
-                  }else{
-                      return 1;
-                  }
-
-
+		if ($nCountRows > 0) {
+			$aResult = $oQuery->result_array();
+			return $aResult[0]["FNXqdSeq"] + 1;
+		} else {
+			return 1;
+		}
 	}
 
-	public function FCaMQUOAddItem2Temp($paItemData){
-		     $this->db->insert('TARTSqDTTmp',$paItemData);
+	public function FCaMQUOAddItem2Temp($paItemData)
+	{
+		$this->db->insert('TARTSqDTTmp', $paItemData);
 	}
 
-  public function FCxMQUOUpdateItem($paItemData){
+	public function FCxMQUOUpdateItem($paItemData)
+	{
 
-         $tSQL = "UPDATE TARTSqDTTmp
-				          SET   FCXqdQty = '".$paItemData['FCXqdQty']."'
-									WHERE FTPdtCode  = '".$paItemData['FTPdtCode']."'
-									AND   FTWorkerID = '".$paItemData['FTWorkerID']."'";
+		$tSQL = "UPDATE TARTSqDTTmp
+				          SET   FCXqdQty = '" . $paItemData['FCXqdQty'] . "'
+									WHERE FTPdtCode  = '" . $paItemData['FTPdtCode'] . "'
+									AND   FTWorkerID = '" . $paItemData['FTWorkerID'] . "'";
 
-									if($paItemData['FTXqhDocNo'] != ""){
-										 $tSQL.= " AND FTXqhDocNo = '".$paItemData['FTXqhDocNo']."'";
-									}
+		if ($paItemData['FTXqhDocNo'] != "") {
+			$tSQL .= " AND FTXqhDocNo = '" . $paItemData['FTXqhDocNo'] . "'";
+		}
 
-									$this->db->query($tSQL);
+		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUODeleteItem($paItemData){
+	public function FCxMQUODeleteItem($paItemData)
+	{
 
-		     $tQuoDocNo = $paItemData['tQuoDocNo'];
-				 $tWorkerID = $paItemData['tWorkerID'];
-				 $nItemSeq = $paItemData['nItemSeq'];
+		$tQuoDocNo = $paItemData['tQuoDocNo'];
+		$tWorkerID = $paItemData['tWorkerID'];
+		$nItemSeq = $paItemData['nItemSeq'];
 
-		     $tSQL = "DELETE FROM TARTSqDTTmp
+		$tSQL = "DELETE FROM TARTSqDTTmp
 				          WHERE  FNXqdSeq = '$nItemSeq'
 									AND    FTWorkerID = '$tWorkerID' ";
 
-									if($tQuoDocNo !=""){
-										$tSQL.= " AND FTXqhDocNo = '$tQuoDocNo' ";
-									}
+		if ($tQuoDocNo != "") {
+			$tSQL .= " AND FTXqhDocNo = '$tQuoDocNo' ";
+		}
 
-				 $this->db->query($tSQL);
+		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUOEditItemQty($paItemData){
+	public function FCxMQUOEditItemQty($paItemData)
+	{
 
-		     $tQuoDocNo = $paItemData['tQuoDocNo'];
-				 $tWorkerID = $paItemData['tWorkerID'];
-				 $nItemSeq = $paItemData['nItemSeq'];
-				 $nItemQTY = $paItemData['nItemQTY'];
+		$tQuoDocNo = $paItemData['tQuoDocNo'];
+		$tWorkerID = $paItemData['tWorkerID'];
+		$nItemSeq = $paItemData['nItemSeq'];
+		$nItemQTY = $paItemData['nItemQTY'];
 
-		     $tSQL = "UPDATE TARTSqDTTmp
+		$tSQL = "UPDATE TARTSqDTTmp
 				          SET    FCXqdQty = '$nItemQTY'
 				          WHERE  FNXqdSeq = '$nItemSeq'
 									AND    FTWorkerID = '$tWorkerID' ";
 
-									if($tQuoDocNo !=""){
-										$tSQL.= " AND FTXqhDocNo = '$tQuoDocNo' ";
-									}
+		if ($tQuoDocNo != "") {
+			$tSQL .= " AND FTXqhDocNo = '$tQuoDocNo' ";
+		}
 
-				 $this->db->query($tSQL);
+		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUODocUpdHeader($paItemData){
+	public function FCxMQUODocUpdHeader($paItemData)
+	{
 
-		     $tSQL ="UPDATE TARTSqHDTmp ";
-				 $tSQL.=" SET FNXqhSmpDay = '".$paItemData['FNXqhSmpDay']."',";
-				 $tSQL.=" FDXqhEftTo = '".$paItemData['FDXqhEftTo']."',";
-				 $tSQL.=" FTXqhCshOrCrd = '".$paItemData['FTXqhCshOrCrd']."',";
-				 $tSQL.=" FNXqhCredit = '".$paItemData['FNXqhCredit']."',";
-				 $tSQL.=" FDDeliveryDate = '".$paItemData['FDDeliveryDate']."',";
-				 $tSQL.=" FTXqhVATInOrEx = '".$paItemData['FTXqhVATInOrEx']."',";
-				 $tSQL.=" FTXqhStaExpress = '".$paItemData['FTXqhStaExpress']."',";
-				 $tSQL.=" FTXqhStaActive = '".$paItemData['FTXqhStaActive']."',";
-				 $tSQL.=" FTXqhStaDeli = '".$paItemData['FTXqhStaDeli']."',";
-				 $tSQL.=" FCXqhB4Dis = '".str_replace(",","",$paItemData['FCXqhB4Dis'])."',";
-				 $tSQL.=" FCXqhDis = '".str_replace(",","",$paItemData['FCXqhDis'])."',";
-				 $tSQL.=" FTXqhDisTxt = '".$paItemData['FTXqhDisTxt']."',";
-				 $tSQL.=" FCXqhAFDis = '".str_replace(",","",$paItemData['FCXqhAFDis'])."',";
-				 $tSQL.=" FCXqhVatRate = '".str_replace(",","",$paItemData['FCXqhVatRate'])."',";
-				 $tSQL.=" FCXqhAmtVat = '".str_replace(",","",$paItemData['FCXqhAmtVat'])."',";
-				 $tSQL.=" FCXqhVatable = '".str_replace(",","",$paItemData['FCXqhVatable'])."',";
-				 $tSQL.=" FCXqhGrand = '".str_replace(",","",$paItemData['FCXqhGrand'])."',";
-				 $tSQL.=" FTXqhGndText = '".str_replace(",","",$paItemData['FTXqhGndText'])."',";
-				 $tSQL.=" FTXqhPrjName = '".$paItemData['FTXqhPrjName']."',";
-				 $tSQL.=" FTXqhPrjCodeRef = '".$paItemData['FTXqhPrjCodeRef']."',";
-				 $tSQL.=" FTXqhRmk = '".$paItemData['FTXqhRmk']."'";
-				 $tSQL.=" WHERE FTWorkerID='".$paItemData['tWorkerID']."'";
+		$tSQL = "UPDATE TARTSqHDTmp ";
+		$tSQL .= " SET FNXqhSmpDay = '" . $paItemData['FNXqhSmpDay'] . "',";
+		$tSQL .= " FDXqhEftTo = '" . $paItemData['FDXqhEftTo'] . "',";
+		$tSQL .= " FTXqhCshOrCrd = '" . $paItemData['FTXqhCshOrCrd'] . "',";
+		$tSQL .= " FNXqhCredit = '" . $paItemData['FNXqhCredit'] . "',";
+		$tSQL .= " FDDeliveryDate = '" . $paItemData['FDDeliveryDate'] . "',";
+		$tSQL .= " FTXqhVATInOrEx = '" . $paItemData['FTXqhVATInOrEx'] . "',";
+		$tSQL .= " FTXqhStaExpress = '" . $paItemData['FTXqhStaExpress'] . "',";
+		$tSQL .= " FTXqhStaActive = '" . $paItemData['FTXqhStaActive'] . "',";
+		$tSQL .= " FTXqhStaDeli = '" . $paItemData['FTXqhStaDeli'] . "',";
+		$tSQL .= " FCXqhB4Dis = '" . str_replace(",", "", $paItemData['FCXqhB4Dis']) . "',";
+		$tSQL .= " FCXqhDis = '" . str_replace(",", "", $paItemData['FCXqhDis']) . "',";
+		$tSQL .= " FTXqhDisTxt = '" . $paItemData['FTXqhDisTxt'] . "',";
+		$tSQL .= " FCXqhAFDis = '" . str_replace(",", "", $paItemData['FCXqhAFDis']) . "',";
+		$tSQL .= " FCXqhVatRate = '" . str_replace(",", "", $paItemData['FCXqhVatRate']) . "',";
+		$tSQL .= " FCXqhAmtVat = '" . str_replace(",", "", $paItemData['FCXqhAmtVat']) . "',";
+		$tSQL .= " FCXqhVatable = '" . str_replace(",", "", $paItemData['FCXqhVatable']) . "',";
+		$tSQL .= " FCXqhGrand = '" . str_replace(",", "", $paItemData['FCXqhGrand']) . "',";
+		$tSQL .= " FTXqhGndText = '" . str_replace(",", "", $paItemData['FTXqhGndText']) . "',";
+		$tSQL .= " FTXqhPrjName = '" . $paItemData['FTXqhPrjName'] . "',";
+		$tSQL .= " FTXqhPrjCodeRef = '" . $paItemData['FTXqhPrjCodeRef'] . "',";
+		$tSQL .= " FTXqhRmk = '" . $paItemData['FTXqhRmk'] . "'";
+		$tSQL .= " WHERE FTWorkerID='" . $paItemData['tWorkerID'] . "'";
 
-				 if($paItemData['tDocNo'] !=""){
-					  $tSQL.=" AND FTXqhDocNo='".$paItemData['tDocNo']."'";
-				 }
-				 $this->db->query($tSQL);
-				 //echo $tSQL;
+		if ($paItemData['tDocNo'] != "") {
+			$tSQL .= " AND FTXqhDocNo='" . $paItemData['tDocNo'] . "'";
+		}
+		$this->db->query($tSQL);
+		//echo $tSQL;
 	}
 
-	public function FCxMQUODocUpdCst($paCstData){
+	public function FCxMQUODocUpdCst($paCstData)
+	{
 
-         $tSQL = "UPDATE TARTSqHDCstTmp ";
-				 $tSQL.=" SET FTXqcCstName = '".$paCstData['FTXqcCstName']."',";
-				 $tSQL.=" FTXqcAddress = '".$paCstData['FTXqcAddress']."',";
-				 $tSQL.=" FTXqhTaxNo = '".$paCstData['FTXqhTaxNo']."',";
-				 $tSQL.=" FTXqhContact = '".$paCstData['FTXqhContact']."',";
-				 $tSQL.=" FTXqhEmail = '".$paCstData['FTXqhEmail']."',";
-				 $tSQL.=" FTXqhTel = '".$paCstData['FTXqhTel']."',";
-				 $tSQL.=" FTXqhFax = '".$paCstData['FTXqhFax']."'";
-				 $tSQL.=" WHERE FTWorkerID='".$paCstData['tWorkerID']."'";
+		$tSQL = "UPDATE TARTSqHDCstTmp ";
+		$tSQL .= " SET FTXqcCstName = '" . $paCstData['FTXqcCstName'] . "',";
+		$tSQL .= " FTXqcAddress = '" . $paCstData['FTXqcAddress'] . "',";
+		$tSQL .= " FTXqhTaxNo = '" . $paCstData['FTXqhTaxNo'] . "',";
+		$tSQL .= " FTXqhContact = '" . $paCstData['FTXqhContact'] . "',";
+		$tSQL .= " FTXqhEmail = '" . $paCstData['FTXqhEmail'] . "',";
+		$tSQL .= " FTXqhTel = '" . $paCstData['FTXqhTel'] . "',";
+		$tSQL .= " FTXqhFax = '" . $paCstData['FTXqhFax'] . "'";
+		$tSQL .= " WHERE FTWorkerID='" . $paCstData['tWorkerID'] . "'";
 
-				 if($paCstData['tDocNo'] !=""){
+		if ($paCstData['tDocNo'] != "") {
 
-					  $tSQL.=" AND FTXqhDocNo='".$paCstData['tDocNo']."'";
+			$tSQL .= " AND FTXqhDocNo='" . $paCstData['tDocNo'] . "'";
+		}
 
-				 }
-
-				 $this->db->query($tSQL);
+		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUCheckDocNoExiting($ptWorkerID){
+	public function FCxMQUCheckDocNoExiting($ptWorkerID)
+	{
 
-		     $tSQL = "SELECT ISNULL(FTXqhDocNo,'') AS FTXqhDocNo
-				          FROM   TARTSqHDTmp WHERE FTWorkerID = '".$ptWorkerID."'";
+		$tSQL = "SELECT ISNULL(FTXqhDocNo,'') AS FTXqhDocNo
+				          FROM   TARTSqHDTmp WHERE FTWorkerID = '" . $ptWorkerID . "'";
 
-									$oQuery = $this->db->query($tSQL);
-									$nCountRows = $oQuery->num_rows();
-									if($nCountRows > 0){
-											$aResult = array(
-													'raItems'  => $oQuery->result_array(),
-													'rtCode'   => '1',
-													'rtDesc'   => 'success',
-											);
-									}else{
-											$aResult = array(
-													'raItems' => '',
-													'rtCode'   => '0',
-													'rtDesc' => 'data not found',
-											);
-									}
-									return $aResult;
-
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
+		if ($nCountRows > 0) {
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		} else {
+			$aResult = array(
+				'raItems' => '',
+				'rtCode'   => '0',
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
 	}
 
-	public function FCtMQUGetDocNo($tBchCode){
+	public function FCtMQUGetDocNo($tBchCode)
+	{
 
-		     $tSQL = "SELECT MAX(RIGHT(ISNULL(FTXqhDocNo,''),4)) AS FTXqhDocNo
-				          FROM   TARTSqHD WHERE FTBchCode = '".$tBchCode."'";
+		$tSQL = "SELECT MAX(RIGHT(ISNULL(FTXqhDocNo,''),4)) AS FTXqhDocNo
+				          FROM   TARTSqHD WHERE FTBchCode = '" . $tBchCode . "'";
 
-									$oQuery = $this->db->query($tSQL);
+		$oQuery = $this->db->query($tSQL);
 
-									$nCountRows = $oQuery->num_rows();
+		$nCountRows = $oQuery->num_rows();
 
-									if($nCountRows > 0){
-											$aResult = $oQuery->result_array();
+		if ($nCountRows > 0) {
+			$aResult = $oQuery->result_array();
 
-											$nNextDocNo = sprintf('%05d',$aResult[0]['FTXqhDocNo'] + 1);
-											$tDocNo = 'SQ'.$tBchCode.DATE('Ymd').'-'.$nNextDocNo;
-
-									}else{
-                      $tDocNo = 'SQ'.$tBchCode.DATE('Ymd').'-00001';
-									}
-									return $tDocNo;
-
+			$nNextDocNo = sprintf('%05d', $aResult[0]['FTXqhDocNo'] + 1);
+			$tDocNo = 'SQ' . $tBchCode . DATE('Ymd') . '-' . $nNextDocNo;
+		} else {
+			$tDocNo = 'SQ' . $tBchCode . DATE('Ymd') . '-00001';
+		}
+		return $tDocNo;
 	}
 
-	public function FCtMQUUpdateDocNo($ptDocNo,$pdDocDate,$ptBchCode,$ptWorkerId){
+	public function FCtMQUUpdateDocNo($ptDocNo, $pdDocDate, $ptBchCode, $ptWorkerId)
+	{
 
-		     $tSQL = "UPDATE TARTSqHDTmp
-				          SET    FTXqhDocNo = '".$ptDocNo."', FDXqhDocDate='".$pdDocDate."',FTBchCode = '".$ptBchCode."'
-									WHERE  FTWorkerID = '".$ptWorkerId."'";
+		$tSQL = "UPDATE TARTSqHDTmp
+				          SET    FTXqhDocNo = '" . $ptDocNo . "', FDXqhDocDate='" . $pdDocDate . "',FTBchCode = '" . $ptBchCode . "'
+									WHERE  FTWorkerID = '" . $ptWorkerId . "'";
 
-         $this->db->query($tSQL);
+		$this->db->query($tSQL);
 
-				 $tSQL2 = "UPDATE TARTSqHDCstTmp
-				          SET    FTXqhDocNo = '".$ptDocNo."'
-									WHERE  FTWorkerID = '".$ptWorkerId."'";
+		$tSQL2 = "UPDATE TARTSqHDCstTmp
+				          SET    FTXqhDocNo = '" . $ptDocNo . "'
+									WHERE  FTWorkerID = '" . $ptWorkerId . "'";
 
-         $this->db->query($tSQL2);
+		$this->db->query($tSQL2);
 
-				 $tSQL3 = "UPDATE TARTSqDTTmp
-				          SET    FTXqhDocNo = '".$ptDocNo."'
-									WHERE  FTWorkerID = '".$ptWorkerId."'";
+		$tSQL3 = "UPDATE TARTSqDTTmp
+				          SET    FTXqhDocNo = '" . $ptDocNo . "'
+									WHERE  FTWorkerID = '" . $ptWorkerId . "'";
 
-         $this->db->query($tSQL3);
+		$this->db->query($tSQL3);
 	}
 
-  public function FCxMQUMoveTemp2HD($tDocNo,$tWorkerID){
+	public function FCxMQUMoveTemp2HD($tDocNo, $tWorkerID)
+	{
 
-		     $tSQLDel = "DELETE FROM TARTSqHD WHERE FTXqhDocNo = '".$tDocNo."'";
-				 $this->db->query($tSQLDel);
+		$tSQLDel = "DELETE FROM TARTSqHD WHERE FTXqhDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQLDel);
 
-				 $tSQL= "INSERT INTO TARTSqHD
+		$tSQL = "INSERT INTO TARTSqHD
 									SELECT  FTBchCode
 									      ,FTXqhDocNo
 									      ,FDXqhDocDate
@@ -688,18 +707,19 @@ class mQuotation extends CI_Model {
 									      ,$tWorkerID
 									      ,CONVERT(VARCHAR(16),GETDATE(),121)
 									  FROM TARTSqHDTmp
-										WHERE FTWorkerID = '".$tWorkerID."'
-										AND FTXqhDocNo = '".$tDocNo."'";
-				//echo $tSQL;
-				$this->db->query($tSQL);
+										WHERE FTWorkerID = '" . $tWorkerID . "'
+										AND FTXqhDocNo = '" . $tDocNo . "'";
+		//echo $tSQL;
+		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUMoveTempHDCst($tDocNo,$tWorkerID){
+	public function FCxMQUMoveTempHDCst($tDocNo, $tWorkerID)
+	{
 
-		     $tSQLDel = "DELETE FROM TARTSqHDCst WHERE FTXqhDocNo = '".$tDocNo."'";
-				 $this->db->query($tSQLDel);
+		$tSQLDel = "DELETE FROM TARTSqHDCst WHERE FTXqhDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQLDel);
 
-				 $tSQL= "INSERT INTO TARTSqHDCst
+		$tSQL = "INSERT INTO TARTSqHDCst
 									SELECT   FTXqhDocNo
 										      ,ISNULL(FTXqcCstCode,'')
 										      ,FTXqcCstName
@@ -714,18 +734,19 @@ class mQuotation extends CI_Model {
 										      ,$tWorkerID
 										      ,CONVERT(VARCHAR(16),GETDATE(),121)
 									  FROM TARTSqHDCstTmp
-										WHERE FTWorkerID = '".$tWorkerID."'
-										AND FTXqhDocNo = '".$tDocNo."'";
-				//echo $tSQL;
-				$this->db->query($tSQL);
+										WHERE FTWorkerID = '" . $tWorkerID . "'
+										AND FTXqhDocNo = '" . $tDocNo . "'";
+		//echo $tSQL;
+		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUMoveTemp2DT($tDocNo,$tWorkerID){
+	public function FCxMQUMoveTemp2DT($tDocNo, $tWorkerID)
+	{
 
-		     $tSQLDel = "DELETE FROM TARTSqDT WHERE FTXqhDocNo = '".$tDocNo."'";
-				 $this->db->query($tSQLDel);
+		$tSQLDel = "DELETE FROM TARTSqDT WHERE FTXqhDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQLDel);
 
-				 $tSQL = "  INSERT INTO TARTSqDT(
+		$tSQL = "  INSERT INTO TARTSqDT(
 													 FTXqhDocNo
 													,FNXqdSeq
 													,FTPdtCode
@@ -769,10 +790,9 @@ class mQuotation extends CI_Model {
 										$tWorkerID,
 										CONVERT(VARCHAR(16),GETDATE(),121)
 										FROM TARTSqDTTmp
-										WHERE FTWorkerID = '".$tWorkerID."'
-										AND FTXqhDocNo = '".$tDocNo."'";
+										WHERE FTWorkerID = '" . $tWorkerID . "'
+										AND FTXqhDocNo = '" . $tDocNo . "'";
 
-				            $this->db->query($tSQL);
+		$this->db->query($tSQL);
 	}
-
 }

@@ -269,7 +269,7 @@ class cAdjcost extends CI_Controller {
 			'FTXphDocNo'	=> $tFormatCode,
 			'FDXphDocDate'	=> date('Y-m-d H:i:s'),
 			'FTXphDocTime'	=> date('H:i:s'),
-			'FDXphDStart'	=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))),
+			'FDXphDStart'	=> date('Y-m-d',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))) . ' ' . date('H:i:s'),
 			'FTXphStaDoc'	=> 1,
 			'FTXphStaApv'	=> null,
 			'FTUsrCode'		=> $this->session->userdata('tSesUsercode'),
@@ -299,7 +299,7 @@ class cAdjcost extends CI_Controller {
 		try{
 			$tFormatCode = $this->input->post('ohdDocumentNumber');
 			$aSetUpdate  = array(
-				'FDXphDStart'	=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))),
+				'FDXphDStart'	=> date('Y-m-d',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))) . ' ' . date('H:i:s'),
 				'FTXphRmk'		=> $this->input->post('oetAJCReason'),
 				'FDLastUpdOn'	=> date('Y-m-d H:i:s'),
 				'FTLastUpdBy'	=> $this->session->userdata('tSesUsercode')
@@ -349,9 +349,10 @@ class cAdjcost extends CI_Controller {
 		$aPDTItem = $this->mAdjcost->FSaMAJCGetItemInPDT($tCode);
 		if(isset($aPDTItem)){
 			for($i=0; $i<count($aPDTItem); $i++){
+				$dDateActive = explode(" ",$aPDTItem[$i]['FDXphDStart']);
 				$paData = array(
 					"tPdtCode"		=> $aPDTItem[$i]['FTPdtCode'],
-					"dDateActive"	=> $aPDTItem[$i]['FDXphDStart'],
+					"dDateActive"	=> $dDateActive[0],
 					"tDocno"		=> $tCode
 				);
 				FCNaHPDCAdjPdtCost($paData);

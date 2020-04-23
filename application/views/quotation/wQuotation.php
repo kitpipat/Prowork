@@ -202,7 +202,7 @@
 									<!--สรุปบิล-->
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-											<button type="button" class="xCNCalcelImport btn btn-outline-danger pull-right" style="width:100%">ยกเลิก</button>
+											<button type="button" class="xCNCalcelImport btn btn-outline-danger pull-right" style="width:100%; margin-right:0px !important;">ยกเลิก</button>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 											<button type="button" class="xCNButtonSave pull-right" style="width:100%" onclick="FSvQUOCallDocument()">ถัดไป</button>
