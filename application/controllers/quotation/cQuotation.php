@@ -1,32 +1,44 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class cQuotation extends CI_Controller {
+class cQuotation extends CI_Controller
+{
 
-	public function __construct() {
+	public function __construct()
+	{
 
-					parent::__construct();
-					$this->load->model('quotation/mQuotation');
-
+		parent::__construct();
+		$this->load->model('quotation/mQuotation');
 	}
 
-	public function index($pnMode){
+	public function index($pnMode)
+	{
 
-				 // Get filter Data
-         $tWorkerID = $this->session->userdata('tSesUsercode');
-				 if($pnMode == 1){
-					  $this->mQuotation->FSxMQUOClearTempByWorkID($tWorkerID);
-						$this->mQuotation->FSxMQUPrepareHD($tWorkerID);
-				 }
+		// Get filter Data
+		$tWorkerID = $this->session->userdata('tSesUsercode');
+		if ($pnMode == 1) {
+			$this->mQuotation->FSxMQUOClearTempByWorkID($tWorkerID);
+			$this->mQuotation->FSxMQUPrepareHD($tWorkerID);
+		}
 
 
-		     $oFilterList  = $this->mQuotation->FSaMQUOGetFilterList();
+		$oFilterList  = $this->mQuotation->FSaMQUOGetFilterList();
 
-         $this->mQuotation->FSxMQUOClearTemp();
+		$this->mQuotation->FSxMQUOClearTemp();
+		$this->load->model('product/product/mProduct');
 
-         $aData = array('aFilterList'=>$oFilterList);
-		     $this->load->view('quotation/wQuotation',$aData);
-
+		$aData = array(
+			'aFilterList' 			=> $oFilterList,
+			'aFilter_Brand'         => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtBrand'),
+			'aFilter_Color'         => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtColor'),
+			'aFilter_Group'         => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtGrp'),
+			'aFilter_Modal'         => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtModal'),
+			'aFilter_Size'         	=> $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtSize'),
+			'aFilter_Type'         	=> $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtType'),
+			'aFilter_Unit'         	=> $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtUnit'),
+			'aFilter_Spl'         	=> $this->mProduct->FSaMPDTGetData_Filter('TCNMSpl')
+		);
+		$this->load->view('quotation/wQuotation', $aData);
 	}
 
 	/*
@@ -43,146 +55,161 @@ class cQuotation extends CI_Controller {
 	2.คำนวนราคาขายแล้ว
 	3.ราคานี้เป็นราคาตามกลุ่มราคาที่ผูกกับผู้ใช้ที่กำลังทำรายการ
 	*/
-	public function FCaCQUOGetProductList(){
+	public function FCaCQUOGetProductList()
+	{
 
-         $tKeySearch = $this->input->GET('tKeySearch');
+		$tKeySearch = $this->input->GET('tKeySearch');
 
-				 $tPdtViewType = $this->input->GET('tPdtViewType');
+		$tPdtViewType = $this->input->GET('tPdtViewType');
 
-         $tPriceGrp = $this->session->userdata('tSesPriceGroup');
+		$tPriceGrp = $this->session->userdata('tSesPriceGroup');
 
-				 $aFilter = array("tKeySearch" =>$tKeySearch,
-			                    "tPriceGrp"  => $tPriceGrp);
+		$aFilter = array(
+			"tKeySearch" => $tKeySearch,
+			"tPriceGrp"  => $tPriceGrp
+		);
 
 
-				 //get product list
-		     $aPdtList  = $this->mQuotation->FSaMQUPdtList($aFilter);
+		//get product list
+		$aPdtList  = $this->mQuotation->FSaMQUPdtList($aFilter);
 
-				 //count rows of products result
-         $nTotalRecord = $this->mQuotation->FSaMQUOPdtCountRow($aFilter);
+		//count rows of products result
+		$nTotalRecord = $this->mQuotation->FSaMQUOPdtCountRow($aFilter);
 
-				 //data return to view
-				 $aData = array('aPdtList' => $aPdtList,
-			                  'nTotalRecord'=>$nTotalRecord,
-											  'tPdtViewType' => $tPdtViewType);
+		//data return to view
+		$aData = array(
+			'aPdtList' => $aPdtList,
+			'nTotalRecord' => $nTotalRecord,
+			'tPdtViewType' => $tPdtViewType
+		);
 
-		     $this->load->view('quotation/wQuotationPdtList',$aData);
-
+		$this->load->view('quotation/wQuotationPdtList', $aData);
 	}
 
-	public function FCwCQUOCallDocHeader(){
+	public function FCwCQUOCallDocHeader()
+	{
 
-		     $tWorkerID = $this->session->userdata('tSesUsercode');
-				 $tWorkerName = $this->session->userdata('tSesFirstname');
+		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$tWorkerName = $this->session->userdata('tSesFirstname');
 
-				 $tQuoDocNo = $this->input->get("tQuoDocNo");
+		$tQuoDocNo = $this->input->get("tQuoDocNo");
 
-				 $aConditions = array("tDocNo" => $tQuoDocNo ,"tWorkerID" =>$tWorkerID);
+		$aConditions = array("tDocNo" => $tQuoDocNo, "tWorkerID" => $tWorkerID);
 
-				 $aDocHD = $this->mQuotation->FCaMQUOGetDocHD($aConditions);
+		$aDocHD = $this->mQuotation->FCaMQUOGetDocHD($aConditions);
 
 
-         $aData = array("aDocHD" =>  $aDocHD,
-			                  "tWorkerID" => $tWorkerID,
-											  "tWorkerName" => $tWorkerName);
+		$aData = array(
+			"aDocHD" =>  $aDocHD,
+			"tWorkerID" => $tWorkerID,
+			"tWorkerName" => $tWorkerName
+		);
 
-		     return $this->load->view('quotation/wQuotationHeader',$aData);
-
+		return $this->load->view('quotation/wQuotationHeader', $aData);
 	}
 
-	public function FCaCQUOCallItemsList(){
+	public function FCaCQUOCallItemsList()
+	{
 
-         $tWorkerID = $this->session->userdata('tSesUsercode');
-				 $aConditions = array( "nMode" => 1,
-					                     "tDocNo" => '',
-					                     "tWorkerID"=>$tWorkerID);
+		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$aConditions = array(
+			"nMode" => 1,
+			"tDocNo" => '',
+			"tWorkerID" => $tWorkerID
+		);
 
-				 $aQuoItemsList  = $this->mQuotation->FCaMQUOGetItemsList($aConditions);
+		$aQuoItemsList  = $this->mQuotation->FCaMQUOGetItemsList($aConditions);
 
-				 $aData = array('aQuoItemsList'=>$aQuoItemsList);
-		     return $this->load->view('quotation/wQuotationItems',$aData);
+		$aData = array('aQuoItemsList' => $aQuoItemsList);
+		return $this->load->view('quotation/wQuotationItems', $aData);
 	}
 
-	public function FCaCQUOAddItem(){
+	public function FCaCQUOAddItem()
+	{
 
-				 $tQuoDocNo = $this->input->post("tQuoDocNo");
+		$tQuoDocNo = $this->input->post("tQuoDocNo");
 
-				 $tWorkerID = $this->session->userdata('tSesUsercode');
+		$tWorkerID = $this->session->userdata('tSesUsercode');
 
-				 $oItem = $this->input->post("Item");
+		$oItem = $this->input->post("Item");
 
-				 $aItem = json_decode($oItem,true);
+		$aItem = json_decode($oItem, true);
 
-				 $nQTY = $this->mQuotation->FCnMQUExitingItem(array('tQuoDocNo' => $tQuoDocNo,
-				                                                    'tWorkerID' => $tWorkerID,
-																														'tPdtCode'  => $aItem['tPdtCode']
-																											));
+		$nQTY = $this->mQuotation->FCnMQUExitingItem(array(
+			'tQuoDocNo' => $tQuoDocNo,
+			'tWorkerID' => $tWorkerID,
+			'tPdtCode'  => $aItem['tPdtCode']
+		));
 
-				 $nXqdSeq = $this->mQuotation->FCaMQUOGetItemLastSeq(array("tDocNo"=>$tQuoDocNo,
-				                                                           "tWorkerID"=>$tWorkerID
-			                                                       ));
+		$nXqdSeq = $this->mQuotation->FCaMQUOGetItemLastSeq(array(
+			"tDocNo" => $tQuoDocNo,
+			"tWorkerID" => $tWorkerID
+		));
 
-				 $aItemData = array(
-					 "FTXqhDocNo" => $tQuoDocNo,
-					 "FNXqdSeq" => $nXqdSeq,
-					 "FTPdtCode" => $aItem['tPdtCode'],
-					 "FTPdtName" => $aItem['tPdtName'],
-					 "FTPunCode" => $aItem['tPunCode'],
-					 "FTPunName" => $aItem['tPunName'],
-					 "FTSplCode" => $aItem['tSplCode'],
-					 "FTXqdCost" => $aItem['nPdtCost'],
-					 "FCXqdUnitPrice" => $nQTY * $aItem['nPdtUnitPri'],
-					 "FCXqdQty" => $nQTY,
-					 "FCXqdDis" => 0,
-					 "FCXqdFootAvg" => 0,
-					 "FTWorkerID" => $tWorkerID
-				 );
+		$aItemData = array(
+			"FTXqhDocNo" => $tQuoDocNo,
+			"FNXqdSeq" => $nXqdSeq,
+			"FTPdtCode" => $aItem['tPdtCode'],
+			"FTPdtName" => $aItem['tPdtName'],
+			"FTPunCode" => $aItem['tPunCode'],
+			"FTPunName" => $aItem['tPunName'],
+			"FTSplCode" => $aItem['tSplCode'],
+			"FTXqdCost" => $aItem['nPdtCost'],
+			"FCXqdUnitPrice" => $nQTY * $aItem['nPdtUnitPri'],
+			"FCXqdQty" => $nQTY,
+			"FCXqdDis" => 0,
+			"FCXqdFootAvg" => 0,
+			"FTWorkerID" => $tWorkerID
+		);
 
-         if($nQTY == 1){
-					  $this->mQuotation->FCaMQUOAddItem2Temp($aItemData);
-				 }else{
-					 $this->mQuotation->FCxMQUOUpdateItem($aItemData);
-				 }
-
+		if ($nQTY == 1) {
+			$this->mQuotation->FCaMQUOAddItem2Temp($aItemData);
+		} else {
+			$this->mQuotation->FCxMQUOUpdateItem($aItemData);
+		}
 	}
 
-	public function FCxCQUODelItem(){
+	public function FCxCQUODelItem()
+	{
 
-				 $tQuoDocNo = $this->input->post("tQuoDocNo");
-				 $tWorkerID = $this->session->userdata('tSesUsercode');
-				 $nItemSeq = $this->input->post("nItemSeq");
-				 $aItemData = array("tQuoDocNo" => $tQuoDocNo,
-			                      "tWorkerID" => $tWorkerID,
-													  "nItemSeq"  => $nItemSeq);
+		$tQuoDocNo = $this->input->post("tQuoDocNo");
+		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$nItemSeq = $this->input->post("nItemSeq");
+		$aItemData = array(
+			"tQuoDocNo" => $tQuoDocNo,
+			"tWorkerID" => $tWorkerID,
+			"nItemSeq"  => $nItemSeq
+		);
 
-				 $this->mQuotation->FCxMQUODeleteItem($aItemData);
-
+		$this->mQuotation->FCxMQUODeleteItem($aItemData);
 	}
 
-	public function FCxCQUOEditItemQty(){
+	public function FCxCQUOEditItemQty()
+	{
 
-				 $tQuoDocNo = $this->input->post("tQuoDocNo");
-				 $tWorkerID = $this->session->userdata('tSesUsercode');
-				 $nItemSeq = $this->input->post("nItemSeq");
-				 $nItemQTY = $this->input->post("nItemQTY");
-				 $nUnitPrice = $this->input->post("nUnitPrice");
-				 $nPriB4Dis = $nItemQTY * $nUnitPrice;
+		$tQuoDocNo = $this->input->post("tQuoDocNo");
+		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$nItemSeq = $this->input->post("nItemSeq");
+		$nItemQTY = $this->input->post("nItemQTY");
+		$nUnitPrice = $this->input->post("nUnitPrice");
+		$nPriB4Dis = $nItemQTY * $nUnitPrice;
 
-				 $aItemData = array("tQuoDocNo" => $tQuoDocNo,
-														"tWorkerID" => $tWorkerID,
-														"nItemSeq"  => $nItemSeq,
-													  "nItemQTY"  => $nItemQTY,
-													  "nPriB4Dis" => $nPriB4Dis);
+		$aItemData = array(
+			"tQuoDocNo" => $tQuoDocNo,
+			"tWorkerID" => $tWorkerID,
+			"nItemSeq"  => $nItemSeq,
+			"nItemQTY"  => $nItemQTY,
+			"nPriB4Dis" => $nPriB4Dis
+		);
 
-				 $this->mQuotation->FCxMQUOEditItemQty($aItemData);
-
+		$this->mQuotation->FCxMQUOEditItemQty($aItemData);
 	}
 
-	public function FCwCQUOCallDocPage(){
+	public function FCwCQUOCallDocPage()
+	{
 
-         $tDocNo = $this->input->get("tQuoDocNo");
-				 $aData = array("tDocNo"=>$tDocNo);
-				 $this->load->view("quotation/wQuotationDocForm",$aData);
+		$tDocNo = $this->input->get("tQuoDocNo");
+		$aData = array("tDocNo" => $tDocNo);
+		$this->load->view("quotation/wQuotationDocForm", $aData);
 	}
-
 }

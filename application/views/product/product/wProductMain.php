@@ -295,8 +295,6 @@
 	};
 </script>
 
-
-
 <script>	
 	//คำนวณหน้าจอ
 	JSxCalculateWidthFilterAdv();
