@@ -41,7 +41,6 @@
 											$tPathImage = './application/assets/images/products/NoImage.png';
 										}
 									?>
-									<div style="display:none;"><img class="oimPathImage" src='<?=$tPathImage;?>'></div>
 									<div class="xCNImageItem" style="background-image:url('<?=$tPathImage;?>')" ></div>
 									<div class="caption">
 										<span class="xCNPIPDTCode"><?=$tPdtCode;?></span>
