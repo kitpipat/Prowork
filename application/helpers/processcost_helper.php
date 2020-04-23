@@ -16,7 +16,7 @@
               }
               $tCondition = '';
               if($ptDocNo !=''){
-                 $tCondition+=" AND FTXphDocNo ='$tCondition' ";
+                 $tCondition+=" AND FTXphDocNo ='$ptDocNo' ";
               }
 
               $tSQL = "SELECT FTPdtCode,FCPdtCostStd,
