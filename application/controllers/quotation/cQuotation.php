@@ -72,14 +72,11 @@ class cQuotation extends CI_Controller
 		//get product list
 		$aPdtList  		= $this->mQuotation->FSaMQUPdtList($aFilter);
 
-		//count rows of products result
-		$nTotalRecord 	= $this->mQuotation->FSaMQUOPdtCountRow($aFilter);
-
 		//data return to view
 		$aData = array(
 			'aPdtList' 		=> $aPdtList,
-			'nTotalRecord' 	=> $nTotalRecord,
-			'tPdtViewType' 	=> $tPdtViewType
+			'tPdtViewType' 	=> $tPdtViewType,
+			'nPage'			=> $nPage
 		);
 		$this->load->view('quotation/wQuotationPdtList', $aData);
 	}

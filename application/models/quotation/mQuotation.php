@@ -131,8 +131,8 @@ class mQuotation extends CI_Model
 							  WHEN ISNULL(PDT.FCPdtSalPrice, 0) <> 0 AND ISNULL(SP.FCXpdAddPri, 0) <> 0
 							  THEN ISNULL(PDT.FCPdtCostAFDis, 0) + (ISNULL(PDT.FCPdtCostAFDis, 0) * ISNULL(SP.FCXpdAddPri, 0)) / 100
 
-                              ELSE 0
-                              END AS FCPdtNetSalPri
+						ELSE 0
+						END AS FCPdtNetSalPri
                   FROM VCN_Products PDT
                   LEFT JOIN (
                      SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '" . $tPriceGrp . "'
@@ -147,16 +147,16 @@ class mQuotation extends CI_Model
 			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tKeySearch . "%'";
 		}
 
-		$tSQL .= " AND    P.RowID >=$aRowLen[0] AND P.RowID <=$aRowLen[1] ";
+		$tSQL .= " AND P.RowID >=$aRowLen[0] AND P.RowID <=$aRowLen[1] ";
 		$oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
-			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paData);
+			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paFilter);
 			$nFoundRow 	= $oFoundRow[0]->counts;
-			$nPageAll 	= ceil($nFoundRow/$paData['nRow']); //หา Page All จำนวน Rec หาร จำนวนต่อหน้า
+			$nPageAll 	= ceil($nFoundRow/$paFilter['nRow']); //หา Page All จำนวน Rec หาร จำนวนต่อหน้า
             $aResult 	= array(
 				'raItems'  		=> $oQuery->result_array(),
 				'rnAllRow'      => $nFoundRow,
-				'rnCurrentPage' => $paData['nPage'],
+				'rnCurrentPage' => $paFilter['nPage'],
 				'rnAllPage'     => $nPageAll,
                 'rtCode'   		=> '1',
                 'rtDesc'   		=> 'success',
@@ -164,7 +164,7 @@ class mQuotation extends CI_Model
         }else{
             $aResult = array(
 				'rnAllRow' 		=> 0,
-				'rnCurrentPage' => $paData['nPage'],
+				'rnCurrentPage' => $paFilter['nPage'],
 				"rnAllPage"		=> 0,
                 'rtCode' 		=> '800',
                 'rtDesc' 		=> 'data not found',
@@ -185,8 +185,8 @@ class mQuotation extends CI_Model
 	*/
 	public function FSaMQUOPdtCountRow_PageAll($paFilter){
 		try{
-			$tTextSearch = trim($paFilter['tSearchAll']);
-			$tSQL 		= "SELECT FTPDTCode FROM   TCNMPdt WHERE  FTPdtStatus = 1";
+			$tTextSearch = trim($paFilter['tKeySearch']);
+			$tSQL 		= "SELECT COUNT(FTPDTCode) AS counts FROM TCNMPdt WHERE FTPdtStatus = 1";
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND FTPdtName LIKE '%" . $tTextSearch . "%'";
 				$tSQL .= " OR FTPdtName LIKE '%" . $tTextSearch . "%'";
@@ -205,6 +205,7 @@ class mQuotation extends CI_Model
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->num_rows();
 	}
+
 
 	/*
 	Create On : 06/04/2020 14:03:00

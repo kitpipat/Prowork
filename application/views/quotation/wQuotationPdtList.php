@@ -1,32 +1,29 @@
-<?php if ($nTotalRecord > 0) { ?>
 	<?php if ($tPdtViewType == 1) { ?>
-			<?php
-			for ($p = 0; $p < $nTotalRecord; $p++) {
+		
+		<!--เลือกการมองเห็นแบบรูปภาพ-->
+		<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){ 
 
-				$tPdtCode = $aPdtList['raItems'][$p]['FTPdtCode'];
-				$tPdtName = $aPdtList['raItems'][$p]['FTPdtName'];
-				$tPunCode = $aPdtList['raItems'][$p]['FTPunCode'];
-				$tSplCode = $aPdtList['raItems'][$p]['FTSplCode'];
-				$nPdtCost = $aPdtList['raItems'][$p]['FCPdtCostAFDis'];
-				$nPdtUnitPri = $aPdtList['raItems'][$p]['FCPdtNetSalPri'];
-				$tPunName = $aPdtList['raItems'][$p]['FTPunName'];
-
-
+				$tPdtCode 		= $aValue['FTPdtCode'];
+				$tPdtName 		= $aValue['FTPdtName'];
+				$tPunCode 		= $aValue['FTPunCode'];
+				$tSplCode 		= $aValue['FTSplCode'];
+				$nPdtCost 		= $aValue['FCPdtCostAFDis'];
+				$nPdtUnitPri 	= $aValue['FCPdtNetSalPri'];
+				$tPunName 		= $aValue['FTPunName'];
+				
 				$aItemsInfo = array(
-					"tPdtCode" => $tPdtCode,
-					"tPdtName" => $tPdtName,
-					"tPunCode" => $tPunCode,
-					"tPunName" => $tPunName,
-					"tSplCode" => $tSplCode,
-					"nPdtCost" => $nPdtCost,
+					"tPdtCode" 		=> $tPdtCode,
+					"tPdtName" 		=> $tPdtName,
+					"tPunCode" 		=> $tPunCode,
+					"tPunName" 		=> $tPunName,
+					"tSplCode" 		=> $tSplCode,
+					"nPdtCost" 		=> $nPdtCost,
 					"nPdtUnitPri" => $nPdtUnitPri
 				);
-
 				$tItemInfo = json_encode($aItemsInfo);
-
 			?>
 			<div class="col-sm-3 col-md-3 col-lg-3">
-				<div class="thumbnail" data-iteminfo='<?= $tItemInfo ?>' onclick="FSvQUOAddItemToTemp(this)">
+				<div class="thumbnail" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
 					<img src="<?= base_url('application/assets/images/products/NoImage.png') ?>" alt="...">
 					<div class="caption">
 						<h4><?php echo $tPdtName; ?></h4>
@@ -76,26 +73,18 @@
 				</tbody>
 			</table>
 	<?php } ?>
-<?php } else { ?>
-	<?php if ($tPdtViewType == 1) { ?>
-		<div class="col-lg-12">
-			<lable style="color:red">[การแจ้งเตือน]</label> ไม่พบสินค้าในระบบ.
-		</div>
-	<?php }else{ ?>
-		<table class="table table-striped xCNTableCenter">
-				<thead>
-					<tr>
-						<th style="width:100px;">ชื่อ</th>
-						<th style="text-align: left;">ราคา/หน่วย</th>
-						<th style="width:100px;">เลือก</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr><td colspan="99" style="text-align: center;"> - ไม่พบข้อมูล - </td></tr>
-				</tbody>
-		</table>
-	<?php } ?>
-<?php } ?>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <style media="screen">
 	.thumbnail:hover {
