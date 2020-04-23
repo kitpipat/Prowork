@@ -14,7 +14,7 @@
 									$nPdtCost 		= $aValue['FCPdtCostAFDis'];
 									$nPdtUnitPri 	= $aValue['FCPdtNetSalPri'];
 									$tPunName 		= $aValue['FTPunName'];
-							
+									$FTPdtImage   = $aValue['FTPdtImage'];
 									$aItemsInfo = array(
 										"tPdtCode" 		=> $tPdtCode,
 										"tPdtName" 		=> $tPdtName,
@@ -28,7 +28,21 @@
 							?>
 							<div class="col-sm-3 col-md-3 col-lg-3">
 								<div class="xCNImageCardPDT" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
-									<img src="<?= base_url('application/assets/images/products/NoImage.png') ?>" alt="...">
+
+									<?php 
+										if(@$FTPdtImage != '' || @$FTPdtImage != null){
+											$tPathImage = './application/assets/images/products/'.@$FTPdtImage;
+											if (file_exists($tPathImage)){
+												$tPathImage = base_url().'application/assets/images/products/'.@$FTPdtImage;
+											}else{
+												$tPathImage = base_url().'application/assets/images/products/NoImage.png';
+											}
+										}else{
+											$tPathImage = './application/assets/images/products/NoImage.png';
+										}
+									?>
+								
+									<div class="xCNImageItem" style="background-image:url('<?=$tPathImage;?>')" ></div>
 									<div class="caption">
 										<span class="xCNPIPDTCode"><?=$tPdtCode;?></span>
 										<span class="xCNPIPDTName"><?=$tPdtName;?></span>
