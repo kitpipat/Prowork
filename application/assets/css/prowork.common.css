@@ -533,3 +533,11 @@ table tbody .xCNTableGroupMenu{
 	font-size: 0.65rem !important;
 	color: black;
 }
+
+.xCNSelectPDTInPI{
+	border: 0px;
+    background: transparent;
+    color: #007bff !important;
+	text-decoration: underline;
+	cursor: pointer;
+}

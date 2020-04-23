@@ -57,32 +57,30 @@ class cQuotation extends CI_Controller
 	*/
 	public function FCaCQUOGetProductList()
 	{
-
-		$tKeySearch = $this->input->GET('tKeySearch');
-
-		$tPdtViewType = $this->input->GET('tPdtViewType');
-
-		$tPriceGrp = $this->session->userdata('tSesPriceGroup');
-
+		$nPage			= $this->input->post('pnPage');
+		$tKeySearch 	= $this->input->GET('tKeySearch');
+		$tPdtViewType 	= $this->input->GET('tPdtViewType');
+		$tPriceGrp 		= $this->session->userdata('tSesPriceGroup');
 		$aFilter = array(
-			"tKeySearch" => $tKeySearch,
-			"tPriceGrp"  => $tPriceGrp
+			'nPage'         => $nPage,
+			'nRow'          => 10,
+			"tKeySearch" 	=> $tKeySearch,
+			"tPriceGrp"  	=> $tPriceGrp,
+			'aFilterAdv'	=> $this->input->post('aFilterAdv')
 		);
 
-
 		//get product list
-		$aPdtList  = $this->mQuotation->FSaMQUPdtList($aFilter);
+		$aPdtList  		= $this->mQuotation->FSaMQUPdtList($aFilter);
 
 		//count rows of products result
-		$nTotalRecord = $this->mQuotation->FSaMQUOPdtCountRow($aFilter);
+		$nTotalRecord 	= $this->mQuotation->FSaMQUOPdtCountRow($aFilter);
 
 		//data return to view
 		$aData = array(
-			'aPdtList' => $aPdtList,
-			'nTotalRecord' => $nTotalRecord,
-			'tPdtViewType' => $tPdtViewType
+			'aPdtList' 		=> $aPdtList,
+			'nTotalRecord' 	=> $nTotalRecord,
+			'tPdtViewType' 	=> $tPdtViewType
 		);
-
 		$this->load->view('quotation/wQuotationPdtList', $aData);
 	}
 

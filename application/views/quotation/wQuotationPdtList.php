@@ -39,41 +39,62 @@
 			<table class="table table-striped xCNTableCenter">
 				<thead>
 					<tr>
-						<th style="">ชื่อ</th>
+						<th style="width:20px;">ลำดับ</th>
+						<th style="width:100px;">รหัสสินค้า</th>
+						<th >ชื่อสินค้า</th>
 						<th style="width:250px; text-align: right;">ราคา/หน่วย</th>
-						<th style="width:100px;">เลือก</th>
+						<th style="width:100px; text-align: center;">เลือก</th>
 					</tr>
 				</thead>
-				<?php for($p2 = 0; $p2 < $nTotalRecord; $p2++) {
-							$tPdtCode 		= $aPdtList['raItems'][$p2]['FTPdtCode'];
-							$tPdtName 		= $aPdtList['raItems'][$p2]['FTPdtName'];
-							$tPunCode 		= $aPdtList['raItems'][$p2]['FTPunCode'];
-							$tSplCode 		= $aPdtList['raItems'][$p2]['FTSplCode'];
-							$nPdtCost 		= $aPdtList['raItems'][$p2]['FCPdtCostAFDis'];
-							$nPdtUnitPri 	= $aPdtList['raItems'][$p2]['FCPdtNetSalPri'];
-							$tPunName 		= $aPdtList['raItems'][$p2]['FTPunName'];
-							$aItemsInfo = array(
-								"tPdtCode" 		=> $tPdtCode,
-								"tPdtName" 		=> $tPdtName,
-								"tPunCode" 		=> $tPunCode,
-								"tPunName" 		=> $tPunName,
-								"tSplCode" 		=> $tSplCode,
-								"nPdtCost" 		=> $nPdtCost,
-								"nPdtUnitPri" => $nPdtUnitPri
-							);
-						$tItemInfo = json_encode($aItemsInfo); ?>
-					<tr>
-						<td style="text-align: left;"><?=$tPdtName;?></td>
-						<td style="text-align: right;"><?=number_format($nPdtUnitPri,2);?></td>
-						<td><button class="sm-button" data-iteminfo='<?= $tItemInfo ?>' onclick="FSvQUOAddItemToTemp(this)">เลือก</button></td>
-					</tr>
-				<?php } ?>
+				<tbody>
+					<?php for($p2 = 0; $p2 < $nTotalRecord; $p2++) {
+								$tPdtCode 		= $aPdtList['raItems'][$p2]['FTPdtCode'];
+								$tPdtName 		= $aPdtList['raItems'][$p2]['FTPdtName'];
+								$tPunCode 		= $aPdtList['raItems'][$p2]['FTPunCode'];
+								$tSplCode 		= $aPdtList['raItems'][$p2]['FTSplCode'];
+								$nPdtCost 		= $aPdtList['raItems'][$p2]['FCPdtCostAFDis'];
+								$nPdtUnitPri 	= $aPdtList['raItems'][$p2]['FCPdtNetSalPri'];
+								$tPunName 		= $aPdtList['raItems'][$p2]['FTPunName'];
+								$aItemsInfo = array(
+									"tPdtCode" 		=> $tPdtCode,
+									"tPdtName" 		=> $tPdtName,
+									"tPunCode" 		=> $tPunCode,
+									"tPunName" 		=> $tPunName,
+									"tSplCode" 		=> $tSplCode,
+									"nPdtCost" 		=> $nPdtCost,
+									"nPdtUnitPri" => $nPdtUnitPri
+								);
+							$tItemInfo = json_encode($aItemsInfo); ?>
+						<tr>
+							<td >ลำดับ</td>
+							<td ><?=$tPdtCode;?></td>
+							<td style="text-align: left;"><?=$tPdtName;?></td>
+							<td style="text-align: right;"><?=number_format($nPdtUnitPri,2);?></td>
+							<td><button class="sm-button xCNSelectPDTInPI" data-iteminfo='<?= $tItemInfo ?>' onclick="FSvQUOAddItemToTemp(this)">เลือกสินค้า</button></td>
+						</tr>
+					<?php } ?>
+				</tbody>
 			</table>
 	<?php } ?>
 <?php } else { ?>
-	<div class="col-lg-12">
-		<lable style="color:red">[การแจ้งเตือน]</label> ไม่พบสินค้าในระบบ.
-	</div>
+	<?php if ($tPdtViewType == 1) { ?>
+		<div class="col-lg-12">
+			<lable style="color:red">[การแจ้งเตือน]</label> ไม่พบสินค้าในระบบ.
+		</div>
+	<?php }else{ ?>
+		<table class="table table-striped xCNTableCenter">
+				<thead>
+					<tr>
+						<th style="width:100px;">ชื่อ</th>
+						<th style="text-align: left;">ราคา/หน่วย</th>
+						<th style="width:100px;">เลือก</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td colspan="99" style="text-align: center;"> - ไม่พบข้อมูล - </td></tr>
+				</tbody>
+		</table>
+	<?php } ?>
 <?php } ?>
 
 <style media="screen">

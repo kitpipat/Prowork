@@ -19,25 +19,27 @@
 		FSvQUOGetPdtList()
 	}
 
-	function FSvQUOGetPdtList() {
-
-		tPdtViewType = $('.wxBntPdtVTypeActive').attr("data-viewtype")
-
+	//หน้า list สินค้า
+	function FSvQUOGetPdtList(pnPage) {
+		tPdtViewType = $('.wxBntPdtVTypeActive').attr("data-viewtype");
+		if(pnPage == '' || pnPage == null){ pnPage = 1; }
 		$.ajax({
-				url: 'r_quotationeventGetPdtList',
-				type: 'GET',
-				data: {
-					paFilter: '',
-					tPdtViewType: tPdtViewType
-				},
-				datatype: 'json'
-			})
-			.done(function(data) {
-				$("#odvQuoPdtList").html(data);
-			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				//serrorFunction();
-			});
+			url: 'r_quotationeventGetPdtList',
+			type: 'GET',
+			data: {
+				pnPage		: pnPage,
+				paFilter		: '',
+				tPdtViewType	: tPdtViewType,
+				aFilterAdv	: ''
+			},
+			datatype: 'json'
+		})
+		.done(function(data) {
+			$("#odvQuoPdtList").html(data);
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			//serrorFunction();
+		});
 	}
 
 
