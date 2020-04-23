@@ -1,11 +1,11 @@
 
-<table class="table table-striped xCNTableCenter" id="otbAJPTable">
+<table class="table table-striped xCNTableCenter" id="otbAJCTable">
   <thead>
     <tr>
 		<th style="width:20px; text-align: center;">ลำดับ</th>
 		<th style="width:200px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
-		<th style="width:230px; text-align: right;">ราคาขายบวกเพิ่ม (%)</th>
+		<th style="width:230px; text-align: left;">ส่วนลดต้นทุน</th>
 		<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 			<th style="width:80px; text-align: center;">ลบ</th>
 		<?php } ?>
@@ -31,22 +31,22 @@
 					
 					<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 						<td>
-							<input <?=$tDisabledBTN?> type="text" maxlength="5" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdatePriceSell(this);" onchange="JSxUpdatePriceSell(this);" class="xCNEditInline xCNInputNumericWithDecimal" style="text-align: right; width: 100%;" id="oetAddPri<?=$aValue['FTPdtCode']?>" value="<?=$aValue['FCXpdAddPri'];?>" >
+							<input <?=$tDisabledBTN?> type="text" maxlength="250" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdateCost(this);" onchange="JSxUpdateCost(this);" class="xCNEditInline xCNNumberandPercent" style="text-align: left; width: 100%;" id="oetAddCost<?=$aValue['FTPdtCode']?>" value="<?=$aValue['FTXpdDisCost'];?>" >
 						</td>
 					<?php }else{ ?>
 						<td>
-							<label style="text-align: right; width: 100%;" class="xCNLineHeightInTable"><?=$aValue['FCXpdAddPri'];?></label>
+							<label style="text-align: right; width: 100%;" class="xCNLineHeightInTable"><?=$aValue['FTXpdDisCost'];?></label>
 						</td>
 					<?php } ?>
 
 					<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
-						<?php $oEventDelete = "JSxAJP_DeleteInTmp('".$aValue['FTPdtCode']."')"; ?>
+						<?php $oEventDelete = "JSxAJC_DeleteInTmp('".$aValue['FTPdtCode']."')"; ?>
 						<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 					<?php } ?>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
-			<tr class="otrAJPTmpEmpty"><td colspan="99" style="text-align: center;"> - ไม่พบข้อมูล - </td></tr>
+			<tr class="otrAJCTmpEmpty"><td colspan="99" style="text-align: center;"> - ไม่พบข้อมูล - </td></tr>
 		<?php } ?>
   </tbody>
 </table>
@@ -61,7 +61,7 @@
 				<!--ปุ่มย้อนกลับ-->
 				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvAJP_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
+					<a class="page-link" aria-label="Previous" onclick="JSvAJC_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
 				</li>
 
 				<!--ปุ่มจำนวนหน้า-->
@@ -75,13 +75,13 @@
 							$tDisPageNumber = '';
 						}
 					?>
-					<li class="page-item <?=$tActive;?> " onclick="JSvAJP_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
+					<li class="page-item <?=$tActive;?> " onclick="JSvAJC_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
 				<?php } ?>
 
 				<!--ปุ่มไปต่อ-->
 				<?php if($nPage >= $aListTmp['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvAJP_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
+					<a class="page-link" aria-label="Next" onclick="JSvAJC_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</ul>
 		</nav>
@@ -91,7 +91,7 @@
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 	//เปลี่ยนหน้า
-	function JSvAJP_ClickPage(ptPage) {
+	function JSvAJC_ClickPage(ptPage) {
 		var nPageCurrent = '';
 		switch (ptPage) {
 			case 'next': //กดปุ่ม Next
@@ -112,10 +112,10 @@
 	}
 
 	//ลบข้อมูล
-	function JSxAJP_DeleteInTmp(tPDTCode){
+	function JSxAJC_DeleteInTmp(tPDTCode){
 		$.ajax({
 			type	: "POST",
-			url		: 'r_adjpricePDTDeleteInTmp',
+			url		: 'r_adjcostPDTDeleteInTmp',
 			data 	: { 
 						'tPdtCode' : tPDTCode,
 						'tCode'	   : $('#ohdDocumentNumber').val()
@@ -139,18 +139,13 @@
 	}
 
 	//อัพเดทข้อมูล
-	function JSxUpdatePriceSell(e){
+	function JSxUpdateCost(e){
 		var tValueUpdate 	= $(e).val();
 		var tPDTCode 		= $(e).data('pdtcode');
-
-		if(tValueUpdate > 100){
-			$(e).val(100);
-			tValueUpdate = 100;
-		}
-
+		
 		$.ajax({
 			type	: "POST",
-			url		: 'r_adjpricePDTUpdateInlineInTmp',
+			url		: 'r_adjcostPDTUpdateInlineInTmp',
 			data 	: { 
 						'tPdtCode' 		: tPDTCode,
 						'tValueUpdate' 	: tValueUpdate,

@@ -102,15 +102,26 @@ class cAdjcost extends CI_Controller {
 		$aData			= $this->input->post('aData');
 		if($aData !== null){
 			$aResult = explode(",",$aData);
-			$nSeq = 1;
+			
+			$nSeq = $this->mAdjcost->FSaMAJCGetSeqLast($tCode,$this->session->userdata('tSesUsercode'));
+			if($nSeq['rtCode'] == 800){
+				$nSeq = '1';
+			}else{
+				$nLastCode 		= $nSeq['raItems'][0]['FNXpdSeq'];
+				$nSeq			= $nLastCode+1;
+			}
+			
 			for($i=0; $i<count($aResult); $i++){
+				$aMasterPDT = $this->mAdjcost->FSaMAJCFindSplAndSTDCost($aResult[$i]);
+				$tSPLCode = $aMasterPDT['raItems'][0]['FTSplCode'];
+				$tCostSTD = $aMasterPDT['raItems'][0]['FCPdtCostStd'];
 				$aIns = array(
-					'FTBchCode'		=> '',
+					'FTBchCode'		=> $this->session->userdata('tSesBCHCode'),
 					'FNXpdSeq'		=> $nSeq,
 					'FTXphDocNo'	=> $tCode,
 					'FTPdtCode'		=> $aResult[$i],
-					'FTXpdSplCode'	=> '',
-					'FCXpdCost'		=> '0.00',
+					'FTXpdSplCode'	=> $tSPLCode,
+					'FCXpdCost'		=> $tCostSTD,
 					'FTXpdDisCost'	=> '0.00',
 					'FDCreateOn'	=> date('Y-m-d H:i:s'),
 					'FTCreateBy'	=> $this->session->userdata('tSesUsercode'),
@@ -118,6 +129,7 @@ class cAdjcost extends CI_Controller {
 				);
 
 				$this->mAdjcost->FSaMAJCInsertPDTToTmp($aIns);
+				$nSeq++;
 			}
 		}
 		
@@ -143,8 +155,7 @@ class cAdjcost extends CI_Controller {
 		$tValueUpdate	= $this->input->post('tValueUpdate'); 
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
 		$aSet 		= array(
-			'FCXpdCost'		=> $tValueUpdate,
-			'FTXpdDisCost' 	=> 'wait'
+			'FTXpdDisCost' 	=> $tValueUpdate
 		);
 		$aWhere 	= array(
 			'FTBchCode'		=> $this->session->userdata('tSesBCHCode'),
@@ -244,7 +255,7 @@ class cAdjcost extends CI_Controller {
 			'FTXphDocNo'	=> $tFormatCode,
 			'FDXphDocDate'	=> date('Y-m-d H:i:s'),
 			'FTXphDocTime'	=> date('H:i:s'),
-			'FDXphDStart'	=> 'wait',
+			'FDXphDStart'	=> date('Y-m-d H:i:s',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))),
 			'FTXphStaDoc'	=> 1,
 			'FTXphStaApv'	=> null,
 			'FTUsrCode'		=> $this->session->userdata('tSesUsercode'),

@@ -102,13 +102,16 @@ class mAdjcost extends CI_Model {
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTPdtCode ASC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
+						DTTmp.FTBchCode,
 						DTTmp.FTXphDocNo,
+						DTTmp.FNXpdSeq,
 						DTTmp.FTPdtCode,
-						DTTmp.FCXpdAddPri,
-						DTTmp.FDXphDateAtv,
+						DTTmp.FTXpdSplCode,
+						DTTmp.FCXpdCost,
+						DTTmp.FTXpdDisCost,
 						DTTmp.FTWorkerID,
 						PDT.FTPdtName
-					FROM TCNTPdtAdjPriDTTmp DTTmp 
+					FROM TCNTPdtAdjCostDTTmp DTTmp 
 					LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND DTTmp.FTWorkerID = '$tWorkerID' ";
@@ -150,7 +153,7 @@ class mAdjcost extends CI_Model {
 		try{
 			$tTextSearch 	= trim($paData['tSearchTmp']);
 			$tWorkerID		= $this->session->userdata('tSesUsercode');
-			$tSQL 			= "SELECT COUNT (DTTmp.FTPdtCode) AS counts FROM TCNTPdtAdjPriDTTmp DTTmp LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode ";
+			$tSQL 			= "SELECT COUNT (DTTmp.FTPdtCode) AS counts FROM TCNTPdtAdjCostDTTmp DTTmp LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode ";
 			$tSQL 			.= " WHERE 1=1 ";
 			$tSQL 			.= " AND DTTmp.FTWorkerID = '$tWorkerID' ";
 			if($tTextSearch != '' || $tTextSearch != null){
@@ -213,7 +216,7 @@ class mAdjcost extends CI_Model {
 					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
 					LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
 					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
-					LEFT JOIN TCNTPdtAdjPriDTTmp TMP ON PDT.FTPdtCode = TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' ";
+					LEFT JOIN TCNTPdtAdjCostDTTmp TMP ON PDT.FTPdtCode = TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND TMP.FTPdtCode IS NULL ";
 
@@ -284,7 +287,7 @@ class mAdjcost extends CI_Model {
 							LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
 							LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
 							LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
-							LEFT JOIN TCNTPdtAdjPriDTTmp TMP ON PDT.FTPdtCode = TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' ";
+							LEFT JOIN TCNTPdtAdjCostDTTmp TMP ON PDT.FTPdtCode = TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' ";
 
 			$tSQL 		.= " WHERE 1=1 ";
 			$tSQL 		.= " AND TMP.FTPdtCode IS NULL ";
@@ -328,10 +331,52 @@ class mAdjcost extends CI_Model {
 	//เพิ่ม PDT To Tmp
 	public function FSaMAJCInsertPDTToTmp($aResult){
 		try{
-			$this->db->insert('TCNTPdtAdjPriDTTmp', $aResult);
+			$this->db->insert('TCNTPdtAdjCostDTTmp', $aResult);
 		}catch(Exception $Error){
 			echo $Error;
 		}
+	}
+
+	//หา Seq ล่าสุดใน Tmp
+	public function FSaMAJCGetSeqLast($tDocumentCode , $tWorkID){
+		$tSQL = "SELECT TOP 1 FNXpdSeq FROM TCNTPdtAdjCostDTTmp ";
+		$tSQL .= " WHERE FTXphDocNo = '$tDocumentCode' AND FTWorkerID = '$tWorkID' ";
+		$tSQL .=" ORDER BY FNXpdSeq DESC ";
+
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		}else{
+			$aResult = array(
+				'rtCode' => '800',
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
+	}
+
+	//หาว่า สินค้านี้ใช้ spl อะไร และ ต้นทุนตั้งต้นเท่าไหร่
+	public function FSaMAJCFindSplAndSTDCost($ptPDTCode){
+		$tSQL = "SELECT TOP 1 FTSplCode , FCPdtCostStd FROM TCNMPdt ";
+		$tSQL .= " WHERE FTPdtCode = '$ptPDTCode' ";
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		}else{
+			$aResult = array(
+				'rtCode' => '800',
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
 	}
 
 	//ลบข้อมูลใน Tmp
@@ -344,7 +389,22 @@ class mAdjcost extends CI_Model {
 			$this->db->where_in('FTXphDocNo', $FTXphDocNo);
 			$this->db->where_in('FTPdtCode', $FTPdtCode);
 			$this->db->where_in('FTWorkerID', $FTWorkerID);
-            $this->db->delete('TCNTPdtAdjPriDTTmp');
+			$this->db->delete('TCNTPdtAdjCostDTTmp');
+
+			//เรียง Seq ใหม่
+			$tSQL   = " UPDATE TCNTPdtAdjCostDTTmp WITH(ROWLOCK)
+						SET FNXpdSeq = NewObj.NewSeq 
+						FROM TCNTPdtAdjCostDTTmp DT 
+						INNER JOIN (
+							SELECT  ROW_NUMBER() OVER (ORDER BY FNXpdSeq) AS NewSeq,
+									FNXpdSeq AS OldSeq
+							FROM TCNTPdtAdjCostDTTmp 
+							WHERE 
+								FTXphDocNo = '$FTXphDocNo'
+							AND FTWorkerID = '$FTWorkerID'
+					) NewObj ON DT.FNXpdSeq = NewObj.OldSeq";
+			$this->db->query($tSQL);
+
 		}catch(Exception $Error){
             echo $Error;
 		}
@@ -356,7 +416,7 @@ class mAdjcost extends CI_Model {
 			$this->db->where('FTXphDocNo', $ptWhere['FTXphDocNo']);
 			$this->db->where('FTPdtCode', $ptWhere['FTPdtCode']);
 			$this->db->where('FTWorkerID', $ptWhere['FTWorkerID']);
-			$this->db->update('TCNTPdtAdjPriDTTmp', $ptSet);
+			$this->db->update('TCNTPdtAdjCostDTTmp', $ptSet);
 		}catch(Exception $Error){
 			echo $Error;
 		}
@@ -369,7 +429,7 @@ class mAdjcost extends CI_Model {
 		$FTWorkerID	= $paData['FTWorkerID'];
 		$FTXphDocNo	= $paData['FTXphDocNo'];
 
-		$tSQL = " SELECT * FROM TCNTPdtAdjPriDTTmp AJC ";
+		$tSQL = " SELECT * FROM TCNTPdtAdjCostDTTmp AJC ";
 		$tSQL .= " WHERE AJC.FTPdtCode = '$FTPdtCode' ";
 		$tSQL .= " AND AJC.FTWorkerID = '$FTWorkerID' ";
 		$tSQL .= " AND AJC.FTXphDocNo = '$FTXphDocNo' ";
@@ -394,7 +454,7 @@ class mAdjcost extends CI_Model {
 	//เพิ่มข้อมูล จากเอกสารนำเข้า
 	public function FSaMAJCImportExcelInsert($aResult){
 		try{
-			$this->db->insert('TCNTPdtAdjPriDTTmp', $aResult);
+			$this->db->insert('TCNTPdtAdjCostDTTmp', $aResult);
 		}catch(Exception $Error){
 			echo $Error;
 		}
@@ -402,7 +462,7 @@ class mAdjcost extends CI_Model {
 
 	//ค้นหาเลขที่เอกสารล่าสุด HD
 	public function FSaMAJCGetLastDocumentAdjCode(){
-		$tSQL = "SELECT TOP 1 FTXphDocNo FROM TCNTPdtAdjPriHD ORDER BY FTXphDocNo DESC ";
+		$tSQL = "SELECT TOP 1 FTXphDocNo FROM TCNTPdtAdjCostHD ORDER BY FTXphDocNo DESC ";
 		$oQuery = $this->db->query($tSQL);
 		if($oQuery->num_rows() > 0){
 			$aResult = array(
@@ -422,7 +482,7 @@ class mAdjcost extends CI_Model {
 	//เพิ่มข้อมูล HD
 	public function FSxMAJCInsertHD($aResult){
 		try{
-			$this->db->insert('TCNTPdtAdjPriHD', $aResult);
+			$this->db->insert('TCNTPdtAdjCostHD', $aResult);
 		}catch(Exception $Error){
 			echo $Error;
 		}
@@ -431,27 +491,34 @@ class mAdjcost extends CI_Model {
 	//เพิ่มข้อมูล DT (Tmp To DT)
 	public function FSxMAJCInsertDT($tCode){
 		try{
-			$tSession  	= $this->session->userdata('tSesUsercode');
-			$dCurrent	= date('Y-m-d H:i:s');
+			$tSesstionBCH  	= $this->session->userdata('tSesBCHCode');
+			$tSession  		= $this->session->userdata('tSesUsercode');
+			$dCurrent		= date('Y-m-d H:i:s');
 
-			$tSQL = "INSERT INTO TCNTPdtAdjPriDT (
-				FTXphDocNo
-				,FTPdtCode
-				,FCXpdAddPri
-				,FDXphDateAtv
-				,FTCreateBy
-				,FDCreateOn
+			$tSQL = "INSERT INTO TCNTPdtAdjCostDT (
+				FTBchCode,
+				FTXphDocNo,
+				FNXpdSeq,
+				FTPdtCode,
+				FTXpdSplCode,
+				FCXpdCost,
+				FTXpdDisCost,
+				FDCreateOn,
+				FTCreateBy
 			)
 			SELECT 
-				'$tCode' AS FTXphDocNo
-				,TCNTPdtAdjPriDTTmp.FTPdtCode
-				,FCXpdAddPri
-				,FDXphDateAtv
-				,$tSession AS FTCreateBy
-				,'$dCurrent' AS FDCreateOn
-			FROM TCNTPdtAdjPriDTTmp
-			INNER JOIN TCNMPDT ON TCNTPdtAdjPriDTTmp.FTPdtCode = TCNMPDT.FTPdtCode
-			WHERE TCNTPdtAdjPriDTTmp.FTWorkerID = '$tSession'";
+				'$tSesstionBCH' AS FTBchCode,
+				'$tCode' AS FTXphDocNo,
+				FNXpdSeq,
+				TCNTPdtAdjCostDTTmp.FTPdtCode,
+				FTXpdSplCode,
+				FCXpdCost,
+				FTXpdDisCost,
+				'$dCurrent' AS FDCreateOn,
+				$tSession AS FTCreateBy
+			FROM TCNTPdtAdjCostDTTmp
+			INNER JOIN TCNMPDT ON TCNTPdtAdjCostDTTmp.FTPdtCode = TCNMPDT.FTPdtCode
+			WHERE TCNTPdtAdjCostDTTmp.FTWorkerID = '$tSession'";
 			$this->db->query($tSQL);
 		}catch(Exception $Error){
 			echo $Error;
@@ -544,7 +611,7 @@ class mAdjcost extends CI_Model {
 	public function FSxMAJCDeleteDT($tCode){
 		try{
 			$this->db->where_in('FTXphDocNo', $tCode);
-			$this->db->delete('TCNTPdtAdjPriDT');
+			$this->db->delete('TCNTPdtAdjCostDT');
 		}catch(Exception $Error){
 			echo $Error;
 		}
@@ -554,7 +621,7 @@ class mAdjcost extends CI_Model {
 	public function FSxMGRPUpdate($ptSet,$ptWhere){
 		try{
 			$this->db->where('FTXphDocNo', $ptWhere['FTXphDocNo']);
-			$this->db->update('TCNTPdtAdjPriHD', $ptSet);
+			$this->db->update('TCNTPdtAdjCostHD', $ptSet);
 		}catch(Exception $Error){
 			echo $Error;
 		}
@@ -564,10 +631,10 @@ class mAdjcost extends CI_Model {
 	public function FSaMAJCDelete($ptCode){
 		try{
 			$this->db->where_in('FTXphDocNo', $ptCode);
-			$this->db->delete('TCNTPdtAdjPriHD');
+			$this->db->delete('TCNTPdtAdjCostHD');
 			
 			$this->db->where_in('FTXphDocNo', $ptCode);
-            $this->db->delete('TCNTPdtAdjPriDT');
+            $this->db->delete('TCNTPdtAdjCostDT');
 		}catch(Exception $Error){
             echo $Error;
         }
@@ -582,7 +649,7 @@ class mAdjcost extends CI_Model {
 				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
 			);
 			$this->db->where('FTXphDocNo', $ptCode);
-			$this->db->update('TCNTPdtAdjPriHD', $aSet);
+			$this->db->update('TCNTPdtAdjCostHD', $aSet);
 		}catch(Exception $Error){
 			echo $Error;
 		}
@@ -596,7 +663,7 @@ class mAdjcost extends CI_Model {
 				'FTXphApvBy'	=> $this->session->userdata('tSesUsercode')
 			);
 			$this->db->where('FTXphDocNo', $ptCode);
-			$this->db->update('TCNTPdtAdjPriHD', $aSet);
+			$this->db->update('TCNTPdtAdjCostHD', $aSet);
 		}catch(Exception $Error){
 			echo $Error;
 		}

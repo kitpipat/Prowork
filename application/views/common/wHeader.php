@@ -98,8 +98,8 @@
 			</div>
 		</header>
 	
-		
 <!-- Scripts -->
+
 <script src="<?=base_url('application/assets/js/')?>jquery-3.5.0.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>jquery-ui.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>popper.min.js"></script>
@@ -108,5 +108,5 @@
 <script src="<?=base_url('application/assets/js/')?>jquery.matchHeight.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>main.js"></script>
 <script src="<?=base_url('application/assets/js/')?>bootstrap-datepicker.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+

@@ -126,19 +126,14 @@
 									</div>
 									<!--รายละเอียด-->
 									<div class="col-lg-12 col-md-12">
-										<!--วันที่มีผล-->
 
+										<!--วันที่มีผล-->
 										<div class='form-group'>
+											<label><span style="color:red;">*</span> วันที่มีผล</label>
 											<div class='input-group'>
-												<input type='text' class='form-control xCNDatePicker' autocomplete='off' id='oetRptDocDateFrom' name='oetRptDocDateFrom'>
-												
+												<input placeholder="DD/MM/YYYY" type='text' class='form-control xCNDatePicker' autocomplete='off' id='oetDateActive' name='oetDateActive'>
 											</div>
 										</div>
-												
-										<!-- <div class="form-group">
-											<label>วันที่มีผล</label>
-											<input type="text" class="form-control xCNDatepicker" maxlength="100" id="oetAJCDateActive" name="oetAJCDateActive" placeholder="DD/MM/YY" autocomplete="off" value="<?=@$dDocumentDateActive;?>">
-										</div> -->
 
 										<!--หมายเหตุ-->
 										<div class="form-group">
@@ -185,7 +180,7 @@
 											<?php } ?>
 											<div class="dropdown-menu dropdown-menu-left xCNDropdown">
 												<?php if($tDisabledInput != "disabled"){ ?>
-													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href="<?=base_url('application/assets/templates/Priceadjustment_Import_Template.xlsx');?>">ดาวน์โหลดแม่แบบ</a></button>
+													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href="<?=base_url('application/assets/templates/Costadjustment_Import_Template.xlsx');?>">ดาวน์โหลดแม่แบบ</a></button>
 													<button class="dropdown-item xCNDropdownSub" type="button" onclick="JSxImportDataExcel();">นำเข้าข้อมูล ไฟล์</button>
 												<?php } ?>
 												<input style="display:none;" type="file" id="ofeImportExcel" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
@@ -277,6 +272,25 @@
 		</div>
 	</div>
 </div>
+
+<!--Modal กรุณาเลือกวันที่เริ่มต้น-->
+<button id="obtModalPlzDateStart" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalPlzDateStart"></button>
+<div class="modal fade" id="odvModalPlzDateStart" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">กรุณากรอกข้อมูลให้ครบถ้วน</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;" id="olbModalProcessText">กรุณากรอกข้อมูลวันที่มีผล ของเอกสารปรับต้นทุน</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete xCNConfirmDateActive" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <!--Modal กำลังประมวลผล-->
 <button id="obtModalProcess" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalProcess"></button>
@@ -430,17 +444,11 @@
 <script>	
 	$('ducument').ready(function(){ 
 		$('.xCNDatePicker').datepicker({ 
-			format          : 'yyyy-mm-dd',
+			format          : 'dd/mm/yyyy',
 			autoclose       : true,
 			todayHighlight  : true,
-			orientation		: "bottom right"
+			orientation		: "top right"
 		});
-
-		// $('.xCNDatePicker').click(function(){
-		// 	var popup =$(this).offset();
-		// 	var popupTop = popup.top - 40;
-		// 		$('.ui-datepicker').attr("style","top :  50px !important;"); 
-		// });
 	});
 
 	//โหลดข้อมูลตารางสินค้า
@@ -448,7 +456,7 @@
 	function JSvLoadTableDTTmp(pnPage){
 		$.ajax({
 			type	: "POST",
-			url		: "r_adjpriceloadtableDTTmp",
+			url		: "r_adjcostloadtableDTTmp",
 			data 	: {
 						'tTypepage'  			: '<?=$tTypePage?>',
 						'tCode'	 	 			: '<?=$tDocumentNumber?>',
@@ -470,6 +478,15 @@
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
 
+		if($('#oetDateActive').val() == null || $('#oetDateActive').val() == ''){
+			$('#obtModalPlzDateStart').click();
+
+			$('.xCNConfirmDateActive').on('click',function(){
+				$('#oetDateActive').focus();
+			});
+			return;
+		}
+
 		if($('#otbAJCTable tbody tr').hasClass('otrAJCTmpEmpty') == true){
 			$('#obtModalPlzSelectPDT').click();
 			return;
@@ -481,14 +498,14 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				console.log(tResult);
 				oResult 			= JSON.parse(tResult);
-				console.log(oResult);
 				var tResult 		= oResult.tStatus;
 				var tDocumentNumber = oResult.tDocuementnumber;
 				if(tResult == 'pass_insert'){
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
-					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนเอกสารปรับราคาสำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนเอกสารปรับต้นทุนสำเร็จ');
 					JSwAJCCallPageInsert('edit',tDocumentNumber);
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
@@ -496,7 +513,7 @@
 				}else if(tResult == 'pass_update'){
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
-					$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อเอกสารปรับราคาสำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อเอกสารปรับต้นทุนสำเร็จ');
 					JSwAJCCallPageInsert('edit',tDocumentNumber);
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
@@ -520,7 +537,7 @@
 	function JSxSelectPDTToTmp(pnPage){
 		$.ajax({
 			type	: "POST",
-			url		: "r_adjpriceloadPDT",
+			url		: "r_adjcostloadPDT",
 			data 	: {
 						'tTypepage'  	: '<?=$tTypePage?>',
 						'tCode'	 	 	: '<?=$tDocumentNumber?>',
@@ -544,7 +561,7 @@
 		if(LocalItemSelect !== null){
 			$.ajax({
 				type	: "POST",
-				url		: "r_adjpriceInsPDTToTmp",
+				url		: "r_adjcostInsPDTToTmp",
 				data 	: {
 							'tTypepage'  	: '<?=$tTypePage?>',
 							'tCode'	 	 	: '<?=$tDocumentNumber?>',
@@ -553,6 +570,7 @@
 				cache	: false,
 				timeout	: 0,
 				success	: function (tResult) {
+					console.log(tResult);
 					obj = [];
 					localStorage.clear();
 					$('#obtModalSelectPDT').click();
@@ -575,7 +593,7 @@
 		$('.xCNConfirmCancleDocument').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: "r_adjpriceCancleDocument",
+				url		: "r_adjcostCancleDocument",
 				data 	: { 'tCode'	: '<?=$tDocumentNumber?>' },
 				cache	: false,
 				timeout	: 0,
@@ -604,7 +622,7 @@
 		$('.xCNConfirmDeleteAprove').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: 'r_adjpriceAprove',
+				url		: 'r_adjcostAprove',
 				data 	: { 'tCode'	: '<?=$tDocumentNumber?>' },
 				cache	: false,
 				timeout	: 0,
