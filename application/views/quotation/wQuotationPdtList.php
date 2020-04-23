@@ -41,7 +41,7 @@
 											$tPathImage = './application/assets/images/products/NoImage.png';
 										}
 									?>
-								
+									<div style="display:none;"><img class="oimPathImage" src='<?=$tPathImage;?>'></div>
 									<div class="xCNImageItem" style="background-image:url('<?=$tPathImage;?>')" ></div>
 									<div class="caption">
 										<span class="xCNPIPDTCode"><?=$tPdtCode;?></span>
@@ -170,4 +170,36 @@
 
 		FSvQUOGetPdtList(nPageCurrent);
 	}
+
+	//เลือกสินค้า css
+	$('.xCNImageCardPDT').on('click', function () {
+			var cart = $('#odvQuoItemsList');
+			var imgtodrag = $(this).eq(0);
+			if (imgtodrag) {
+					var imgclone = imgtodrag.clone().offset({
+							top: imgtodrag.offset().top,
+							left: imgtodrag.offset().left
+					}).css({
+									'opacity'		: '0.5',
+									'position'	: 'absolute',
+									'height'		: '200px',
+									'width'			: '200px',
+									'z-index'		: '100'
+					}).appendTo($('body')).animate({
+									'top': cart.offset().top,
+									'left': cart.offset().left,
+									'width': 75,
+									'height': 75
+					}, 1000, 'easeInOutExpo');
+					
+					imgclone.animate({
+							'width': 0,
+							'height': 0
+					}, function () {
+							$(this).detach()
+					});
+			}
+	});
+
 </script>
+
