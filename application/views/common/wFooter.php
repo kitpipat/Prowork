@@ -79,7 +79,6 @@
 				</button>
 			</div> 
 
-
 			<!--สีเขียว สำเร็จ-->
 			<div class="sufee-alert alert with-close alert-success alert-dismissible fade" >
 				<span class="badge badge-pill badge-success"></span>
