@@ -7,7 +7,7 @@ class mAdjprice extends CI_Model {
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
-		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTXphDocNo ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTXphDocNo DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
 					DISTINCT
 						HD.FTXphDocNo , 

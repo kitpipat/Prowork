@@ -7,7 +7,7 @@ class mUser extends CI_Model {
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
-		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTUsrCode*1 ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTUsrCode*1 DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
 					USR.FTUsrImgPath,
 					USR.FTUsrCode,

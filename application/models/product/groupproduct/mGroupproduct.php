@@ -7,7 +7,7 @@ class mGroupproduct extends CI_Model {
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
-		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTPgpCode ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTPgpCode DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
 					DISTINCT
 						GRP.FTPgpCode , 

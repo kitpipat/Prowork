@@ -7,7 +7,7 @@ class mSupplier extends CI_Model {
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
-		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTSplCode ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTSplCode DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
 					SPL.FTSplCode,
 					SPL.FTSplName,

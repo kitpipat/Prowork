@@ -7,7 +7,7 @@ class mModalproduct extends CI_Model {
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
-		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTMolCode ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTMolCode DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
 					DISTINCT
 						MOP.FTMolCode , 
