@@ -126,7 +126,7 @@ $route['r_customereventinsert'] 				= 'customer/cCustomer/FSwCCUSEventInsert';
 $route['r_customereventdelete'] 				= 'customer/cCustomer/FSxCCUSEventDelete';
 $route['r_customereventedit'] 					= 'customer/cCustomer/FSxCCUSEventEdit';
 
-//หน้าจอ : สินค้า
+//หน้าจอ : สินค้า ( start : 12-04-2020 / done : 12-04-2020 )
 $route['r_product'] 							= 'product/product/cProduct/index';
 $route['r_productload'] 						= 'product/product/cProduct/FSwCPDTLoadDatatable';
 $route['r_productcallpageInsertorEdit'] 		= 'product/product/cProduct/FSwCPDTCallPageInsertorEdit';
@@ -156,7 +156,7 @@ $route['r_adjpriceCancleDocument'] 				= 'adjprice/cAdjprice/FSxCAJPCancleDocume
 $route['r_adjpriceAprove'] 						= 'adjprice/cAdjprice/FSxCAJPAproveDocument';
 
 
-//หน้าจอใบปรับต้นทุน ( start : 21-04-2020 / done : xx-04-2020 )
+//หน้าจอใบปรับต้นทุน ( start : 21-04-2020 / done : 23-04-2020 )
 $route['r_adjcost'] 							= 'adjcost/cAdjcost/index';
 $route['r_adjcostload'] 						= 'adjcost/cAdjcost/FSwCAJCLoadDatatable';
 $route['r_adjcostcallpageInsertorEdit'] 		= 'adjcost/cAdjcost/FSwCAJCCallPageInsertorEdit';
@@ -171,4 +171,8 @@ $route['r_adjcostPDTUpdateInlineInTmp']   		= 'adjcost/cAdjcost/FSvCAJCUpdateInl
 $route['r_adjcostPDTCallpageUplodeFile'] 		= 'adjcost/cAdjcost/FSxCAJCCallpageUplodeFile';
 $route['r_adjcostCancleDocument'] 				= 'adjcost/cAdjcost/FSxCAJCCancleDocument';
 $route['r_adjcostAprove'] 						= 'adjcost/cAdjcost/FSxCAJCAproveDocument';
+
+//หน้าข้อมูลใบเสนอราคา ( start : 24-04-2020 / done : xx-04-2020 )
+$route['r_quotationList'] 						= 'quotationList/cQuotationList/index';
+$route['r_quotationListload'] 					= 'quotationList/cQuotationList/FSwCPILLoadDatatable';
 
