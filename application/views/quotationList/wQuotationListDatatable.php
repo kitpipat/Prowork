@@ -44,7 +44,7 @@
 
 					<!--สถานะอนุมัติ-->
 					<?php 
-						if($aValue['FTXqhStaActive'] == 1){
+						if($aValue['FTXqhStaApv'] == 1){
 							$tTextStaApv 			= "อนุมัติแล้ว";
 							$tClassStaApv 			= 'xCNTextClassStatus_open';
 							$tIconClassStaApv 		= 'xCNIconStatus_open';
@@ -65,7 +65,7 @@
 
 					<!--ถ้าอนุมัติแล้วจะลบไม่ได้-->
 					<?php 
-						if($aValue['FTXqhStaActive'] != 1 ){
+						if($aValue['FTXqhStaApv'] != 1 ){
 							if($aValue['FTXqhStaDoc'] == 2){
 								$oEventDelete 			= '';
 								$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';

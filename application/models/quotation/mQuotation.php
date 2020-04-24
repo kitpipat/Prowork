@@ -404,12 +404,12 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL3);
 	}
 
-	public function FSxMQUPrepareHD($ptWorkerID)
-	{
-
-		$dDocDate = date('Y-m-d H:i:s');
-		$tSQL1 = "INSERT INTO TARTSqHDTmp(FDXqhDocDate,FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
-		$tSQL1 .= "('" . $dDocDate . "','" . $ptWorkerID . "','" . $ptWorkerID . "','" . $dDocDate . "')";
+	//สร้างข้อมูล HD Tmp + Cus Tmp ทิ้งเอาไว้
+	public function FSxMQUPrepareHD($ptWorkerID){
+		$tSessionBCH = $this->session->userdata('tSesBCHCode');
+		$dDocDate 	 = date('Y-m-d H:i:s');
+		$tSQL1 		 = "INSERT INTO TARTSqHDTmp (FTBchCode,FDXqhDocDate,FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
+		$tSQL1 		.= "('".$tSessionBCH."','" . $dDocDate . "','" . $ptWorkerID . "','" . $ptWorkerID . "','" . $dDocDate . "')";
 		$this->db->query($tSQL1);
 
 		$tSQL2 = "INSERT INTO TARTSqHDCstTmp(FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
@@ -417,118 +417,113 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL2);
 	}
 
-	public function FCaMQUOGetDocHD($paFilter)
-	{
-
+	//Get HD เอกสาร
+	public function FCaMQUOGetDocHD($paFilter){
 		$tDocNo = $paFilter['tDocNo'];
 		$tWorkerID = $paFilter['tWorkerID'];
-		$tSQL = "SELECT   HD.FTBchCode,
-											      ISNULL(HD.FTXqhDocNo,'') AS FTXqhDocNo,
-											      ISNULL(HD.FDXqhDocDate,'') AS FDXqhDocDate,
-											      ISNULL(HD.FTXqhCshOrCrd,'') AS FTXqhCshOrCrd,
-											      HD.FNXqhCredit,
-											      HD.FTXqhVATInOrEx,
-											      HD.FNXqhSmpDay,
-											      CONVERT(VARCHAR(10),HD.FDXqhEftTo,121) AS FDXqhEftTo,
-											      CONVERT(VARCHAR(10),HD.FDDeliveryDate,121) AS FDDeliveryDate,
-											      ISNULL(HD.FTXqhStaExpress,'') AS FTXqhStaExpress,
-											      ISNULL(HD.FTXqhStaDoc,'') AS FTXqhStaDoc,
-											      ISNULL(HD.FTXqhStaActive,'') AS  FTXqhStaActive,
-														ISNULL(HD.FTXqhStaDeli,'') AS  FTXqhStaDeli,
-											      HD.FTXqhPrjName,
-											      HD.FTXqhPrjCodeRef,
-											      HD.FCXqhB4Dis,
-											      HD.FCXqhDis,
-											      HD.FTXqhDisTxt,
-											      HD.FCXqhAFDis,
-											      ISNULL(HD.FCXqhVatRate,0) AS FCXqhVatRate,
-											      HD.FCXqhAmtVat,
-											      HD.FCXqhVatable,
-											      HD.FCXqhGrand,
-											      HD.FCXqhRnd,
-											      HD.FTXqhGndText,
-											      HD.FTXqhRmk,
-											      HD.FTUsrDep,
-											      HD.FTApprovedBy,
-														CONVERT(VARCHAR(10),FDApproveDate,121) AS FDApproveDate,
-											      HD.FTCreateBy,
-											      HD.FDCreateOn,
-											      HD.FTUpdateBy,
-											      HD.FDUpdateOn,
-											      HD.FTWorkerID,
-					                  USR.FTUsrDep,
-														USR.FTUsrFName
-					         FROM      TARTSqHDTmp HD
-									 LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode
-                   WHERE     HD.FTWorkerID ='" . $tWorkerID . "' ";
+		$tSQL = "SELECT   
+					HD.FTBchCode,
+					ISNULL(HD.FTXqhDocNo,'') AS FTXqhDocNo,
+					ISNULL(HD.FDXqhDocDate,'') AS FDXqhDocDate,
+					ISNULL(HD.FTXqhCshOrCrd,'') AS FTXqhCshOrCrd,
+					HD.FNXqhCredit,
+					HD.FTXqhVATInOrEx,
+					HD.FNXqhSmpDay,
+					CONVERT(VARCHAR(10),HD.FDXqhEftTo,121) AS FDXqhEftTo,
+					CONVERT(VARCHAR(10),HD.FDDeliveryDate,121) AS FDDeliveryDate,
+					ISNULL(HD.FTXqhStaExpress,'') AS FTXqhStaExpress,
+					ISNULL(HD.FTXqhStaDoc,'') AS FTXqhStaDoc,
+					ISNULL(HD.FTXqhStaActive,'') AS  FTXqhStaActive,
+					ISNULL(HD.FTXqhStaDeli,'') AS  FTXqhStaDeli,
+					HD.FTXqhPrjName,
+					HD.FTXqhPrjCodeRef,
+					HD.FCXqhB4Dis,
+					HD.FCXqhDis,
+					HD.FTXqhDisTxt,
+					HD.FCXqhAFDis,
+					ISNULL(HD.FCXqhVatRate,0) AS FCXqhVatRate,
+					HD.FCXqhAmtVat,
+					HD.FCXqhVatable,
+					HD.FCXqhGrand,
+					HD.FCXqhRnd,
+					HD.FTXqhGndText,
+					HD.FTXqhRmk,
+					HD.FTUsrDep,
+					HD.FTApprovedBy,
+					CONVERT(VARCHAR(10),FDApproveDate,121) AS FDApproveDate,
+					HD.FTCreateBy,
+					HD.FDCreateOn,
+					HD.FTUpdateBy,
+					HD.FDUpdateOn,
+					HD.FTWorkerID,
+					USR.FTUsrDep,
+					USR.FTUsrFName
+				FROM TARTSqHDTmp HD
+				LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode
+            	WHERE HD.FTWorkerID ='" . $tWorkerID . "' ";
 		if ($tDocNo != "") {
 			$tSQL .= " AND HD.FTXqhDocNo = '" . $tDocNo . "'";
 		}
 
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
-
 		if ($nCountRows > 0) {
 			$aResult = array(
-				'raItems'  => $oQuery->result_array(),
+				'raItems'  	=> $oQuery->result_array(),
 				'nTotalRes' => $nCountRows,
-				'rtCode'   => '1',
-				'rtDesc'   => 'success',
+				'rtCode'   	=> '1',
+				'rtDesc'   	=> 'success',
 			);
 		} else {
 			$aResult = array(
-				'rtCode' => '800',
+				'rtCode' 	=> '800',
 				'nTotalRes' => 0,
-				'rtDesc' => 'data not found',
+				'rtDesc' 	=> 'data not found',
 			);
 		}
 		return $aResult;
 	}
 
-	public function FCaMQUOGetDocCst($paFilter)
-	{
-
-		$tDocNo = $paFilter['tDocNo'];
-
-		$tWorkerID = $paFilter['tWorkerID'];
-
-		$tSQL = "SELECT   HCS.FTXqhDocNo,
-											      HCS.FTXqcCstCode,
-											      HCS.FTXqcCstName,
-											      HCS.FTXqcAddress,
-											      HCS.FTXqhTaxNo,
-											      HCS.FTXqhContact,
-											      HCS.FTXqhEmail,
-											      HCS.FTXqhTel,
-											      HCS.FTXqhFax,
-											      HCS.FTCreateBy,
-											      HCS.FDCreateOn,
-											      HCS.FTUpdateBy,
-											      HCS.FDUpdateOn,
-														CST.FTCstName
-					         FROM     TARTSqHDCstTmp HCS
-									 LEFT JOIN TCNMCst CST ON HCS.FTXqcCstCode = CST.FTCstCode
-									 WHERE     HCS.FTWorkerID ='" . $tWorkerID . "' ";
-
+	//Get HD ลูกค้า
+	public function FCaMQUOGetDocCst($paFilter){
+		$tDocNo 	= $paFilter['tDocNo'];
+		$tWorkerID 	= $paFilter['tWorkerID'];
+		$tSQL = "SELECT   
+					HCS.FTXqhDocNo,
+					HCS.FTXqcCstCode,
+					HCS.FTXqcCstName,
+					HCS.FTXqcAddress,
+					HCS.FTXqhTaxNo,
+					HCS.FTXqhContact,
+					HCS.FTXqhEmail,
+					HCS.FTXqhTel,
+					HCS.FTXqhFax,
+					HCS.FTCreateBy,
+					HCS.FDCreateOn,
+					HCS.FTUpdateBy,
+					HCS.FDUpdateOn,
+					CST.FTCstName
+				FROM TARTSqHDCstTmp HCS
+				LEFT JOIN TCNMCst CST ON HCS.FTXqcCstCode = CST.FTCstCode
+				WHERE HCS.FTWorkerID ='" . $tWorkerID . "' ";
 		if ($tDocNo != "") {
 			$tSQL .= " AND HCS.FTXqhDocNo = '" . $tDocNo . "'";
 		}
 
-		$oQuery = $this->db->query($tSQL);
+		$oQuery		= $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
-
 		if ($nCountRows > 0) {
 			$aResult = array(
-				'raItems'  => $oQuery->result_array(),
+				'raItems'  	=> $oQuery->result_array(),
 				'nTotalRes' => $nCountRows,
-				'rtCode'   => '1',
-				'rtDesc'   => 'success',
+				'rtCode'   	=> '1',
+				'rtDesc'   	=> 'success',
 			);
 		} else {
 			$aResult = array(
-				'rtCode' => '800',
+				'rtCode' 	=> '800',
 				'nTotalRes' => 0,
-				'rtDesc' => 'data not found',
+				'rtDesc' 	=> 'data not found',
 			);
 		}
 		return $aResult;
@@ -733,12 +728,9 @@ class mQuotation extends CI_Model
 			$tSQL .= " AND FTXqhDocNo='" . $paItemData['tDocNo'] . "'";
 		}
 		$this->db->query($tSQL);
-		//echo $tSQL;
 	}
 
-	public function FCxMQUODocUpdCst($paCstData)
-	{
-
+	public function FCxMQUODocUpdCst($paCstData){
 		$tSQL = "UPDATE TARTSqHDCstTmp ";
 		$tSQL .= " SET FTXqcCstName = '" . $paCstData['FTXqcCstName'] . "',";
 		$tSQL .= " FTXqcAddress = '" . $paCstData['FTXqcAddress'] . "',";
@@ -757,12 +749,8 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUCheckDocNoExiting($ptWorkerID)
-	{
-
-		$tSQL = "SELECT ISNULL(FTXqhDocNo,'') AS FTXqhDocNo
-				          FROM   TARTSqHDTmp WHERE FTWorkerID = '" . $ptWorkerID . "'";
-
+	public function FCxMQUCheckDocNoExiting($ptWorkerID){
+		$tSQL = "SELECT ISNULL(FTXqhDocNo,'') AS FTXqhDocNo FROM TARTSqHDTmp WHERE FTWorkerID = '" . $ptWorkerID . "'";
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
 		if ($nCountRows > 0) {
@@ -781,19 +769,12 @@ class mQuotation extends CI_Model
 		return $aResult;
 	}
 
-	public function FCtMQUGetDocNo($tBchCode)
-	{
-
-		$tSQL = "SELECT MAX(RIGHT(ISNULL(FTXqhDocNo,''),4)) AS FTXqhDocNo
-				          FROM   TARTSqHD WHERE FTBchCode = '" . $tBchCode . "'";
-
+	public function FCtMQUGetDocNo($tBchCode){
+		$tSQL = "SELECT MAX(RIGHT(ISNULL(FTXqhDocNo,''),4)) AS FTXqhDocNo FROM TARTSqHD WHERE FTBchCode = '" . $tBchCode . "'";
 		$oQuery = $this->db->query($tSQL);
-
 		$nCountRows = $oQuery->num_rows();
-
 		if ($nCountRows > 0) {
 			$aResult = $oQuery->result_array();
-
 			$nNextDocNo = sprintf('%05d', $aResult[0]['FTXqhDocNo'] + 1);
 			$tDocNo = 'SQ' . $tBchCode . DATE('Ymd') . '-' . $nNextDocNo;
 		} else {
@@ -802,78 +783,48 @@ class mQuotation extends CI_Model
 		return $tDocNo;
 	}
 
-	public function FCtMQUUpdateDocNo($ptDocNo, $pdDocDate, $ptBchCode, $ptWorkerId)
-	{
-
-		$tSQL = "UPDATE TARTSqHDTmp
-				          SET    FTXqhDocNo = '" . $ptDocNo . "', FDXqhDocDate='" . $pdDocDate . "',FTBchCode = '" . $ptBchCode . "'
-									WHERE  FTWorkerID = '" . $ptWorkerId . "'";
-
+	//เอาเลขที่เอกสารไปอัพเดท
+	public function FCtMQUUpdateDocNo($ptDocNo, $pdDocDate, $ptBchCode, $ptWorkerId){
+		$tSQL = "UPDATE TARTSqHDTmp SET FTXqhDocNo = '" . $ptDocNo . "', FDXqhDocDate='" . $pdDocDate . "',FTBchCode = '" . $ptBchCode . "' WHERE  FTWorkerID = '" . $ptWorkerId . "'";
 		$this->db->query($tSQL);
 
-		$tSQL2 = "UPDATE TARTSqHDCstTmp
-				          SET    FTXqhDocNo = '" . $ptDocNo . "'
-									WHERE  FTWorkerID = '" . $ptWorkerId . "'";
-
+		$tSQL2 = "UPDATE TARTSqHDCstTmp SET FTXqhDocNo = '" . $ptDocNo . "' WHERE FTWorkerID = '" . $ptWorkerId . "'";
 		$this->db->query($tSQL2);
 
-		$tSQL3 = "UPDATE TARTSqDTTmp
-				          SET    FTXqhDocNo = '" . $ptDocNo . "'
-									WHERE  FTWorkerID = '" . $ptWorkerId . "'";
-
+		$tSQL3 = "UPDATE TARTSqDTTmp SET FTXqhDocNo = '" . $ptDocNo . "' WHERE  FTWorkerID = '" . $ptWorkerId . "'";
 		$this->db->query($tSQL3);
 	}
 
-	public function FCxMQUMoveTemp2HD($tDocNo, $tWorkerID)
-	{
-
+	//ย้าย HD Tmp => HD
+	public function FCxMQUMoveTemp2HD($tDocNo, $tWorkerID){
 		$tSQLDel = "DELETE FROM TARTSqHD WHERE FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQLDel);
 
-		$tSQL = "INSERT INTO TARTSqHD
-									SELECT  FTBchCode
-									      ,FTXqhDocNo
-									      ,FDXqhDocDate
-									      ,FTXqhCshOrCrd
-									      ,FNXqhCredit
-									      ,FTXqhVATInOrEx
-									      ,FNXqhSmpDay
-									      ,FDXqhEftTo
-									      ,FDDeliveryDate
-									      ,FTXqhStaExpress
-									      ,ISNULL(FTXqhStaDoc,1)
-									      ,FTXqhStaActive
-									      ,FTXqhStaDeli
-									      ,FTXqhPrjName
-									      ,FTXqhPrjCodeRef
-									      ,FCXqhB4Dis
-									      ,FCXqhDis
-									      ,FTXqhDisTxt
-									      ,FCXqhAFDis
-									      ,FCXqhVatRate
-									      ,FCXqhAmtVat
-									      ,FCXqhVatable
-									      ,FCXqhGrand
-									      ,ISNULL(FCXqhRnd,0)
-									      ,FTXqhGndText
-									      ,FTXqhRmk
-									      ,FTUsrDep
-									      ,FTApprovedBy
-									      ,FDApproveDate
-									      ,FTCreateBy
-									      ,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121))
-									      ,$tWorkerID
-									      ,CONVERT(VARCHAR(16),GETDATE(),121)
-									  FROM TARTSqHDTmp
-										WHERE FTWorkerID = '" . $tWorkerID . "'
-										AND FTXqhDocNo = '" . $tDocNo . "'";
-		//echo $tSQL;
+		$tSQL = "INSERT INTO TARTSqHD (
+					FTBchCode,FTXqhDocNo,FDXqhDocDate,FTXqhCshOrCrd,FNXqhCredit,
+					FTXqhVATInOrEx,FNXqhSmpDay,FDXqhEftTo,FDDeliveryDate,FTXqhStaExpress,
+					FTXqhStaDoc,FTXqhStaActive,FTXqhStaDeli,FTXqhPrjName,FTXqhPrjCodeRef,
+					FCXqhB4Dis,FCXqhDis,FTXqhDisTxt,FCXqhAFDis,FCXqhVatRate,
+					FCXqhAmtVat,FCXqhVatable,FCXqhGrand,FCXqhRnd,FTXqhGndText,
+					FTXqhRmk,FTUsrDep,FTXqhStaApv,FTApprovedBy,FDApproveDate,
+					FTCreateBy,FDCreateOn,FTUpdateBy,FDUpdateOn
+				)
+				SELECT  
+					FTBchCode,FTXqhDocNo,FDXqhDocDate,FTXqhCshOrCrd,FNXqhCredit,
+					FTXqhVATInOrEx,FNXqhSmpDay,FDXqhEftTo,FDDeliveryDate,FTXqhStaExpress
+					,ISNULL(FTXqhStaDoc,1),FTXqhStaActive,FTXqhStaDeli,FTXqhPrjName,FTXqhPrjCodeRef,
+					FCXqhB4Dis,FCXqhDis,FTXqhDisTxt,FCXqhAFDis,FCXqhVatRate,
+					FCXqhAmtVat,FCXqhVatable,FCXqhGrand,ISNULL(FCXqhRnd,0),FTXqhGndText,
+					FTXqhRmk,FTUsrDep,null AS FTXqhStaApv,FTApprovedBy,FDApproveDate,
+					FTCreateBy,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),$tWorkerID,CONVERT(VARCHAR(16),GETDATE(),121)
+				FROM TARTSqHDTmp
+				WHERE FTWorkerID = '" . $tWorkerID . "'
+				AND FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUMoveTempHDCst($tDocNo, $tWorkerID)
-	{
-
+	//ย้าย HD Customer Tmp => HD Customer
+	public function FCxMQUMoveTempHDCst($tDocNo, $tWorkerID){
 		$tSQLDel = "DELETE FROM TARTSqHDCst WHERE FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQLDel);
 
@@ -898,9 +849,8 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUMoveTemp2DT($tDocNo, $tWorkerID)
-	{
-
+	//ย้าย DT Tmp => DT 
+	public function FCxMQUMoveTemp2DT($tDocNo, $tWorkerID){
 		$tSQLDel = "DELETE FROM TARTSqDT WHERE FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQLDel);
 

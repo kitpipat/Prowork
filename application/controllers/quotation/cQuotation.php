@@ -4,26 +4,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class cQuotation extends CI_Controller
 {
 
-	public function __construct()
-	{
-
+	public function __construct(){
 		parent::__construct();
 		$this->load->model('quotation/mQuotation');
 	}
 
-	public function index($pnMode)
-	{
-
-		// Get filter Data
+	//หน้า list สินค้า
+	public function index($pnMode){
 		$tWorkerID = $this->session->userdata('tSesUsercode');
 		if ($pnMode == 1) {
 			$this->mQuotation->FSxMQUOClearTempByWorkID($tWorkerID);
+
+			//สร้างข้อมูล tmp HD + HD customer ทิ้งไว้
 			$this->mQuotation->FSxMQUPrepareHD($tWorkerID);
 		}
 
-
 		$oFilterList  = $this->mQuotation->FSaMQUOGetFilterList();
-
 		$this->mQuotation->FSxMQUOClearTemp();
 		$this->load->model('product/product/mProduct');
 
@@ -91,23 +87,18 @@ class cQuotation extends CI_Controller
 		$this->load->view('quotation/wQuotationPdtList', $aData);
 	}
 
-	public function FCwCQUOCallDocHeader()
-	{
+	//เอาข้อมูลของเอกสารออกมาโชว์
+	public function FCwCQUOCallDocHeader(){
 
-		$tWorkerID = $this->session->userdata('tSesUsercode');
-		$tWorkerName = $this->session->userdata('tSesFirstname');
-
-		$tQuoDocNo = $this->input->get("tQuoDocNo");
-
-		$aConditions = array("tDocNo" => $tQuoDocNo, "tWorkerID" => $tWorkerID);
-
-		$aDocHD = $this->mQuotation->FCaMQUOGetDocHD($aConditions);
-
-
+		$tWorkerID 		= $this->session->userdata('tSesUsercode');
+		$tWorkerName 	= $this->session->userdata('tSesFirstname');
+		$tQuoDocNo 		= $this->input->get("tQuoDocNo");
+		$aConditions 	= array("tDocNo" => $tQuoDocNo, "tWorkerID" => $tWorkerID);
+		$aDocHD 		= $this->mQuotation->FCaMQUOGetDocHD($aConditions);
 		$aData = array(
-			"aDocHD" =>  $aDocHD,
-			"tWorkerID" => $tWorkerID,
-			"tWorkerName" => $tWorkerName
+			"aDocHD" 		=> $aDocHD,
+			"tWorkerID" 	=> $tWorkerID,
+			"tWorkerName" 	=> $tWorkerName
 		);
 
 		return $this->load->view('quotation/wQuotationHeader', $aData);

@@ -42,6 +42,7 @@ class mQuotationList extends CI_Model{
 						HD.FDCreateOn,
 						HD.FTUpdateBy,
 						HD.FDUpdateOn,
+						HD.FTXqhStaApv,
 						USR.FTUsrFName 
 					 FROM TARTSqHD HD
 					 LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode ";
