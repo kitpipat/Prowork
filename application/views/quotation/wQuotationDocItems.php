@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<th style="width:10px;">ลำดับ</th>
-			<th style="width:20px; text-align: center;">ลบ</th>
+			<th class="xCNCellDeleteItem" style="width:20px; text-align: center;">ลบ</th>
 			<th style="text-align: center;">รูปภาพ</th>
 			<th>รายการ</th>
 			<th>หน่วย</th>
@@ -68,12 +68,12 @@
 		?>
 			<tr>
 				<th><label class="xCNLineHeightInTable"><?=$nNum?></label></th>
-				<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxDeleteItemInTempQuotation('<?=$nSeq?>','<?=$tPdtCode?>');"></td>
+				<td class="xCNCellDeleteItem"><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxDeleteItemInTempQuotation('<?=$nSeq?>','<?=$tPdtCode?>');"></td>
 				<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
 				<td><label class="xCNLineHeightInTable"><?=$tPdtCode . " - " . $tPdtName; ?> </label></td>
-				<td><label class="xCNLineHeightInTable"><?=$tPunName;?></label></td>
+				<td><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
 				<?php if ($tSesUserGroup == 4) { ?>
-					<td><label class="xCNLineHeightInTable"><?=$tSplName; ?></label></td>
+					<td><label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label></td>
 					<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nXqdCost, 2); ?></label></td>
 				<?php } ?>
 				<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nXqdUnitPrice, 2);?></label></td>

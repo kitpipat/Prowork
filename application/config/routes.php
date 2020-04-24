@@ -67,6 +67,9 @@ $route['r_quodocgetdocheader'] 					= 'quotation/cQuotationDoc/FSaCQUODocHeader'
 $route['r_quodocgetdoccst'] 					= 'quotation/cQuotationDoc/FSaCQUODocCst';
 $route['r_quodocsavedoc'] 						= 'quotation/cQuotationDoc/FSxCQUODocSave';
 $route['r_quodeleteItem'] 						= 'quotation/cQuotationDoc/FSxCQUOEventDeleteItem';
+$route['r_quoCancleDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventCancleDocument';
+$route['r_quoApproveDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventApproveDocument';
+
 
 //หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
 $route['r_groupproduct'] 						= 'product/groupproduct/cGroupproduct/index';

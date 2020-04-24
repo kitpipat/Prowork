@@ -16,14 +16,19 @@
 	}
 </style>
 
-
 <?php
 	if($tRouteFrom == 'List'){
 		//ถ้ากดเช้ามาจากหน้า list เวลาย้อนกลับต้องย้อนกลับไปหน้า list
-		$tRoute = 'r_quotationList';
+		$tRoute 			= 'r_quotationList';
+		$tEvent 			= 'Edit';
+		$tEventHide 		= '';
+		$tEventHidePrint 	= 'xCNHide';
 	}else{
 		//ถ้ากดเช้ามาจากหน้า create เวลาย้อนกลับต้องย้อนกลับไปหน้า create
-		$tRoute = 'r_quotation/1';
+		$tRoute 			= 'r_quotation/1';
+		$tEvent 			= 'Insert';
+		$tEventHide 		= 'xCNHide';
+		$tEventHidePrint 	= 'xCNHide';
 	}
 ?>
 
@@ -35,9 +40,9 @@
 
 		<div class="col-lg-6 col-md-6 text-right">
 			<button type="button" class="xCNButtonSave pull-right" onclick="FSxQUOSaveDoc()">บันทึก</button>
-			<button type="button" class="xCNCalcelImport btn btn-outline-danger pull-right" style="margin-left:10px;">ยกเลิก</button>
-			<button type="button" class="xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px;">พิมพ์</button>
-			<button type="button" class="xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px;">อนุมัติ</button>
+			<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติ</button>
+			<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิก</button>
+			<button type="button" class="<?=$tEventHidePrint?> xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right" >พิมพ์</button>
 		</div>
 	</div>
 
@@ -165,7 +170,16 @@
 
 						<!--Detail-->
 						<div class="col-lg-12">
-							สถานะเอกสาร : <span id="ospStaDoc"></span>
+							<div class="row">
+								<div class="col-lg-6">
+									<span>สถานะเอกสาร : </span><span id="ospStaDoc"></span>
+									<input type="hidden" id="ohdStaDoc">
+								</div>
+								<div class="col-lg-6">
+									<span>สถานะอนุมัติเอกสาร : </span><span id="ospStaDocApv"></span>
+									<input type="hidden" id="ohdStaApv">
+								</div>
+							</div>
 							<hr>
 							<form id="ofmQuotationHeader">
 								<div class="row">
@@ -275,7 +289,7 @@
 		<div class="card-body" style="height:auto">
 			<div class="row">
 				<div class="col-lg-12" id="odvQuoDocItems"></div>
-				<div class="col-lg-12">
+				<div class="col-lg-12" id="odvMoreItem">
 					<button class="xCNButtonInsert pull-left" onclick="xxxxx()">+</button><span id="ospmorePDT">เพิ่มเติมรายการสินค้า</span>
 				</div>
 			</div>
@@ -379,8 +393,52 @@
 			</div>
 		</div>
 	</div>
-
 </div>
+
+<!--Modal ยกเลิกเอกสาร-->
+<button id="obtModalCancleDocument" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalCancleDocument"></button>
+<div class="modal fade" id="odvModalCancleDocument" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">ยกเลิกเอกสาร</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;">เอกสารยกเลิก จะไม่สามารถแก้ไขได้ คุณต้องการที่จะยกเลิกเอกสารนี้หรือไม่?</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+				<button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmCancleDocument">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--Modal อนุมัติเอกสาร-->
+<button id="obtModalAproveDocument" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalAproveDocument"></button>
+<div class="modal fade" id="odvModalAproveDocument" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">อนุมัติเอกสาร</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;">คำเตือน : การอนุมัติจะมีผลดังนี้</label>
+				<label style="text-align: left; display: block; margin: 0px;">1. เอกสาร จะถูกปรับสถานะว่ามีการอนุมัติแล้ว</label>
+				<label style="text-align: left; display: block; margin: 0px;">2. เอกสารจะไม่สามารถ แก้ไข, ยกเลิก, หรือลบได้อีก</label>
+				<label style="text-align: left; display: block; margin: 0px;">3. เอกสารสามารถค้นหา และแสดงข้อมูล เพื่อตรวจสอบข้อมูลได้</label>
+				<label style="text-align: left; display: block; margin: 0px;">4. สินค้าในเอกสารจะถูกนำไปทำรายการ</label>
+				<label style="text-align: left; display: block;">ดังนั้น ควรตรวจเช็คความถูกต้อง ของเอกสารให้เรียบร้อย ก่อนการอนุมัติ</label>
+				<label style="text-align: left; display: block;">คุณต้องการยืนยัน การอนุมัติเอกสารหรือไม่?</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+				<button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmDeleteAprove">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <link rel="stylesheet" href="<?= base_url('application/assets/css/quotation.css') ?>">
 <script type="text/javascript" src="<?= base_url('application/assets/js/jFormValidate.js') ?>"></script>

@@ -193,7 +193,7 @@ class cQuotationDoc extends CI_Controller{
 		}
 	}
 
-	//ลบข้อมูลใน Temp
+	//ลบข้อมูลใน Temp - รายการ
 	public function FSxCQUOEventDeleteItem(){
 		$tDocument 	= $this->input->post('ptDocument');
 		$nSeq 		= $this->input->post('pnSeq');
@@ -205,5 +205,23 @@ class cQuotationDoc extends CI_Controller{
 			'FTPdtCode'		=> $nPDTCode
 		);
 		$this->mQuotation->FCxMQUDeleteItemInTemp($aItem);
+	}
+	
+	//ยกเลิกเอกสาร 
+	public function FSxCQUOEventCancleDocument(){
+		$tDocumentNumber = $this->input->post('tDocNo');
+		$aItem = array(
+			'FTXqhDocNo'	=> $tDocumentNumber
+		);
+		$this->mQuotation->FCxMQUCancleDocument($aItem);
+	}
+
+	//อนุมัติเอกสาร
+	public function FSxCQUOEventApproveDocument(){
+		$tDocumentNumber = $this->input->post('tDocNo');
+		$aItem = array(
+			'FTXqhDocNo'	=> $tDocumentNumber
+		);
+		$this->mQuotation->FCxMQUApproveDocument($aItem);
 	}
 }

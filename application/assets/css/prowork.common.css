@@ -596,3 +596,19 @@ table tbody .xCNTableGroupMenu{
     font-weight: bold;
     padding: 5px;
 }
+
+.xCNHide{
+	display: none;
+}
+
+::-webkit-input-placeholder { /* Edge */
+	color: #cdcdcd !important;
+  }
+  
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color: #cdcdcd !important;
+  }
+  
+  ::placeholder {
+	color: #cdcdcd !important;
+  }

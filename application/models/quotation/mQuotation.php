@@ -420,6 +420,7 @@ class mQuotation extends CI_Model
 					HD.FCXqhAmtVat,
 					HD.FCXqhVatable,
 					HD.FCXqhGrand,
+					HD.FTXqhStaApv,
 					HD.FCXqhRnd,
 					HD.FTXqhGndText,
 					HD.FTXqhRmk,
@@ -898,5 +899,39 @@ class mQuotation extends CI_Model
 						AND FTWorkerID = '$FTWorkerID'
 				) NewObj ON DT.FNXqdSeq = NewObj.OldSeq";
 		$this->db->query($tSQL);
+	}
+
+	//ยกเลิกเอกสาร
+	public function FCxMQUCancleDocument($paItem){
+		try{
+			$tDocumentNumber = $paItem['FTXqhDocNo'];
+			$aSet = array(
+				'FTXqhStaDoc' 	=> 2,
+				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
+				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+			);
+			$this->db->where('FTXqhDocNo', $tDocumentNumber);
+			$this->db->update('TARTSqHD', $aSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//อนุมัติเอกสาร
+	public function FCxMQUApproveDocument($paItem){
+		try{
+			$tDocumentNumber = $paItem['FTXqhDocNo'];
+			$aSet = array(
+				'FTXqhStaApv'  	=> 1,
+				'FTApprovedBy'	=> $this->session->userdata('tSesUsercode'),
+				'FDApproveDate' => date('Y-m-d H:i:s'),
+				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
+				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+			);
+			$this->db->where('FTXqhDocNo', $tDocumentNumber);
+			$this->db->update('TARTSqHD', $aSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
 	}
 }

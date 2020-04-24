@@ -1,52 +1,49 @@
 <script type="text/javascript">
 	$(document).ready(function() {
-
 		FSvQUODocHeader();
 	});
 
+	//โหลดรายละเอียดเอกสาร
 	function FSvQUODocHeader() {
 
 		tDocNo = $("#ospDocNo").attr("data-docno");
 		$.ajax({
-				url: 'r_quodocgetdocheader',
+				url	: 'r_quodocgetdocheader',
 				type: 'GET',
-				data: {
-					tDocNo: tDocNo
-				},
+				data: { tDocNo: tDocNo },
 				datatype: 'json'
 			})
 			.done(function(data) {
-				//console.log(data)
-				aDocHD = JSON.parse(data)
-				//console.log(aDocHD["raItems"])
-				tBchCode = aDocHD["raItems"][0]["FTBchCode"]
-				tXqhDocNo = aDocHD["raItems"][0]["FTXqhDocNo"]
-				dXqhDocDate = aDocHD["raItems"][0]["FDXqhDocDate"]
-				tXqhCshOrCrd = aDocHD["raItems"][0]["FTXqhCshOrCrd"]
-				nXqhCredit = aDocHD["raItems"][0]["FNXqhCredit"]
-				tXqhVATInOrEx = aDocHD["raItems"][0]["FTXqhVATInOrEx"]
-				nXqhSmpDay = aDocHD["raItems"][0]["FNXqhSmpDay"]
-				dXqhEftTo = aDocHD["raItems"][0]["FDXqhEftTo"]
-				dDeliveryDate = aDocHD["raItems"][0]["FDDeliveryDate"]
-				tXqhStaExpress = aDocHD["raItems"][0]["FTXqhStaExpress"]
-				tXqhStaDoc = aDocHD["raItems"][0]["FTXqhStaDoc"]
-				tXqhStaActive = aDocHD["raItems"][0]["FTXqhStaActive"]
-				tXqhPrjName = aDocHD["raItems"][0]["FTXqhPrjName"]
-				tXqhPrjCodeRef = aDocHD["raItems"][0]["FTXqhPrjCodeRef"]
-				tUsrDep = aDocHD["raItems"][0]["FTUsrDep"]
-				tApprovedBy = aDocHD["raItems"][0]["FTApprovedBy"]
-				tCreateBy = aDocHD["raItems"][0]["FTCreateBy"]
-				tUsrDep = aDocHD["raItems"][0]["FTUsrDep"]
-				dCreateOn = aDocHD["raItems"][0]["FDCreateOn"]
-				tUsrApvNameBy = aDocHD["raItems"][0]["FTUsrFName"]
-				dApproveDate = aDocHD["raItems"][0]["FDApproveDate"]
-				tXqhStaDeli = aDocHD["raItems"][0]["FTXqhStaDeli"]
-				tXqhRmk = aDocHD["raItems"][0]["FTXqhRmk"]
-				tVatRate = aDocHD["raItems"][0]["FCXqhVatRate"]
-				tXqhDisTxt = aDocHD["raItems"][0]["FTXqhDisTxt"]
-				nXqhDis = aDocHD["raItems"][0]["FCXqhDis"]
+				aDocHD 			= JSON.parse(data)
+				tBchCode 		= aDocHD["raItems"][0]["FTBchCode"]
+				tXqhDocNo 		= aDocHD["raItems"][0]["FTXqhDocNo"]
+				dXqhDocDate 	= aDocHD["raItems"][0]["FDXqhDocDate"]
+				tXqhCshOrCrd 	= aDocHD["raItems"][0]["FTXqhCshOrCrd"]
+				nXqhCredit 		= aDocHD["raItems"][0]["FNXqhCredit"]
+				tXqhVATInOrEx 	= aDocHD["raItems"][0]["FTXqhVATInOrEx"]
+				nXqhSmpDay 		= aDocHD["raItems"][0]["FNXqhSmpDay"]
+				dXqhEftTo 		= aDocHD["raItems"][0]["FDXqhEftTo"]
+				dDeliveryDate 	= aDocHD["raItems"][0]["FDDeliveryDate"]
+				tXqhStaExpress 	= aDocHD["raItems"][0]["FTXqhStaExpress"]
+				tXqhStaDoc 		= aDocHD["raItems"][0]["FTXqhStaDoc"]
+				FTXqhStaApv 	= aDocHD["raItems"][0]["FTXqhStaApv"]
+				tXqhStaActive 	= aDocHD["raItems"][0]["FTXqhStaActive"]
+				tXqhPrjName 	= aDocHD["raItems"][0]["FTXqhPrjName"]
+				tXqhPrjCodeRef 	= aDocHD["raItems"][0]["FTXqhPrjCodeRef"]
+				tUsrDep 		= aDocHD["raItems"][0]["FTUsrDep"]
+				tApprovedBy 	= aDocHD["raItems"][0]["FTApprovedBy"]
+				tCreateBy 		= aDocHD["raItems"][0]["FTCreateBy"]
+				tUsrDep 		= aDocHD["raItems"][0]["FTUsrDep"]
+				dCreateOn 		= aDocHD["raItems"][0]["FDCreateOn"]
+				tUsrApvNameBy 	= aDocHD["raItems"][0]["FTUsrFName"]
+				dApproveDate 	= aDocHD["raItems"][0]["FDApproveDate"]
+				tXqhStaDeli 	= aDocHD["raItems"][0]["FTXqhStaDeli"]
+				tXqhRmk 		= aDocHD["raItems"][0]["FTXqhRmk"]
+				tVatRate 		= aDocHD["raItems"][0]["FCXqhVatRate"]
+				tXqhDisTxt 		= aDocHD["raItems"][0]["FTXqhDisTxt"]
+				nXqhDis 		= aDocHD["raItems"][0]["FCXqhDis"]
 
-
+				//เลขที่เอกสาร
 				if (tXqhDocNo == "") {
 					tXqhDocNo = "SQ######-#####"
 					$("#ospDocNo").attr("data-docno", '')
@@ -55,9 +52,9 @@
 					$("#ospDocNo").attr("data-docno", tXqhDocNo)
 				}
 
-
 				$("#olbDocNo").text(tXqhDocNo);
 
+				//เวลาเอกสาร
 				if (dXqhDocDate == "") {
 					dXqhDocDate = moment().format('YYYY-MM-DD, h:mm:ss')
 				} else {
@@ -65,12 +62,13 @@
 				}
 				$("#ospDocDate").text(dXqhDocDate)
 
+				//สถานะเอกสาร
 				switch (tXqhStaDoc) {
 					case '':
 						$("#ospStaDoc").text("รออนุมัติ")
 						break;
 					case '1':
-						$("#ospStaDoc").text("อนุมัติแล้ว")
+						$("#ospStaDoc").text("สมบูรณ์")
 						break;
 					case '2':
 						$("#ospStaDoc").text("ยกเลิก")
@@ -78,28 +76,46 @@
 					default:
 						$("#ospStaDoc").text("รออนุมัติ")
 				}
+				$('#ohdStaDoc').val(tXqhStaDoc);
 
-				$("#oetXqhSmpDay").val(nXqhSmpDay)
-				$("#oetXqhCredit").val(nXqhCredit)
-				$("#odpXqhEftTo").val(dXqhEftTo)
-				$("#odpDeliveryDate").val(dDeliveryDate)
+				//สถานะอนุมัติ
+				switch (FTXqhStaApv) {
+					case '':
+						$("#ospStaDocApv").text("รออนุมัติ")
+						break;
+					case '1':
+						$("#ospStaDocApv").text("อนุมัติแล้ว")
+						break;
+					default:
+						$("#ospStaDocApv").text("รออนุมัติ")
+				}
+				$('#ohdStaApv').val(FTXqhStaApv);
+
+				//ค่าต่างๆ
+				$("#oetXqhSmpDay").val(nXqhSmpDay);
+				$("#oetXqhCredit").val(nXqhCredit);
+				$("#odpXqhEftTo").val(dXqhEftTo);
+				$("#odpDeliveryDate").val(dDeliveryDate);
 				$('#ocmXqhCshOrCrd option[value="' + tXqhCshOrCrd + '"]').attr("selected", "selected");
-				$("#ospCreateBy").text(tCreateBy)
-				$("#ospApprovedBy").text(tUsrApvNameBy)
-				$("#ospApproveDate").text(dApproveDate)
+				$("#ospCreateBy").text(tUsrApvNameBy);
+				$("#ospApproveDate").text('-');
+				$("#ospApprovedBy").text('-');
 
+				//เอกสารด่วน
 				if (tXqhStaExpress == '') {
 					$("#ocbStaExpress").prop("checked", false);
 				} else {
 					$("#ocbStaExpress").prop("checked", true);
 				}
 
+				//เคลื่อนไหว
 				if (tXqhStaActive == '') {
 					$("#ocbtStaDocActive").prop("checked", false);
 				} else {
 					$("#ocbtStaDocActive").prop("checked", true);
 				}
 
+				//จัดส่งสินค้าแล้ว
 				if (tXqhStaDeli == '') {
 					$("#ocbStaDeli").prop("checked", false);
 				} else {
@@ -119,15 +135,30 @@
 				$("#oetVatRate").val(tVatRate)
 				$("#oetXqhDisText").val(tXqhDisTxt)
 
-				//nXqhDis = accounting.formatMoney(nXqhDis.toFixed(2),"")
+				//ส่วนลดท้ายบิล
 				nXqhDis = parseFloat(nXqhDis)
 				nXqhDis = accounting.formatMoney(nXqhDis.toFixed(2), "")
-				//console.log(nXqhDis);
-				$("#ospXqhDis").text(nXqhDis)
-
-				FSoQUODocCst(); //load customer in sq
+				$("#ospXqhDis").text(nXqhDis);
+			
+				FSoQUODocCst(); 
 				FSvQUODocItems();
 
+				//เอกสารถูกยกเลิก หรือ อนุมัติแล้วจะทำงานไม่ได้
+				if(tXqhStaDoc == 2 || FTXqhStaApv == 1){
+					$('.xCNButtonSave').addClass('xCNHide');
+					$('.xCNAprove').addClass('xCNHide');
+					$('.xCNCancel').addClass('xCNHide');
+					$('.xCNPrint').addClass('xCNHide');
+					$('.form-control').attr('disabled',true);
+					$('#odvMoreItem').addClass('xCNHide');
+				}
+
+				//ถ้าเอกสารที่อนุมัติแล้วถึงจะพิมพ์ได้
+				if(FTXqhStaApv == 1){
+					$('.xCNPrint').removeClass('xCNHide');
+					$("#ospApprovedBy").text(tUsrApvNameBy);
+					$("#ospApproveDate").text(dApproveDate);
+				}
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				//serrorFunction();
@@ -176,7 +207,6 @@
 	function FSvQUODocItems() {
 
 		tDocNo = $("#ospDocNo").attr("data-docno");
-
 		$.ajax({
 				url: 'r_quodoccallitems',
 				type: 'GET',
@@ -187,45 +217,41 @@
 			})
 			.done(function(data) {
 				$("#odvQuoDocItems").html(data);
-
 				nDocNetTotal = parseFloat($("#ospDocNetTotal").text())
 
-
 				$("#otdDocNetTotal").text(accounting.formatMoney(nDocNetTotal.toFixed(2), ""))
-				nFooterDis = $("#ospXqhDis").text()
-				nFooterDis = parseFloat(nFooterDis.replace(',', ' ').replace(' ', ''))
-				console.log(nFooterDis)
-				nNetAFHD = nDocNetTotal - (nFooterDis);
-
+				nFooterDis 	= $("#ospXqhDis").text()
+				nFooterDis 	= parseFloat(nFooterDis.replace(',', ' ').replace(' ', ''))
+				nNetAFHD 	= nDocNetTotal - (nFooterDis);
 
 				$("#otdNetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
-
 				nVatType = $("#ocmVatType").val()
 				nVatRate = $("#oetVatRate").val()
 
-				nVat = 0
+				nVat 		= 0
 				nGrandTotal = 0
 				if (nVatType == "1") {
-
 					nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
-
 				} else {
 					nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
 				}
 
 				$("#otdVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
-
 				nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
-
 				$("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
 
+				//ถ้าเอกสารยกเลิก หรือ อนุมัติแล้วจะทำงานไม่ได้
+				var nStaDoc = $('#ohdStaDoc').val();
+				var nStaApv = $('#ohdStaApv').val();
+				if(nStaDoc == 2 || nStaApv == 1 ){
+					$('.xCNCellDeleteItem').addClass('xCNHide');
+					$('.xCNEditInline').attr('disabled',true);
+				}
 
-
-				var tTextTotal = $('#otdGrandTotal').text();
-				var thaibath = ArabicNumberToText(tTextTotal);
+				//สรุปบิล เป็น TEXT
+				var tTextTotal 	= $('#otdGrandTotal').text();
+				var thaibath 	= ArabicNumberToText(tTextTotal);
 				$('#ospTotalText').text(thaibath);
-
-
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				//serrorFunction();
@@ -233,10 +259,11 @@
 
 	}
 
+	//บันทึกเอกสาร
 	function FSxQUOSaveDoc() {
 
-		oDocCstInfo = $("#ofmQuotationCst").serializeArray()
-		oDocHeaderInfo = $("#ofmQuotationHeader").serializeArray()
+		oDocCstInfo 		= $("#ofmQuotationCst").serializeArray()
+		oDocHeaderInfo 		= $("#ofmQuotationHeader").serializeArray()
 
 		if ($('#ocbStaExpress').is(':checked')) {
 			nStaExpress = 1
@@ -269,29 +296,34 @@
 				type	: 'POST',
 				data	: {
 					oDocHeaderInfo	: oDocHeaderInfo,
-					oDocCstInfo			: oDocCstInfo,
-					tDocNo					: tDocNo,
-					nStaExpress			: nStaExpress,
-					nStaDocActive		: nStaDocActive,
-					nStaDeli				: nStaDeli,
-					nB4Dis					: nB4Dis,
-					nDis						: nDis,
-					nAfDis					: nAfDis,
-					tDisText				: tDisText,
-					nVatRate				: nVatRate,
-					nAmtVat					: nAmtVat,
-					nGrandTotal			: nGrandTotal,
-					tDocRemark			: tDocRemark
+					oDocCstInfo		: oDocCstInfo,
+					tDocNo			: tDocNo,
+					nStaExpress		: nStaExpress,
+					nStaDocActive	: nStaDocActive,
+					nStaDeli		: nStaDeli,
+					nB4Dis			: nB4Dis,
+					nDis			: nDis,
+					nAfDis			: nAfDis,
+					tDisText		: tDisText,
+					nVatRate		: nVatRate,
+					nAmtVat			: nAmtVat,
+					nGrandTotal		: nGrandTotal,
+					tDocRemark		: tDocRemark
 				},
 				datatype	: 'json'
 			})
 			.done(function(data) {
-				alert("บันทึกข้อมูลสำเร็จ")
+				alert("บันทึกข้อมูลสำเร็จ");
+
 				aDocInfo = JSON.parse(data)
 				if (aDocInfo['nStaRender'] == 1) {
-					$('#olbDocNo').text(aDocInfo['tXqhDocNo'])
-					$('#olbDocNo').attr("data-docno", aDocInfo['tXqhDocNo'])
-					$('#ospDocDate').text(aDocInfo['dDocDate'])
+					$('#olbDocNo').text(aDocInfo['tXqhDocNo']);
+					$('#olbDocNo').attr("data-docno", aDocInfo['tXqhDocNo']);
+					$('#ospDocDate').text(aDocInfo['dDocDate']);
+
+					//บันทึกผ่านเเล้ว จะมีปุ่ม อนุมัติ ยกเลิก
+					$('.xCNCancel').removeClass('xCNHide');
+					$('.xCNAprove').removeClass('xCNHide');
 				}
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
@@ -299,4 +331,76 @@
 			});
 
 	}
+
+	//ยกเลิกเอกสาร
+	function FSxQUOCancleDocument(){
+		tDocNo 	= $("#ospDocNo").attr("data-docno");
+		$('#obtModalCancleDocument').click();
+
+		$('.xCNConfirmCancleDocument').off();
+		$('.xCNConfirmCancleDocument').on("click",function(){
+			$.ajax({
+				url		: 'r_quoCancleDocument',
+				type	: 'POST',
+				data	: { tDocNo	: tDocNo },
+				datatype: 'json'
+			})
+			.done(function(data) {
+				$('#obtModalCancleDocument').click();
+				$('.xCNDialog_Footer').css('display','block');
+				$('.alert-success').addClass('show').fadeIn();
+				$('.alert-success').find('.badge-success').text('สำเร็จ');
+				$('.alert-success').find('.xCNTextShow').text('ยกเลิกเอกสารสำเร็จ');
+				
+				setTimeout(function(){
+					FSvCallPageBackStep('r_quotationList');
+				}, 500);
+
+				setTimeout(function(){
+					$('.alert-success').find('.close').click();
+					$('.xCNDialog_Footer').css('display','none');
+				}, 3000);
+
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				//serrorFunction();
+			});
+		});
+	}
+
+	//อนุมัติเอกสาร
+	function FSxQUOAproveDocument(){
+		tDocNo 	= $("#ospDocNo").attr("data-docno");
+		$('#obtModalAproveDocument').click();
+
+		$('.xCNConfirmDeleteAprove').off();
+		$('.xCNConfirmDeleteAprove').on("click",function(){
+			$.ajax({
+				type	: "POST",
+				url		: 'r_quoApproveDocument',
+				data 	: { tDocNo: tDocNo },
+				cache	: false,
+				timeout	: 0,
+				success	: function (tResult) {
+					$('#obtModalAproveDocument').click();
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('เอกสารอนุมัติสำเร็จ');
+
+					setTimeout(function(){
+						FSvCallPageBackStep('r_quotationList');
+					}, 500);
+
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+						$('.xCNDialog_Footer').css('display','none');
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
+		});
+	}
+
 </script>
