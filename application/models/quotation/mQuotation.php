@@ -5,19 +5,13 @@ class mQuotation extends CI_Model
 {
 
 	/*
-	Create On : 05/04/2020
-	Create By : Kitpipat Kaewkieo
-	Update On : -
-	Update By : -
-
 	เกี่ยวกับฟังก์ชั่น
 	----------------------------------------------
 	แสดงข้อมูลสำหรับการกรองข้อมูลสินค้า
 	ข้อมูลที่สามารถกรองได้
 	ผู้จำหน่าย,กลุ่มสินค้า,ประเภทสินค้า,ยี่ห้อ,ขนาด,สี
 	*/
-	public function FSaMQUOGetFilterList()
-	{
+	public function FSaMQUOGetFilterList(){
 
 		$tSQL = "SELECT F.* FROM (
                                        SELECT 'FGSPL' AS FTFilGrpCode,
@@ -87,11 +81,6 @@ class mQuotation extends CI_Model
 	}
 
 	/*
-	Create On : 05/04/2020
-	Create By : Kitpipat Kaewkieo
-	Update On : -
-	Update By : -
-
 	เกี่ยวกับฟังก์ชั่น
 	----------------------------------------------
 	ข้อมูลสินค้าและราคาขาย
@@ -100,8 +89,7 @@ class mQuotation extends CI_Model
 	2.คำนวนราคาขายแล้ว
 	3.ราคานี้เป็นราคาตามกลุ่มราคาที่ผูกกับผู้ใช้ที่กำลังทำรายการ
 	*/
-	public function FSaMQUPdtList($paFilter)
-	{
+	public function FSaMQUPdtList($paFilter){
 		$aRowLen   		= FCNaHCallLenData($paFilter['nRow'],$paFilter['nPage']);
 		$tSearchAll 	= $paFilter["tSearchAll"];
 		$tPriceGrp 		= $paFilter["tPriceGrp"];
@@ -252,11 +240,6 @@ class mQuotation extends CI_Model
 	}
 
 	/*
-	Create On : 06/04/2020 14:03:00
-	Create By : Kitpipat Kaewkieo
-	Update On : -
-	Update By : -
-
 	เกี่ยวกับฟังก์ชั่น
 	----------------------------------------------
 	หาจำนวนข้อมูลสินค้าตามเงื่อนไขการกรอง
@@ -363,21 +346,14 @@ class mQuotation extends CI_Model
 		return $oQuery->num_rows();
 	}
 
-
 	/*
-	Create On : 06/04/2020 14:03:00
-	Create By : Kitpipat Kaewkieo
-	Update On : -
-	Update By : -
-
 	เกี่ยวกับฟังก์ชั่น
 	----------------------------------------------
 	หาจำนวนข้อมูลสินค้าในใบเสนอราคา จากตาราง Temp DT
 	กรณี create จะหาจาก tWorkerID
 	กรณี edit จะหาจาก Docno
 	*/
-	public function FSxMQUOClearTemp()
-	{
+	public function FSxMQUOClearTemp(){
 
 		$tSQL = "DELETE
 				          FROM TARTSqDTTmp
@@ -385,8 +361,7 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
-	public function FSxMQUOClearTempByWorkID($ptWorkerID)
-	{
+	public function FSxMQUOClearTempByWorkID($ptWorkerID){
 
 		$tSQL1 = "DELETE
 								 FROM TARTSqHDTmp
@@ -529,30 +504,30 @@ class mQuotation extends CI_Model
 		return $aResult;
 	}
 
-	public function FCaMQUOGetItemsList($paFilter)
-	{
+	//รายการสินค้าใน DT Tmp
+	public function FCaMQUOGetItemsList($paFilter){
 
-		$tDocNo = $paFilter['tDocNo'];
-		$tWorkerID = $paFilter['tWorkerID'];
-		$nMode = $paFilter['nMode'];
+		$tDocNo 	= $paFilter['tDocNo'];
+		$tWorkerID 	= $paFilter['tWorkerID'];
+		$nMode 		= $paFilter['nMode'];
 
 		$tSQL = "SELECT D.FNXqdSeq
-									      ,D.FTPdtCode
-									      ,D.FTPdtName
-									      ,D.FTPunCode
-									      ,D.FTPunName
-									      ,D.FTXqdCost
-									      ,D.FCXqdUnitPrice
-									      ,D.FCXqdQty
-									      ,D.FTSplCode
-									      ,D.FCXqdDis
-									      ,D.FCXqdFootAvg
-												,P.FTPdtImage
-												,SPL.FTSplName
-									FROM TARTSqDTTmp D
-									LEFT JOIN TCNMPdt P ON D.FTPdtCode = P.FTPdtCode
-									LEFT JOIN TCNMSpl SPL ON D.FTSplCode = SPL.FTSplCode
-									WHERE D.FTWorkerID = '" . $tWorkerID . "'";
+						,D.FTPdtCode
+						,D.FTPdtName
+						,D.FTPunCode
+						,D.FTPunName
+						,D.FTXqdCost
+						,D.FCXqdUnitPrice
+						,D.FCXqdQty
+						,D.FTSplCode
+						,D.FCXqdDis
+						,D.FCXqdFootAvg
+						,P.FTPdtImage
+						,SPL.FTSplName
+				FROM TARTSqDTTmp D
+				LEFT JOIN TCNMPdt P ON D.FTPdtCode = P.FTPdtCode
+				LEFT JOIN TCNMSpl SPL ON D.FTSplCode = SPL.FTSplCode
+				WHERE D.FTWorkerID = '" . $tWorkerID . "'";
 
 		if ($tDocNo != "") {
 			$tSQL .= " AND D.FTXqhDocNo = '" . $tDocNo . "'";
@@ -560,7 +535,6 @@ class mQuotation extends CI_Model
 
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
-
 		if ($nCountRows > 0) {
 			$aResult = array(
 				'raItems'  => $oQuery->result_array(),
@@ -578,8 +552,7 @@ class mQuotation extends CI_Model
 		return $aResult;
 	}
 
-	public function FCnMQUExitingItem($paFilter)
-	{
+	public function FCnMQUExitingItem($paFilter){
 
 		if (isset($paFilter['tDocNo'])) {
 			$tDocNo = $paFilter['tDocNo'];
@@ -610,8 +583,7 @@ class mQuotation extends CI_Model
 		}
 	}
 
-	public function FCaMQUOGetItemLastSeq($paFilter)
-	{
+	public function FCaMQUOGetItemLastSeq($paFilter){
 
 		$tDocNo = $paFilter['tDocNo'];
 		$tWorkerID = $paFilter['tWorkerID'];
@@ -639,13 +611,11 @@ class mQuotation extends CI_Model
 		}
 	}
 
-	public function FCaMQUOAddItem2Temp($paItemData)
-	{
+	public function FCaMQUOAddItem2Temp($paItemData){
 		$this->db->insert('TARTSqDTTmp', $paItemData);
 	}
 
-	public function FCxMQUOUpdateItem($paItemData)
-	{
+	public function FCxMQUOUpdateItem($paItemData){
 
 		$tSQL = "UPDATE TARTSqDTTmp
 				          SET   FCXqdQty = '" . $paItemData['FCXqdQty'] . "'
@@ -659,8 +629,7 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUODeleteItem($paItemData)
-	{
+	public function FCxMQUODeleteItem($paItemData){
 
 		$tQuoDocNo = $paItemData['tQuoDocNo'];
 		$tWorkerID = $paItemData['tWorkerID'];
@@ -677,8 +646,7 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUOEditItemQty($paItemData)
-	{
+	public function FCxMQUOEditItemQty($paItemData){
 
 		$tQuoDocNo = $paItemData['tQuoDocNo'];
 		$tWorkerID = $paItemData['tWorkerID'];
@@ -697,8 +665,7 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUODocUpdHeader($paItemData)
-	{
+	public function FCxMQUODocUpdHeader($paItemData){
 
 		$tSQL = "UPDATE TARTSqHDTmp ";
 		$tSQL .= " SET FNXqhSmpDay = '" . $paItemData['FNXqhSmpDay'] . "',";
@@ -901,6 +868,35 @@ class mQuotation extends CI_Model
 										WHERE FTWorkerID = '" . $tWorkerID . "'
 										AND FTXqhDocNo = '" . $tDocNo . "'";
 
+		$this->db->query($tSQL);
+	}
+
+	//ลบข้อมูลรายการ
+	public function FCxMQUDeleteItemInTemp($paItem){
+		$nSeq 		= $paItem['FNXqdSeq'];
+		$tPDTCode 	= $paItem['FTPdtCode'];
+		$tDocument  = $paItem['FTXqhDocNo'];
+		$FTWorkerID	= $this->session->userdata('tSesUsercode');
+
+		$tSQLDT = "DELETE FROM TARTSqDTTmp WHERE 
+						FTXqhDocNo = '$tDocument' AND 
+						FTPdtCode = '$tPDTCode' AND 
+						FNXqdSeq = '$nSeq' AND
+						FTWorkerID = '$FTWorkerID' ";
+		$this->db->query($tSQLDT);
+
+		//เรียง Seq ใหม่
+		$tSQL   = " UPDATE TARTSqDTTmp WITH(ROWLOCK)
+					SET FNXqdSeq = NewObj.NewSeq 
+					FROM TARTSqDTTmp DT 
+					INNER JOIN (
+						SELECT  ROW_NUMBER() OVER (ORDER BY FNXqdSeq) AS NewSeq,
+							FNXqdSeq AS OldSeq
+						FROM TARTSqDTTmp 
+						WHERE 
+							FTXqhDocNo = '$tDocument'
+						AND FTWorkerID = '$FTWorkerID'
+				) NewObj ON DT.FNXqdSeq = NewObj.OldSeq";
 		$this->db->query($tSQL);
 	}
 }

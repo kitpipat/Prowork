@@ -73,6 +73,7 @@ class cQuotationDoc extends CI_Controller{
 		return $convert;
 	}
 
+	//Get ข้อมูลส่วนหัว
 	public function FSaCQUODocHeader(){
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
 		$tDocNo 		= $this->input->get('tDocNo');
@@ -81,6 +82,7 @@ class cQuotationDoc extends CI_Controller{
 		echo json_encode($aDocHeader);
 	}
 
+	//Get ข้อมูลส่วนลูกค้า
 	public function FSaCQUODocCst(){
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
 		$tDocNo 		= $this->input->get('tDocNo');
@@ -89,6 +91,7 @@ class cQuotationDoc extends CI_Controller{
 		echo json_encode($aDocCst);
 	}
 
+	//Get ข้อมูลส่วนรายการสินค้า
 	public function FSvCQUODocItems(){
 		$tSesUserGroup 	= $this->session->userdata('tSesUserGroup');
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
@@ -188,5 +191,19 @@ class cQuotationDoc extends CI_Controller{
 				$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
 			}
 		}
+	}
+
+	//ลบข้อมูลใน Temp
+	public function FSxCQUOEventDeleteItem(){
+		$tDocument 	= $this->input->post('ptDocument');
+		$nSeq 		= $this->input->post('pnSeq');
+		$nPDTCode 	= $this->input->post('pnPDTCode');
+
+		$aItem = array(
+			'FTXqhDocNo'	=> $tDocument,
+			'FNXqdSeq'		=> $nSeq,
+			'FTPdtCode'		=> $nPDTCode
+		);
+		$this->mQuotation->FCxMQUDeleteItemInTemp($aItem);
 	}
 }

@@ -18,9 +18,7 @@
 			<th style="text-align: right;">จำนวนเงินรวม</th>
 		</tr>
 	</thead>
-	<?php
-	if ($aDocItems["nTotalRes"] > 0) {
-	?>
+	<?php if ($aDocItems["nTotalRes"] > 0) { ?>
 		<?php
 		$nNum			= 1;
 		$nTotal 		= 0;
@@ -29,6 +27,7 @@
 		$nXqdDis 		= 0;
 		for ($p = 0; $p < $aDocItems["nTotalRes"]; $p++) {
 
+			$nSeq			= $aDocItems["raItems"][$p]['FNXqdSeq'];
 			$tPdtCode 		= $aDocItems["raItems"][$p]["FTPdtCode"];
 			$tPdtName 		= $aDocItems["raItems"][$p]["FTPdtName"];
 			$tPunName 		= $aDocItems["raItems"][$p]["FTPunName"];
@@ -69,7 +68,7 @@
 		?>
 			<tr>
 				<th><label class="xCNLineHeightInTable"><?=$nNum?></label></th>
-				<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="xxxx();"></td>
+				<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxDeleteItemInTempQuotation('<?=$nSeq?>','<?=$tPdtCode?>');"></td>
 				<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
 				<td><label class="xCNLineHeightInTable"><?=$tPdtCode . " - " . $tPdtName; ?> </label></td>
 				<td><label class="xCNLineHeightInTable"><?=$tPunName;?></label></td>
@@ -87,7 +86,7 @@
 		<?php } ?>
 	<?php } else { ?>
 		<tr>
-			<td colspan="10">-ไม่พบรายการสินค้าในเอกสาร-</td>
+			<td colspan="99" style="text-align: center;">-ไม่พบรายการสินค้าในเอกสาร-</td>
 		</tr>
 	<?php } ?>
 </table>
@@ -95,3 +94,26 @@
 <span id="ospDocNetTotal" style="display:none"><?=$nDocNetTotal;?></span>
 
 <script type="text/javascript" src="<?=base_url('application/assets/js/jFormValidate.js')?>"></script>
+<script>
+	//Delete Item
+	function JSxDeleteItemInTempQuotation(pnSeq,pnPDTCode){
+		if($('#olbDocNo').text() == 'SQ######-#####'){
+			tDocumentnumber = '';
+		}else{
+			tDocumentnumber = $('#olbDocNo').text();
+		}
+		$.ajax({
+			type	: "POST",
+			url		: 'r_quodeleteItem',
+			data	: { 'pnSeq' : pnSeq , 'pnPDTCode' : pnPDTCode , 'ptDocument' : tDocumentnumber },
+			cache	: false,
+			timeout	: 0,
+			success	: function(tResult) {
+				FSvQUODocItems();
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+</script>

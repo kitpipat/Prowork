@@ -256,13 +256,13 @@
 
 		tDocNo 			= $("#ospDocNo").attr("data-docno");
 		nB4Dis 			= $("#otdDocNetTotal").text();
-		nDis 				= $("#ospXqhDis").text();
+		nDis 			= $("#ospXqhDis").text();
 		tDisText 		= $("#oetXqhDisText").val();
 		nAfDis 			= $("#otdNetAFHD").text();
 		nVatRate 		= $("#oetVatRate").val();
 		nAmtVat 		= $("#otdVat").text();
-		nGrandTotal = $("#otdGrandTotal").text();
-		tDocRemark 	= $("#otaDocRemark").val();
+		nGrandTotal 	= $("#otdGrandTotal").text();
+		tDocRemark 		= $("#otaDocRemark").val();
 
 		$.ajax({
 				url		: 'r_quodocsavedoc',
@@ -286,7 +286,6 @@
 				datatype	: 'json'
 			})
 			.done(function(data) {
-				console.log(data);
 				alert("บันทึกข้อมูลสำเร็จ")
 				aDocInfo = JSON.parse(data)
 				if (aDocInfo['nStaRender'] == 1) {

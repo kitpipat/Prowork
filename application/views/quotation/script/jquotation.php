@@ -180,18 +180,18 @@
 
 		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno")
 		$.ajax({
-				url: 'r_quotationcallsqdoc',
-				type: 'GET',
-				data: {
-					tQuoDocNo: tQuoDocNo
-				},
-				datatype: 'json'
-			})
-			.done(function(data) {
-				$(".content").html(data)
-			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				//serrorFunction();
-			});
+			url: 'r_quotationcallsqdoc',
+			type: 'GET',
+			data: {
+				tQuoDocNo: tQuoDocNo
+			},
+			datatype: 'json'
+		})
+		.done(function(data) {
+			$(".content").html(data)
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			//serrorFunction();
+		});
 	}
 </script>
