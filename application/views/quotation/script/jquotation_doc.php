@@ -212,7 +212,13 @@
 
                    nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
 
-                   $("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2),""))
+									 $("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2),""))
+									 
+
+
+									 var tTextTotal 	= $('#otdGrandTotal').text();
+										var thaibath 		= ArabicNumberToText(tTextTotal);
+										$('#ospTotalText').text(thaibath);
 
 
               })

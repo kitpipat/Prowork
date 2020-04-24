@@ -57,7 +57,7 @@
 
 <?php if ($aQuoItemsList['nTotalRes'] > 0) { ?>
 	<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">จำนวนเงินรวม</div>
-	<div class="col-lg-5 col-md-5 col-md-5 col-xs-5 text-right"> &#3647; <?php echo number_format($nTotal, 2); ?></div>
+	<div class="col-lg-5 col-md-5 col-md-5 col-xs-5 text-right"> &#3647; <?=number_format($nTotal, 2); ?></div>
 <?php } ?>
 
 <!-- Modal กดลบสินค้าในตะกร้า -->

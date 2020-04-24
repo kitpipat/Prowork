@@ -24,10 +24,10 @@
 		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="FSvCallPageBackStep();">ใบเสนอราคา</span><span class="xCNHeadMenu">  /  รายละเอียด</span></div>
 
 		<div class="col-lg-6 col-md-6 text-right">
-					<button type="button" class="button">ยกเลิก</button>
-					<button type="button" class="button">พิมพ์</button>
-					<button type="button" class="button">อนุมัติ</button>
 					<button type="button" class="xCNButtonSave pull-right" onclick="FSxQUOSaveDoc()">บันทึก</button>
+					<button type="button" class="xCNCalcelImport btn btn-outline-danger pull-right" style="margin-left:10px;">ยกเลิก</button>
+					<button type="button" class="xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px;">พิมพ์</button>
+					<button type="button" class="xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px;">อนุมัติ</button>
 			</div>
 	</div>
 
@@ -262,57 +262,108 @@
   <div class="card">
        <div class="card-body" style="height:auto">
             <div class="row">
-                <div class="col-lg-12" id="odvQuoDocItems">
-
-                </div>
+                <div class="col-lg-12" id="odvQuoDocItems"></div>
                 <div class="col-lg-12">
-                     <div class="text-left">[+] เพิ่มรายการ</div>
+									<button class="xCNButtonInsert pull-left" onclick="xxxxx()">+</button><span id="ospmorePDT">เพิ่มเติมรายการสินค้า</span>
                 </div>
             </div>
        </div>
   </div>
 
   <div class="row">
+
        <div class="col-lg-7">
             <div class="card">
-                 <div class="card-body" style="height:auto">
-                      <p>หมายเหตุ</p>
-                      หมายเหตุ <br>
-                      <textarea rows="6" id="otaDocRemark"></textarea>
+								 <div class="card-body" style="height:auto">
+										<div class="row">
+											<!--ราคาสรุปบิล-->
+											<div class="col-lg-12">	
+												<div class="xCNSpanTotalText">
+													<span id="ospTotalText"></span>
+												</div>
+											</div>
+											
+											<!--หมายเหตุ-->
+											<div class="col-lg-12" style="margin-top:10px;">
+												<div class="form-group">
+													<label>หมายเหตุเอกสาร</label>
+													<textarea type="text" class="form-control" id="otaDocRemark" name="otaDocRemark" placeholder="หมายเหตุเอกสาร" rows="3"></textarea>
+												</div>
+											</div>
+										</div>
                  </div>
             </div>
-       </div>
+			 </div>
+			 
        <div class="col-lg-5">
             <div class="card">
-                 <div class="card-body" style="height:auto">
-                      <table class="table">
-                        <tr>
-                          <td style="width:50%">จำนวนเงินรวม</td>
-                          <td style="width:20%"></td>
-                          <td style="width:30%" class="text-right" id="otdDocNetTotal">100.00</td>
-                        </tr>
-                        <tr>
-                          <td>ส่วนลด</td>
-                          <td> <input type="text" id="oetXqhDisText" class="text-right"> </td>
-                          <td class="text-right"><span id="ospXqhDis">0</span></td>
-                        </tr>
-                        <tr>
-                          <td>จำนวนเงินหลังหักส่วนลด</td>
-                          <td></td>
-                          <td class="text-right" id="otdNetAFHD">100.00</td>
-                        </tr>
-                        <tr>
-                          <td>ภาษีมูลค่าเพิ่ม (%)</td>
-                          <td> <input type="text" class="text-right" id="oetVatRate"> </td>
-                          <td class="text-right" id="otdVat">100.00</td>
-                        </tr>
-                        <tr>
-                          <td>จำนวนเงินรวมทั้งสิ้น</td>
-                          <td></td>
-                          <td class="text-right" id="otdGrandTotal">100.00</td>
-                        </tr>
-                      </table>
-                 </div>
+								 <div class="card-body" style="height:auto">
+										<div class="row">
+													<!--จำนวนเงินรวม-->
+													<div class="col-lg-6">
+														<label>จำนวนเงินรวม</label>
+													</div>
+
+													<div class="col-lg-6 text-right">
+														<label class="text-right xCNTotal" id="otdDocNetTotal">0.00</label>
+													</div>
+
+													<!--ส่วนลด-->
+													<div class="col-lg-6">
+														<label>ส่วนลด</label>
+													</div>
+
+													<div class="col-lg-6 text-right">
+														<div class="row">
+															<div class="col-lg-6">
+																<div class="">
+																	<input type="text" autocomplete="off"  id="oetXqhDisText"  class="text-right form-control xCNInputNumericWithDecimal">
+																</div>
+															</div>
+															<div class="col-lg-6">
+																<label class="text-right xCNTotal" id="ospXqhDis">0.00</label>
+															</div>
+														</div>
+													</div>
+
+													<!--จำนวนเงินหลังหักส่วนลด-->
+													<div class="col-lg-6">
+														<label>จำนวนเงินหลังหักส่วนลด</label>
+													</div>
+
+													<div class="col-lg-6 text-right">
+														<label class="text-right xCNTotal" id="otdNetAFHD">0.00</label>
+													</div>
+
+													<!--ภาษีมูลค่าเพิ่ม-->
+													<div class="col-lg-6">
+														<label>ภาษีมูลค่าเพิ่ม (%)</label>
+													</div>
+
+													<div class="col-lg-6 text-right">
+														<div class="row">
+															<div class="col-lg-6">
+																<div class="">
+																	<input type="text" autocomplete="off" id="oetVatRate"  class="text-right form-control xCNInputNumericWithDecimal">
+																</div>
+															</div>
+															<div class="col-lg-6">
+																<label class="text-right xCNTotal" id="otdVat">0.00</label>
+															</div>
+														</div>
+													</div>
+
+													<!--จำนวนเงินรวมทั้งสิ้น-->
+													<div class="col-lg-6">
+														<label>จำนวนเงินรวมทั้งสิ้น</label>
+													</div>
+
+													<div class="col-lg-6 text-right">
+														<label class="text-right xCNTotal" id="otdGrandTotal">0.00</label>
+													</div>
+													
+										</div>
+									</div>
             </div>
        </div>
   </div>
@@ -323,6 +374,8 @@
 <script type="text/javascript" src="<?=base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script type="text/javascript" src="<?=base_url('application/assets/js/account.js') ?>"></script>
 <script type="text/javascript" src="<?=base_url('application/assets/js/moment.js') ?>"></script>
+<script type="text/javascript" src="<?=base_url('application/assets/js/jThaiBath.js') ?>"></script>
+
 <?php include ('script/jquotation_doc.php'); ?>
 
 <script>
@@ -334,6 +387,7 @@
 				todayHighlight  : true,
 				orientation		: "bottom right"
 			});
+
 		});
 		
 	function FSvCallPageBackStep(){

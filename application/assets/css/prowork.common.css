@@ -574,3 +574,25 @@ table tbody .xCNTableGroupMenu{
 	background-repeat: no-repeat;
 	background-size: contain;
 }
+
+.xCNSpanTotalText{
+	height: 40px;
+    background: #a3e69e;
+}
+
+
+#ospmorePDT{
+	margin: 5px 50px;
+    display: block;
+}
+
+.xCNTotal{
+	font-weight: bold;
+}
+
+#ospTotalText{
+	text-align: center;
+    display: block;
+    font-weight: bold;
+    padding: 5px;
+}

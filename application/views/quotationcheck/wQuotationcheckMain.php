@@ -2,8 +2,7 @@
 
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ข้อมูลใบเสนอราคา</span></div>
-		<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right" onClick="JSwQuotationPageInsert()">+</button></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ตรวจสอบใบเสนอราคา</span></div>
 	</div>
 
 	<!--Section ล่าง-->
@@ -21,7 +20,7 @@
 				</div>
 
 				<div class="col-lg-12">
-					<div id="odvContent_Detail_PI" class="xCNContent"></div>
+					<div id="odvContent_Check_PI" class="xCNContent"></div>
 				</div>
 			</div>
 		</div>
@@ -35,7 +34,7 @@
 	function JSwLoadTableList(pnPage){
 		$.ajax({
 			type	: "POST",
-			url		: "r_quotationListload",
+			url		: "r_quotationcheckload",
 			data 	: {
 						'nPage' 		: pnPage,
 						'tSearchAll' 	: $('#oetSearch').val()
@@ -43,23 +42,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				$('#odvContent_Detail_PI').html(tResult);
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
-			}
-		});
-	}
-
-	//โหลดหน้า สร้างเอกสารใบเสนอราคา
-	function JSwQuotationPageInsert(){
-		$.ajax({
-			type	: "POST",
-			url		: "r_quotation/1",
-			cache	: false,
-			timeout	: 0,
-			success	: function (tResult) {
-				$('.content').html(tResult);
+				$('#odvContent_Check_PI').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);
