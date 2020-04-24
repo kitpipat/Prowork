@@ -97,7 +97,10 @@ jQuery(document).ready(function($) {
 					$('#menuToggle').click();
 				}
 
-                $('.content').html(tResult);
+				$('.content').html(tResult);
+				
+				//เปิดการแจ้งเตือนของวัด
+				$('.xCNDialog_Footer').css('display','block');
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 alert(jqXHR, textStatus, errorThrown);

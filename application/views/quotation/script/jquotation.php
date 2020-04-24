@@ -96,13 +96,14 @@
 			datatype: 'json'
 		})
 		.done(function(data) {
-
 			FSvQUOCallItemList()
-
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
 			//serrorFunction();
 		});
+
+		//ซ่อน dialog แจ้งเตือนของวัด
+		$('.xCNDialog_Footer').css('display','none');
 	}
 
 	//ลบสินค้าใน ตะกร้า
@@ -169,32 +170,28 @@
 		}
 	}
 
+	//กดถัดไป เลือกสินค้าในตะกร้าพร้อมแล้ว
 	function FSvQUOCallDocument() {
 
 		if ($(".ospItemInDoc").length == 0) {
-
-			alert("this document is empty product,please select either one ");
-
-		} else {
-
-			tQuoDocNo = $("#odvQuoDocNo").attr("data-docno")
-
-			$.ajax({
-					url: 'r_quotationcallsqdoc',
-					type: 'GET',
-					data: {
-						tQuoDocNo: tQuoDocNo
-					},
-					datatype: 'json'
-				})
-				.done(function(data) {
-					$(".content").html(data)
-				})
-				.fail(function(jqXHR, textStatus, errorThrown) {
-					//serrorFunction();
-				});
-
+			$('#obtModalItemEmpty').click();
+			return;
 		}
 
+		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno")
+		$.ajax({
+				url: 'r_quotationcallsqdoc',
+				type: 'GET',
+				data: {
+					tQuoDocNo: tQuoDocNo
+				},
+				datatype: 'json'
+			})
+			.done(function(data) {
+				$(".content").html(data)
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				//serrorFunction();
+			});
 	}
 </script>
