@@ -60,4 +60,24 @@
 	<div class="col-lg-5 col-md-5 col-md-5 col-xs-5 text-right"> &#3647; <?php echo number_format($nTotal, 2); ?></div>
 <?php } ?>
 
+<!-- Modal Delete -->
+<button id="obtModalDeleteItemPI" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalDeleteItemPI"></button>
+<div class="modal fade" id="odvModalDeleteItemPI" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ลบข้อมูล</h5>
+      </div>
+      <div class="modal-body">
+        <label>ยืนยันการลบข้อมูล ? </label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+        <button type="button" class="btn btn-danger xCNConfirmDelete">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
+

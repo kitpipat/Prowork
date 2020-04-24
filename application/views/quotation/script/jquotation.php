@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(document).ready(function() {
-		FSvQUOGetPdtList(1);
+		FSvQUOGetPdtList(1,'');
 		FSvQUOCallDocHeader();
 		FSvQUOCallItemList();
 	});
@@ -14,21 +14,28 @@
 			$('#odvPdtListView').addClass("wxBntPdtVTypeActive")
 		}
 
-		FSvQUOGetPdtList()
+		FSvQUOGetPdtList(1,'')
 	}
 
 	//หน้า list สินค้า
-	function FSvQUOGetPdtList(pnPage) {
+	function FSvQUOGetPdtList(pnPage,paFilterAdv) {
 		tPdtViewType = $('.wxBntPdtVTypeActive').attr("data-viewtype");
+
+		if(paFilterAdv == '' || paFilterAdv == null){
+			paFilterAdv = '';
+		}else{
+			paFilterAdv = paFilterAdv;
+		}
+
 		if(pnPage == '' || pnPage == null){ pnPage = 1; }
 		$.ajax({
 			url: 'r_quotationeventGetPdtList',
 			type: 'GET',
 			data: {
-				pnPage			: pnPage,
-				paFilter		: '',
-				tPdtViewType	: tPdtViewType,
-				aFilterAdv		: ''
+				'pnPage'			: pnPage,
+				'tSearchAll'		:  $('#oetSearchPI').val(),
+				'tPdtViewType'		: tPdtViewType,
+				'aFilterAdv'		: paFilterAdv
 			},
 			datatype: 'json'
 		})
@@ -98,31 +105,34 @@
 		});
 	}
 
+	//ลบสินค้าใน ตะกร้า
 	function FSxQUODelItem(ptElm) {
-
 		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
 		nItemSeq = $(ptElm).attr("data-seq");
-		// alert(tQuoDocNo+'-'+nItemSeq);
-		if (confirm('ยืนยันการลบสินค้านี้ออกจากเอกสาร')) {
+
+		$('#obtModalDeleteItemPI').click();
+
+		$('.xCNConfirmDelete').off();
+		$('.xCNConfirmDelete').on("click",function(){
 			$.ajax({
-					url: 'r_quotationeventDelItems',
-					type: 'POST',
-					data: {
-						tQuoDocNo: tQuoDocNo,
-						nItemSeq: nItemSeq
-					},
-					datatype: 'json'
-				})
-				.done(function(data) {
-
-					FSvQUOCallItemList()
-
-				})
-				.fail(function(jqXHR, textStatus, errorThrown) {
-					//serrorFunction();
-				});
-		}
-
+				url: 'r_quotationeventDelItems',
+				type: 'POST',
+				data: {
+					tQuoDocNo: tQuoDocNo,
+					nItemSeq: nItemSeq
+				},
+				datatype: 'json'
+			})
+			.done(function(data) {
+				$('#obtModalDeleteItemPI').click();
+				setTimeout(function(){
+					FSvQUOCallItemList();
+				}, 500);
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				//serrorFunction();
+			});
+		});
 	}
 
 	function FSxQUOEditItemQty(e, poElm) {
@@ -156,28 +166,6 @@
 				});
 			return false;
 
-		}
-	}
-
-	function FSxQUOSearchItem(e, poElm) {
-
-		if (e.keyCode == 13) {
-			tKeySearch = $(poElm).val();
-
-			$.ajax({
-					url: 'r_quotationeventGetPdtList',
-					type: 'GET',
-					data: {
-						tKeySearch: tKeySearch
-					},
-					datatype: 'json'
-				})
-				.done(function(data) {
-					$("#odvQuoPdtList").html(data);
-				})
-				.fail(function(jqXHR, textStatus, errorThrown) {
-					//serrorFunction();
-				});
 		}
 	}
 

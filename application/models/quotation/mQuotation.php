@@ -103,8 +103,9 @@ class mQuotation extends CI_Model
 	public function FSaMQUPdtList($paFilter)
 	{
 		$aRowLen   		= FCNaHCallLenData($paFilter['nRow'],$paFilter['nPage']);
-		$tKeySearch 	= $paFilter["tKeySearch"];
+		$tSearchAll 	= $paFilter["tSearchAll"];
 		$tPriceGrp 		= $paFilter["tPriceGrp"];
+		$aFilterAdv 	= $paFilter['aFilterAdv'];
 
 		$tSQL = "SELECT P.* FROM (
                  SELECT ROW_NUMBER() OVER(ORDER BY PDT.FTPdtCode) AS RowID,
@@ -112,10 +113,15 @@ class mQuotation extends CI_Model
                          PDT.FTPdtName,
                          PGP.FTPgpName,
                          PDT.FTPdtImage ,
+						 PDT.FTPbnCode,
+		   				 PDT.FTMolCode,
+						 PDT.FTPtyCode,
+						 PDT.FTPzeCode,
+						 PDT.FTPgpCode,
                          PDT.FCPdtCostStd,
-												 PDT.FTPunCode,
-												 PUN.FTPunName,
-												 PDT.FTSplCode,
+						 PDT.FTPunCode,
+						 PUN.FTPunName,
+						 PDT.FTSplCode,
                          PDT.FCPdtCostAFDis,
                          PDT.FCPdtSalPrice AS FCPdtStdSalPri ,
                          SP.FCXpdAddPri AS FCPdtUsrSalPri,
@@ -135,17 +141,91 @@ class mQuotation extends CI_Model
 						END AS FCPdtNetSalPri
                   	FROM VCN_Products PDT
                   	LEFT JOIN ( SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '" . $tPriceGrp . "' )SP ON PDT.FTPdtCode = SP.FTPdtCode
-                	LEFT JOIN TCNMPdtGrp PGP ON PDT.FTPgpCode = PGP.FTPgpCode
-					LEFT JOIN TCNMPdtUnit PUN ON PDT.FTPunCode = PUN.FTPunCode
+                	LEFT JOIN TCNMPdtGrp PGP 	ON PDT.FTPgpCode 	= PGP.FTPgpCode
+					LEFT JOIN TCNMPdtUnit PUN 	ON PDT.FTPunCode 	= PUN.FTPunCode
+					LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode 
+					LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode 
+					LEFT JOIN TCNMPdtModal MOL 	ON PDT.FTMolCode 	= MOL.FTMolCode 
+					LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode 
+					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
+					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
 				) P
             	WHERE  1=1 ";
 
-		if ($tKeySearch != "") {
-			$tSQL .= " AND P.FTPdtName LIKE '%" . $tKeySearch . "%'";
-			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tKeySearch . "%'";
+		//ค้นหาขั้นสูง
+		if($aFilterAdv != '' || $aFilterAdv != null){
+			$tWherePBN  = ''; 	$tWhereINPBN = '';
+			$tWhereCLR	= '';	$tWhereINCLR = '';
+			$tWherePGP	= '';	$tWhereINPGP = '';
+			$tWhereMOL	= '';	$tWhereINMOL = '';
+			$tWherePZE	= '';	$tWhereINPZE = '';
+			$tWherePTY	= '';	$tWhereINPTY = '';
+			$tWherePUN	= '';	$tWhereINPUN = '';
+			$tWhereSPL	= '';	$tWhereINSPL = '';
+			for($i=0; $i<count($aFilterAdv); $i++){
+				$tFilterName 	= $aFilterAdv[$i]['tFilter'];
+				$tFilterValue 	= $aFilterAdv[$i]['tValue'];
+				switch ($tFilterName) {
+					case "PBN":
+						$tWhereINPBN .=  "'$tFilterValue'" . ',';
+						break;
+					case "CLR":
+						$tWhereINCLR .=  "'$tFilterValue'" . ',';
+						break;
+					case "PGP":
+						$tWhereINPGP .=  "'$tFilterValue'" . ',';
+						break;
+					case "MOL":
+						$tWhereINMOL .=  "'$tFilterValue'" . ',';
+						break;
+					case "PZE":
+						$tWhereINPZE .=  "'$tFilterValue'" . ',';
+						break;
+					case "PTY":
+						$tWhereINPTY .=  "'$tFilterValue'" . ',';
+						break;
+					case "PUN":
+						$tWhereINPUN .=  "'$tFilterValue'" . ',';
+					break;	
+					case "SPL":
+						$tWhereINSPL .=  "'$tFilterValue'" . ',';
+					break;
+					default:
+				}
+
+				if($i == count($aFilterAdv)-1){ 
+					$tWhereINPBN = substr($tWhereINPBN,0,-1); 
+					$tWhereINCLR = substr($tWhereINCLR,0,-1);
+					$tWhereINPGP = substr($tWhereINPGP,0,-1);
+					$tWhereINMOL = substr($tWhereINMOL,0,-1);
+					$tWhereINPZE = substr($tWhereINPZE,0,-1);
+					$tWhereINPTY = substr($tWhereINPTY,0,-1);
+					$tWhereINPUN = substr($tWhereINPUN,0,-1);
+					$tWhereINSPL = substr($tWhereINSPL,0,-1);
+				}
+				
+				if($tWhereINPBN != ''){ $tWherePBN = " AND FTPbnCode IN (" . $tWhereINPBN . ")"; }
+				if($tWhereINCLR != ''){ $tWhereCLR = " AND FTPClrCode IN (" . $tWhereINCLR . ")"; }
+				if($tWhereINPGP != ''){ $tWherePGP = " AND P.FTPgpCode IN (" . $tWhereINPGP . ")"; }
+				if($tWhereINMOL != ''){ $tWhereMOL = " AND FTMolCode IN (" . $tWhereINMOL . ")"; }
+				if($tWhereINPZE != ''){ $tWherePZE = " AND P.FTPzeCode IN (" . $tWhereINPZE . ")"; }
+				if($tWhereINPTY != ''){ $tWherePTY = " AND FTPtyCode  IN (" . $tWhereINPTY . ")"; }
+				if($tWhereINPUN != ''){ $tWherePUN = " AND FTPunCode IN (" . $tWhereINPUN . ")"; }
+				if($tWhereINSPL != ''){ $tWhereSPL = " AND FTSplCode IN (" . $tWhereINSPL . ")"; }
+			}
+
+			$tWhereFull = $tWherePBN . $tWhereCLR . $tWherePGP . $tWhereMOL . $tWherePZE . $tWherePTY . $tWherePUN . $tWhereSPL;
+			$tSQL .= " $tWhereFull ";
+		}
+
+		//ค้นหาธรรมดา
+		if ($tSearchAll != "") {
+			$tSQL .= " AND P.FTPdtName LIKE '%" . $tSearchAll . "%'";
+			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tSearchAll . "%'";
 		}
 
 		$tSQL .= " AND P.RowID > $aRowLen[0] AND P.RowID <=$aRowLen[1] ";
+
 		$oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paFilter);
@@ -183,8 +263,87 @@ class mQuotation extends CI_Model
 	*/
 	public function FSaMQUOPdtCountRow_PageAll($paFilter){
 		try{
-			$tTextSearch = trim($paFilter['tKeySearch']);
-			$tSQL 		= "SELECT COUNT(FTPDTCode) AS counts FROM TCNMPdt WHERE FTPdtStatus = 1";
+			$tTextSearch 	= trim($paFilter['tSearchAll']);
+			$aFilterAdv 	= $paFilter['aFilterAdv'];
+			$tSQL 		= "SELECT COUNT(FTPDTCode) AS counts 
+							FROM TCNMPdt PDT
+							LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode 
+							LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode 
+							LEFT JOIN TCNMPdtGrp GRP 	ON PDT.FTPgpCode 	= GRP.FTPgpCode 
+							LEFT JOIN TCNMPdtModal MOL 	ON PDT.FTMolCode 	= MOL.FTMolCode 
+							LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode 
+							LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
+							LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
+							LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
+							WHERE PDT.FTPdtStatus = 1";
+
+			//ค้นหาขั้นสูง
+			if($aFilterAdv != '' || $aFilterAdv != null){
+				$tWherePBN  = ''; 	$tWhereINPBN = '';
+				$tWhereCLR	= '';	$tWhereINCLR = '';
+				$tWherePGP	= '';	$tWhereINPGP = '';
+				$tWhereMOL	= '';	$tWhereINMOL = '';
+				$tWherePZE	= '';	$tWhereINPZE = '';
+				$tWherePTY	= '';	$tWhereINPTY = '';
+				$tWherePUN	= '';	$tWhereINPUN = '';
+				$tWhereSPL	= '';	$tWhereINSPL = '';
+				for($i=0; $i<count($aFilterAdv); $i++){
+					$tFilterName 	= $aFilterAdv[$i]['tFilter'];
+					$tFilterValue 	= $aFilterAdv[$i]['tValue'];
+					switch ($tFilterName) {
+						case "PBN":
+							$tWhereINPBN .=  "'$tFilterValue'" . ',';
+							break;
+						case "CLR":
+							$tWhereINCLR .=  "'$tFilterValue'" . ',';
+							break;
+						case "PGP":
+							$tWhereINPGP .=  "'$tFilterValue'" . ',';
+							break;
+						case "MOL":
+							$tWhereINMOL .=  "'$tFilterValue'" . ',';
+							break;
+						case "PZE":
+							$tWhereINPZE .=  "'$tFilterValue'" . ',';
+							break;
+						case "PTY":
+							$tWhereINPTY .=  "'$tFilterValue'" . ',';
+							break;
+						case "PUN":
+							$tWhereINPUN .=  "'$tFilterValue'" . ',';
+						break;	
+						case "SPL":
+							$tWhereINSPL .=  "'$tFilterValue'" . ',';
+						break;
+						default:
+					}
+
+					if($i == count($aFilterAdv)-1){ 
+						$tWhereINPBN = substr($tWhereINPBN,0,-1); 
+						$tWhereINCLR = substr($tWhereINCLR,0,-1);
+						$tWhereINPGP = substr($tWhereINPGP,0,-1);
+						$tWhereINMOL = substr($tWhereINMOL,0,-1);
+						$tWhereINPZE = substr($tWhereINPZE,0,-1);
+						$tWhereINPTY = substr($tWhereINPTY,0,-1);
+						$tWhereINPUN = substr($tWhereINPUN,0,-1);
+						$tWhereINSPL = substr($tWhereINSPL,0,-1);
+					}
+					
+					if($tWhereINPBN != ''){ $tWherePBN = " AND BAP.FTPbnCode IN (" . $tWhereINPBN . ")"; }
+					if($tWhereINCLR != ''){ $tWhereCLR = " AND COP.FTPClrCode IN (" . $tWhereINCLR . ")"; }
+					if($tWhereINPGP != ''){ $tWherePGP = " AND GRP.FTPgpCode IN (" . $tWhereINPGP . ")"; }
+					if($tWhereINMOL != ''){ $tWhereMOL = " AND MOL.FTMolCode IN (" . $tWhereINMOL . ")"; }
+					if($tWhereINPZE != ''){ $tWherePZE = " AND SIZ.FTPzeCode IN (" . $tWhereINPZE . ")"; }
+					if($tWhereINPTY != ''){ $tWherePTY = " AND TYP.FTPtyCode  IN (" . $tWhereINPTY . ")"; }
+					if($tWhereINPUN != ''){ $tWherePUN = " AND UNIT.FTPunCode IN (" . $tWhereINPUN . ")"; }
+					if($tWhereINSPL != ''){ $tWhereSPL = " AND SPL.FTSplCode IN (" . $tWhereINSPL . ")"; }
+				}
+
+				$tWhereFull = $tWherePBN . $tWhereCLR . $tWherePGP . $tWhereMOL . $tWherePZE . $tWherePTY . $tWherePUN . $tWhereSPL;
+				$tSQL .= " $tWhereFull ";
+			}
+
+			//ค้นหาธรรมดา
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND FTPdtName LIKE '%" . $tTextSearch . "%'";
 				$tSQL .= " OR FTPdtName LIKE '%" . $tTextSearch . "%'";

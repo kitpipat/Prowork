@@ -52,7 +52,8 @@
 						<?php } ?>
 					<?php } else{ ?>
 						<div class="col-lg-12">
-							<lable style="color:red">[การแจ้งเตือน]</label> ไม่พบสินค้าในระบบ.
+							<span style="text-align: center; text-align: center; display: block;
+    								border: 1px solid #ced4da; padding: 100px; ">- ไม่พบข้อมูล - </span>
 						</div>
 					<?php } ?>
 			<?php } else { ?>
@@ -111,42 +112,46 @@
 </div>
 
 <!--หน้าของข้อมูล-->
-<div class="row" style="margin-top:10px;">
-    <div class="col-md-6">
-        <label>พบข้อมูลทั้งหมด <?=$aPdtList['rnAllRow']?> รายการ แสดงหน้า <?=$aPdtList['rnCurrentPage']?> / <?=$aPdtList['rnAllPage']?></label>
-    </div>
-    <div class="col-md-6">
-		<nav>
-			<ul class="xCNPagenation pagination justify-content-end">
-				<!--ปุ่มย้อนกลับ-->
-				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
-				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvPI_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
-				</li>
+<?php if($aPdtList['rtCode'] != 800){ ?>
+	<div class="row" style="margin-top:10px;">
+		<div class="col-md-6">
+			<label>พบข้อมูลทั้งหมด <?=$aPdtList['rnAllRow']?> รายการ แสดงหน้า <?=$aPdtList['rnCurrentPage']?> / <?=$aPdtList['rnAllPage']?></label>
+		</div>
+		<?php if($aPdtList['rnAllPage'] > 1){ ?>
+			<div class="col-md-6">
+				<nav>
+					<ul class="xCNPagenation pagination justify-content-end">
+						<!--ปุ่มย้อนกลับ-->
+						<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
+						<li class="page-item <?=$tDisabledLeft;?>">
+							<a class="page-link" aria-label="Previous" onclick="JSvPI_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
+						</li>
 
-				<!--ปุ่มจำนวนหน้า-->
-				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aPdtList['rnAllPage'],$nPage+2)); $i++){?>
-					<?php 
-						if($nPage == $i){ 
-							$tActive 		= 'active'; 
-							$tDisPageNumber = 'disabled';
-						}else{ 
-							$tActive 		= '';
-							$tDisPageNumber = '';
-						}
-					?>
-					<li class="page-item <?=$tActive;?> " onclick="JSvPI_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
-				<?php } ?>
+						<!--ปุ่มจำนวนหน้า-->
+						<?php for($i=max($nPage-2, 1); $i<=max(0, min($aPdtList['rnAllPage'],$nPage+2)); $i++){?>
+							<?php 
+								if($nPage == $i){ 
+									$tActive 		= 'active'; 
+									$tDisPageNumber = 'disabled';
+								}else{ 
+									$tActive 		= '';
+									$tDisPageNumber = '';
+								}
+							?>
+							<li class="page-item <?=$tActive;?> " onclick="JSvPI_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
+						<?php } ?>
 
-				<!--ปุ่มไปต่อ-->
-				<?php if($nPage >= $aPdtList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
-				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvPI_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
-				</li>
-			</ul>
-		</nav>
-    </div>
-</div>
+						<!--ปุ่มไปต่อ-->
+						<?php if($nPage >= $aPdtList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
+						<li class="page-item <?=$tDisabledRight?>">
+							<a class="page-link" aria-label="Next" onclick="JSvPI_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		<?php } ?>
+	</div>
+<?php } ?>
 
 <script>
 	//เปลี่ยนหน้า
