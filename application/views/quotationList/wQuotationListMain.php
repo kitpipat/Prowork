@@ -67,4 +67,20 @@
 		});
 	}
 
+	//กดกลับหน้า main
+	function JSxCallPagePIListMain(){
+		$.ajax({
+			type	: "POST",
+			url		: "r_quotationList",
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('.content').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+
 </script>

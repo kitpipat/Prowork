@@ -175,6 +175,9 @@ $route['r_adjcostAprove'] 						= 'adjcost/cAdjcost/FSxCAJCAproveDocument';
 //หน้าข้อมูลใบเสนอราคา ( start : 24-04-2020 / done : xx-04-2020 )
 $route['r_quotationList'] 						= 'quotationList/cQuotationList/index';
 $route['r_quotationListload'] 					= 'quotationList/cQuotationList/FSwCPILLoadDatatable';
+$route['r_quotationListPageEdit'] 				= 'quotationList/cQuotationList/FSwCPILCallPageEdit';
+$route['r_quotationListDelete'] 				= 'quotationList/cQuotationList/FSwCPILEventDelete';
+
 
 //หน้าตรวจสอบใบเสนอราคา ( start : 24-04-2020 / done : xx-04-2020 )
 $route['r_quotationcheck'] 						= 'quotationcheck/cQuotationcheck/index';

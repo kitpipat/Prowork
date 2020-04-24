@@ -201,11 +201,13 @@ class cQuotation extends CI_Controller
 		$this->mQuotation->FCxMQUOEditItemQty($aItemData);
 	}
 
-	public function FCwCQUOCallDocPage()
-	{
-
+	//โหลดข้อมูลเอกสาร
+	public function FCwCQUOCallDocPage(){
 		$tDocNo = $this->input->get("tQuoDocNo");
-		$aData = array("tDocNo" => $tDocNo);
+		$aData = array(
+			"tDocNo" 		=> $tDocNo,
+			"tRouteFrom" 	=> 'Create' 
+		);
 		$this->load->view("quotation/wQuotationDocForm", $aData);
 	}
 }

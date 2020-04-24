@@ -70,7 +70,7 @@
 								$oEventDelete 			= '';
 								$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
 							}else{
-								$oEventDelete 			= "JSxAJP_Delete('".$aValue['FTXqhDocNo']."')";
+								$oEventDelete 			= "JSxPIC_Delete('".$aValue['FTXqhDocNo']."')";
 								$tClassDisabledDelete 	= '';
 							}
 						}else{
@@ -78,7 +78,7 @@
 							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
 						}
 					 ?>
-					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwAJPCallPageInsert('edit','<?=$aValue['FTXqhDocNo']?>');"></td>
+					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPICCallPageEditPI('<?=$aValue['FTXqhDocNo']?>');"></td>
 					<td><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete;?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>
 			<?php } ?>
@@ -168,36 +168,53 @@
 	}
 
 	//ลบข้อมูล
-	function JSxSupplier_Delete(ptCode){
-		// $('#obtModalDelete').click();
+	function JSxPIC_Delete(ptCode){
+		$('#obtModalDelete').click();
 
-		// $('.xCNConfirmDelete').off();
-		// $('.xCNConfirmDelete').on("click",function(){
-		// 	$.ajax({
-		// 		type	: "POST",
-		// 		url		: 'r_suppliereventdelete',
-		// 		data 	: { 'ptCode' : ptCode },
-		// 		cache	: false,
-		// 		timeout	: 0,
-		// 		success	: function (tResult) {
-		// 			$('.xCNCloseDelete').click();
-		// 			$('.alert-success').addClass('show').fadeIn();
-		// 			$('.alert-success').find('.badge-success').text('สำเร็จ');
-		// 			$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
+		$('.xCNConfirmDelete').off();
+		$('.xCNConfirmDelete').on("click",function(){
+			$.ajax({
+				type	: "POST",
+				url		: 'r_quotationListDelete',
+				data 	: { 'ptCode' : ptCode },
+				cache	: false,
+				timeout	: 0,
+				success	: function (tResult) {
+					$('.xCNCloseDelete').click();
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
 					
-		// 			setTimeout(function(){
-		// 				JSxCallPageSupplierMain();
-		// 			}, 500);
+					setTimeout(function(){
+						JSxCallPagePIListMain();
+					}, 500);
 
-		// 			setTimeout(function(){
-		// 				$('.alert-success').find('.close').click();
-		// 			}, 3000);
-		// 		},
-		// 		error: function (jqXHR, textStatus, errorThrown) {
-		// 			alert(jqXHR, textStatus, errorThrown);
-		// 		}
-		// 	});
-		// });
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
+		});
+	}
+
+	//เข้าหน้าแก้ไข PI
+	function JSwPICCallPageEditPI(ptCode){
+		$.ajax({
+			type	: "POST",
+			url		: 'r_quotationListPageEdit',
+			data 	: { 'ptCode' : ptCode },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('.content').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
 	}
 
 </script>

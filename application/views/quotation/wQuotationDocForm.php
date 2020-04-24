@@ -17,11 +17,21 @@
 </style>
 
 
+<?php
+	if($tRouteFrom == 'List'){
+		//ถ้ากดเช้ามาจากหน้า list เวลาย้อนกลับต้องย้อนกลับไปหน้า list
+		$tRoute = 'r_quotationList';
+	}else{
+		//ถ้ากดเช้ามาจากหน้า create เวลาย้อนกลับต้องย้อนกลับไปหน้า create
+		$tRoute = 'r_quotation/1';
+	}
+?>
+
 <div class="container-fulid">
 
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="FSvCallPageBackStep();">ใบเสนอราคา</span><span class="xCNHeadMenu"> / รายละเอียด</span></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="FSvCallPageBackStep('<?=$tRoute?>');">ใบเสนอราคา</span><span class="xCNHeadMenu"> / รายละเอียด</span></div>
 
 		<div class="col-lg-6 col-md-6 text-right">
 			<button type="button" class="xCNButtonSave pull-right" onclick="FSxQUOSaveDoc()">บันทึก</button>
@@ -391,13 +401,14 @@
 
 	});
 
-	function FSvCallPageBackStep() {
+	//กดย้อนกลับ
+	function FSvCallPageBackStep(ptRoute) {
 		$.ajax({
-			type: "POST",
-			url: "r_quotation/1",
-			cache: false,
-			timeout: 0,
-			success: function(tResult) {
+			type	: "POST",
+			url		: ptRoute,
+			cache	: false,
+			timeout	: 0,
+			success	: function(tResult) {
 				$('.content').html(tResult);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {

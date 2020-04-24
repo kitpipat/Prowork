@@ -29,4 +29,40 @@ class cQuotationList extends CI_Controller {
 		$this->load->view('quotationList/wQuotationListDatatable',$aPackData);
 	}
 
+	//เอาข้อมูลจากตารางจริงลง Tmp ให้หมด เเล้ววิ่งไปหน้าที่พี่รันต์สร้างไว้
+	public function FSwCPILCallPageEdit(){
+		$tDocumentnumber 	= $this->input->post('ptCode');
+		$tWorkerID 			= $this->session->userdata('tSesUsercode');
+
+		//ลบข้อมูลใน Tmp ก่อน
+		$this->mQuotationList->FSaMPILDeleteTmpAll($tWorkerID);
+
+		//Move HD -> Tmp
+		$this->mQuotationList->FSaMPILMoveHDToTmp($tDocumentnumber,$tWorkerID);
+
+		//Move DT -> Tmp
+		$this->mQuotationList->FSaMPILMoveDTToTmp($tDocumentnumber,$tWorkerID);
+
+		//Move HD Customer -> Tmp
+		$this->mQuotationList->FSaMPILMoveHDCusToTmp($tDocumentnumber,$tWorkerID);
+
+		$aData 	= array(
+			"tDocNo" 		=> $tDocumentnumber , 
+			"tRouteFrom" 	=> 'List' 
+		);
+		$this->load->view("quotation/wQuotationDocForm", $aData);
+	}
+
+	//ลบเอกสาร 
+	public function FSwCPILEventDelete(){
+		$tDocumentnumber 	= $this->input->post('ptCode');
+		$tWorkerID 			= $this->session->userdata('tSesUsercode');
+
+		//ลบข้อมูลใน Tmp ก่อน
+		$this->mQuotationList->FSaMPILDeleteTmpAll($tWorkerID);
+
+		//ลบข้อมูลในเอกสาร กับตารางที่เกี่ยวข้อง
+		$this->mQuotationList->FSaMPILDeleteDocumentAll($tDocumentnumber);
+	}
+
 }

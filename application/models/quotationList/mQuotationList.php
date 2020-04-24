@@ -98,4 +98,122 @@ class mQuotationList extends CI_Model{
             echo $Error;
         }
 	}
+
+	//ลบข้อมูลใน Tmp 
+	public function FSaMPILDeleteTmpAll($ptWorkerID){
+
+		$tSQLHD = "DELETE FROM TARTSqHDTmp WHERE FTWorkerID = '$ptWorkerID' ";
+		$this->db->query($tSQLHD);
+
+		$tSQLDT = "DELETE FROM TARTSqDTTmp WHERE FTWorkerID = '$ptWorkerID' ";
+		$this->db->query($tSQLDT);
+
+		$tSQLCustomer = "DELETE FROM TARTSqHDCstTmp WHERE FTWorkerID = '$ptWorkerID' ";
+		$this->db->query($tSQLCustomer);
+	}
+
+	//ย้ายข้อมูล จาก HD -> Tmp
+	public function FSaMPILMoveHDToTmp($ptDocNo,$ptWorkerID){
+		$tSQL = "INSERT INTO TARTSqHDTmp 
+					SELECT  
+						FTBchCode,
+						FTXqhDocNo,
+						FDXqhDocDate,
+						FTXqhCshOrCrd,
+						FNXqhCredit,
+						FTXqhVATInOrEx,
+						FNXqhSmpDay,
+						FDXqhEftTo,
+						FDDeliveryDate,
+						FTXqhStaExpress,
+						FTXqhStaDoc,
+						FTXqhStaActive,
+						FTXqhStaDeli,
+						FTXqhPrjName,
+						FTXqhPrjCodeRef,
+						FCXqhB4Dis,
+						FCXqhDis,
+						FTXqhDisTxt,
+						FCXqhAFDis,
+						FCXqhVatRate,
+						FCXqhAmtVat,
+						FCXqhVatable,
+						FCXqhGrand,
+						FCXqhRnd,
+						FTXqhGndText,
+						FTXqhRmk,
+						FTUsrDep,
+						FTXqhStaApv,
+						FTApprovedBy,
+						FDApproveDate,
+						FTCreateBy,
+						FDCreateOn,
+						FTUpdateBy,
+						FDUpdateOn,
+						$ptWorkerID AS FTWorkerID
+					FROM TARTSqHD
+					WHERE FTXqhDocNo = '".$ptDocNo."' ";
+		$this->db->query($tSQL);
+	}
+
+	//ย้ายข้อมูล จาก DT -> Tmp
+	public function FSaMPILMoveDTToTmp($ptDocNo,$ptWorkerID){
+		$tSQL = "  INSERT INTO TARTSqDTTmp
+						SELECT
+							FTXqhDocNo,
+							FNXqdSeq,
+							FTPdtCode,
+							FTPdtName,
+							FTPunCode,
+							FTPunName,
+							FTXqdCost,
+							FCXqdUnitPrice,
+							FCXqdQty,
+							FTSplCode,
+							FCXqdDis,
+							FTXqdDisTxt,
+							FCXqdFootAvg,
+							null AS FDTmpTnsDate,
+							FTCreateBy,
+							FDCreateOn,
+							$ptWorkerID AS FTWorkerID
+						FROM TARTSqDT
+						WHERE FTXqhDocNo = '".$ptDocNo."' ";
+		$this->db->query($tSQL);
+	}
+
+	//ย้ายข้อมูล จาก HD Customer -> Tmp
+	public function FSaMPILMoveHDCusToTmp($ptDocNo,$ptWorkerID){
+		$tSQL = "INSERT INTO TARTSqHDCstTmp
+					SELECT 
+						FTXqhDocNo,
+						FTXqcCstCode,
+						FTXqcCstName,
+						FTXqcAddress,
+						FTXqhTaxNo,
+						FTXqhContact,
+						FTXqhEmail,
+						FTXqhTel,
+						FTXqhFax,
+						FTCreateBy,
+						FDCreateOn,
+						FTUpdateBy,
+						FDUpdateOn,
+						$ptWorkerID AS FTWorkerID
+					FROM TARTSqHDCst
+					WHERE FTXqhDocNo = '".$ptDocNo."' ";
+		$this->db->query($tSQL);
+	}
+
+	//ลบข้อมูลเอกสารทั้งหมด
+	public function FSaMPILDeleteDocumentAll($ptDocNo){
+		$tSQLHD = "DELETE FROM TARTSqHD WHERE FTXqhDocNo = '$ptDocNo' ";
+		$this->db->query($tSQLHD);
+
+		$tSQLDT = "DELETE FROM TARTSqDT WHERE FTXqhDocNo = '$ptDocNo' ";
+		$this->db->query($tSQLDT);
+
+		$tSQLCustomer = "DELETE FROM TARTSqHDCst WHERE FTXqhDocNo = '$ptDocNo' ";
+		$this->db->query($tSQLCustomer);
+	}
 }
