@@ -119,13 +119,23 @@
 											<?php 
 												switch ($aValue['FTMenType']) {
 													case "document":
-														$tDisRead 	= 'open';
-														$tDisCreate = 'open';
-														$tDisEdit 	= 'open';
-														$tDisDelete = 'open';
-														$tDisCancle = 'open';
-														$tDisAprove = 'open';
-														$tDisPrint 	= 'open';
+														if($aValue['FTPathRoute'] == 'r_adjprice' || $aValue['FTPathRoute'] == 'r_adjcost'){
+															$tDisRead 	= 'open';
+															$tDisCreate = 'open';
+															$tDisEdit 	= 'open';
+															$tDisDelete = 'open';
+															$tDisCancle = 'open';
+															$tDisAprove = 'open';
+															$tDisPrint 	= 'disabled';
+														}else{
+															$tDisRead 	= 'open';
+															$tDisCreate = 'open';
+															$tDisEdit 	= 'open';
+															$tDisDelete = 'open';
+															$tDisCancle = 'open';
+															$tDisAprove = 'open';
+															$tDisPrint 	= 'open';
+														}
 														break;
 													case "master":
 														$tDisRead 	= 'open';
