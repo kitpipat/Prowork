@@ -315,19 +315,26 @@
 		})
 		.done(function(data) {
 			console.log(data);
+			if(data == 'expired'){
+				 alert('เซสชั่นของคุณหมดอายุ กรุณาเข้าสู่ระบบและทำรายการใหม่อีกครั้ง');
+				 window.location('<?=base_url('Login')?>')
+			}else{
 
-			alert("บันทึกข้อมูลสำเร็จ");
+				  alert("บันทึกข้อมูลสำเร็จ");
+				  aDocInfo = JSON.parse(data)
+		 			if (aDocInfo['nStaRender'] == 1) {
 
-			aDocInfo = JSON.parse(data)
-			if (aDocInfo['nStaRender'] == 1) {
-				$('#olbDocNo').text(aDocInfo['tXqhDocNo']);
-				$('#olbDocNo').attr("data-docno", aDocInfo['tXqhDocNo']);
-				$('#ospDocDate').text(aDocInfo['dDocDate']);
+		 				$('#olbDocNo').text(aDocInfo['tXqhDocNo']);
+		 				$('#olbDocNo').attr("data-docno", aDocInfo['tXqhDocNo']);
+		 				$('#ospDocDate').text(aDocInfo['dDocDate']);
 
-				//บันทึกผ่านเเล้ว จะมีปุ่ม อนุมัติ ยกเลิก
-				$('.xCNCancel').removeClass('xCNHide');
-				$('.xCNAprove').removeClass('xCNHide');
+		 				//บันทึกผ่านเเล้ว จะมีปุ่ม อนุมัติ ยกเลิก
+		 				$('.xCNCancel').removeClass('xCNHide');
+		 				$('.xCNAprove').removeClass('xCNHide');
+
+		 			}
 			}
+
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
 			//serrorFunction();

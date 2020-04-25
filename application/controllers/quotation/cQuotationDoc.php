@@ -105,6 +105,7 @@ class cQuotationDoc extends CI_Controller{
 
 	//บันทึกข้อมูล
 	public function FSxCQUODocSave(){
+
 		$oDocHeaderInfo 	= $this->input->post("oDocHeaderInfo");
 		$oDocCstInfo 		= $this->input->post("oDocCstInfo");
 		$tWorkerID 			= $this->session->userdata('tSesUsercode');
@@ -128,76 +129,82 @@ class cQuotationDoc extends CI_Controller{
 			$nVatable = str_replace(",", "", $nAfDis) - str_replace(",", "", $nAmtVat);
 		}
 
-		$aDocHD = array(
-			"FNXqhSmpDay" 		=> $oDocHeaderInfo[0]["value"],
-			"FDXqhEftTo" 		=> date('Y-m-d',strtotime(str_replace('/', '-', $oDocHeaderInfo[1]["value"]))) . ' ' . date('H:i:s'),
-			"FTXqhCshOrCrd" 	=> $oDocHeaderInfo[2]["value"],
-			"FNXqhCredit" 		=> $oDocHeaderInfo[3]["value"],
-			"FDDeliveryDate" 	=> date('Y-m-d',strtotime(str_replace('/', '-', $oDocHeaderInfo[4]["value"]))) . ' ' . date('H:i:s'),
-			"FTXqhVATInOrEx" 	=> $oDocHeaderInfo[5]["value"],
-			"FTXqhStaExpress" 	=> $nStaExpress,
-			"FTXqhStaActive" 	=> $nStaDocActive,
-			"FTXqhStaDeli" 		=> $nStaDeli,
-			"FTXqhPrjName" 		=> $oDocCstInfo[7]["value"],
-			"FTXqhPrjCodeRef" 	=> $oDocCstInfo[8]["value"],
-			"FCXqhB4Dis" 		=> $nB4Dis,
-			"FCXqhDis" 			=> $nDis,
-			"FTXqhDisTxt" 		=> $tDisText,
-			"FCXqhAFDis" 		=> $nAfDis,
-			"FCXqhVatRate" 		=> $nVatRate,
-			"FCXqhAmtVat" 		=> $nAmtVat,
-			"FCXqhVatable" 		=> $nVatable,
-			"FCXqhGrand" 		=> $nGrandTotal,
-			"FTXqhGndText" 		=> $tGndText,
-			"FTXqhRmk" 			=> $tDocRemark,
-			"tWorkerID" 		=> $tWorkerID,
-			"tDocNo" 			=> $tDocNo
-		);
+				$aDocHD = array(
+					"FNXqhSmpDay" 		=> $oDocHeaderInfo[0]["value"],
+					"FDXqhEftTo" 		=> date('Y-m-d',strtotime(str_replace('/', '-', $oDocHeaderInfo[1]["value"]))) . ' ' . date('H:i:s'),
+					"FTXqhCshOrCrd" 	=> $oDocHeaderInfo[2]["value"],
+					"FNXqhCredit" 		=> $oDocHeaderInfo[3]["value"],
+					"FDDeliveryDate" 	=> date('Y-m-d',strtotime(str_replace('/', '-', $oDocHeaderInfo[4]["value"]))) . ' ' . date('H:i:s'),
+					"FTXqhVATInOrEx" 	=> $oDocHeaderInfo[5]["value"],
+					"FTXqhStaExpress" 	=> $nStaExpress,
+					"FTXqhStaActive" 	=> $nStaDocActive,
+					"FTXqhStaDeli" 		=> $nStaDeli,
+					"FTXqhPrjName" 		=> $oDocCstInfo[7]["value"],
+					"FTXqhPrjCodeRef" 	=> $oDocCstInfo[8]["value"],
+					"FCXqhB4Dis" 		=> $nB4Dis,
+					"FCXqhDis" 			=> $nDis,
+					"FTXqhDisTxt" 		=> $tDisText,
+					"FCXqhAFDis" 		=> $nAfDis,
+					"FCXqhVatRate" 		=> $nVatRate,
+					"FCXqhAmtVat" 		=> $nAmtVat,
+					"FCXqhVatable" 		=> $nVatable,
+					"FCXqhGrand" 		=> $nGrandTotal,
+					"FTXqhGndText" 		=> $tGndText,
+					"FTXqhRmk" 			=> $tDocRemark,
+					"tWorkerID" 		=> $tWorkerID,
+					"tDocNo" 			=> $tDocNo
+				);
+		    //ถ้า session ยังไม่หมดอายุ
+		    if($tWorkerID !=''){
 
-		$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
+							$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
 
-		$aDocCst = array(
-			"FTXqcCstName" 		=> $oDocCstInfo[0]["value"],
-			"FTXqcAddress" 		=> $oDocCstInfo[1]["value"],
-			"FTXqhTaxNo" 		=> $oDocCstInfo[2]["value"],
-			"FTXqhContact" 		=> $oDocCstInfo[3]["value"],
-			"FTXqhEmail" 		=> $oDocCstInfo[4]["value"],
-			"FTXqhTel" 			=> $oDocCstInfo[5]["value"],
-			"FTXqhFax" 			=> $oDocCstInfo[6]["value"],
-			"tWorkerID" 		=> $tWorkerID,
-			"tDocNo" 			=> $tDocNo
-		);
+							$aDocCst = array(
+								"FTXqcCstName" 		=> $oDocCstInfo[0]["value"],
+								"FTXqcAddress" 		=> $oDocCstInfo[1]["value"],
+								"FTXqhTaxNo" 		=> $oDocCstInfo[2]["value"],
+								"FTXqhContact" 		=> $oDocCstInfo[3]["value"],
+								"FTXqhEmail" 		=> $oDocCstInfo[4]["value"],
+								"FTXqhTel" 			=> $oDocCstInfo[5]["value"],
+								"FTXqhFax" 			=> $oDocCstInfo[6]["value"],
+								"tWorkerID" 		=> $tWorkerID,
+								"tDocNo" 			=> $tDocNo
+							);
 
-		//Update Header Information
-		$this->mQuotation->FCxMQUODocUpdCst($aDocCst);
+							//Update Header Information
+							$this->mQuotation->FCxMQUODocUpdCst($aDocCst);
 
-		$oDocInfo = $this->mQuotation->FCxMQUCheckDocNoExiting($tWorkerID);
-		if ($oDocInfo['rtCode'] == 1) {
-			$tXqhDocNo = $oDocInfo['raItems'][0]['FTXqhDocNo'];
-			if ($tXqhDocNo == '') {
+							$oDocInfo = $this->mQuotation->FCxMQUCheckDocNoExiting($tWorkerID);
+							if ($oDocInfo['rtCode'] == 1) {
+								$tXqhDocNo = $oDocInfo['raItems'][0]['FTXqhDocNo'];
+								if ($tXqhDocNo == '') {
 
-					$tBchCode 	= $this->session->userdata('tSesBCHCode');
-					$tXqhDocNo 	= $this->mQuotation->FCtMQUGetDocNo($tBchCode);
-					$dDocDate 	= date("Y-m-d H:i:s");
-					$this->mQuotation->FCtMQUUpdateDocNo($tXqhDocNo, $dDocDate, $tBchCode, $tWorkerID);
-					$aDocData 	= array("tXqhDocNo" => $tXqhDocNo, "dDocDate" => $dDocDate, "nStaRender" => 1);
-					$this->mQuotation->FCxMQUMoveTemp2HD($tXqhDocNo, $tWorkerID);
-					$this->mQuotation->FCxMQUMoveTempHDCst($tXqhDocNo, $tWorkerID);
-					$this->mQuotation->FCxMQUMoveTemp2DT($tXqhDocNo, $tWorkerID);
-					echo json_encode($aDocData);
+										$tBchCode 	= $this->session->userdata('tSesBCHCode');
+										$tXqhDocNo 	= $this->mQuotation->FCtMQUGetDocNo($tBchCode);
+										$dDocDate 	= date("Y-m-d H:i:s");
+										$this->mQuotation->FCtMQUUpdateDocNo($tXqhDocNo, $dDocDate, $tBchCode, $tWorkerID);
+										$aDocData 	= array("tXqhDocNo" => $tXqhDocNo, "dDocDate" => $dDocDate, "nStaRender" => 1);
+										$this->mQuotation->FCxMQUMoveTemp2HD($tXqhDocNo, $tWorkerID);
+										$this->mQuotation->FCxMQUMoveTempHDCst($tXqhDocNo, $tWorkerID);
+										$this->mQuotation->FCxMQUMoveTemp2DT($tXqhDocNo, $tWorkerID);
+										echo json_encode($aDocData);
 
-			} else {
+								} else {
 
-						$aDocData =  array("tXqhDocNo" => '', "dDocDate" => '', "nStaRender" => 0);
+											$aDocData =  array("tXqhDocNo" => '', "dDocDate" => '', "nStaRender" => 0);
 
-						$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
-						$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
-						$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
+											$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
+											$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
+											$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
 
-						echo json_encode($aDocData);
+											echo json_encode($aDocData);
 
-			}
-		}
+								}
+							}
+				}else{
+					 // session expired
+					 echo 'expired';
+				}
 	}
 
 	// แก้ไขจำนวนสินค้าในเอกสาร
