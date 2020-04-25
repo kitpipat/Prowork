@@ -188,7 +188,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>ยื่นราคาภายใน (วัน)</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetXqhSmpDay" name="oetXqhSmpDay" placeholder="1" autocomplete="off" value="">
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetXqhSmpDay" name="oetXqhSmpDay" placeholder="1" autocomplete="off">
 										</div>
 									</div>
 
@@ -196,7 +196,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>มีผลถึงวันที่</label>
-											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpXqhEftTo" name="odpXqhEftTo" placeholder="DD/MM/YYYY" autocomplete="off" value="">
+											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpXqhEftTo" name="odpXqhEftTo" placeholder="DD/MM/YYYY" autocomplete="off">
 										</div>
 									</div>
 
@@ -204,7 +204,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>เงื่อนไขการชำระเงิน</label>
-											<select class="form-control" id="odpXqhEftTo" name="odpXqhEftTo">
+											<select class="form-control" id="osmCashorCard" name="osmCashorCard">
 												<option value="">เลือกประเภทการชำระ</option>
 												<option value="1">เงินสด</option>
 												<option value="2">เครดิต</option>
@@ -216,7 +216,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>จำนวนวันเครดิต (วัน)</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetXqhCredit" name="oetXqhCredit" placeholder="1" autocomplete="off" value="">
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetXqhCredit" name="oetXqhCredit" placeholder="1" autocomplete="off">
 										</div>
 									</div>
 
@@ -224,7 +224,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>กำหนดส่งของ</label>
-											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpDeliveryDate" name="odpDeliveryDate" placeholder="DD/MM/YYYY" autocomplete="off" value="">
+											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpDeliveryDate" name="odpDeliveryDate" placeholder="DD/MM/YYYY" autocomplete="off">
 										</div>
 									</div>
 
@@ -248,7 +248,7 @@
 							<div class="row">
 								<div class="col-lg-6">
 									<label class="container-checkbox">เอกสารด่วน
-										<input type="checkbox" id="ocbStaExpress" name="ocbStaExpress" value="1">
+										<input type="checkbox" id="ocbStaExpress" name="ocbStaExpress">
 										<span class="checkmark"></span>
 									</label>
 								</div>
@@ -258,7 +258,7 @@
 
 								<div class="col-lg-6">
 									<label class="container-checkbox">เคลื่อนไหว
-										<input type="checkbox" id="ocbtStaDocActive" name="ocbtStaDocActive" value="1">
+										<input type="checkbox" id="ocbtStaDocActive" name="ocbtStaDocActive">
 										<span class="checkmark"></span>
 									</label>
 								</div>
@@ -268,7 +268,7 @@
 
 								<div class="col-lg-6">
 									<label class="container-checkbox">จัดส่งสินค้าแล้ว
-										<input type="checkbox" id="ocbStaDeli" name="ocbStaDeli" value="1">
+										<input type="checkbox" id="ocbStaDeli" name="ocbStaDeli" >
 										<span class="checkmark"></span>
 									</label>
 								</div>

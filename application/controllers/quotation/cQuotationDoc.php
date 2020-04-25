@@ -134,9 +134,9 @@ class cQuotationDoc extends CI_Controller{
 			"FNXqhCredit" 		=> $oDocHeaderInfo[3]["value"],
 			"FDDeliveryDate" 	=> date('Y-m-d',strtotime(str_replace('/', '-', $oDocHeaderInfo[4]["value"]))) . ' ' . date('H:i:s'),
 			"FTXqhVATInOrEx" 	=> $oDocHeaderInfo[5]["value"],
-			"FTXqhStaExpress" 	=> ($nStaExpress == 'on') ? 1 : 0,
-			"FTXqhStaActive" 	=> ($nStaDocActive == 'on') ? 1 : 0,
-			"FTXqhStaDeli" 		=> ($nStaDeli == 'on') ? 1 : 0,
+			"FTXqhStaExpress" 	=> $nStaExpress,
+			"FTXqhStaActive" 	=> $nStaDocActive,
+			"FTXqhStaDeli" 		=> $nStaDeli,
 			"FTXqhPrjName" 		=> $oDocCstInfo[7]["value"],
 			"FTXqhPrjCodeRef" 	=> $oDocCstInfo[8]["value"],
 			"FCXqhB4Dis" 		=> $nB4Dis,
@@ -152,7 +152,7 @@ class cQuotationDoc extends CI_Controller{
 			"tWorkerID" 		=> $tWorkerID,
 			"tDocNo" 			=> $tDocNo
 		);
-
+		
 		$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
 
 		$aDocCst = array(

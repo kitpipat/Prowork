@@ -264,21 +264,21 @@
 
 		oDocCstInfo 		= $("#ofmQuotationCst").serializeArray()
 		oDocHeaderInfo 		= $("#ofmQuotationHeader").serializeArray()
-
-		if ($('#ocbStaExpress').is(':checked')) {
+		
+		if ($('#ocbStaExpress:checked').val() == 'on') {
 			nStaExpress = 1
 		} else {
-			nStaExpress = ''
+			nStaExpress = 0
 		}
-		if ($('#ocbtStaDocActive').is(':checked')) {
+		if ($('#ocbtStaDocActive:checked').val() == 'on') {
 			nStaDocActive = 1
 		} else {
-			nStaDocActive = ''
+			nStaDocActive = 0
 		}
-		if ($('#ocbStaDeli').is(':checked')) {
+		if ($('#ocbStaDeli:checked').val() == 'on') {
 			nStaDeli = 1
 		} else {
-			nStaDeli = ''
+			nStaDeli = 0
 		}
 
 		tDocNo 			= $("#ospDocNo").attr("data-docno");
@@ -292,43 +292,44 @@
 		tDocRemark 		= $("#otaDocRemark").val();
 
 		$.ajax({
-				url		: 'r_quodocsavedoc',
-				type	: 'POST',
-				data	: {
-					oDocHeaderInfo	: oDocHeaderInfo,
-					oDocCstInfo		: oDocCstInfo,
-					tDocNo			: tDocNo,
-					nStaExpress		: nStaExpress,
-					nStaDocActive	: nStaDocActive,
-					nStaDeli		: nStaDeli,
-					nB4Dis			: nB4Dis,
-					nDis			: nDis,
-					nAfDis			: nAfDis,
-					tDisText		: tDisText,
-					nVatRate		: nVatRate,
-					nAmtVat			: nAmtVat,
-					nGrandTotal		: nGrandTotal,
-					tDocRemark		: tDocRemark
-				},
-				datatype	: 'json'
-			})
-			.done(function(data) {
-				alert("บันทึกข้อมูลสำเร็จ");
+			url		: 'r_quodocsavedoc',
+			type	: 'POST',
+			data	: {
+				oDocHeaderInfo	: oDocHeaderInfo,
+				oDocCstInfo		: oDocCstInfo,
+				tDocNo			: tDocNo,
+				nStaExpress		: nStaExpress,
+				nStaDocActive	: nStaDocActive,
+				nStaDeli		: nStaDeli,
+				nB4Dis			: nB4Dis,
+				nDis			: nDis,
+				nAfDis			: nAfDis,
+				tDisText		: tDisText,
+				nVatRate		: nVatRate,
+				nAmtVat			: nAmtVat,
+				nGrandTotal		: nGrandTotal,
+				tDocRemark		: tDocRemark
+			},
+			datatype : 'json'
+		})
+		.done(function(data) {
+			console.log(data);
+			alert("บันทึกข้อมูลสำเร็จ");
 
-				aDocInfo = JSON.parse(data)
-				if (aDocInfo['nStaRender'] == 1) {
-					$('#olbDocNo').text(aDocInfo['tXqhDocNo']);
-					$('#olbDocNo').attr("data-docno", aDocInfo['tXqhDocNo']);
-					$('#ospDocDate').text(aDocInfo['dDocDate']);
+			aDocInfo = JSON.parse(data)
+			if (aDocInfo['nStaRender'] == 1) {
+				$('#olbDocNo').text(aDocInfo['tXqhDocNo']);
+				$('#olbDocNo').attr("data-docno", aDocInfo['tXqhDocNo']);
+				$('#ospDocDate').text(aDocInfo['dDocDate']);
 
-					//บันทึกผ่านเเล้ว จะมีปุ่ม อนุมัติ ยกเลิก
-					$('.xCNCancel').removeClass('xCNHide');
-					$('.xCNAprove').removeClass('xCNHide');
-				}
-			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				//serrorFunction();
-			});
+				//บันทึกผ่านเเล้ว จะมีปุ่ม อนุมัติ ยกเลิก
+				$('.xCNCancel').removeClass('xCNHide');
+				$('.xCNAprove').removeClass('xCNHide');
+			}
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			//serrorFunction();
+		});
 
 	}
 
