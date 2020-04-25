@@ -12,6 +12,19 @@
 	}
 ?>
 
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_modalproduct');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
+
 <div class="container-fulid">
 	
 	<form id="ofmModalProduct" class="form-signin" method="post" action="javascript:void(0)">
@@ -21,7 +34,22 @@
 		<!--Section บน-->
 		<div class="row">
 			<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPageModalProductMain();">รุ่นสินค้า</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
-			<div class="col-lg-6 col-md-6"><button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button></div>
+			<?php 
+				if($tTypePage == 'edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
+					if($tPer_edit == ''){
+						$tAlwSave = '';
+					}else{
+						$tAlwSave = 'xCNHide';
+					}
+				}else if($tTypePage == 'insert'){ //เข้ามาแบบ ขา Insert และ สิทธิสามารถบันทึกได้
+					if($tPer_create == ''){
+						$tAlwSave = '';
+					}else{
+						$tAlwSave = 'xCNHide';
+					}
+				}
+			?>
+			<div class="col-lg-6 col-md-6 <?=$tAlwSave?>"><button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button></div>
 		</div>
 
 		<!--Section ล่าง-->
@@ -45,6 +73,11 @@
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 
+	//ถ้าเข้ามาแบบแก้ไข แต่ ไม่มีสิทธิ์ในการแก้ไข
+	if('<?=$tTypePage?>' == 'edit' && '<?=$tPer_edit?>' != ''){
+		$('.form-control').attr('disabled',true);
+	}
+	
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
 
