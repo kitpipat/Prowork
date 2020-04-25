@@ -612,3 +612,11 @@ table tbody .xCNTableGroupMenu{
   ::placeholder {
 	color: #cdcdcd !important;
   }
+
+  .xCNBorderleft{
+	  border-left:1px solid #d6d6d6;
+  }
+
+  .xCNBorderright{
+	border-right:1px solid #d6d6d6;
+}
