@@ -1,3 +1,15 @@
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_product');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
 <div class="container-fulid">
 	<div class="row">
 
@@ -129,7 +141,7 @@
 			<!--Section บน-->
 			<div class="row">
 				<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">สินค้า</span></div>
-				<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right" onClick="JSwProductCallPageInsert('insert','')">+</button></div>
+				<div class="col-lg-6 col-md-6 <?=$tPer_create?>"><button class="xCNButtonInsert pull-right" onClick="JSwProductCallPageInsert('insert','')">+</button></div>
 			</div>
 
 			<!--Section ล่าง-->
@@ -167,9 +179,9 @@
 												</button>
 												<div class="dropdown-menu dropdown-menu-left xCNDropdown">
 													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href='<?=base_url('application/assets/templates/Product_Import_Template.xlsx')?>'>ดาวน์โหลดแม่แบบ</a></button>
-													<button class="dropdown-item xCNDropdownSub" type="button" onclick="JSxExtractImage()">นำเข้าข้อมูล รูปภาพ</button>
+													<button class="dropdown-item xCNDropdownSub <?=$tPer_create?>" type="button" onclick="JSxExtractImage()">นำเข้าข้อมูล รูปภาพ</button>
 													<input type="file" id="inputfileuploadImagePDT" style="display:none;" name="inputfileuploadImagePDT" accept=".zip,.rar,.7zip" onchange="JSoExtractImageResize(this,'images/products_temp')">
-													<button class="dropdown-item xCNDropdownSub" type="button" onclick="JSxImportDataExcel()">นำเข้าข้อมูล ไฟล์</button>
+													<button class="dropdown-item xCNDropdownSub <?=$tPer_create?>" type="button" onclick="JSxImportDataExcel()">นำเข้าข้อมูล ไฟล์</button>
 													<input style="display:none;" type="file" id="ofeImportExcel" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
 												</div>
 											</div>

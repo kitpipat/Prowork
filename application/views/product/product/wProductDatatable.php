@@ -1,3 +1,15 @@
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_product');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
 <table class="table table-striped xCNTableCenter">
   <thead>
     <tr>
@@ -9,7 +21,7 @@
 		<th style="width:160px; text-align: left;">ผู้จำหน่าย</th>
 		<th style="width:100px; text-align: left;">สถานะ</th>
 		<th style="width:50px; text-align: center;">แก้ไข</th>
-		<th style="width:50px; text-align: center;">ลบ</th>
+		<th style="width:50px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
     </tr>
   </thead>
   <tbody>
@@ -47,7 +59,7 @@
 					?>
 					<td><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>
 					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwProductCallPageInsert('edit','<?=$aValue['FTPdtCode']?>');"></td>
-					<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxProduct_Delete('<?=$aValue['FTPdtCode']?>');"></td>
+					<td class='<?=$tPer_delete?>'><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxProduct_Delete('<?=$aValue['FTPdtCode']?>');"></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
