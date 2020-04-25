@@ -139,8 +139,8 @@
 				nXqhDis = parseFloat(nXqhDis)
 				nXqhDis = accounting.formatMoney(nXqhDis.toFixed(2), "")
 				$("#ospXqhDis").text(nXqhDis);
-			
-				FSoQUODocCst(); 
+
+				FSoQUODocCst();
 				FSvQUODocItems();
 
 				//เอกสารถูกยกเลิก หรือ อนุมัติแล้วจะทำงานไม่ได้
@@ -351,7 +351,7 @@
 				$('.alert-success').addClass('show').fadeIn();
 				$('.alert-success').find('.badge-success').text('สำเร็จ');
 				$('.alert-success').find('.xCNTextShow').text('ยกเลิกเอกสารสำเร็จ');
-				
+
 				setTimeout(function(){
 					FSvCallPageBackStep('r_quotationList');
 				}, 500);
@@ -402,5 +402,43 @@
 			});
 		});
 	}
+
+	// แก้ไขจำนวนสินค้าในหน้าเอกสาร
+	function FSxQUOEditDocItemQty(e, poElm) {
+		//See notes about 'which' and 'key'
+		if (e.keyCode == 13) {
+
+					nItemQTY = $(poElm).val();
+					tQuoDocNo = $("#ospDocNo").attr("data-docno");
+					nItemSeq = $(poElm).attr("data-seq");
+					nUnitPrice = $("#oetPdtUnitPrice"+nItemSeq).val();
+
+					//console.log(nItemQTY+'+'+tQuoDocNo+'+'+nItemSeq+'+'+nUnitPrice);
+
+
+					$.ajax({
+							url: 'r_quoEditItemQty',
+							type: 'POST',
+							data: {
+								tQuoDocNo: tQuoDocNo,
+								nItemSeq: nItemSeq,
+								nItemQTY: nItemQTY,
+								nUnitPrice: nUnitPrice
+							},
+							datatype: 'json'
+						})
+						.done(function(data) {
+
+						   alert(data);
+
+						})
+						.fail(function(jqXHR, textStatus, errorThrown) {
+							//serrorFunction();
+						});
+
+					return false;
+		}
+	}
+
 
 </script>

@@ -193,6 +193,11 @@ class cQuotationDoc extends CI_Controller{
 		}
 	}
 
+	// แก้ไขจำนวนสินค้าในเอกสาร
+  public function FSxCQUOEventEditQty(){
+		     echo $nItemSeq = $this->input->post('nItemSeq');
+	}
+
 	//ลบข้อมูลใน Temp - รายการ
 	public function FSxCQUOEventDeleteItem(){
 		$tDocument 	= $this->input->post('ptDocument');
@@ -206,8 +211,8 @@ class cQuotationDoc extends CI_Controller{
 		);
 		$this->mQuotation->FCxMQUDeleteItemInTemp($aItem);
 	}
-	
-	//ยกเลิกเอกสาร 
+
+	//ยกเลิกเอกสาร
 	public function FSxCQUOEventCancleDocument(){
 		$tDocumentNumber = $this->input->post('tDocNo');
 		$aItem = array(

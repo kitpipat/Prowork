@@ -76,8 +76,23 @@
 					<td><label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label></td>
 					<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nXqdCost, 2); ?></label></td>
 				<?php } ?>
-				<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nXqdUnitPrice, 2);?></label></td>
-				<td><input type="text" class="text-right xCNEditInline xCNInputNumericWithDecimal"value="<?= $nXqdQty ?>" style="width:80px;"></td>
+				<td class="text-right">
+					<label class="xCNLineHeightInTable">
+						      <input type="text"
+									       id="oetPdtUnitPrice<?=$nSeq?>"
+									       class="text-right xCNEditInline xCNInputNumericWithDecimal"
+									       value="<?=number_format($nXqdUnitPrice, 2);?>"
+												 style="width:90px;">
+          </label>
+				</td>
+				<td>
+					  <input type="text"
+						       class="text-right xCNEditInline xCNInputNumericWithDecimal"
+									 value="<?= $nXqdQty ?>"
+									 data-seq="<?=$nSeq?>"
+									 style="width:80px;"
+									 onkeypress="return FSxQUOEditDocItemQty(event,this)">
+				</td>
 				<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nTotal, 2); ?></label></td>
 				<td> <input type="text" class="text-right xCNEditInline xCNInputNumericWithDecimal" value="<?= $nXqdDis ?>" style="width:80px;"> </td>
 				<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nPdtNetTotal, 2);?></label></td>
