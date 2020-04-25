@@ -90,7 +90,9 @@
 											       id="oetPdtUnitPrice<?=$nSeq?>"
 											       class="text-right xCNEditInline xCNInputNumericWithDecimal"
 											       value="<?=number_format($nXqdUnitPrice, 2);?>"
-														 style="width:90px;">
+														 data-seq="<?=$nSeq?>"
+														 style="width:90px;"
+														 onkeypress="return FSxQUOEditDocItemPri(event,this)">
 									</div>
           </label>
 				</td>
@@ -110,6 +112,7 @@
 													 onclick="alert('กรอกจำนวนที่ต้องการแล้วกด Enter')"></i>
 										    <input type="text"
 												       class="text-right xCNEditInline xCNInputNumericWithDecimal"
+															 id="oetDocItemQty<?=$nSeq?>"
 															 value="<?=$nXqdQty ?>"
 															 data-seq="<?=$nSeq?>"
 															 style="width:80px;"

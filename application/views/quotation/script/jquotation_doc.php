@@ -455,6 +455,49 @@
 		}
 	}
 
+	// แก้ไขราคาขายต่อหน่วยในหน้าเอกสาร
+	function FSxQUOEditDocItemPri(e, poElm) {
+		//See notes about 'which' and 'key'
+		if (e.keyCode == 13) {
+
+					nPdtUnitPrice = $(poElm).val();
+					tQuoDocNo = $("#ospDocNo").attr("data-docno");
+					nItemSeq = $(poElm).attr("data-seq");
+					tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+					nItemDiscount = $("#oetItemDiscount"+nItemSeq).val()
+          nItemQTY = $("#oetDocItemQty"+nItemSeq).val()
+					console.log(nPdtUnitPrice+'+'+tQuoDocNo+'+'+nItemSeq+'+'+tPdtCode+'+'+nItemDiscount);
+
+
+					$.ajax({
+							url: 'r_quoEditItemPrice',
+							timeout: 0,
+							type: 'POST',
+							data: {
+								tQuoDocNo: tQuoDocNo,
+								nItemSeq: nItemSeq,
+								nItemQTY: nItemQTY,
+								tPdtCode : tPdtCode,
+								nPdtUnitPrice : nPdtUnitPrice,
+								nItemDiscount : nItemDiscount
+							},
+							datatype: 'json'
+						})
+						.done(function(data) {
+               //console.log(data)
+						   FSvQUODocItems();
+
+						})
+						.fail(function(jqXHR, textStatus, errorThrown) {
+							//serrorFunction();
+						});
+
+					return false;
+		}
+	}
+
+
+
 	function FSxQUODocItemDiscount(e, poElm) {
 		//See notes about 'which' and 'key'
 		if (e.keyCode == 13) {
