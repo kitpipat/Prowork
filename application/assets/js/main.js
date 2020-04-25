@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
     });
 
 
-    // Load Resize 
+    // Load Resize
     $(window).on("load resize", function(event) {
         var windowWidth = $(window).width();
         if (windowWidth < 1010) {
@@ -84,7 +84,7 @@ jQuery(document).ready(function($) {
 
 
     $('.JSxCallContentMenu').on('click', function(event) {
-        $('.content').html('');
+        $('.content').html('<div style="background:#FFFFFF;padding:10px">กำลังโหลดหน้ากรุณารอซักครู่...</div>');
         $.ajax({
             type: "POST",
             url: $(this).attr('data-menuname'),
@@ -92,13 +92,13 @@ jQuery(document).ready(function($) {
             timeout: 0,
             success: function(tResult) {
 
-				var nWidth = $('#left-panel').width();
-				if(nWidth > 70){
-					$('#menuToggle').click();
-				}
+      				var nWidth = $('#left-panel').width();
+      				if(nWidth > 70){
+      					$('#menuToggle').click();
+      				}
 
-				$('.content').html(tResult);
-				
+      				$('.content').html(tResult);
+
 				//เปิดการแจ้งเตือนของวัด
 				$('.xCNDialog_Footer').css('display','block');
             },
