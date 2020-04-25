@@ -215,11 +215,11 @@
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 
+	//ถ้าเข้ามาแบบแก้ไข แต่ ไม่มีสิทธิ์ในการแก้ไข
 	if('<?=$tTypePage?>' == 'edit' && '<?=$tPer_edit?>' != ''){
 		$('.form-control').attr('disabled',true);
 		$('.xCNChooseImage').hide();
 	}
-
 
 	//อัพโหลดรูปภาพ
 	function JSxUploadImageUser(){
