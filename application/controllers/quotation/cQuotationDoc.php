@@ -330,6 +330,10 @@ class cQuotationDoc extends CI_Controller{
 		$this->mQuotation->FCxMQUDeleteItemInTemp($aItem);
 	}
 
+	public function FSxCQUOEventFootDis(){
+		
+	}
+
 	//ยกเลิกเอกสาร
 	public function FSxCQUOEventCancleDocument(){
 		$tDocumentNumber = $this->input->post('tDocNo');

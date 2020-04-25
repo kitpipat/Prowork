@@ -72,6 +72,7 @@ $route['r_quoEditItemQty'] 					= 'quotation/cQuotationDoc/FSxCQUOEventEditQty';
 $route['r_quoItemDiscount'] 					= 'quotation/cQuotationDoc/FSxCQUOEventItemDis';
 $route['r_quoEditItemPrice'] 					= 'quotation/cQuotationDoc/FSxCQUOEventItemPri';
 $route['r_quodeleteItem'] 						= 'quotation/cQuotationDoc/FSxCQUOEventDeleteItem';
+$route['r_quoDocFootDiscount'] 					= 'quotation/cQuotationDoc/FSxCQUOEventFootDis';
 $route['r_quoCancleDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventCancleDocument';
 $route['r_quoApproveDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventApproveDocument';
 

@@ -347,7 +347,11 @@
 										   style="font-size: 0.5rem;"
 										   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
 										   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
-										<input type="text" autocomplete="off" id="oetXqhDisText" class="text-right form-control xCNInputNumericWithDecimal">
+										<input type="text"
+										       autocomplete="off"
+													 id="oetXqhDisText"
+													 class="text-right form-control xCNInputNumericWithDecimal"
+													 onkeypress="return FSxQUODocFootDis(event,this)">
 									</div>
 								</div>
 								<div class="col-lg-6">

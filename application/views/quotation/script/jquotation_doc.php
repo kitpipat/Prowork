@@ -484,7 +484,7 @@
 					if(parseFloat(nPdtUnitPriceCng) < parseFloat(nPdtCost) && parseFloat(nPdtUnitPriceCng) !=0){
 
 									alert("ไม่อนุญาติขายต่ำกว่าราคาต้นทุน");
-									
+
 									FSvQUODocItems();
 
 					}else{
@@ -537,6 +537,43 @@
 											nItemDiscount: nItemDiscount,
 											tPdtCode : tPdtCode,
 											nItemNet : nItemNet
+										},
+										datatype: 'json'
+									})
+									.done(function(data) {
+										 //console.log(data)
+										 FSvQUODocItems();
+
+									})
+									.fail(function(jqXHR, textStatus, errorThrown) {
+										//serrorFunction();
+									});
+
+								return false;
+					}
+		}
+	}
+
+	//ส่วนท้ายบิล
+	function FSxQUODocFootDis(e, poElm) {
+		//See notes about 'which' and 'key'
+		if (e.keyCode == 13) {
+
+					nDiscount = $(poElm).val();
+					tQuoDocNo = $("#ospDocNo").attr("data-docno");
+          nNetฺฺB4HD = $("#otdDocNetTotal").text()
+					//console.log(nDiscount+'+'+tQuoDocNo+'+'+nNetฺฺB4HD);
+          if($(poElm).val() != ''){
+
+								$.ajax({
+										url: 'r_quoDocFootDiscount',
+										timeout: 0,
+										type: 'POST',
+										data: {
+											tQuoDocNo: tQuoDocNo,
+											nDiscount: nDiscount,
+											nItemDiscount: nItemDiscount,
+											nNetฺฺB4HD : nNetฺฺB4HD
 										},
 										datatype: 'json'
 									})
