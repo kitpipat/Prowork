@@ -1,46 +1,36 @@
 <table class="table table-striped xCNTableCenter">
   <thead>
     <tr>
-		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="width:300px; text-align: left;">เลขที่เอกสาร</th>
-		<th style="text-align: left;">วันที่-เวลาเอกสาร</th>
-		<th style="width:15%; text-align: left;">ประเภทชำระ</th>
-		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
-		<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>
-		<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
-		<th style="width:80px; text-align: center;">แก้ไข</th>
-		<th style="width:80px; text-align: center;">ลบ</th>
-    </tr>
+		<th rowspan="2" style="width:150px; text-align: left; vertical-align: middle;">เลขที่เอกสาร</th>
+		<th rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">วันที่เอกสาร</th>
+		<th rowspan="2" style="width:10px; text-align: left; vertical-align: middle;">ลำดับ</th>
+		<th rowspan="2" style="text-align: left; vertical-align: middle;">รายการสินค้า</th>
+		<th rowspan="2" style="width:80px; text-align: right; vertical-align: middle;">ราคาขาย</th>
+		<th rowspan="2" style="width:80px; text-align: right; vertical-align: middle;">จำนวน</th>
+		<th rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">หน่วยสินค้า</th>
+		<th rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">สถานะเอกสาร</th>
+		<th class="xCNBorderleft" colspan="2" style="text-align:center;">จัดซื้อสินค้า</th>
+		<th class="xCNBorderleft xCNBorderright" colspan="2" style="text-align:center;">สถานะสั้งสินค้าและบิล</th>
+		<th rowspan="2" style="width:80px; text-align: left; vertical-align: middle;">ผู้รับ</th>
+	</tr>
+	<tr>
+		<th class="xCNBorderleft" style="text-align:center; width:110px;">วันที่สั้งสินค้า</th>
+		<th style="text-align:center; width:110px;">วันกำหนดส่งของ</th>
+		<th class="xCNBorderleft" style="text-align:center; width:110px;">วันที่รับสินค้า</th>
+		<th class="xCNBorderright" style="text-align:center; width:110px;">เลขที่บิล</th>
+	</tr>
   </thead>
   <tbody>
 		<?php if($aList['rtCode'] != 800){ ?>
 			<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
-					<th><?=$aValue['rtRowID']?></th>
 					<td><?=$aValue['FTXqhDocNo']?></td>
 					<td><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
-					
-					<!--ประเภทชำระ-->
-					<?php 
-						if($aValue['FTXqhCshOrCrd'] == 1){
-							$tTextCshOrCrd 			= "เงินสด";
-						}else{
-							$tTextCshOrCrd 			= "เครดิต";
-						}
-					?>
-					<td><?=$tTextCshOrCrd?></td>
-
-					<!--สถานะเอกสาร-->
-					<?php 
-						if($aValue['FTXqhStaDoc'] == 1){
-							$tTextStaDoc 			= "สมบูรณ์";
-							$tClassStaDoc 			= 'xCNTextClassStatus_open';
-						}else{
-							$tTextStaDoc 			= "เอกสารยกเลิก";
-							$tClassStaDoc 			= 'xCNTextClassStatus_close';
-						}
-					?>
-					<td><span class="<?=$tClassStaDoc?>"><?=$tTextStaDoc?></span></td>
+					<td><?=$aValue['FNXqdSeq']?></td>
+					<td><?=$aValue['FTPdtName']?></td>
+					<td class="text-right"><?=$aValue['FCXqdUnitPrice']?></td>
+					<td class="text-right"><?=$aValue['FCXqdQty']?></td>
+					<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
 
 					<!--สถานะอนุมัติ-->
 					<?php 
@@ -48,38 +38,34 @@
 							$tTextStaApv 			= "อนุมัติแล้ว";
 							$tClassStaApv 			= 'xCNTextClassStatus_open';
 							$tIconClassStaApv 		= 'xCNIconStatus_open';
+							$tDisabledKey			= '';
+							$tPlaceholder			= 'DD/MM/YYYY';
 						}else{
-							if($aValue['FTXqhStaDoc'] == 2){
-								$tTextStaApv 			= "-";
-								$tClassStaApv 			= '';
-								$tIconClassStaApv 		= '';
-							}else{
-								$tTextStaApv 			= "รออนุมัติ";
-								$tClassStaApv 			= 'xCNTextClassStatus_close';
-								$tIconClassStaApv 		= 'xCNIconStatus_close';
-							}
+							$tTextStaApv 			= "รออนุมัติ";
+							$tClassStaApv 			= 'xCNTextClassStatus_close';
+							$tIconClassStaApv 		= 'xCNIconStatus_close';
+							$tDisabledKey			= 'disabled';
+							$tPlaceholder			= '-';
 						}
 					?>
-					<td><div class="<?=$tIconClassStaApv?>"></div><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td>
-					<td><?=($aValue['FTUsrFName'] == '') ? '-' : $aValue['FTUsrFName'];?></td>
+					<td><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td>
 
-					<!--ถ้าอนุมัติแล้วจะลบไม่ได้-->
-					<?php 
-						if($aValue['FTXqhStaActive'] != 1 ){
-							if($aValue['FTXqhStaDoc'] == 2){
-								$oEventDelete 			= '';
-								$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
-							}else{
-								$oEventDelete 			= "JSxAJP_Delete('".$aValue['FTXqhDocNo']."')";
-								$tClassDisabledDelete 	= '';
-							}
-						}else{
-							$oEventDelete 			= '';
-							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
-						}
-					 ?>
-					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwAJPCallPageInsert('edit','<?=$aValue['FTXqhDocNo']?>');"></td>
-					<td><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete;?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
+					<!--วันที่สั้งสินค้า-->
+					<td class="xCNBorderleft">
+						<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PUCDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>">
+					</td>
+					<td>
+						<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'DLIDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>">
+					</td>
+
+					<!--วันที่รับสินค้า-->
+					<td class="xCNBorderleft">
+						<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PIKDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>">
+					</td>
+					<td class="xCNBorderright">
+						<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'REF');" type="text" <?=$tDisabledKey?> maxlength="20" class="xCNEditInline" style="text-align: left; width: 100%;">
+					</td>
+					<td>-</td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
@@ -125,27 +111,17 @@
     </div>
 </div>
 
-
-<!-- Modal Delete -->
-<button id="obtModalDelete" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalDelete"></button>
-<div class="modal fade" id="odvModalDelete" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">ลบข้อมูล</h5>
-      </div>
-      <div class="modal-body">
-        <label>ยืนยันการลบข้อมูล ? </label>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
-        <button type="button" class="btn btn-danger xCNConfirmDelete">ยืนยัน</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
+
+	$('ducument').ready(function(){ 
+		$('.xCNDatePicker').datepicker({ 
+			format          : 'dd/mm/yyyy',
+			autoclose       : true,
+			todayHighlight  : true,
+			orientation		: "top right"
+		});
+	});
+
 	//เปลี่ยนหน้า
 	function JSvPIList_ClickPage(ptPage) {
 		var nPageCurrent = '';
@@ -167,37 +143,42 @@
 		JSwLoadTableList(nPageCurrent);
 	}
 
-	//ลบข้อมูล
-	function JSxSupplier_Delete(ptCode){
-		// $('#obtModalDelete').click();
+	//แก้ไขข้อมูล
+	function JSxUpdateInline(elem,ptType){
+		var tDocumentNubmer = $(elem).attr('data-docnumber');
+		var tSeq 			= $(elem).attr('data-seq');
+		var tPdtcode 		= $(elem).attr('data-pdtcode');
+		var tValue			= $(elem).val();
 
-		// $('.xCNConfirmDelete').off();
-		// $('.xCNConfirmDelete').on("click",function(){
-		// 	$.ajax({
-		// 		type	: "POST",
-		// 		url		: 'r_suppliereventdelete',
-		// 		data 	: { 'ptCode' : ptCode },
-		// 		cache	: false,
-		// 		timeout	: 0,
-		// 		success	: function (tResult) {
-		// 			$('.xCNCloseDelete').click();
-		// 			$('.alert-success').addClass('show').fadeIn();
-		// 			$('.alert-success').find('.badge-success').text('สำเร็จ');
-		// 			$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
-					
-		// 			setTimeout(function(){
-		// 				JSxCallPageSupplierMain();
-		// 			}, 500);
+		$.ajax({
+			type	: "POST",
+			url		: 'r_quotationcheckUpdate',
+			data 	: {
+				'tType'				: ptType,
+				'tDocumentNubmer' 	: tDocumentNubmer,
+				'tSeq'				: tSeq,
+				'tPdtcode'			: tPdtcode,
+				'tValue'			: tValue
+			},
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				console.log(tResult);
+				//เปิด message
+				$('.xCNDialog_Footer').css('display','block');
 
-		// 			setTimeout(function(){
-		// 				$('.alert-success').find('.close').click();
-		// 			}, 3000);
-		// 		},
-		// 		error: function (jqXHR, textStatus, errorThrown) {
-		// 			alert(jqXHR, textStatus, errorThrown);
-		// 		}
-		// 	});
-		// });
+				$('.alert-success').addClass('show').fadeIn();
+				$('.alert-success').find('.badge-success').text('สำเร็จ');
+				$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลสำเร็จ');
+				setTimeout(function(){
+					$('.alert-success').find('.close').click();
+					$('.xCNDialog_Footer').css('display','none');
+				}, 3000);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+
 	}
-
 </script>

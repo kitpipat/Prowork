@@ -187,3 +187,4 @@ $route['r_quotationListDelete'] 				= 'quotationList/cQuotationList/FSwCPILEvent
 //หน้าตรวจสอบใบเสนอราคา ( start : 24-04-2020 / done : xx-04-2020 )
 $route['r_quotationcheck'] 						= 'quotationcheck/cQuotationcheck/index';
 $route['r_quotationcheckload'] 					= 'quotationcheck/cQuotationcheck/FSwCCPILoadDatatable';
+$route['r_quotationcheckUpdate'] 				= 'quotationcheck/cQuotationcheck/FSwCCPIUpdateRecord';
