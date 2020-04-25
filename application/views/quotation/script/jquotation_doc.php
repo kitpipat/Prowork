@@ -415,6 +415,8 @@
 					tQuoDocNo = $("#ospDocNo").attr("data-docno");
 					nItemSeq = $(poElm).attr("data-seq");
 					tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+					nPdtUnitPrice = $("#oetPdtUnitPrice"+nItemSeq).val()
+					nItemDiscount = $("#oetItemDiscount"+nItemSeq).val()
 
 					//console.log(nItemQTY+'+'+tQuoDocNo+'+'+nItemSeq+'+'+nUnitPrice);
 
@@ -427,7 +429,9 @@
 								tQuoDocNo: tQuoDocNo,
 								nItemSeq: nItemSeq,
 								nItemQTY: nItemQTY,
-								tPdtCode : tPdtCode
+								tPdtCode : tPdtCode,
+								nPdtUnitPrice : nPdtUnitPrice,
+								nItemDiscount : nItemDiscount
 							},
 							datatype: 'json'
 						})
@@ -469,7 +473,7 @@
 										datatype: 'json'
 									})
 									.done(function(data) {
-										 console.log(data)
+										 //console.log(data)
 										 FSvQUODocItems();
 
 									})

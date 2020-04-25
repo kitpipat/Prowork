@@ -204,14 +204,33 @@ class cQuotationDoc extends CI_Controller{
   public function FSxCQUOEventEditQty(){
 		     $nItemSeq = $this->input->post('nItemSeq');
 				 $tQuoDocNo = $this->input->post('tQuoDocNo');
-				 $nItemQTY = $this->input->post('nItemQTY');
+				 $nItemQTY = str_replace(",","",$this->input->post('nItemQTY'));
 				 $tPdtCode = $this->input->post('tPdtCode');
+				 $nPdtUnitPrice = str_replace(",","",$this->input->post('nPdtUnitPrice'));
+				 $nItemDiscount = $this->input->post('nItemDiscount');
 
+          $nItemNet = number_format($nItemQTY,0) * $nPdtUnitPrice;
+
+				  $nStrCountDisTxt = strlen($nItemDiscount) - 1;
+
+					$tDisType = substr($nItemDiscount,$nStrCountDisTxt);
+					$nDiscountCal = 0;
+					$nDiscount = 0;
+					//echo $nItemDiscount;
+					if($tDisType =='%'){
+							 $nDiscountCal = substr($nItemDiscount,0,$nStrCountDisTxt);
+							 $nDiscount = ($nItemNet * $nDiscountCal)/100;
+
+					}else{
+
+							$nDiscount = $nItemDiscount;
+					}
 
 				 $aDataUpdate = array("tQuoDocNo" => $tQuoDocNo,
 					                    "nItemSeq"=>$nItemSeq,
 														  "nItemQTY" => $nItemQTY,
-														  "tPdtCode" => $tPdtCode);
+														  "tPdtCode" => $tPdtCode,
+														  "nDiscount"=> $nDiscount);
 
         $this->mQuotation->FCxMQUEditItemInTemp($aDataUpdate);
 

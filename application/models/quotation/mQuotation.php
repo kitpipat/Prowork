@@ -913,9 +913,10 @@ class mQuotation extends CI_Model
 					$nItemSeq 	= $paItem['nItemSeq'];
 					$nItemQTY 	= $paItem['nItemQTY'];
 					$tPdtCode  = $paItem['tPdtCode'];
+					$nDiscount  = $paItem['nDiscount'];
 					$tWorkerID	= $this->session->userdata('tSesUsercode');
 					$tSQL = "UPDATE TARTSqDTTmp
-					         SET    FCXqdQty = '".$nItemQTY."'
+					         SET    FCXqdQty = '".$nItemQTY."',FCXqdDis='".$nDiscount."'
 									 WHERE  FTWorkerID = '".$tWorkerID."'
 									 AND    FNXqdSeq = '".$nItemSeq."' ";
 

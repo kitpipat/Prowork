@@ -124,6 +124,7 @@
 									   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
 									   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
 							    <input type="text"
+									       id="oetItemDiscount<?=$nSeq?>"
 									       class="text-right xCNEditInline xCNNumberandPercent"
 												 value="<?=$nXqdDisText?>"
 												 data-seq="<?=$nSeq?>"
