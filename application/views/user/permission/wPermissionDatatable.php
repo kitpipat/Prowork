@@ -1,10 +1,22 @@
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_permission');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
 <table class="table table-striped xCNTableCenter">
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
 		<th style="text-align: left;">ชื่อกลุ่มสิทธิ์</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
-		<th style="width:80px; text-align: center;">ลบ</th>
+		<th style="width:80px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
     </tr>
   </thead>
   <tbody>	
@@ -25,7 +37,7 @@
 					 ?>
 
 					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPermissionCallPageInsert('edit','<?=$aValue['FNRhdID']?>');"></td>
-					<td><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
+					<td class='<?=$tPer_delete?>'><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
