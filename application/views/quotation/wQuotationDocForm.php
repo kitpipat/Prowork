@@ -232,7 +232,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>ประเภทภาษี</label>
-											<select class="form-control" id="ocmVatType" name="ocmVatType">
+											<select class="form-control" id="ocmVatType" name="ocmVatType" onchange="FSvQUODocItems()">
 												<option value="1">แยกนอก</option>
 												<option value="2">รวมใน</option>
 											</select>

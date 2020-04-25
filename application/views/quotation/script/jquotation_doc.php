@@ -9,6 +9,7 @@
 		tDocNo = $("#ospDocNo").attr("data-docno");
 		$.ajax({
 				url	: 'r_quodocgetdocheader',
+				timeout: 0,
 				type: 'GET',
 				data: { tDocNo: tDocNo },
 				datatype: 'json'
@@ -171,6 +172,7 @@
 		tDocNo = $("#ospDocNo").attr("data-docno");
 		$.ajax({
 				url: 'r_quodocgetdoccst',
+				timeout: 0,
 				type: 'GET',
 				data: {
 					tDocNo: tDocNo
@@ -209,6 +211,7 @@
 		tDocNo = $("#ospDocNo").attr("data-docno");
 		$.ajax({
 				url: 'r_quodoccallitems',
+				timeout: 0,
 				type: 'GET',
 				data: {
 					tDocNo: tDocNo
@@ -230,15 +233,19 @@
 
 				nVat 		= 0
 				nGrandTotal = 0
+
 				if (nVatType == "1") {
 					nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
+					nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
 				} else {
 					nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
+					nGrandTotal = parseFloat(nNetAFHD)
 				}
 
 				$("#otdVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
-				nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
+
 				$("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
+
 
 				//ถ้าเอกสารยกเลิก หรือ อนุมัติแล้วจะทำงานไม่ได้
 				var nStaDoc = $('#ohdStaDoc').val();
@@ -351,6 +358,7 @@
 		$('.xCNConfirmCancleDocument').on("click",function(){
 			$.ajax({
 				url		: 'r_quoCancleDocument',
+				timeout: 0,
 				type	: 'POST',
 				data	: { tDocNo	: tDocNo },
 				datatype: 'json'
@@ -388,6 +396,7 @@
 			$.ajax({
 				type	: "POST",
 				url		: 'r_quoApproveDocument',
+				timeout: 0,
 				data 	: { tDocNo: tDocNo },
 				cache	: false,
 				timeout	: 0,
@@ -466,38 +475,47 @@
 					tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
 					nItemDiscount = $("#oetItemDiscount"+nItemSeq).val()
           nItemQTY = $("#oetDocItemQty"+nItemSeq).val()
-					console.log(nPdtUnitPrice+'+'+tQuoDocNo+'+'+nItemSeq+'+'+tPdtCode+'+'+nItemDiscount);
+					//console.log(nPdtUnitPrice+'+'+tQuoDocNo+'+'+nItemSeq+'+'+tPdtCode+'+'+nItemDiscount);
 
+          nPdtCost = $("#oblPdtCost"+nItemSeq).text()
+					nPdtUnitPriceCng = nPdtUnitPrice.replace(/,/g, "");
+          nPdtCost = nPdtCost.replace(/,/g, "");
 
-					$.ajax({
-							url: 'r_quoEditItemPrice',
-							timeout: 0,
-							type: 'POST',
-							data: {
-								tQuoDocNo: tQuoDocNo,
-								nItemSeq: nItemSeq,
-								nItemQTY: nItemQTY,
-								tPdtCode : tPdtCode,
-								nPdtUnitPrice : nPdtUnitPrice,
-								nItemDiscount : nItemDiscount
-							},
-							datatype: 'json'
-						})
-						.done(function(data) {
-               //console.log(data)
-						   FSvQUODocItems();
+					if(parseFloat(nPdtUnitPriceCng) < parseFloat(nPdtCost) && parseFloat(nPdtUnitPriceCng) !=0){
 
-						})
-						.fail(function(jqXHR, textStatus, errorThrown) {
-							//serrorFunction();
-						});
+									alert("ไม่อนุญาติขายต่ำกว่าราคาต้นทุน");
+									
+									FSvQUODocItems();
 
+					}else{
+							$.ajax({
+								 url: 'r_quoEditItemPrice',
+								 timeout: 0,
+								 type: 'POST',
+								 data: {
+									 tQuoDocNo: tQuoDocNo,
+									 nItemSeq: nItemSeq,
+									 nItemQTY: nItemQTY,
+									 tPdtCode : tPdtCode,
+									 nPdtUnitPrice : nPdtUnitPrice,
+									 nItemDiscount : nItemDiscount
+								 },
+								 datatype: 'json'
+							 })
+							 .done(function(data) {
+									 //console.log(data)
+									FSvQUODocItems();
+
+							 })
+							 .fail(function(jqXHR, textStatus, errorThrown) {
+								 //serrorFunction();
+							 });
+					}
 					return false;
 		}
 	}
 
-
-
+  //ส่วนลดรายการ
 	function FSxQUODocItemDiscount(e, poElm) {
 		//See notes about 'which' and 'key'
 		if (e.keyCode == 13) {

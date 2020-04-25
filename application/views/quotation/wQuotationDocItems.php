@@ -40,6 +40,13 @@
 			$tSplName 		= $aDocItems["raItems"][$p]["FTSplName"];
 			$FTPdtImage		= $aDocItems["raItems"][$p]["FTPdtImage"];
 
+			$tRowUnitPrice = '';
+			if(number_format($nXqdUnitPrice,0) < number_format($nXqdCost,0)){
+				 $tRowUnitPrice = 'xWarnningPrice';
+			}else{
+				$tRowUnitPrice = '';
+			}
+
 			if ($nXqdDis == "") {
 				$nXqdDis = 0;
 			} else {
@@ -77,18 +84,19 @@
 				<td><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
 				<?php if ($tSesUserGroup == 4) { ?>
 					<td><label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label></td>
-					<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nXqdCost, 2); ?></label></td>
+					<td class="text-right">
+						  <label class="xCNLineHeightInTable" id="oblPdtCost<?=$nSeq?>"><?=number_format($nXqdCost, 2); ?></label></td>
 				<?php } ?>
 				<td class="text-right">
 					<label class="xCNLineHeightInTable">
 						      <div class="input-container">
 											<i class="xWBnticon fa fa-info-circle fa-xs"
 												 style="font-size: 0.5rem;"
-												 title="กรอกราคาที่ต้องการแล้วกด Enter"
-												 onclick="alert('กรอกราคาที่ต้องการแล้วกด Enter')"></i>
+												 title="กรอกราคาที่ต้องการไม่ต้องกรอกเครื่องหมาย , แล้วกด Enter"
+												 onclick="alert('กรอกราคาที่ต้องการไม่ต้องกรอกเครื่องหมาย , แล้วกด Enter')"></i>
 								      <input type="text"
 											       id="oetPdtUnitPrice<?=$nSeq?>"
-											       class="text-right xCNEditInline xCNInputNumericWithDecimal"
+											       class="text-right xCNEditInline xCNInputNumericWithDecimal <?=$tRowUnitPrice?>"
 											       value="<?=number_format($nXqdUnitPrice, 2);?>"
 														 data-seq="<?=$nSeq?>"
 														 style="width:90px;"
@@ -176,32 +184,3 @@
 		});
 	}
 </script>
-
-
-<style media="screen">
-		.input-container {
-			display: -ms-flexbox; /* IE10 */
-			display: flex;
-			width: 100%;
-			margin-bottom: 15px;
-			}
-
-			.xWBnticon {
-				padding: 9px 3px;
-				background: #51c448;
-				color: white;
-				text-align: center;
-				border-radius: 5px 0px 0px 5px;
-				cursor: pointer;
-				margin-right: -1px;
-			}
-
-			.input-field {
-				width: 100%;
-				outline: none;
-	    }
-			.xCNEditInline{
-				border-radius: 0px 5px 5px 0px !important;
-			}
-
-</style>

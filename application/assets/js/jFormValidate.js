@@ -1,12 +1,12 @@
 $(document).ready(function() {
 
     $('body').on("keypress keyup blur change", '.xCNInputNumericWithDecimal', function(event) {
-        $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
+        // $(this).val($(this).val().replace(/[^0-9\.]/g, ''));
         if ((event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
             event.preventDefault();
         }
 	});
-	
+
 	$('body').on("keypress keyup blur change", '.xCNNumberandPercent', function(event) {
         if ((event.which < 48 || event.which > 57) && event.keyCode !== 37 && event.keyCode !== 44) {
             event.preventDefault();
@@ -14,7 +14,7 @@ $(document).ready(function() {
     });
 
     $('body').on("keypress", '.xCNInputNumericWithoutDecimal', function(event) {
-        $(this).val($(this).val().replace(/[^\d].+/, ""));
+        // $(this).val($(this).val().replace(/[^\d].+/, ""));
         InputId = event.target.id;
         if ((event.which < 48 || event.which > 57)) {
             event.preventDefault();
