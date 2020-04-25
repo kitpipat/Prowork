@@ -56,8 +56,8 @@ class mQuotationcheck extends CI_Model{
 						DT.FTXqdConsignee,
 						UNIT.FTPunName
 					 FROM TARTSqHD HD
-					 LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode
 					 LEFT JOIN TARTSqDT DT ON HD.FTXqhDocNo = DT.FTXqhDocNo
+					 LEFT JOIN TCNMUsr USR ON DT.FTXqdBuyer = USR.FTUsrCode
 					 LEFT JOIN TCNMPdtUnit UNIT ON UNIT.FTPunCode = DT.FTPunCode ";
 		$tSQL .= " WHERE 1=1 ";
 
@@ -104,7 +104,6 @@ class mQuotationcheck extends CI_Model{
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
-
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMCPIGetData_PageAll($paData);
@@ -134,8 +133,8 @@ class mQuotationcheck extends CI_Model{
 	public function FSaMCPIGetData_PageAll($paData){
 		try{
 			$tSQL 		= "SELECT COUNT (HD.FTXqhDocNo) AS counts FROM TARTSqHD HD ";
-			$tSQL 		.= " LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode ";
 			$tSQL 		.= " LEFT JOIN TARTSqDT DT ON HD.FTXqhDocNo = DT.FTXqhDocNo ";
+			$tSQL 		.= " LEFT JOIN TCNMUsr USR ON DT.FTXqdBuyer = USR.FTUsrCode ";
 			$tSQL 		.= " LEFT JOIN TCNMPdtUnit UNIT ON UNIT.FTPunCode = DT.FTPunCode ";
 			$tSQL 		.= " WHERE 1=1 ";
 

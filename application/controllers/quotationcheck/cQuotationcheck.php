@@ -83,10 +83,6 @@ class cQuotationcheck extends CI_Controller {
 			'FTPdtCode'		=> $tPdtcode
 		);
 
-		// print_r($aSet);
-
-		// print_r($aWhere);
-
 		$tReturn = $this->mQuotationcheck->FSaMQTCUpdate($aSet,$aWhere);
 		return $tReturn;
 	}
