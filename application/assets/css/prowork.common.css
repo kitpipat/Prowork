@@ -630,21 +630,18 @@ table tbody .xCNTableGroupMenu{
 
   .xWBnticon {
     padding: 9px 3px;
-    background: #51c448;
-    color: white;
+    color: #51c448;
     text-align: center;
     border-radius: 5px 0px 0px 5px;
     cursor: pointer;
-    margin-right: -1px;
+
   }
 
   .input-field {
     width: 100%;
     outline: none;
   }
-  .xCNEditInline{
-    border-radius: 0px 5px 5px 0px !important;
-  }
+
   .xWarnningPrice{
     color: red!important;
   }
