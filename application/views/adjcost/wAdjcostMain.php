@@ -1,9 +1,21 @@
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_adjcost');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
 <div class="container-fulid">
 
 	<!--Section บน-->
 	<div class="row">
 		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ใบปรับราคาต้นทุน</span></div>
-		<div class="col-lg-6 col-md-6"><button class="xCNButtonInsert pull-right" onClick="JSwAJCCallPageInsert('insert','')">+</button></div>
+		<div class="col-lg-6 col-md-6 <?=$tPer_create?>"><button class="xCNButtonInsert pull-right" onClick="JSwAJCCallPageInsert('insert','')">+</button></div>
 	</div>
 
 	<!--Section ล่าง-->
