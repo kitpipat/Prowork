@@ -949,6 +949,28 @@ class mQuotation extends CI_Model
 					$this->db->query($tSQL);
 	}
 
+	//แก้ไขราคาต่อหน่วยในเอกสาร
+	public function FCxMQUEditUnitPriInTemp($paItem){
+
+          $tQuoDocNo 	= $paItem['tQuoDocNo'];
+					$nItemSeq 	= $paItem['nItemSeq'];
+					$nDiscount 	= $paItem['nDiscount'];
+					$tPdtCode   = $paItem['tPdtCode'];
+					$nPdtUnitPrice   = $paItem['nPdtUnitPrice'];
+					$tWorkerID	= $this->session->userdata('tSesUsercode');
+
+					$tSQL = "UPDATE TARTSqDTTmp
+					         SET    FCXqdDis = '".$nDiscount."',FCXqdUnitPrice='".$nPdtUnitPrice."'
+									 WHERE  FTWorkerID = '".$tWorkerID."'
+									 AND    FNXqdSeq = '".$nItemSeq."' ";
+
+									 if($tQuoDocNo !=""){
+										  $tSQL.= " AND FTXqhDocNo = '".$tQuoDocNo."' ";
+									 }
+
+					$this->db->query($tSQL);
+	}
+
 	//ยกเลิกเอกสาร
 	public function FCxMQUCancleDocument($paItem){
 		try{

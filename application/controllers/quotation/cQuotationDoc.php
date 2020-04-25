@@ -244,6 +244,45 @@ class cQuotationDoc extends CI_Controller{
 
 	}
 
+
+	// แก้ไขราคาสินค้าในเอกสาร
+  public function FSxCQUOEventItemPri(){
+
+		     $nItemSeq = $this->input->post('nItemSeq');
+				 $tQuoDocNo = $this->input->post('tQuoDocNo');
+				 $nItemQTY = str_replace(",","",$this->input->post('nItemQTY'));
+				 $tPdtCode = $this->input->post('tPdtCode');
+				 $nPdtUnitPrice = str_replace(",","",$this->input->post('nPdtUnitPrice'));
+				 $nItemDiscount = $this->input->post('nItemDiscount');
+
+          $nItemNet = number_format($nItemQTY,0) * $nPdtUnitPrice;
+
+				  $nStrCountDisTxt = strlen($nItemDiscount) - 1;
+
+					$tDisType = substr($nItemDiscount,$nStrCountDisTxt);
+					$nDiscountCal = 0;
+					$nDiscount = 0;
+					//echo $nItemDiscount;
+					if($tDisType =='%'){
+							 $nDiscountCal = substr($nItemDiscount,0,$nStrCountDisTxt);
+							 $nDiscount = ($nItemNet * $nDiscountCal)/100;
+
+					}else{
+
+							$nDiscount = $nItemDiscount;
+					}
+
+				 $aDataUpdate = array("tQuoDocNo" => $tQuoDocNo,
+					                    "nItemSeq"=>$nItemSeq,
+														  "nPdtUnitPrice" => $nPdtUnitPrice,
+														  "tPdtCode" => $tPdtCode,
+														  "nDiscount"=> $nDiscount);
+
+        $this->mQuotation->FCxMQUEditUnitPriInTemp($aDataUpdate);
+
+
+	}
+
 	// แก้ไขส่วนลดรายการ
 	public function FSxCQUOEventItemDis(){
 
