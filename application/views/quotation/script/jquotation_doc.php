@@ -411,7 +411,7 @@
 					nItemQTY = $(poElm).val();
 					tQuoDocNo = $("#ospDocNo").attr("data-docno");
 					nItemSeq = $(poElm).attr("data-seq");
-					nUnitPrice = $("#oetPdtUnitPrice"+nItemSeq).val();
+					tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
 
 					//console.log(nItemQTY+'+'+tQuoDocNo+'+'+nItemSeq+'+'+nUnitPrice);
 
@@ -423,13 +423,13 @@
 								tQuoDocNo: tQuoDocNo,
 								nItemSeq: nItemSeq,
 								nItemQTY: nItemQTY,
-								nUnitPrice: nUnitPrice
+								tPdtCode : tPdtCode
 							},
 							datatype: 'json'
 						})
 						.done(function(data) {
 
-						   alert(data);
+						   console.log(data);
 
 						})
 						.fail(function(jqXHR, textStatus, errorThrown) {

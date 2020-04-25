@@ -195,7 +195,19 @@ class cQuotationDoc extends CI_Controller{
 
 	// แก้ไขจำนวนสินค้าในเอกสาร
   public function FSxCQUOEventEditQty(){
-		     echo $nItemSeq = $this->input->post('nItemSeq');
+		     $nItemSeq = $this->input->post('nItemSeq');
+				 $tQuoDocNo = $this->input->post('tQuoDocNo');
+				 $nItemQTY = $this->input->post('nItemQTY');
+				 $tPdtCode = $this->input->post('tPdtCode');
+
+
+				 $aDataUpdate = array("tQuoDocNo" => $tQuoDocNo,
+					                    "nItemSeq"=>$nItemSeq,
+														  "nItemQTY" => $nItemQTY,
+														  "tPdtCode" => $tPdtCode);
+
+					
+
 	}
 
 	//ลบข้อมูลใน Temp - รายการ

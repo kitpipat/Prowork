@@ -70,7 +70,9 @@
 				<th><label class="xCNLineHeightInTable"><?=$nNum?></label></th>
 				<td class="xCNCellDeleteItem"><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxDeleteItemInTempQuotation('<?=$nSeq?>','<?=$tPdtCode?>');"></td>
 				<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
-				<td><label class="xCNLineHeightInTable"><?=$tPdtCode . " - " . $tPdtName; ?> </label></td>
+				<td><label class="xCNLineHeightInTable" data-pdtcode="<?=$tPdtCode?>" id="olbPdtCode<?=$nSeq?>">
+					  <?=$tPdtCode . " - " . $tPdtName; ?> </label>
+				</td>
 				<td><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
 				<?php if ($tSesUserGroup == 4) { ?>
 					<td><label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label></td>
