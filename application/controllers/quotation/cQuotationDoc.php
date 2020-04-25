@@ -102,6 +102,7 @@ class cQuotationDoc extends CI_Controller{
 		$this->load->view("quotation/wQuotationDocItems", $aData);
 	}
 
+
 	//บันทึกข้อมูล
 	public function FSxCQUODocSave(){
 		$oDocHeaderInfo 	= $this->input->post("oDocHeaderInfo");
@@ -152,7 +153,7 @@ class cQuotationDoc extends CI_Controller{
 			"tWorkerID" 		=> $tWorkerID,
 			"tDocNo" 			=> $tDocNo
 		);
-		
+
 		$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
 
 		$aDocCst = array(
@@ -174,21 +175,27 @@ class cQuotationDoc extends CI_Controller{
 		if ($oDocInfo['rtCode'] == 1) {
 			$tXqhDocNo = $oDocInfo['raItems'][0]['FTXqhDocNo'];
 			if ($tXqhDocNo == '') {
-				$tBchCode 	= $this->session->userdata('tSesBCHCode');
-				$tXqhDocNo 	= $this->mQuotation->FCtMQUGetDocNo($tBchCode);
-				$dDocDate 	= date("Y-m-d H:i:s");
-				$this->mQuotation->FCtMQUUpdateDocNo($tXqhDocNo, $dDocDate, $tBchCode, $tWorkerID);
-				$aDocData 	= array("tXqhDocNo" => $tXqhDocNo, "dDocDate" => $dDocDate, "nStaRender" => 1);
-				$this->mQuotation->FCxMQUMoveTemp2HD($tXqhDocNo, $tWorkerID);
-				$this->mQuotation->FCxMQUMoveTempHDCst($tXqhDocNo, $tWorkerID);
-				$this->mQuotation->FCxMQUMoveTemp2DT($tXqhDocNo, $tWorkerID);
-				echo json_encode($aDocData);
+
+					$tBchCode 	= $this->session->userdata('tSesBCHCode');
+					$tXqhDocNo 	= $this->mQuotation->FCtMQUGetDocNo($tBchCode);
+					$dDocDate 	= date("Y-m-d H:i:s");
+					$this->mQuotation->FCtMQUUpdateDocNo($tXqhDocNo, $dDocDate, $tBchCode, $tWorkerID);
+					$aDocData 	= array("tXqhDocNo" => $tXqhDocNo, "dDocDate" => $dDocDate, "nStaRender" => 1);
+					$this->mQuotation->FCxMQUMoveTemp2HD($tXqhDocNo, $tWorkerID);
+					$this->mQuotation->FCxMQUMoveTempHDCst($tXqhDocNo, $tWorkerID);
+					$this->mQuotation->FCxMQUMoveTemp2DT($tXqhDocNo, $tWorkerID);
+					echo json_encode($aDocData);
+
 			} else {
-				$aDocData =  array("tXqhDocNo" => '', "dDocDate" => '', "nStaRender" => 0);
-				echo json_encode($aDocData);
-				$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
-				$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
-				$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
+
+						$aDocData =  array("tXqhDocNo" => '', "dDocDate" => '', "nStaRender" => 0);
+
+						$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
+						$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
+						$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
+
+						echo json_encode($aDocData);
+
 			}
 		}
 	}
@@ -206,8 +213,42 @@ class cQuotationDoc extends CI_Controller{
 														  "nItemQTY" => $nItemQTY,
 														  "tPdtCode" => $tPdtCode);
 
-					
+        $this->mQuotation->FCxMQUEditItemInTemp($aDataUpdate);
 
+
+	}
+
+	// แก้ไขส่วนลดรายการ
+	public function FSxCQUOEventItemDis(){
+
+					$tQuoDocNo= $this->input->post('tQuoDocNo');
+					$nItemSeq = $this->input->post('nItemSeq');
+					$nItemDiscount = $this->input->post('nItemDiscount');
+					$tPdtCode = $this->input->post('tPdtCode');
+					$nItemNet = str_replace(",","",$this->input->post('nItemNet'));
+
+          $nStrCountDisTxt = strlen($nItemDiscount) - 1;
+					$tDisType = substr($nItemDiscount,$nStrCountDisTxt);
+					$nDiscountCal = 0;
+					$nItemNetAFDis = 0;
+					$nDiscount = 0;
+					//echo $nItemDiscount;
+					if($tDisType =='%'){
+						  $nDiscountCal = substr($nItemDiscount,0,$nStrCountDisTxt);
+              $nDiscount = ($nItemNet * $nDiscountCal)/100;
+
+					}else{
+
+							$nDiscount = $nItemDiscount;
+					}
+
+					$aItemDisData = array("tQuoDocNo"=>$tQuoDocNo,
+				                        "nItemSeq"=>$nItemSeq,
+															  "tPdtCode"=>$tPdtCode,
+															  "nDiscount"=>$nDiscount,
+															  "tDisText"=>$nItemDiscount
+															  );
+					$this->mQuotation->FCxMQUEditItemIDisCount($aItemDisData);
 	}
 
 	//ลบข้อมูลใน Temp - รายการ

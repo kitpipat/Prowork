@@ -69,6 +69,8 @@ $route['r_quodocgetdocheader'] 					= 'quotation/cQuotationDoc/FSaCQUODocHeader'
 $route['r_quodocgetdoccst'] 					= 'quotation/cQuotationDoc/FSaCQUODocCst';
 $route['r_quodocsavedoc'] 						= 'quotation/cQuotationDoc/FSxCQUODocSave';
 $route['r_quoEditItemQty'] 					= 'quotation/cQuotationDoc/FSxCQUOEventEditQty';
+$route['r_quoItemDiscount'] 					= 'quotation/cQuotationDoc/FSxCQUOEventItemDis';
+
 $route['r_quodeleteItem'] 						= 'quotation/cQuotationDoc/FSxCQUOEventDeleteItem';
 $route['r_quoCancleDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventCancleDocument';
 $route['r_quoApproveDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventApproveDocument';

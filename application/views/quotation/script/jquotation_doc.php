@@ -264,7 +264,7 @@
 
 		oDocCstInfo 		= $("#ofmQuotationCst").serializeArray()
 		oDocHeaderInfo 		= $("#ofmQuotationHeader").serializeArray()
-		
+
 		if ($('#ocbStaExpress:checked').val() == 'on') {
 			nStaExpress = 1
 		} else {
@@ -293,6 +293,7 @@
 
 		$.ajax({
 			url		: 'r_quodocsavedoc',
+			timeout: 0,
 			type	: 'POST',
 			data	: {
 				oDocHeaderInfo	: oDocHeaderInfo,
@@ -314,6 +315,7 @@
 		})
 		.done(function(data) {
 			console.log(data);
+
 			alert("บันทึกข้อมูลสำเร็จ");
 
 			aDocInfo = JSON.parse(data)
@@ -419,6 +421,7 @@
 
 					$.ajax({
 							url: 'r_quoEditItemQty',
+							timeout: 0,
 							type: 'POST',
 							data: {
 								tQuoDocNo: tQuoDocNo,
@@ -429,8 +432,8 @@
 							datatype: 'json'
 						})
 						.done(function(data) {
-
-						   console.log(data);
+               //console.log(data)
+						   FSvQUODocItems();
 
 						})
 						.fail(function(jqXHR, textStatus, errorThrown) {
@@ -438,6 +441,44 @@
 						});
 
 					return false;
+		}
+	}
+
+	function FSxQUODocItemDiscount(e, poElm) {
+		//See notes about 'which' and 'key'
+		if (e.keyCode == 13) {
+
+					nItemDiscount = $(poElm).val();
+					tQuoDocNo = $("#ospDocNo").attr("data-docno");
+					nItemSeq = $(poElm).attr("data-seq");
+					tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+          nItemNet = $("#olbItemNet"+nItemSeq).text()
+					//console.log(nItemDiscount+'+'+tQuoDocNo+'+'+nItemSeq+'+'+nUnitPrice);
+          if($(poElm).val() != ''){
+								$.ajax({
+										url: 'r_quoItemDiscount',
+										timeout: 0,
+										type: 'POST',
+										data: {
+											tQuoDocNo: tQuoDocNo,
+											nItemSeq: nItemSeq,
+											nItemDiscount: nItemDiscount,
+											tPdtCode : tPdtCode,
+											nItemNet : nItemNet
+										},
+										datatype: 'json'
+									})
+									.done(function(data) {
+										 console.log(data)
+										 FSvQUODocItems();
+
+									})
+									.fail(function(jqXHR, textStatus, errorThrown) {
+										//serrorFunction();
+									});
+
+								return false;
+					}
 		}
 	}
 

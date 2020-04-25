@@ -12,7 +12,7 @@
 				<th style="text-align: right;">ต้นทุน</th>
 			<?php } ?>
 			<th style="text-align: right;">ราคา/หน่วย</th>
-			<th style="text-align: right; width:80px;">จำนวน</th>
+			<th style="text-align: right; width:100px;">จำนวน</th>
 			<th style="text-align: right;">จำนวนเงิน</th>
 			<th style="text-align: right; width:80px;">ส่วนลด</th>
 			<th style="text-align: right;">จำนวนเงินรวม</th>
@@ -32,9 +32,10 @@
 			$tPdtName 		= $aDocItems["raItems"][$p]["FTPdtName"];
 			$tPunName 		= $aDocItems["raItems"][$p]["FTPunName"];
 			$nXqdUnitPrice 	= $aDocItems["raItems"][$p]["FCXqdUnitPrice"];
-			$nXqdQty 		= $aDocItems["raItems"][$p]["FCXqdQty"];
+			$nXqdQty 		= number_format($aDocItems["raItems"][$p]["FCXqdQty"],0);
 			$nTotal 		= $nXqdQty * $nXqdUnitPrice;
 			$nXqdDis 		= $aDocItems["raItems"][$p]["FCXqdDis"];
+			$nXqdDisText 		= $aDocItems["raItems"][$p]["FTXqdDisTxt"];
 			$nXqdCost 		= $aDocItems["raItems"][$p]["FTXqdCost"];
 			$tSplName 		= $aDocItems["raItems"][$p]["FTSplName"];
 			$FTPdtImage		= $aDocItems["raItems"][$p]["FTPdtImage"];
@@ -80,24 +81,61 @@
 				<?php } ?>
 				<td class="text-right">
 					<label class="xCNLineHeightInTable">
-						      <input type="text"
-									       id="oetPdtUnitPrice<?=$nSeq?>"
-									       class="text-right xCNEditInline xCNInputNumericWithDecimal"
-									       value="<?=number_format($nXqdUnitPrice, 2);?>"
-												 style="width:90px;">
+						      <div class="input-container">
+											<i class="xWBnticon fa fa-info-circle fa-xs"
+												 style="font-size: 0.5rem;"
+												 title="กรอกราคาที่ต้องการแล้วกด Enter"
+												 onclick="alert('กรอกราคาที่ต้องการแล้วกด Enter')"></i>
+								      <input type="text"
+											       id="oetPdtUnitPrice<?=$nSeq?>"
+											       class="text-right xCNEditInline xCNInputNumericWithDecimal"
+											       value="<?=number_format($nXqdUnitPrice, 2);?>"
+														 style="width:90px;">
+									</div>
           </label>
 				</td>
 				<td>
-					  <input type="text"
+					  <!-- <input type="text"
 						       class="text-right xCNEditInline xCNInputNumericWithDecimal"
 									 value="<?= $nXqdQty ?>"
 									 data-seq="<?=$nSeq?>"
 									 style="width:80px;"
 									 onkeypress="return FSxQUOEditDocItemQty(event,this)">
+									 <img src="<?=base_url('application/assets/images/icon/info-16.png')?>" > -->
+
+									 <div class="input-container">
+										    <i class="xWBnticon fa fa-info-circle fa-xs"
+												   style="font-size: 0.5rem;"
+													 title="กรอกจำนวนที่ต้องการแล้วกด Enter"
+													 onclick="alert('กรอกจำนวนที่ต้องการแล้วกด Enter')"></i>
+										    <input type="text"
+												       class="text-right xCNEditInline xCNInputNumericWithDecimal"
+															 value="<?=$nXqdQty ?>"
+															 data-seq="<?=$nSeq?>"
+															 style="width:80px;"
+															 onkeypress="return FSxQUOEditDocItemQty(event,this)" >
+									  </div>
 				</td>
-				<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nTotal, 2); ?></label></td>
-				<td> <input type="text" class="text-right xCNEditInline xCNInputNumericWithDecimal" value="<?= $nXqdDis ?>" style="width:80px;"> </td>
-				<td class="text-right"><label class="xCNLineHeightInTable"><?=number_format($nPdtNetTotal, 2);?></label></td>
+				<td class="text-right"><label class="xCNLineHeightInTable" id="olbItemNet<?=$nSeq?>"><?=number_format($nTotal, 2); ?></label></td>
+				<td>
+					    <div class="input-container">
+								  <i class="xWBnticon fa fa-info-circle fa-xs"
+									   style="font-size: 0.5rem;"
+									   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
+									   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
+							    <input type="text"
+									       class="text-right xCNEditInline xCNNumberandPercent"
+												 value="<?=$nXqdDisText?>"
+												 data-seq="<?=$nSeq?>"
+												 style="width:80px;"
+												 onkeypress="return FSxQUODocItemDiscount(event,this)">
+						  </div>
+				</td>
+				<td class="text-right">
+					  <label class="xCNLineHeightInTable">
+							     <?=number_format($nPdtNetTotal, 2);?>
+						</label>
+				</td>
 			</tr>
 			<?php $nNum++; ?>
 		<?php } ?>
@@ -134,3 +172,32 @@
 		});
 	}
 </script>
+
+
+<style media="screen">
+		.input-container {
+			display: -ms-flexbox; /* IE10 */
+			display: flex;
+			width: 100%;
+			margin-bottom: 15px;
+			}
+
+			.xWBnticon {
+				padding: 9px 3px;
+				background: #51c448;
+				color: white;
+				text-align: center;
+				border-radius: 5px 0px 0px 5px;
+				cursor: pointer;
+				margin-right: -1px;
+			}
+
+			.input-field {
+				width: 100%;
+				outline: none;
+	    }
+			.xCNEditInline{
+				border-radius: 0px 5px 5px 0px !important;
+			}
+
+</style>

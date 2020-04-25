@@ -131,12 +131,12 @@ class mQuotation extends CI_Model
                   	LEFT JOIN ( SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '" . $tPriceGrp . "' )SP ON PDT.FTPdtCode = SP.FTPdtCode
                 	LEFT JOIN TCNMPdtGrp PGP 	ON PDT.FTPgpCode 	= PGP.FTPgpCode
 					LEFT JOIN TCNMPdtUnit PUN 	ON PDT.FTPunCode 	= PUN.FTPunCode
-					LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode 
-					LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode 
-					LEFT JOIN TCNMPdtModal MOL 	ON PDT.FTMolCode 	= MOL.FTMolCode 
-					LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode 
-					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
-					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
+					LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
+					LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode
+					LEFT JOIN TCNMPdtModal MOL 	ON PDT.FTMolCode 	= MOL.FTMolCode
+					LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode
+					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode
+					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode
 				) P
             	WHERE  1=1 ";
 
@@ -174,15 +174,15 @@ class mQuotation extends CI_Model
 						break;
 					case "PUN":
 						$tWhereINPUN .=  "'$tFilterValue'" . ',';
-					break;	
+					break;
 					case "SPL":
 						$tWhereINSPL .=  "'$tFilterValue'" . ',';
 					break;
 					default:
 				}
 
-				if($i == count($aFilterAdv)-1){ 
-					$tWhereINPBN = substr($tWhereINPBN,0,-1); 
+				if($i == count($aFilterAdv)-1){
+					$tWhereINPBN = substr($tWhereINPBN,0,-1);
 					$tWhereINCLR = substr($tWhereINCLR,0,-1);
 					$tWhereINPGP = substr($tWhereINPGP,0,-1);
 					$tWhereINMOL = substr($tWhereINMOL,0,-1);
@@ -191,7 +191,7 @@ class mQuotation extends CI_Model
 					$tWhereINPUN = substr($tWhereINPUN,0,-1);
 					$tWhereINSPL = substr($tWhereINSPL,0,-1);
 				}
-				
+
 				if($tWhereINPBN != ''){ $tWherePBN = " AND FTPbnCode IN (" . $tWhereINPBN . ")"; }
 				if($tWhereINCLR != ''){ $tWhereCLR = " AND FTPClrCode IN (" . $tWhereINCLR . ")"; }
 				if($tWhereINPGP != ''){ $tWherePGP = " AND P.FTPgpCode IN (" . $tWhereINPGP . ")"; }
@@ -248,16 +248,16 @@ class mQuotation extends CI_Model
 		try{
 			$tTextSearch 	= trim($paFilter['tSearchAll']);
 			$aFilterAdv 	= $paFilter['aFilterAdv'];
-			$tSQL 		= "SELECT COUNT(FTPDTCode) AS counts 
+			$tSQL 		= "SELECT COUNT(FTPDTCode) AS counts
 							FROM TCNMPdt PDT
-							LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode 
-							LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode 
-							LEFT JOIN TCNMPdtGrp GRP 	ON PDT.FTPgpCode 	= GRP.FTPgpCode 
-							LEFT JOIN TCNMPdtModal MOL 	ON PDT.FTMolCode 	= MOL.FTMolCode 
-							LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode 
-							LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
-							LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
-							LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
+							LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
+							LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode
+							LEFT JOIN TCNMPdtGrp GRP 	ON PDT.FTPgpCode 	= GRP.FTPgpCode
+							LEFT JOIN TCNMPdtModal MOL 	ON PDT.FTMolCode 	= MOL.FTMolCode
+							LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode
+							LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode
+							LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode
+							LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode
 							WHERE PDT.FTPdtStatus = 1";
 
 			//ค้นหาขั้นสูง
@@ -294,15 +294,15 @@ class mQuotation extends CI_Model
 							break;
 						case "PUN":
 							$tWhereINPUN .=  "'$tFilterValue'" . ',';
-						break;	
+						break;
 						case "SPL":
 							$tWhereINSPL .=  "'$tFilterValue'" . ',';
 						break;
 						default:
 					}
 
-					if($i == count($aFilterAdv)-1){ 
-						$tWhereINPBN = substr($tWhereINPBN,0,-1); 
+					if($i == count($aFilterAdv)-1){
+						$tWhereINPBN = substr($tWhereINPBN,0,-1);
 						$tWhereINCLR = substr($tWhereINCLR,0,-1);
 						$tWhereINPGP = substr($tWhereINPGP,0,-1);
 						$tWhereINMOL = substr($tWhereINMOL,0,-1);
@@ -311,7 +311,7 @@ class mQuotation extends CI_Model
 						$tWhereINPUN = substr($tWhereINPUN,0,-1);
 						$tWhereINSPL = substr($tWhereINSPL,0,-1);
 					}
-					
+
 					if($tWhereINPBN != ''){ $tWherePBN = " AND BAP.FTPbnCode IN (" . $tWhereINPBN . ")"; }
 					if($tWhereINCLR != ''){ $tWhereCLR = " AND COP.FTPClrCode IN (" . $tWhereINCLR . ")"; }
 					if($tWhereINPGP != ''){ $tWherePGP = " AND GRP.FTPgpCode IN (" . $tWhereINPGP . ")"; }
@@ -341,7 +341,7 @@ class mQuotation extends CI_Model
         }catch(Exception $Error){
             echo $Error;
 		}
-		
+
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->num_rows();
 	}
@@ -396,7 +396,7 @@ class mQuotation extends CI_Model
 	public function FCaMQUOGetDocHD($paFilter){
 		$tDocNo = $paFilter['tDocNo'];
 		$tWorkerID = $paFilter['tWorkerID'];
-		$tSQL = "SELECT   
+		$tSQL = "SELECT
 					HD.FTBchCode,
 					ISNULL(HD.FTXqhDocNo,'') AS FTXqhDocNo,
 					ISNULL(HD.FDXqhDocDate,'') AS FDXqhDocDate,
@@ -464,7 +464,7 @@ class mQuotation extends CI_Model
 	public function FCaMQUOGetDocCst($paFilter){
 		$tDocNo 	= $paFilter['tDocNo'];
 		$tWorkerID 	= $paFilter['tWorkerID'];
-		$tSQL = "SELECT   
+		$tSQL = "SELECT
 					HCS.FTXqhDocNo,
 					HCS.FTXqcCstCode,
 					HCS.FTXqcCstName,
@@ -522,6 +522,7 @@ class mQuotation extends CI_Model
 						,D.FCXqdQty
 						,D.FTSplCode
 						,D.FCXqdDis
+						,D.FTXqdDisTxt
 						,D.FCXqdFootAvg
 						,P.FTPdtImage
 						,SPL.FTSplName
@@ -718,7 +719,11 @@ class mQuotation extends CI_Model
 	}
 
 	public function FCxMQUCheckDocNoExiting($ptWorkerID){
-		$tSQL = "SELECT ISNULL(FTXqhDocNo,'') AS FTXqhDocNo FROM TARTSqHDTmp WHERE FTWorkerID = '" . $ptWorkerID . "'";
+
+		$tSQL = "SELECT ISNULL(FTXqhDocNo,'') AS FTXqhDocNo
+		         FROM TARTSqHDTmp
+						 WHERE FTWorkerID = '" . $ptWorkerID . "'";
+
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
 		if ($nCountRows > 0) {
@@ -777,7 +782,7 @@ class mQuotation extends CI_Model
 					FTXqhRmk,FTUsrDep,FTXqhStaApv,FTApprovedBy,FDApproveDate,
 					FTCreateBy,FDCreateOn,FTUpdateBy,FDUpdateOn
 				)
-				SELECT  
+				SELECT
 					FTBchCode,FTXqhDocNo,FDXqhDocDate,FTXqhCshOrCrd,FNXqhCredit,
 					FTXqhVATInOrEx,FNXqhSmpDay,FDXqhEftTo,FDDeliveryDate,FTXqhStaExpress
 					,ISNULL(FTXqhStaDoc,1),FTXqhStaActive,FTXqhStaDeli,FTXqhPrjName,FTXqhPrjCodeRef,
@@ -817,7 +822,7 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
-	//ย้าย DT Tmp => DT 
+	//ย้าย DT Tmp => DT
 	public function FCxMQUMoveTemp2DT($tDocNo, $tWorkerID){
 		$tSQLDel = "DELETE FROM TARTSqDT WHERE FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQLDel);
@@ -879,26 +884,68 @@ class mQuotation extends CI_Model
 		$tDocument  = $paItem['FTXqhDocNo'];
 		$FTWorkerID	= $this->session->userdata('tSesUsercode');
 
-		$tSQLDT = "DELETE FROM TARTSqDTTmp WHERE 
-						FTXqhDocNo = '$tDocument' AND 
-						FTPdtCode = '$tPDTCode' AND 
+		$tSQLDT = "DELETE FROM TARTSqDTTmp WHERE
+						FTXqhDocNo = '$tDocument' AND
+						FTPdtCode = '$tPDTCode' AND
 						FNXqdSeq = '$nSeq' AND
 						FTWorkerID = '$FTWorkerID' ";
 		$this->db->query($tSQLDT);
 
 		//เรียง Seq ใหม่
 		$tSQL   = " UPDATE TARTSqDTTmp WITH(ROWLOCK)
-					SET FNXqdSeq = NewObj.NewSeq 
-					FROM TARTSqDTTmp DT 
+					SET FNXqdSeq = NewObj.NewSeq
+					FROM TARTSqDTTmp DT
 					INNER JOIN (
 						SELECT  ROW_NUMBER() OVER (ORDER BY FNXqdSeq) AS NewSeq,
 							FNXqdSeq AS OldSeq
-						FROM TARTSqDTTmp 
-						WHERE 
+						FROM TARTSqDTTmp
+						WHERE
 							FTXqhDocNo = '$tDocument'
 						AND FTWorkerID = '$FTWorkerID'
 				) NewObj ON DT.FNXqdSeq = NewObj.OldSeq";
 		$this->db->query($tSQL);
+	}
+
+	//ลบข้อมูลรายการ
+	public function FCxMQUEditItemInTemp($paItem){
+
+          $tQuoDocNo 	= $paItem['tQuoDocNo'];
+					$nItemSeq 	= $paItem['nItemSeq'];
+					$nItemQTY 	= $paItem['nItemQTY'];
+					$tPdtCode  = $paItem['tPdtCode'];
+					$tWorkerID	= $this->session->userdata('tSesUsercode');
+					$tSQL = "UPDATE TARTSqDTTmp
+					         SET    FCXqdQty = '".$nItemQTY."'
+									 WHERE  FTWorkerID = '".$tWorkerID."'
+									 AND    FNXqdSeq = '".$nItemSeq."' ";
+
+									 if($tQuoDocNo !=""){
+										  $tSQL.= " AND FTXqhDocNo = '".$tQuoDocNo."' ";
+									 }
+
+					$this->db->query($tSQL);
+	}
+
+	//ส่วนลดรายการ
+	public function FCxMQUEditItemIDisCount($paItem){
+
+          $tQuoDocNo 	= $paItem['tQuoDocNo'];
+					$nItemSeq 	= $paItem['nItemSeq'];
+					$nDiscount 	= $paItem['nDiscount'];
+					$tPdtCode   = $paItem['tPdtCode'];
+					$tDisText   = $paItem['tDisText'];
+					$tWorkerID	= $this->session->userdata('tSesUsercode');
+
+					$tSQL = "UPDATE TARTSqDTTmp
+					         SET    FCXqdDis = '".$nDiscount."',FTXqdDisTxt='".$tDisText."'
+									 WHERE  FTWorkerID = '".$tWorkerID."'
+									 AND    FNXqdSeq = '".$nItemSeq."' ";
+
+									 if($tQuoDocNo !=""){
+										  $tSQL.= " AND FTXqhDocNo = '".$tQuoDocNo."' ";
+									 }
+
+					$this->db->query($tSQL);
 	}
 
 	//ยกเลิกเอกสาร
