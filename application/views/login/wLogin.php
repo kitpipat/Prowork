@@ -52,9 +52,38 @@
 		</div>
 	</div>
 
-	<!-- //ชื่อผู้ใช้งาน หรือรหัสผ่านผิดพลาดกรุณาลองใหม่อีกครั้ง -->
+	<!-- Forget Password -->
+	<button id="obtModalForgetPassword" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalForgetPassword"></button>
+	<div class="modal fade" id="odvModalForgetPassword" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">ลืมรหัสผ่าน</h5>
+			</div>
+			<div class="modal-body">
+				<div class="input">
+					<label class="olbLabelLoginForgetPassword"><span style="color:red;">*</span> อีเมลล์</label>
+					<input type="text" id="oetForgetPasswordMailLogin" maxlength="100" name="oetForgetPasswordMailLogin" placeholder="กรุณากรอกอีเมลล์" />
+				</div>
+				<div class="input">
+					<label class="olbLabelLoginForgetPassword"><span style="color:red;">*</span> ชื่อผู้ใช้งาน</label>
+					<input type="text" id="oetForgetPasswordUserLogin" maxlength="20" name="oetForgetPasswordUserLogin" placeholder="กรุณากรอกชื่อผู้ใช้งาน" />
+				</div>
+				<div class="input">
+					<label class="olbLabelLoginForgetPassword"><span style="color:red;">*</span> รหัสผ่านใหม่</label>
+					<input type="password" id="oetForgetPasswordPassLogin" maxlength="225" name="oetForgetPasswordPassLogin" placeholder="********" />
+				</div>
+				<span class="ospUserFail">ํ</span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+				<button type="button" class="btn btn-success xCNConfirmDelete xCNConfirmForgetPassword">ยืนยัน</button>
+			</div>
+			</div>
+		</div>
+	</div>
 
-	<!--Script-->
+
 	<script src="<?=base_url('application/assets/js/')?>jquery.min.js"></script>
 	<script src="<?=base_url('application/assets/js/')?>bootstrap.min.js"></script>
 	<script src="<?=base_url('application/assets/js/')?>jquery.validate.min.js"></script>
@@ -118,6 +147,72 @@
 				}, 1000);
 			}
 		});
+
+		//ทุกครั้งที่ Key ข้อความต้องหาย
+		$('#oetForgetPasswordUserLogin , #oetForgetPasswordMailLogin , #oetForgetPasswordPassLogin').click(function () {    
+			$('.ospUserFail').removeClass('xCNTextRed');
+			$('.ospUserFail').text('ํ');
+		}); 
+
+		//ลืมรหัสผ่าน
+		$('.ospForgetPassword').click(function () {
+
+			//ล้างค่าก่อนเสมอ
+			$('#oetForgetPasswordUserLogin').val('');
+			$('#oetForgetPasswordMailLogin').val('');
+			$('#oetForgetPasswordPassLogin').val('');
+			$('.ospUserFail').removeClass('xCNTextRed');
+			$('.ospUserFail').removeClass('xCNTextGreen');
+
+			$('#obtModalForgetPassword').click();
+			$('.xCNConfirmForgetPassword').off();
+			$('.xCNConfirmForgetPassword').on("click",function(){
+
+				if($('#oetForgetPasswordMailLogin').val() == ''){
+					$('#oetForgetPasswordMailLogin').focus();
+					return;
+				}
+
+				if($('#oetForgetPasswordUserLogin').val() == ''){
+					$('#oetForgetPasswordUserLogin').focus();
+					return;
+				}
+
+				if($('#oetForgetPasswordPassLogin').val() == ''){
+					$('#oetForgetPasswordPassLogin').focus();
+					return;
+				}
+
+				$.ajax({
+					type	: "POST",
+					url		: "ForgetPassword",
+					data	: { 
+						'tUserLogin' : $('#oetForgetPasswordUserLogin').val(),
+						'tEmail'	 : $('#oetForgetPasswordMailLogin').val(),
+						'tNewPass'	 : $('#oetForgetPasswordPassLogin').val()
+					},
+					cache	: false,
+					timeout	: 0,
+					success	: function (tResult) {
+						var aReturn = JSON.parse(tResult);
+						if(aReturn.rtCode == '800'){
+							$('.ospUserFail').removeClass('xCNTextGreen');
+							$('.ospUserFail').text('ไม่พบผู้ใช้งาน กรุณาลองใหม่อีกครั้ง');
+							$('.ospUserFail').addClass('xCNTextRed');
+							$('.ospUserFail').fadeIn("slow");
+						}else{
+							$('.ospUserFail').text('แก้ไขรหัสผ่านใหม่สำเร็จแล้ว กรุณาเข้าสู่ระบบใหม่อีกครั้ง');
+							$('.ospUserFail').addClass('xCNTextGreen');
+							$('.ospUserFail').fadeIn("slow");
+						}
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						alert(jqXHR, textStatus, errorThrown);
+					}
+				});
+			});
+		});
+
 	</script>
 
 </body>

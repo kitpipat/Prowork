@@ -8,6 +8,8 @@ $route['translate_uri_dashes'] 					= FALSE;
 //Login
 $route['Login'] 								= 'login/cLogin';
 $route['CheckLogin'] 							= 'login/cLogin/FSxCCheckLogin';
+$route['ForgetPassword'] 						= 'login/cLogin/FSxCForgetPassword';
+
 
 //Logout
 $route['Logout'] 								= 'login/cLogin/Logout';

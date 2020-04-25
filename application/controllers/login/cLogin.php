@@ -68,4 +68,31 @@ class cLogin extends CI_Controller {
 		$this->session->sess_destroy();
 		redirect('Login');
 	}
+
+	//ลืมรหัสผ่าน
+	public function FSxCForgetPassword(){
+		$tUserLogin = $this->input->post('tUserLogin');
+		$tEmail 	= $this->input->post('tEmail');
+		$tNewPass 	= $this->input->post('tNewPass');
+		$paWhere = array(
+			'tUserlogin' 	=> $tUserLogin,
+			'tEmail'		=> $tEmail
+		);
+		$aReturn = $this->mLogin->FSaMCheckUserForgetPassword($paWhere);
+		if($aReturn['rtCode'] == 1){
+			//พบข้อมูล
+			$aSet = array(
+				'FTUsrPwd' 		=> $tNewPass 
+			);
+
+			$aWhere = array(
+				'FTUsrLogin' 	=> $tUserLogin,
+				'FTUsrEmail'	=> $tEmail
+			);
+			$this->mLogin->FSaMUpdateForgetPassword($aSet,$aWhere);
+		}else{
+			//ไม่พบข้อมูล
+		}
+		echo json_encode($aReturn);
+	}
 }

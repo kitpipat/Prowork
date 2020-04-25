@@ -79,6 +79,10 @@ body, html {
 	color					: red !important;
 }
 
+.xCNTextGreen{
+	color					: green !important;
+}
+
 .ospForgetPassword{
 	margin					: 0px 0px 10px 0px;
 	float					: right;
@@ -196,3 +200,54 @@ form .error {
 	}
 }
   
+
+.modal-content{
+	border-radius: 0px;
+}
+
+.modal-header{
+	border-radius: 0px;
+}
+
+.modal-body{
+	padding: 10px 1rem;
+	padding-bottom: 5px;
+}
+
+.xCNCloseDelete{
+	width: 100px;
+    border-radius: 0px;
+    height: 30px;
+    padding: 0px;
+}
+
+.xCNConfirmDelete{
+	width: 100px;
+    border-radius: 0px;
+    height: 30px;
+	padding: 0px;
+	background-color: #6ab449;
+}
+
+.xCNConfirmDelete:hover{
+	width: 100px;
+    border-radius: 0px;
+    height: 30px;
+	padding: 0px;
+	background-color: #4f8f32;
+}
+
+.ospUserFail{
+	text-align: center;
+    display: block;
+    margin-top: 10px;
+}
+
+.olbLabelLoginForgetPassword{
+	font-family: THSarabunNew-Bold;
+    margin: 5px 0px;
+}
+
+.ospUserFail{
+	color : #FFF;
+}
