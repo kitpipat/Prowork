@@ -130,7 +130,7 @@
 				<td class="text-right"><label class="xCNLineHeightInTable" id="olbItemNet<?=$nSeq?>"><?=number_format($nTotal, 2); ?></label></td>
 				<td>
 					    <div class="input-container">
-								  <i class="xWBnticon fa fa-info-circle fa-xs"
+								  <i class="xWBnticon fa fa-info-circle fa-sm"
 									   style="font-size: 0.5rem;"
 									   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
 									   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>

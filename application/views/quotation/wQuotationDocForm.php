@@ -342,7 +342,11 @@
 						<div class="col-lg-6 text-right">
 							<div class="row">
 								<div class="col-lg-6">
-									<div class="">
+									<div class="input-container">
+										<i class="xWBnticon fa fa-info-circle fa-xs"
+										   style="font-size: 0.5rem;"
+										   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
+										   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
 										<input type="text" autocomplete="off" id="oetXqhDisText" class="text-right form-control xCNInputNumericWithDecimal">
 									</div>
 								</div>
