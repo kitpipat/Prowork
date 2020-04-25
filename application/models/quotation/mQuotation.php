@@ -18,7 +18,7 @@ class mQuotation extends CI_Model
                                                'ผู้จำหน่าย'  AS FTFilGrpName ,
                                                FTSplCode  AS FTFilCode ,
                                                FTSplName  AS FTFilName
-                                        FROM TCNMSpl
+                                        FROM TCNMSpl WITH (NOLOCK)
 
                                         UNION ALL
 
@@ -26,7 +26,7 @@ class mQuotation extends CI_Model
                                                'ยี่ห้อ' AS FTFilGrpName ,
                                                FTPbnCode AS FTFilCode ,
                                                FTPbnName AS FTFilName
-                                        FROM TCNMPdtBrand
+                                        FROM TCNMPdtBrand WITH (NOLOCK)
 
                                         UNION ALL
 
@@ -34,7 +34,7 @@ class mQuotation extends CI_Model
                                                'กลุ่มสินค้า' AS FTFilGrpName ,
                                                FTPgpCode AS FTFilCode,
                                                FTPgpName AS FTFilName
-                                        FROM TCNMPdtGrp
+                                        FROM TCNMPdtGrp WITH (NOLOCK)
 
                                         UNION ALL
 
@@ -42,14 +42,14 @@ class mQuotation extends CI_Model
                                                'ประเภทสินค้า' AS FTFilGrpName ,
                                                FTPtyCode AS FTFilCode,
                                                FTPtyName  AS FTFilName
-                                        FROM TCNMPdtType
+                                        FROM TCNMPdtType WITH (NOLOCK)
                                         UNION ALL
 
                                         SELECT 'FGPZE' AS FTFilGrpCode,
                                               'ขนาด' AS FTFilGrpName ,
                                               FTPzeCode AS FTFilCode,
                                               FTPzeName  AS FTFilName
-                                        FROM TCNMPdtSize
+                                        FROM TCNMPdtSize WITH (NOLOCK)
 
                                         UNION ALL
 
@@ -57,7 +57,7 @@ class mQuotation extends CI_Model
                                                'สี' AS FTFilGrpName ,
                                                FTPClrCode AS FTFilCode,
                                                FTPClrName  AS FTFilName
-                                        FROM TCNMPdtColor
+                                        FROM TCNMPdtColor WITH (NOLOCK)
 
                   ) F
                   --WHERE FTFilCode = 'xxx'";
@@ -127,16 +127,18 @@ class mQuotation extends CI_Model
 
 						ELSE 0
 						END AS FCPdtNetSalPri
-                  	FROM VCN_Products PDT
-                  	LEFT JOIN ( SELECT * FROM VCN_AdjSalePriActive WHERE FTPriGrpID = '" . $tPriceGrp . "' )SP ON PDT.FTPdtCode = SP.FTPdtCode
-                	LEFT JOIN TCNMPdtGrp PGP 	ON PDT.FTPgpCode 	= PGP.FTPgpCode
-					LEFT JOIN TCNMPdtUnit PUN 	ON PDT.FTPunCode 	= PUN.FTPunCode
-					LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
-					LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode
-					LEFT JOIN TCNMPdtModal MOL 	ON PDT.FTMolCode 	= MOL.FTMolCode
-					LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode
-					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode
-					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode
+                  	FROM VCN_Products PDT WITH (NOLOCK)
+                  	LEFT JOIN ( SELECT *
+											          FROM VCN_AdjSalePriActive WITH (NOLOCK)
+											          WHERE FTPriGrpID = '" . $tPriceGrp . "' )SP ON PDT.FTPdtCode = SP.FTPdtCode
+                	LEFT JOIN TCNMPdtGrp PGP WITH (NOLOCK) 	ON PDT.FTPgpCode 	= PGP.FTPgpCode
+					LEFT JOIN TCNMPdtUnit PUN WITH (NOLOCK) 	ON PDT.FTPunCode 	= PUN.FTPunCode
+					LEFT JOIN TCNMPdtBrand BAP WITH (NOLOCK) 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
+					LEFT JOIN TCNMPdtColor COP WITH (NOLOCK) 	ON PDT.FTPClrCode 	= COP.FTPClrCode
+					LEFT JOIN TCNMPdtModal MOL WITH (NOLOCK) 	ON PDT.FTMolCode 	= MOL.FTMolCode
+					LEFT JOIN TCNMPdtSize SIZ WITH (NOLOCK) 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode
+					LEFT JOIN TCNMPdtType TYP WITH (NOLOCK) 	ON PDT.FTPtyCode 	= TYP.FTPtyCode
+					LEFT JOIN TCNMSpl SPL WITH (NOLOCK) 		ON PDT.FTSplCode 	= SPL.FTSplCode
 				) P
             	WHERE  1=1 ";
 
@@ -249,15 +251,15 @@ class mQuotation extends CI_Model
 			$tTextSearch 	= trim($paFilter['tSearchAll']);
 			$aFilterAdv 	= $paFilter['aFilterAdv'];
 			$tSQL 		= "SELECT COUNT(FTPDTCode) AS counts
-							FROM TCNMPdt PDT
-							LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
-							LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode
-							LEFT JOIN TCNMPdtGrp GRP 	ON PDT.FTPgpCode 	= GRP.FTPgpCode
-							LEFT JOIN TCNMPdtModal MOL 	ON PDT.FTMolCode 	= MOL.FTMolCode
-							LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode
-							LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode
-							LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode
-							LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode
+							FROM TCNMPdt PDT WITH (NOLOCK)
+							LEFT JOIN TCNMPdtBrand BAP WITH (NOLOCK) 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
+							LEFT JOIN TCNMPdtColor COP WITH (NOLOCK) 	ON PDT.FTPClrCode 	= COP.FTPClrCode
+							LEFT JOIN TCNMPdtGrp GRP WITH (NOLOCK) 	ON PDT.FTPgpCode 	= GRP.FTPgpCode
+							LEFT JOIN TCNMPdtModal MOL WITH (NOLOCK) 	ON PDT.FTMolCode 	= MOL.FTMolCode
+							LEFT JOIN TCNMPdtSize SIZ WITH (NOLOCK) 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode
+							LEFT JOIN TCNMPdtType TYP WITH (NOLOCK) 	ON PDT.FTPtyCode 	= TYP.FTPtyCode
+							LEFT JOIN TCNMPdtUnit UNIT WITH (NOLOCK) 	ON PDT.FTPunCode 	= UNIT.FTPunCode
+							LEFT JOIN TCNMSpl SPL WITH (NOLOCK) 		ON PDT.FTSplCode 	= SPL.FTSplCode
 							WHERE PDT.FTPdtStatus = 1";
 
 			//ค้นหาขั้นสูง
@@ -434,8 +436,8 @@ class mQuotation extends CI_Model
 					HD.FTWorkerID,
 					USR.FTUsrDep,
 					USR.FTUsrFName
-				FROM TARTSqHDTmp HD
-				LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode
+				FROM TARTSqHDTmp HD WITH (NOLOCK)
+				LEFT JOIN TCNMUsr USR WITH (NOLOCK) ON HD.FTCreateBy = USR.FTUsrCode
             	WHERE HD.FTWorkerID ='" . $tWorkerID . "' ";
 		if ($tDocNo != "") {
 			$tSQL .= " AND HD.FTXqhDocNo = '" . $tDocNo . "'";
@@ -479,8 +481,8 @@ class mQuotation extends CI_Model
 					HCS.FTUpdateBy,
 					HCS.FDUpdateOn,
 					CST.FTCstName
-				FROM TARTSqHDCstTmp HCS
-				LEFT JOIN TCNMCst CST ON HCS.FTXqcCstCode = CST.FTCstCode
+				FROM TARTSqHDCstTmp HCS WITH (NOLOCK)
+				LEFT JOIN TCNMCst CST WITH (NOLOCK) ON HCS.FTXqcCstCode = CST.FTCstCode
 				WHERE HCS.FTWorkerID ='" . $tWorkerID . "' ";
 		if ($tDocNo != "") {
 			$tSQL .= " AND HCS.FTXqhDocNo = '" . $tDocNo . "'";
@@ -526,9 +528,9 @@ class mQuotation extends CI_Model
 						,D.FCXqdFootAvg
 						,P.FTPdtImage
 						,SPL.FTSplName
-				FROM TARTSqDTTmp D
-				LEFT JOIN TCNMPdt P ON D.FTPdtCode = P.FTPdtCode
-				LEFT JOIN TCNMSpl SPL ON D.FTSplCode = SPL.FTSplCode
+				FROM TARTSqDTTmp D WITH (NOLOCK)
+				LEFT JOIN TCNMPdt P WITH (NOLOCK) ON D.FTPdtCode = P.FTPdtCode
+				LEFT JOIN TCNMSpl SPL WITH (NOLOCK) ON D.FTSplCode = SPL.FTSplCode
 				WHERE D.FTWorkerID = '" . $tWorkerID . "'";
 
 		if ($tDocNo != "") {
@@ -566,7 +568,7 @@ class mQuotation extends CI_Model
 		$tPdtCode = $paFilter['tPdtCode'];
 
 		$tSQL = "SELECT FCXqdQty
-				         FROM   TARTSqDTTmp
+				         FROM   TARTSqDTTmp WITH (NOLOCK)
 								 WHERE  FTPdtCode  = '$tPdtCode'
 								 AND    FTWorkerID = '$tWorkerID' ";
 
@@ -591,7 +593,7 @@ class mQuotation extends CI_Model
 		$tWorkerID = $paFilter['tWorkerID'];
 
 		$tSQL = "SELECT TOP 1 FNXqdSeq
-									FROM TARTSqDTTmp
+									FROM TARTSqDTTmp WITH (NOLOCK)
 									WHERE 1=1 ";
 
 		if ($tDocNo != "") {
@@ -721,7 +723,7 @@ class mQuotation extends CI_Model
 	public function FCxMQUCheckDocNoExiting($ptWorkerID){
 
 		$tSQL = "SELECT ISNULL(FTXqhDocNo,'') AS FTXqhDocNo
-		         FROM TARTSqHDTmp
+		         FROM TARTSqHDTmp WITH (NOLOCK)
 						 WHERE FTWorkerID = '" . $ptWorkerID . "'";
 
 		$oQuery = $this->db->query($tSQL);
@@ -743,7 +745,9 @@ class mQuotation extends CI_Model
 	}
 
 	public function FCtMQUGetDocNo($tBchCode){
-		$tSQL = "SELECT MAX(RIGHT(ISNULL(FTXqhDocNo,''),4)) AS FTXqhDocNo FROM TARTSqHD WHERE FTBchCode = '" . $tBchCode . "'";
+		$tSQL = "SELECT MAX(RIGHT(ISNULL(FTXqhDocNo,''),4)) AS FTXqhDocNo
+		         FROM TARTSqHD WITH (NOLOCK)
+						 WHERE FTBchCode = '" . $tBchCode . "'";
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
 		if ($nCountRows > 0) {
@@ -793,6 +797,8 @@ class mQuotation extends CI_Model
 				FROM TARTSqHDTmp
 				WHERE FTWorkerID = '" . $tWorkerID . "'
 				AND FTXqhDocNo = '" . $tDocNo . "'";
+
+				
 		$this->db->query($tSQL);
 	}
 
@@ -877,6 +883,10 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
+	public function FCxMQUProrate($ptDocNo){
+        //Prorate
+	}
+
 	//ลบข้อมูลรายการ
 	public function FCxMQUDeleteItemInTemp($paItem){
 		$nSeq 		= $paItem['FNXqdSeq'];
@@ -946,6 +956,25 @@ class mQuotation extends CI_Model
 										  $tSQL.= " AND FTXqhDocNo = '".$tQuoDocNo."' ";
 									 }
 
+					$this->db->query($tSQL);
+	}
+
+	//ส่วนลดท้ายบิล
+	public function FCxMQUEditDocDisCount($paItem){
+
+          $tQuoDocNo 	= $paItem['tQuoDocNo'];
+					$nDiscount 	= $paItem['nDiscount'];
+					$tDisTxt   = $paItem['tDisTxt'];
+					$tWorkerID   = $paItem['tWorkerID'];
+
+					$tSQL = "UPDATE TARTSqHDTmp
+					         SET    FCXqhDis = '".$nDiscount."',FTXqhDisTxt='".$tDisTxt."'
+									 WHERE  FTWorkerID = '".$tWorkerID."'";
+
+									 if($tQuoDocNo !=""){
+										  $tSQL.= " AND FTXqhDocNo = '".$tQuoDocNo."' ";
+									 }
+          //echo $tSQL;
 					$this->db->query($tSQL);
 	}
 

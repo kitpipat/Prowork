@@ -103,7 +103,7 @@ class cQuotationDoc extends CI_Controller{
 	}
 
 
-	//บันทึกข้อมูล
+	//บันทึกข้อมูลเอกสาร
 	public function FSxCQUODocSave(){
 
 		$oDocHeaderInfo 	= $this->input->post("oDocHeaderInfo");
@@ -124,7 +124,7 @@ class cQuotationDoc extends CI_Controller{
 		$tGndText 			= $this->FCNtReadNumber(str_replace(",", "", $nGrandTotal));
 
 		if ($oDocHeaderInfo[5]["value"] == 1) {
-			$nVatable = $nB4Dis;
+			$nVatable = $nAfDis;
 		} else {
 			$nVatable = str_replace(",", "", $nAfDis) - str_replace(",", "", $nAmtVat);
 		}
@@ -187,6 +187,7 @@ class cQuotationDoc extends CI_Controller{
 										$this->mQuotation->FCxMQUMoveTemp2HD($tXqhDocNo, $tWorkerID);
 										$this->mQuotation->FCxMQUMoveTempHDCst($tXqhDocNo, $tWorkerID);
 										$this->mQuotation->FCxMQUMoveTemp2DT($tXqhDocNo, $tWorkerID);
+										$this->mQuotation->FCxMQUProrate($tXqhDocNo);
 										echo json_encode($aDocData);
 
 								} else {
@@ -196,6 +197,7 @@ class cQuotationDoc extends CI_Controller{
 											$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
 											$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
 											$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
+											$this->mQuotation->FCxMQUProrate($tDocNo);
 
 											echo json_encode($aDocData);
 
@@ -330,8 +332,41 @@ class cQuotationDoc extends CI_Controller{
 		$this->mQuotation->FCxMQUDeleteItemInTemp($aItem);
 	}
 
+  //ส่วนลดท้ายบิล
 	public function FSxCQUOEventFootDis(){
-		
+
+		     $tQuoDocNo 	  = $this->input->post('tQuoDocNo');
+				 $nDiscount 		= $this->input->post('nDiscount');
+				 $nDiscountTxt  = $nDiscount;
+				 $nNetฺฺB4HD 	= str_replace(",","",$this->input->post('nNetฺฺB4HD'));
+
+				 $nStrCountDisTxt = strlen($nDiscount) - 1;
+				 $tDisType = substr($nDiscount,$nStrCountDisTxt);
+				 $nDiscountCal = 0;
+				 $nItemNetAFDis = 0;
+				 //echo $nItemDiscount;
+				 if($tDisType =='%'){
+						 $nDiscountCal = substr($nDiscount,0,$nStrCountDisTxt);
+						 $nDiscount = ($nNetฺฺB4HD * $nDiscountCal)/100;
+
+				 }else{
+
+						 $nDiscount = $nDiscount;
+				 }
+         $tWorkerID	= $this->session->userdata('tSesUsercode');
+
+				 $aDisInfo = array("tQuoDocNo"=>$tQuoDocNo,
+			                     "nDiscount"=>$nDiscount,
+												   "tDisTxt"=>$nDiscountTxt,
+												   "tWorkerID"=>$tWorkerID);
+
+				 if($tWorkerID !=""){
+               $this->mQuotation->FCxMQUEditDocDisCount($aDisInfo);
+							 echo $nDiscount;
+				 }else{
+					 echo 'expired';
+				 }
+
 	}
 
 	//ยกเลิกเอกสาร

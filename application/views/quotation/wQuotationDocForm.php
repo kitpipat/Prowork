@@ -350,7 +350,7 @@
 										<input type="text"
 										       autocomplete="off"
 													 id="oetXqhDisText"
-													 class="text-right form-control xCNInputNumericWithDecimal"
+													 class="text-right form-control xCNNumberandPercent"
 													 onkeypress="return FSxQUODocFootDis(event,this)">
 									</div>
 								</div>

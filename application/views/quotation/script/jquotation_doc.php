@@ -230,7 +230,6 @@
 				$("#otdNetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
 				nVatType = $("#ocmVatType").val()
 				nVatRate = $("#oetVatRate").val()
-
 				nVat 		= 0
 				nGrandTotal = 0
 
@@ -562,6 +561,7 @@
 					nDiscount = $(poElm).val();
 					tQuoDocNo = $("#ospDocNo").attr("data-docno");
           nNetฺฺB4HD = $("#otdDocNetTotal").text()
+
 					//console.log(nDiscount+'+'+tQuoDocNo+'+'+nNetฺฺB4HD);
           if($(poElm).val() != ''){
 
@@ -572,14 +572,39 @@
 										data: {
 											tQuoDocNo: tQuoDocNo,
 											nDiscount: nDiscount,
-											nItemDiscount: nItemDiscount,
 											nNetฺฺB4HD : nNetฺฺB4HD
 										},
 										datatype: 'json'
 									})
 									.done(function(data) {
-										 //console.log(data)
-										 FSvQUODocItems();
+										 $("#ospXqhDis").text(data)
+
+										 nFootDiscount = parseFloat(data)
+										 nNetฺฺB4HD = nNetฺฺB4HD.replace(/,/g, "");
+										 nNetAFHD = parseFloat(nNetฺฺB4HD) - parseFloat(nFootDiscount)
+
+										 $("#ospXqhDis").text(accounting.formatMoney(nFootDiscount.toFixed(2), ""))
+										 $("#otdNetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
+
+										nVatType = $("#ocmVatType").val()
+						 				nVatRate = $("#oetVatRate").val()
+						 				nVat 		= 0
+						 				nGrandTotal = 0
+
+						 				if (nVatType == "1") {
+										
+						 					nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
+						 					nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
+
+						 				} else {
+						 					nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
+						 					nGrandTotal = parseFloat(nNetAFHD)
+						 				}
+
+						 				$("#otdVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
+										$("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
+
+
 
 									})
 									.fail(function(jqXHR, textStatus, errorThrown) {
