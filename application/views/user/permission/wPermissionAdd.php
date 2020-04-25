@@ -119,6 +119,7 @@
 											<?php 
 												switch ($aValue['FTMenType']) {
 													case "document":
+														//เอกสารใบปรับราคา และ เอกสารใบปรับต้นทุน
 														if($aValue['FTPathRoute'] == 'r_adjprice' || $aValue['FTPathRoute'] == 'r_adjcost'){
 															$tDisRead 	= 'open';
 															$tDisCreate = 'open';
@@ -126,6 +127,14 @@
 															$tDisDelete = 'open';
 															$tDisCancle = 'open';
 															$tDisAprove = 'open';
+															$tDisPrint 	= 'disabled';
+														}else if($aValue['FTPathRoute'] == 'r_quotationcheck'){ //ตรวจสอบใบเสนอราคา
+															$tDisRead 	= 'open';
+															$tDisCreate = 'disabled';
+															$tDisEdit 	= 'open';
+															$tDisDelete = 'disabled';
+															$tDisCancle = 'disabled';
+															$tDisAprove = 'disabled';
 															$tDisPrint 	= 'disabled';
 														}else{
 															$tDisRead 	= 'open';
