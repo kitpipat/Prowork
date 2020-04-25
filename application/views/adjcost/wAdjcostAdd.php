@@ -208,7 +208,7 @@
 											<div class="dropdown-menu dropdown-menu-left xCNDropdown">
 												<?php if($tDisabledInput != "disabled"){ ?>
 													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href="<?=base_url('application/assets/templates/Costadjustment_Import_Template.xlsx');?>">ดาวน์โหลดแม่แบบ</a></button>
-													<button class="dropdown-item xCNDropdownSub <?=$tPer_create?>" type="button" onclick="JSxImportDataExcel();">นำเข้าข้อมูล ไฟล์</button>
+													<button class="dropdown-item xCNDropdownSub <?=$tAlwSave?>" type="button" onclick="JSxImportDataExcel();">นำเข้าข้อมูล ไฟล์</button>
 												<?php } ?>
 												<input style="display:none;" type="file" id="ofeImportExcel" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
 											</div>
@@ -217,7 +217,7 @@
 
 									<?php if($tDisabledInput != "disabled"){ ?>
 										<div class="col-lg-4 col-md-4">
-											<button class="xCNBrowsePDTinDocument" type="button" onclick="JSxBrowsePDTInDocument();"><span>+</span></button>
+											<button class="xCNBrowsePDTinDocument <?=$tAlwSave?>" type="button" onclick="JSxBrowsePDTInDocument();"><span>+</span></button>
 										</div>
 									<?php } ?>
 								</div>
