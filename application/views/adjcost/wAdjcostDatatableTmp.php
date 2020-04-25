@@ -1,4 +1,16 @@
 
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_adjcost');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
 <table class="table table-striped xCNTableCenter" id="otbAJCTable">
   <thead>
     <tr>
@@ -7,7 +19,7 @@
 		<th style="text-align: left;">ชื่อสินค้า</th>
 		<th style="width:230px; text-align: left;">ส่วนลดต้นทุน</th>
 		<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
-			<th style="width:80px; text-align: center;">ลบ</th>
+			<th style="width:80px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
 		<?php } ?>
     </tr>
   </thead>
@@ -41,7 +53,7 @@
 
 					<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 						<?php $oEventDelete = "JSxAJC_DeleteInTmp('".$aValue['FTPdtCode']."')"; ?>
-						<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
+						<td class='<?=$tPer_delete?>'><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 					<?php } ?>
 				</tr>
 			<?php } ?>
@@ -90,6 +102,12 @@
 
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
+
+	//ถ้าเข้ามาแบบแก้ไข แต่ ไม่มีสิทธิ์ในการแก้ไข
+	if('<?=$tPer_edit?>' != ''){
+		$('.xCNEditInline').attr('disabled',true);
+	}
+
 	//เปลี่ยนหน้า
 	function JSvAJC_ClickPage(ptPage) {
 		var nPageCurrent = '';

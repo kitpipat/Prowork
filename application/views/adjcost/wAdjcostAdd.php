@@ -31,22 +31,50 @@
 	}
 ?>
 
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_adjcost');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
 <div class="container-fulid">
 	<!--Section บน-->
 	<div class="row">
 		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPageAJCMain();">ใบปรับราคาต้นทุน</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
 		<div class="col-lg-6 col-md-6">
 
+			<?php 
+				if($tTypePage == 'edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
+					if($tPer_edit == ''){
+						$tAlwSave = '';
+					}else{
+						$tAlwSave = 'xCNHide';
+					}
+				}else if($tTypePage == 'insert'){ //เข้ามาแบบ ขา Insert และ สิทธิสามารถบันทึกได้
+					if($tPer_create == ''){
+						$tAlwSave = '';
+					}else{
+						$tAlwSave = 'xCNHide';
+					}
+				}
+			?>
+
 			<?php if($tTypePage == 'edit'){ ?>
 				<?php if($tDocumentStaDoc == 2 || $tDocumentStaApv == 1){ ?>
 					<!--ไม่โชว์สักเมนู ถ้ามันอนุมัติเเล้ว-->
 				<?php }else{ ?>
-					<button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
-					<button class="xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-right:10px;" onclick="JSxEventAproveDocument('<?=$tRoute?>');">อนุมัติ</button>
-					<button class="xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="JSxEventCancleDocument('<?=$tRoute?>');">ยกเลิกเอกสาร</button>
+					<button class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
+					<button class="xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_approved?>" style="margin-right:10px;" onclick="JSxEventAproveDocument('<?=$tRoute?>');">อนุมัติ</button>
+					<button class="xCNCalcelImport btn btn-outline-danger pull-right <?=$tPer_cancle?>" style="margin-right:10px;" onclick="JSxEventCancleDocument('<?=$tRoute?>');">ยกเลิกเอกสาร</button>
 				<?php } ?>
 			<?php }else{ ?>
-				<button class="xCNButtonSave pull-right" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
+				<button class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
 			<?php } ?>
 
 		</div>
@@ -180,7 +208,7 @@
 											<div class="dropdown-menu dropdown-menu-left xCNDropdown">
 												<?php if($tDisabledInput != "disabled"){ ?>
 													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href="<?=base_url('application/assets/templates/Costadjustment_Import_Template.xlsx');?>">ดาวน์โหลดแม่แบบ</a></button>
-													<button class="dropdown-item xCNDropdownSub" type="button" onclick="JSxImportDataExcel();">นำเข้าข้อมูล ไฟล์</button>
+													<button class="dropdown-item xCNDropdownSub <?=$tAlwSave?>" type="button" onclick="JSxImportDataExcel();">นำเข้าข้อมูล ไฟล์</button>
 												<?php } ?>
 												<input style="display:none;" type="file" id="ofeImportExcel" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
 											</div>
@@ -189,7 +217,7 @@
 
 									<?php if($tDisabledInput != "disabled"){ ?>
 										<div class="col-lg-4 col-md-4">
-											<button class="xCNBrowsePDTinDocument" type="button" onclick="JSxBrowsePDTInDocument();"><span>+</span></button>
+											<button class="xCNBrowsePDTinDocument <?=$tAlwSave?>" type="button" onclick="JSxBrowsePDTInDocument();"><span>+</span></button>
 										</div>
 									<?php } ?>
 								</div>
@@ -441,6 +469,13 @@
 
 <script>	
 	$('ducument').ready(function(){ 
+
+		//ถ้าเข้ามาแบบแก้ไข แต่ ไม่มีสิทธิ์ในการแก้ไข
+		if('<?=$tTypePage?>' == 'edit' && '<?=$tPer_edit?>' != ''){
+			$('.form-control').attr('disabled',true);
+			$('.xCNFormSerach').attr('disabled',false);
+		}
+
 		$('.xCNDatePicker').datepicker({ 
 			format          : 'dd/mm/yyyy',
 			autoclose       : true,
