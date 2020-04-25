@@ -30,6 +30,7 @@
 		if(pnPage == '' || pnPage == null){ pnPage = 1; }
 		$.ajax({
 			url: 'r_quotationeventGetPdtList',
+			timeout: 0,
 			type: 'GET',
 			data: {
 				'pnPage'			: pnPage,
@@ -53,6 +54,7 @@
 		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
 		$.ajax({
 				url: 'r_quotationcalldocheader',
+				timeout: 0,
 				type: 'GET',
 				data: {
 					tQuoDocNo: tQuoDocNo
@@ -71,6 +73,7 @@
 		$.ajax({
 				url: 'r_quotationeventcallitemslist',
 				type: 'GET',
+				timeout: 0,
 				data: {},
 				datatype: 'json'
 			})
@@ -88,6 +91,7 @@
 		tDataItem = $(ptElm).attr("data-iteminfo");
 		$.ajax({
 			url: 'r_quotationeventAddItems',
+			timeout: 0,
 			type: 'POST',
 			data: {
 				tQuoDocNo: tQuoDocNo,
@@ -117,6 +121,7 @@
 		$('.xCNConfirmDelete').on("click",function(){
 			$.ajax({
 				url: 'r_quotationeventDelItems',
+				timeout: 0,
 				type: 'POST',
 				data: {
 					tQuoDocNo: tQuoDocNo,
@@ -148,6 +153,7 @@
 
 			$.ajax({
 					url: 'r_quotationeventEditItemsQty',
+					timeout: 0,
 					type: 'POST',
 					data: {
 						tQuoDocNo: tQuoDocNo,
@@ -181,6 +187,7 @@
 		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno")
 		$.ajax({
 			url: 'r_quotationcallsqdoc',
+			timeout: 0,
 			type: 'GET',
 			data: {
 				tQuoDocNo: tQuoDocNo
@@ -194,4 +201,5 @@
 			//serrorFunction();
 		});
 	}
+	
 </script>
