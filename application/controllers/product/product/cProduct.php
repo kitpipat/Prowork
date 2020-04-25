@@ -98,12 +98,12 @@ class cProduct extends CI_Controller {
 			$this->mProduct->FSxMPDTInsert($aInsertPDT);
 
 			//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
-			$paData = array(
-				"tPdtCode"		=> $this->input->post('oetPDTCode'),
-				"dDateActive"	=> '',
-				"tDocno"		=> ''
-			);
-			FCNaHPDCAdjPdtCost($paData);
+			// $paData = array(
+			// 	"tPdtCode"		=> $this->input->post('oetPDTCode'),
+			// 	"dDateActive"	=> '',
+			// 	"tDocno"		=> ''
+			// );
+			// FCNaHPDCAdjPdtCost($paData);
 
 			echo 'pass_insert';
 		}

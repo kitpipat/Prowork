@@ -123,12 +123,13 @@
 			<!--ข้อมูลอื่นๆ-->
 			<div class="col-lg-6">
 				<div class="card">
-					<div class="card-body">
+					<div class="card-body" style="padding-bottom: 65px;">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="xCNHeadFooterINPDT"><span> ข้อมูลอื่นๆ </span></div>
 							</div>
-							<div class="col-lg-12">
+
+							<div class="col-lg-6">
 
 								<!--ยี่ห้อ-->
 								<div class="form-group">
@@ -146,6 +147,9 @@
 									</select>
 								</div>
 
+							</div>
+
+							<div class="col-lg-6">
 								<!--สี-->
 								<div class="form-group">
 									<label>สี</label>
@@ -161,7 +165,9 @@
 										<?php } ?>
 									</select>
 								</div>
-
+							</div>
+											
+							<div class="col-lg-6">
 								<!--กลุ่ม-->
 								<div class="form-group">
 									<label>กลุ่มสินค้า</label>
@@ -177,7 +183,9 @@
 										<?php } ?>
 									</select>
 								</div>
+							</div>
 
+							<div class="col-lg-6">
 								<!--รุ่น-->
 								<div class="form-group">
 									<label>รุ่น</label>
@@ -193,7 +201,9 @@
 										<?php } ?>
 									</select>
 								</div>
+							</div>
 
+							<div class="col-lg-6">
 								<!--ขนาด-->
 								<div class="form-group">
 									<label>ขนาด</label>
@@ -209,23 +219,9 @@
 										<?php } ?>
 									</select>
 								</div>
+							</div>
 
-								<!--ประเภท-->
-								<div class="form-group">
-									<label>ประเภท</label>
-									<select class="form-control" id="oetPDTType" name="oetPDTType">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Type['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>
-											<?php foreach($aFilter_Type['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTPtyCode == $aValue['FTPtyCode'])? "selected" : "";?> value="<?=$aValue['FTPtyCode'];?>"><?=$aValue['FTPtyName'];?></option>
-											<?php } ?>
-										<?php } ?>
-									</select>
-								</div>
-
+							<div class="col-lg-6">
 								<!--หน่วย-->
 								<div class="form-group">
 									<label>หน่วย</label>
@@ -241,8 +237,26 @@
 										<?php } ?>
 									</select>
 								</div>
-
 							</div>
+
+							<div class="col-lg-6">
+								<!--ประเภท-->
+								<div class="form-group">
+									<label>ประเภท</label>
+									<select class="form-control" id="oetPDTType" name="oetPDTType">
+										<option selected disabled>กรุณาเลือกข้อมูล</option>
+										<?php if($aFilter_Type['rtCode'] == 800){ ?>
+											<option value="0">ไม่ระบุข้อมูล</option>
+										<?php }else{ ?> 
+											<option value="0">ไม่ระบุข้อมูล</option>
+											<?php foreach($aFilter_Type['raItems'] AS $nKey => $aValue){ ?>
+												<option <?=(@$FTPtyCode == $aValue['FTPtyCode'])? "selected" : "";?> value="<?=$aValue['FTPtyCode'];?>"><?=$aValue['FTPtyName'];?></option>
+											<?php } ?>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+
 						</div>
 					</div>
 				</div>
@@ -277,7 +291,7 @@
 										</div>			
 														
 										<div class="row">
-											<div class="col-lg-6"> 
+											<div class="col-lg-12"> 
 												<!--ต้นทุนมาตราฐาน-->
 												<div class="form-group">
 													<label><span style="color:red;">*</span> ต้นทุนมาตราฐาน</label>
@@ -285,7 +299,7 @@
 												</div>
 											</div>
 
-											<div class="col-lg-6"> 
+											<div class="col-lg-6" style="display:none;"> 
 												<!--ส่วนลดต้นทุน %-->
 												<div class="form-group">
 													<label>ส่วนลดต้นทุน </label><label style="color:red;">&nbsp; ( ตัวอย่างการกรอกข้อมูล : 10%,20,30 )</label>
@@ -295,7 +309,7 @@
 										</div>
 
 										<div class="row">
-											<div class="col-lg-12"> 
+											<div class="col-lg-12"  style="display:none;"> 
 												<!--ขายบวกเพิ่มจากต้นทุน %-->
 												<div class="form-group">
 													<label> ขายบวกเพิ่มจากต้นทุน (%)</label>
@@ -322,7 +336,7 @@
 										<!--หมายเหตุ-->
 										<div class="form-group" style="margin-bottom: 0.75rem;">
 											<label>หมายเหตุ</label>
-											<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="7"><?=@$FTPdtReason;?></textarea>
+											<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="2"><?=@$FTPdtReason;?></textarea>
 										</div>
 									</div>
 								</div>
