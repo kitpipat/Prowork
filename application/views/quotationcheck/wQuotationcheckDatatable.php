@@ -26,10 +26,10 @@
 				<tr>
 					<td><?=$aValue['FTXqhDocNo']?></td>
 					<td><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
-					<td><?=$aValue['FNXqdSeq']?></td>
-					<td><?=$aValue['FTPdtName']?></td>
+					<td><?=($aValue['FNXqdSeq'] == '') ? 'x' : $aValue['FNXqdSeq']?></td>
+					<td><?=($aValue['FTPdtName'] == '')? 'ไม่พบสินค้า' : $aValue['FTPdtName'] ?></td>
 					<td class="text-right"><?=number_format($aValue['FCXqdUnitPrice'],2)?></td>
-					<td class="text-right"><?=$aValue['FCXqdQty']?></td>
+					<td class="text-right"><?=($aValue['FCXqdQty'] == '') ? '0.00' : $aValue['FCXqdQty']?></td>
 					<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
 
 					<!--สถานะอนุมัติ-->
