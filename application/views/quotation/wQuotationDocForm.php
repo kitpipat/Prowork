@@ -349,16 +349,16 @@
 						<div class="col-lg-6 text-right">
 							<div class="row">
 								<div class="col-lg-6">
-									<div class="input-container">
+									<div class="input-container" style="margin-bottom:0px;">
 										<i class="xWBnticon fa fa-info-circle fa-xs"
 										   style="font-size: 0.5rem;"
 										   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
 										   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
 										<input type="text"
 										       autocomplete="off"
-													 id="oetXqhDisText"
-													 class="text-right form-control xCNNumberandPercent"
-													 onkeypress="return FSxQUODocFootDis(event,this)">
+												id="oetXqhDisText"
+												class="text-right form-control xCNNumberandPercent"
+												onkeypress="return FSxQUODocFootDis(event,this)">
 									</div>
 								</div>
 								<div class="col-lg-6">
