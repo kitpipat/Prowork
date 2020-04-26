@@ -678,3 +678,70 @@ table tbody .xCNTableGroupMenu{
     width: 17px;
 	content:url('../../assets/images/icon/find.png')
 }
+
+/*//////////////////////////////////////////////////////////////////////////////////////*/
+
+#odvCheckProgress{
+	z-index					: 1000 !important;
+    background				: #2c2c2c6b;
+    position				: absolute;
+    width					: 100%;
+    height					: 100%;
+}
+
+.lds-ripple {
+	display			: inline-block;
+	position		: relative;
+	width			: 80px;
+	height			: 80px;
+	text-align		: center;
+    display			: block;
+    margin			: 0px auto;
+    top				: 40%;
+  }
+
+.lds-ripple div {
+	position		: absolute;
+	border			: 4px solid #fff;
+	opacity			: 1;
+	border-radius	: 50%;
+	animation		: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+	animation-delay	: -0.5s;
+}
+
+#ospLoadProgress{
+	color		: #494040;
+    text-shadow	: 2px 2px #b8b8b8;
+    font-weight	: bold;
+    font-size	: 25px;
+    display		: inline-block;
+    position	: relative;
+    width		: 100%;
+    height		: 80px;
+    text-align	: center;
+    display		: block;
+    margin		: 0px auto;
+    top			: 40%;
+}
+
+@keyframes lds-ripple {
+	0% {
+	  top			: 36px;
+	  left			: 36px;
+	  width			: 0;
+	  height		: 0;
+	  opacity		: 1;
+	}
+	100% {
+	  top			: 0px;
+	  left			: 0px;
+	  width			: 72px;
+	  height		: 72px;
+	  opacity		: 0;
+	}
+}
+  
+/*//////////////////////////////////////////////////////////////////////////////////////*/

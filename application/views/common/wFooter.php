@@ -65,6 +65,15 @@
 					}
 				});
 			}
+
+			//ฟังก์ชั่น modal progress
+			function JSxModalProgress(ptEvent){
+				if(ptEvent == 'open'){
+					$('#odvCheckProgress').css('display','block');
+				}else{
+					$('#odvCheckProgress').css('display','none');
+				}
+			}
 		</script>
 
 		<!--แจ้งเตือนข้อความ-->
