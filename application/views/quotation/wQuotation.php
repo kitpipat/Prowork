@@ -218,16 +218,16 @@
 	</div>
 </div>
 
-<!--Modal ยกเลิกเอกสาร-->
+<!--Modal ยกเลิกการทำรายการ-->
 <button id="obtModalCancleDocumentItem" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalCancleDocumentItem"></button>
 <div class="modal fade" id="odvModalCancleDocumentItem" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">ยกเลิกเอกสาร</h5>
+				<h5 class="modal-title">ยกเลิกการทำรายการ</h5>
 			</div>
 			<div class="modal-body">
-				<label style="text-align: left; display: block;">สินค้าทั้งหมดจะถูกยกเลิก และทำรายการใหม่อีกครั้ง คุณต้องการที่จะยกเลิกเอกสารนี้หรือไม่?</label>
+				<label style="text-align: left; display: block;">สินค้าทั้งหมดจะถูกยกเลิก และทำรายการใหม่อีกครั้ง คุณต้องการที่จะยกเลิกการทำรายการหรือไม่?</label>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
