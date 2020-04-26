@@ -398,6 +398,24 @@ class cQuotationDoc extends CI_Controller
 		$this->mQuotation->FCxMQUApproveDocument($aItem);
 	}
 
+	//เลือกลูกค้าในหน้าเอกสาร (Master)
+	public function FSxCQUOSelectCustomer(){
+		$nPage	= $this->input->post('nPage');
+
+		$aCondition = array(
+			'nPage'         	=> $nPage,
+			'nRow'          	=> 10,
+			'tSearchCustomer'   => $this->input->post('tSearchCustomer')
+		);
+
+		$aListCustomer 	= $this->mQuotation->FCxMQUGetCustomerAll($aCondition);
+		$aPackData 	= array(
+			'aListCustomer'		=> $aListCustomer,
+			'nPage'				=> $nPage
+		);
+		$this->load->view('quotation/wSelectCustomer',$aPackData);
+	}
+
 	public function FSaCQUODocPrintForm()
 	{
 
