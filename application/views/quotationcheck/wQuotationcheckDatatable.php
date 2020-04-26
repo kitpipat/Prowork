@@ -1,3 +1,15 @@
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_quotationcheck');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
 <table class="table table-striped xCNTableCenter">
   <thead>
     <tr>
@@ -59,7 +71,13 @@
 								$FDXqdPucDate = null;
 							}
 						?>
-						<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PUCDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPucDate?>">
+
+						<!--มีสิทธิแก้ไข-->
+						<?php if($tPer_edit == ''){ ?>
+							<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PUCDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPucDate?>">
+						<?php }else{ ?>
+							<label style="text-align: center; display: block;"><?=($FDXqdPucDate == null) ? '-' : $FDXqdPucDate?></label>
+						<?php } ?>
 					</td>
 					<td>
 						<?php 
@@ -69,7 +87,12 @@
 								$FDXqdDliDate = null;
 							}
 						?>
-						<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'DLIDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdDliDate?>">
+						<!--มีสิทธิแก้ไข-->
+						<?php if($tPer_edit == ''){ ?>
+							<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'DLIDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdDliDate?>">
+						<?php }else{ ?>
+							<label style="text-align: center; display: block;"><?=($FDXqdDliDate == null) ? '-' : $FDXqdDliDate?></label>
+						<?php } ?>
 					</td>
 
 					<!--วันที่รับสินค้า-->
@@ -81,11 +104,22 @@
 								$FDXqdPikDate = null;
 							}
 						?>
-						<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PIKDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPikDate?>">
+						<!--มีสิทธิแก้ไข-->
+						<?php if($tPer_edit == ''){ ?>
+							<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PIKDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPikDate?>">
+						<?php }else{ ?>
+							<label style="text-align: center; display: block;"><?=($FDXqdPikDate == null) ? '-' : $FDXqdDliDate?></label>
+						<?php } ?>
 					</td>
 					<td class="xCNBorderright">
 						<?php $FTXqdRefInv = $aValue['FTXqdRefInv']; ?>
-						<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'REF');" type="text" <?=$tDisabledKey?> maxlength="20" class="xCNEditInline" style="text-align: left; width: 100%;" value="<?=@$FTXqdRefInv?>">
+						<!--มีสิทธิแก้ไข-->
+						<?php if($tPer_edit == ''){ ?>
+							<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'REF');" type="text" <?=$tDisabledKey?> maxlength="20" class="xCNEditInline" style="text-align: left; width: 100%;" value="<?=@$FTXqdRefInv?>">
+						<?php }else{ ?>
+							<label style="text-align: center; display: block;"><?=($FTXqdRefInv == null) ? '-' : $FTXqdRefInv?></label>
+						<?php } ?>
+					
 					</td>
 					<td><?=($aValue['FTUsrFName'] == '' ) ? '-' : $aValue['FTUsrFName'];?></td>
 				</tr>
