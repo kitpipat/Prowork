@@ -98,4 +98,6 @@
 </div>
 
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
-
+<script>
+	JSxModalProgress('close');
+</script>

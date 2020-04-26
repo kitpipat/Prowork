@@ -87,7 +87,8 @@
 
 	//เลือกสินค้า เข้าตะกร้า
 	function FSvQUOAddItemToTemp(ptElm) {
-		$("#odvQuoItemsList").html('<div style="padding:5px;font-size:16px">กำลังเพิ่มสินค้าในเอกสารกรุณารอซักครู่...</div>');
+		JSxModalProgress('open');
+		// $("#odvQuoItemsList").html('<div style="padding:5px;font-size:16px">กำลังเพิ่มสินค้าในเอกสารกรุณารอซักครู่...</div>');
 		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
 		tDataItem = $(ptElm).attr("data-iteminfo");
 		$.ajax({
