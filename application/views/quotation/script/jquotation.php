@@ -52,6 +52,12 @@
 	function FSvQUOCallDocHeader() {
 
 		tQuoDocNo = $("#odvQuoDocNo").text();
+		if(tQuoDocNo == 'SQ-##########'){
+			tQuoDocNo = '';
+		}else{
+			tQuoDocNo = tQuoDocNo;
+		}
+
 		$.ajax({
 				url: 'r_quotationcalldocheader',
 				timeout: 0,
@@ -90,6 +96,12 @@
 		JSxModalProgress('open');
 		// $("#odvQuoItemsList").html('<div style="padding:5px;font-size:16px">กำลังเพิ่มสินค้าในเอกสารกรุณารอซักครู่...</div>');
 		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
+		if(tQuoDocNo == 'SQ-##########'){
+			tQuoDocNo = '';
+		}else{
+			tQuoDocNo = tQuoDocNo;
+		}
+
 		tDataItem = $(ptElm).attr("data-iteminfo");
 		$.ajax({
 			url: 'r_quotationeventAddItems',
@@ -115,6 +127,12 @@
 	//ลบสินค้าใน ตะกร้า
 	function FSxQUODelItem(ptElm) {
 		tQuoDocNo = $("#odvQuoDocNo").text();
+		if(tQuoDocNo == 'SQ-##########'){
+			tQuoDocNo = '';
+		}else{
+			tQuoDocNo = tQuoDocNo;
+		}
+
 		nItemSeq = $(ptElm).attr("data-seq");
 
 		$('#obtModalDeleteItemPI').click();
@@ -149,6 +167,12 @@
 
 			var nItemQTY = $(poElm).val();
 			tQuoDocNo = $("#odvQuoDocNo").text();
+			if(tQuoDocNo == 'SQ-##########'){
+				tQuoDocNo = '';
+			}else{
+				tQuoDocNo = tQuoDocNo;
+			}
+			
 			nItemSeq = $(poElm).attr("data-seq");
 			nUnitPrice = $(poElm).attr("data-unitpri");
 
@@ -187,6 +211,13 @@
 		}
 
 		tQuoDocNo = $("#odvQuoDocNo").text()
+		if(tQuoDocNo == 'SQ-##########'){
+			tQuoDocNo = '';
+		}else{
+			tQuoDocNo = tQuoDocNo;
+		}
+			
+
 		$.ajax({
 			url: 'r_quotationcallsqdoc',
 			timeout: 0,
