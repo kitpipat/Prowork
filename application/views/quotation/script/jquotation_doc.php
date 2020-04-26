@@ -322,6 +322,7 @@
 			datatype : 'json'
 		})
 		.done(function(data) {
+			alert('DOCNO : ' + tDocNo);
 			if(data == 'expired'){
 				alert('เซสชั่นของคุณหมดอายุ กรุณาเข้าสู่ระบบและทำรายการใหม่อีกครั้ง');
 				window.location('<?=base_url('Login')?>')
