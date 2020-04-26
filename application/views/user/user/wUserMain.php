@@ -55,6 +55,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('#odvContent_User').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -65,6 +66,7 @@
 
 	//โหลดหน้า เพิ่มข้อมูล
 	function JSwUserCallPageInsert(ptType,ptCode){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: "r_usercallpageInsertorEdit",
@@ -75,6 +77,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -85,12 +88,14 @@
 
 	//กด ผู้ใช้(กลับหน้า main)
 	function JSxCallPageUserMain(){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: "r_user",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

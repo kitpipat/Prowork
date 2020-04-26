@@ -500,6 +500,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('#odvAJCTableDT').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -524,6 +525,8 @@
 			$('#obtModalPlzSelectPDT').click();
 			return;
 		}
+
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: ptRoute,
@@ -531,7 +534,6 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				console.log(tResult);
 				oResult 			= JSON.parse(tResult);
 				var tResult 		= oResult.tStatus;
 				var tDocumentNumber = oResult.tDocuementnumber;
@@ -603,7 +605,6 @@
 				cache	: false,
 				timeout	: 0,
 				success	: function (tResult) {
-					console.log(tResult);
 					obj = [];
 					localStorage.clear();
 					$('#obtModalSelectPDT').click();

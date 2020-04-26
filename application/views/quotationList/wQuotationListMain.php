@@ -43,6 +43,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('#odvContent_Detail_PI').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -53,12 +54,14 @@
 
 	//โหลดหน้า สร้างเอกสารใบเสนอราคา
 	function JSwQuotationPageInsert(){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: "r_quotation/1",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -69,12 +72,14 @@
 
 	//กดกลับหน้า main
 	function JSxCallPagePIListMain(){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: "r_quotationList",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

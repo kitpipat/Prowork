@@ -68,14 +68,14 @@ $route['r_quodoccallitems'] 					= 'quotation/cQuotationDoc/FSvCQUODocItems';
 $route['r_quodocgetdocheader'] 					= 'quotation/cQuotationDoc/FSaCQUODocHeader';
 $route['r_quodocgetdoccst'] 					= 'quotation/cQuotationDoc/FSaCQUODocCst';
 $route['r_quodocsavedoc'] 						= 'quotation/cQuotationDoc/FSxCQUODocSave';
-$route['r_quoEditItemQty'] 					= 'quotation/cQuotationDoc/FSxCQUOEventEditQty';
+$route['r_quoEditItemQty'] 						= 'quotation/cQuotationDoc/FSxCQUOEventEditQty';
 $route['r_quoItemDiscount'] 					= 'quotation/cQuotationDoc/FSxCQUOEventItemDis';
 $route['r_quoEditItemPrice'] 					= 'quotation/cQuotationDoc/FSxCQUOEventItemPri';
 $route['r_quodeleteItem'] 						= 'quotation/cQuotationDoc/FSxCQUOEventDeleteItem';
 $route['r_quoDocFootDiscount'] 					= 'quotation/cQuotationDoc/FSxCQUOEventFootDis';
 $route['r_quoCancleDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventCancleDocument';
 $route['r_quoApproveDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventApproveDocument';
-
+$route['r_selectCustomer'] 						= 'quotation/cQuotationDoc/FSxCQUOSelectCustomer';
 
 
 //หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
@@ -185,7 +185,7 @@ $route['r_quotationListload'] 					= 'quotationList/cQuotationList/FSwCPILLoadDa
 $route['r_quotationListPageEdit'] 				= 'quotationList/cQuotationList/FSwCPILCallPageEdit';
 $route['r_quotationListDelete'] 				= 'quotationList/cQuotationList/FSwCPILEventDelete';
 
-//หน้าตรวจสอบใบเสนอราคา ( start : 24-04-2020 / done : xx-04-2020 )
+//หน้าตรวจสอบใบเสนอราคา ( start : 24-04-2020 / done : 26-04-2020 )
 $route['r_quotationcheck'] 						= 'quotationcheck/cQuotationcheck/index';
 $route['r_quotationcheckload'] 					= 'quotationcheck/cQuotationcheck/FSwCCPILoadDatatable';
 $route['r_quotationcheckUpdate'] 				= 'quotationcheck/cQuotationcheck/FSwCCPIUpdateRecord';

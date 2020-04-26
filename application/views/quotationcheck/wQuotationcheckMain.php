@@ -117,8 +117,9 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('#odvContent_Check_PI').html(tResult);
-
+				
 				//ซ่อน message
 				$('.xCNDialog_Footer').css('display','none');
 			},

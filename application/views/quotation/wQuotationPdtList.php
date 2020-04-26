@@ -1,5 +1,5 @@
 
-<div class="row">
+<div class="row" id="odvContentScroll">
 
 	<div class="col-lg-12">
 		<div class="row">
@@ -27,7 +27,16 @@
 									$tItemInfo = json_encode($aItemsInfo);
 							?>
 							<div class="col-sm-3 col-md-3 col-lg-3">
-								<div class="xCNImageCardPDT" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
+
+								<?php 
+									if($nKey >= 4){
+										$tClassCSSMargin = 'xCNClassPDTCardMargin';
+									}else{
+										$tClassCSSMargin = '';
+									}
+								?>
+
+								<div class="xCNImageCardPDT <?=$tClassCSSMargin?>" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
 
 									<?php 
 										if(@$FTPdtImage != '' || @$FTPdtImage != null){

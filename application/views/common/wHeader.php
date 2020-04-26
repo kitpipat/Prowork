@@ -18,6 +18,15 @@
 
 </head>
 <body style="background: #f1f2f7;">
+
+	<div id="odvCheckProgress" style="display:none;">
+		<div class="lds-ripple">
+			<div></div>
+			<div></div>
+		</div>
+		<span id="ospLoadProgress">กำลังโหลดข้อมูล กรุณารอสักครู่</span>
+	</div>
+	
 	<!-- เมนู -->
 	<aside id="left-panel" class="left-panel">
 		<nav class="navbar navbar-expand-sm navbar-default xCNWidthFull">
@@ -97,7 +106,7 @@
 				</div>
 			</div>
 		</header>
-	
+
 <!-- Scripts -->
 
 <script src="<?=base_url('application/assets/js/')?>jquery-3.5.0.min.js"></script>

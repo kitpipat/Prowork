@@ -508,7 +508,8 @@ table tbody .xCNTableGroupMenu{
 .xWQuotationTtems-Title{
 	margin-top: 10px;
 	border-bottom: 1px solid #969696 !important;
-    border-top: 1px solid #969696 !important;
+	border-top: 1px solid #969696 !important;
+	margin-bottom: 10px;
 }
 
 .xCNWaringEmptyPDT{
@@ -645,3 +646,102 @@ table tbody .xCNTableGroupMenu{
   .xWarnningPrice{
     color: red!important;
   }
+
+
+  .xCNClassPDTCardMargin{
+	margin-top: 20px;
+  }
+
+
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.17);
+    background-color: #f9f9f9;
+}
+
+::-webkit-scrollbar
+{
+	width: 6px;
+	height: 6px;
+	background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb 
+{
+	background-color: #c1c1c1;
+}
+
+.xCNIconFind{
+	padding-top: 0px !important;
+    cursor: pointer;
+    float: right;
+    width: 17px;
+	content:url('../../assets/images/icon/find.png')
+}
+
+/*//////////////////////////////////////////////////////////////////////////////////////*/
+
+#odvCheckProgress{
+	z-index					: 1000 !important;
+    background				: #2c2c2c6b;
+    position				: absolute;
+    width					: 100%;
+    height					: 100%;
+}
+
+.lds-ripple {
+	display			: inline-block;
+	position		: relative;
+	width			: 80px;
+	height			: 80px;
+	text-align		: center;
+    display			: block;
+    margin			: 0px auto;
+    top				: 40%;
+  }
+
+.lds-ripple div {
+	position		: absolute;
+	border			: 4px solid #fff;
+	opacity			: 1;
+	border-radius	: 50%;
+	animation		: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+	animation-delay	: -0.5s;
+}
+
+#ospLoadProgress{
+	color		: #494040;
+    text-shadow	: 2px 2px #b8b8b8;
+    font-weight	: bold;
+    font-size	: 25px;
+    display		: inline-block;
+    position	: relative;
+    width		: 100%;
+    height		: 80px;
+    text-align	: center;
+    display		: block;
+    margin		: 0px auto;
+    top			: 40%;
+}
+
+@keyframes lds-ripple {
+	0% {
+	  top			: 36px;
+	  left			: 36px;
+	  width			: 0;
+	  height		: 0;
+	  opacity		: 1;
+	}
+	100% {
+	  top			: 0px;
+	  left			: 0px;
+	  width			: 72px;
+	  height		: 72px;
+	  opacity		: 0;
+	}
+}
+  
+/*//////////////////////////////////////////////////////////////////////////////////////*/

@@ -107,6 +107,7 @@ class mQuotation extends CI_Model
 						 PDT.FTPzeCode,
 						 PDT.FTPgpCode,
                          PDT.FCPdtCostStd,
+						 PDT.FTPClrCode,
 						 PDT.FTPunCode,
 						 PUN.FTPunName,
 						 PDT.FTSplCode,
@@ -215,7 +216,6 @@ class mQuotation extends CI_Model
 		}
 
 		$tSQL .= " AND P.RowID > $aRowLen[0] AND P.RowID <=$aRowLen[1] ";
-
 		$oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paFilter);
@@ -1064,5 +1064,98 @@ class mQuotation extends CI_Model
 		}catch(Exception $Error){
 			echo $Error;
 		}
+	}
+
+	//ค้นหาลูกค้า
+	public function FCxMQUGetCustomerAll($paData){
+			$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
+			$tWorkerID		= $this->session->userdata('tSesUsercode');
+			$tTextSearch 	= trim($paData['tSearchCustomer']);
+			$tSQL  = "SELECT c.* FROM(";
+			$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTCstCode ASC) AS rtRowID,* FROM (";
+			$tSQL .= " SELECT 
+							CUS.FTCstCode,
+							CUS.FTBchCode,
+							CUS.FTCstName,
+							CUS.FTCstContactName,
+							CUS.FTCstCardID,
+							CUS.FTCstTaxNo,
+							CUS.FTCstSex,
+							CUS.FDCstDob,
+							CUS.FTCstAddress,
+							CUS.FTCstTel,
+							CUS.FTCstFax,
+							CUS.FTCstEmail,
+							CUS.FNCstPostCode,
+							CUS.FTCstWebSite,
+							CUS.FTCstReason,
+							CUS.FTCstStaActive
+						FROM TCNMCst CUS ";
+			$tSQL .= " WHERE 1=1 ";
+			$tSQL .= " AND CUS.FTCstStaActive = 1 ";
+	
+	
+			//ค้นหาธรรมดา
+			if($tTextSearch != '' || $tTextSearch != null){
+				$tSQL .= " AND ( CUS.FTCstCode LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR CUS.FTCstName LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR CUS.FTCstContactName LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR CUS.FTCstCardID LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR CUS.FTCstTel LIKE '%$tTextSearch%' )";
+			}
+	
+			$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
+			$oQuery = $this->db->query($tSQL);
+			if($oQuery->num_rows() > 0){
+				$oFoundRow 	= $this->FCxMQUGetCustomer_PageAll($paData);
+				$nFoundRow 	= $oFoundRow[0]->counts;
+				$nPageAll 	= ceil($nFoundRow/$paData['nRow']); 
+				$aResult 	= array(
+					'raItems'  		=> $oQuery->result_array(),
+					'rnAllRow'      => $nFoundRow,
+					'rnCurrentPage' => $paData['nPage'],
+					'rnAllPage'     => $nPageAll,
+					'rtCode'   		=> '1',
+					'rtDesc'   		=> 'success',
+				);
+			}else{
+				$aResult = array(
+					'rnAllRow' 		=> 0,
+					'rnCurrentPage' => $paData['nPage'],
+					"rnAllPage"		=> 0,
+					'rtCode' 		=> '800',
+					'rtDesc' 		=> 'data not found',
+				);
+			}
+			return $aResult;
+	}
+
+	public function FCxMQUGetCustomer_PageAll($paData){
+		try{
+			$tTextSearch 	= trim($paData['tSearchCustomer']);
+			$tWorkerID		= $this->session->userdata('tSesUsercode');
+			$tSQL 		= "SELECT COUNT (CUS.FTCstCode) AS counts 
+							FROM TCNMCst CUS  ";
+			$tSQL 		.= " WHERE 1=1 ";
+			$tSQL 		.= " AND CUS.FTCstStaActive = 1 ";
+
+			//ค้นหาธรรมดา
+			if($tTextSearch != '' || $tTextSearch != null){
+				$tSQL .= " AND ( CUS.FTCstCode LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR CUS.FTCstName LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR CUS.FTCstContactName LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR CUS.FTCstCardID LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR CUS.FTCstTel LIKE '%$tTextSearch%' )";
+			}
+
+            $oQuery = $this->db->query($tSQL);
+            if ($oQuery->num_rows() > 0) {
+                return $oQuery->result();
+            }else{
+                return false;
+            }
+        }catch(Exception $Error){
+            echo $Error;
+        }
 	}
 }
