@@ -36,7 +36,7 @@
 <div class="col-lg-12" >
       <div class="row">
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">เลขที่เอกสาร</div>
-            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" data-docno="" id="odvQuoDocNo"><?=$tXqhDocNo?></div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" data-docno="<?=$tXqhDocNo?>" id="odvQuoDocNo"><?=$tXqhDocNo?></div>
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">วันที่เอกสาร</div>
             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><?=$dCreateOn?></div>
             <!-- <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">สาขา</div>
