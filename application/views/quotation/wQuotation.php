@@ -143,7 +143,7 @@
 								<!-- Input Filter -->
 								<div class="col-lg-7 col-md-7 col-sm-7">
 									<div class="input-group md-form form-sm form-2 pl-0">
-										<input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchPI" onkeypress="return FSvQUOGetPdtList(1)">
+										<input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchPI" onkeypress="Javascript:if(event.keyCode==13) FSvQUOGetPdtList(1)">
 										<div class="input-group-append">
 											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="FSvQUOGetPdtList(1);"><i class="fa fa-search" aria-hidden="true"></i></span>
 										</div>

@@ -281,7 +281,7 @@ class mQuotation extends CI_Model
 							FROM TCNMPdt PDT WITH (NOLOCK)
 							LEFT JOIN TCNMPdtBrand BAP WITH (NOLOCK) 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
 							LEFT JOIN TCNMPdtColor COP WITH (NOLOCK) 	ON PDT.FTPClrCode 	= COP.FTPClrCode
-							LEFT JOIN TCNMPdtGrp GRP WITH (NOLOCK) 	ON PDT.FTPgpCode 	= GRP.FTPgpCode
+							LEFT JOIN TCNMPdtGrp GRP WITH (NOLOCK) 		ON PDT.FTPgpCode 	= GRP.FTPgpCode
 							LEFT JOIN TCNMPdtModal MOL WITH (NOLOCK) 	ON PDT.FTMolCode 	= MOL.FTMolCode
 							LEFT JOIN TCNMPdtSize SIZ WITH (NOLOCK) 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode
 							LEFT JOIN TCNMPdtType TYP WITH (NOLOCK) 	ON PDT.FTPtyCode 	= TYP.FTPtyCode
@@ -381,8 +381,8 @@ class mQuotation extends CI_Model
 
 			//ค้นหาธรรมดา
 			if ($tTextSearch != '' || $tTextSearch != null) {
-				$tSQL .= " AND FTPdtName LIKE '%" . $tTextSearch . "%'";
-				$tSQL .= " OR FTPdtName LIKE '%" . $tTextSearch . "%'";
+				$tSQL .= " AND PDT.FTPdtName LIKE '%" . $tTextSearch . "%'";
+				$tSQL .= " OR PDT.FTPdtCode LIKE '%" . $tTextSearch . "%'";
 			}
 
 			$oQuery = $this->db->query($tSQL);

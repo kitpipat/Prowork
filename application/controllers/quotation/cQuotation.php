@@ -19,12 +19,12 @@ class cQuotation extends CI_Controller
 			$this->mQuotation->FSxMQUPrepareHD($tWorkerID);
 		}
 
-		$oFilterList  = $this->mQuotation->FSaMQUOGetFilterList();
+		// $oFilterList  = $this->mQuotation->FSaMQUOGetFilterList();
 		$this->mQuotation->FSxMQUOClearTemp();
 		$this->load->model('product/product/mProduct');
 
 		$aData = array(
-			'aFilterList' 			=> $oFilterList,
+			'aFilterList' 			=> '',
 			'aFilter_Brand'         => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtBrand'),
 			'aFilter_Color'         => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtColor'),
 			'aFilter_Group'         => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtGrp'),
