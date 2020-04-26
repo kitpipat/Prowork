@@ -258,6 +258,8 @@
 				var tTextTotal 	= $('#otdGrandTotal').text();
 				var thaibath 	= ArabicNumberToText(tTextTotal);
 				$('#ospTotalText').text(thaibath);
+
+				JSxModalProgress('close');
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				//serrorFunction();
@@ -320,14 +322,21 @@
 			datatype : 'json'
 		})
 		.done(function(data) {
-			console.log(data);
 			if(data == 'expired'){
-				 alert('เซสชั่นของคุณหมดอายุ กรุณาเข้าสู่ระบบและทำรายการใหม่อีกครั้ง');
-				 window.location('<?=base_url('Login')?>')
+				alert('เซสชั่นของคุณหมดอายุ กรุณาเข้าสู่ระบบและทำรายการใหม่อีกครั้ง');
+				window.location('<?=base_url('Login')?>')
 			}else{
 
-				  alert("บันทึกข้อมูลสำเร็จ");
-				  aDocInfo = JSON.parse(data)
+				$('.xCNDialog_Footer').css('display','block');
+				$('.alert-success').addClass('show').fadeIn();
+				$('.alert-success').find('.badge-success').text('สำเร็จ');
+				$('.alert-success').find('.xCNTextShow').text('บันทึกข้อมูลใบเสนอราคาสำเร็จ');
+				setTimeout(function(){
+					$('.alert-success').find('.close').click();
+					$('.xCNDialog_Footer').css('display','none');
+				}, 3000);
+				
+				aDocInfo = JSON.parse(data)
 		 			if (aDocInfo['nStaRender'] == 1) {
 
 		 				$('#olbDocNo').text(aDocInfo['tXqhDocNo']);
@@ -421,7 +430,7 @@
 		});
 	}
 
-	// แก้ไขจำนวนสินค้าในหน้าเอกสาร
+	//แก้ไขจำนวนสินค้าในหน้าเอกสาร
 	function FSxQUOEditDocItemQty(e, poElm) {
 		//See notes about 'which' and 'key'
 		if (e.keyCode == 13) {
@@ -463,7 +472,7 @@
 		}
 	}
 
-	// แก้ไขราคาขายต่อหน่วยในหน้าเอกสาร
+	//แก้ไขราคาขายต่อหน่วยในหน้าเอกสาร
 	function FSxQUOEditDocItemPri(e, poElm) {
 		//See notes about 'which' and 'key'
 		if (e.keyCode == 13) {
@@ -514,7 +523,7 @@
 		}
 	}
 
-  //ส่วนลดรายการ
+  	//ส่วนลดรายการ
 	function FSxQUODocItemDiscount(e, poElm) {
 		//See notes about 'which' and 'key'
 		if (e.keyCode == 13) {
@@ -616,7 +625,7 @@
 		}
 	}
 
-  //กลับไปหน้าเพิ่มสินค้าเข้าเอกสาร
+  	//กลับไปหน้าเพิ่มสินค้าเข้าเอกสาร
 	function FSxQUOBackToCart(){
 
 		$.ajax({
@@ -633,6 +642,5 @@
 				//serrorFunction();
 			});
 	}
-
 
 </script>

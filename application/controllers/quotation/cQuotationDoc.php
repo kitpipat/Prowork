@@ -168,7 +168,7 @@ class cQuotationDoc extends CI_Controller
 			$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
 
 			$aDocCst = array(
-				"FTXqcCstCode" => $oDocCstInfo[0]["value"],
+				"FTXqcCstCode" 		=> $oDocCstInfo[0]["value"],
 				"FTXqcCstName" 		=> $oDocCstInfo[1]["value"],
 				"FTXqcAddress" 		=> $oDocCstInfo[2]["value"],
 				"FTXqhTaxNo" 		=> $oDocCstInfo[3]["value"],
@@ -182,12 +182,10 @@ class cQuotationDoc extends CI_Controller
 
 			//Update Header Information
 			$this->mQuotation->FCxMQUODocUpdCst($aDocCst);
-
 			$oDocInfo = $this->mQuotation->FCxMQUCheckDocNoExiting($tWorkerID);
 			if ($oDocInfo['rtCode'] == 1) {
 				$tXqhDocNo = $oDocInfo['raItems'][0]['FTXqhDocNo'];
 				if ($tXqhDocNo == '') {
-
 					$tBchCode 	= $this->session->userdata('tSesBCHCode');
 					$tXqhDocNo 	= $this->mQuotation->FCtMQUGetDocNo($tBchCode);
 					$dDocDate 	= date("Y-m-d H:i:s");
@@ -199,14 +197,11 @@ class cQuotationDoc extends CI_Controller
 					$this->mQuotation->FCxMQUProrate($tXqhDocNo, $nB4Dis, $nDis);
 					echo json_encode($aDocData);
 				} else {
-
 					$aDocData =  array("tXqhDocNo" => '', "dDocDate" => '', "nStaRender" => 0);
-
 					$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
 					$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
 					$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
 					$this->mQuotation->FCxMQUProrate($tDocNo, $nB4Dis, $nDis);
-
 					echo json_encode($aDocData);
 				}
 			}
