@@ -34,7 +34,7 @@
             </tr>
           </table>
 
-          <table cellpadding="0" cellspacing="7" style="border-bottom:1px solid #f4f4f4;">
+          <table cellpadding="0" cellspacing="7" style="border-bottom:1px solid #f5f5f5;">
 
             <tr>
               <th>เลขที่ใบเสนอราคา</th>
@@ -117,31 +117,31 @@
     <td>หมายเหตุ</td>
   </tr>
   <tr>
-    <td style="height:100px;border:1px solid #f4f4f4;">-</td>
+    <td style="height:100px;border:1px solid #f5f5f5;">-</td>
   </tr>
 </table>
 </td>
       <td>
-            <table style="border:1px solid #f4f4f4;" cellpadding="7" cellspacing="0">
+            <table style="border:1px solid #f5f5f5;" cellpadding="7" cellspacing="0">
               <tr>
-                <td style="border-right:1px solid #f4f4f4;border-bottom:1px solid #f4f4f4;">จำนวนเงินรวม</td>
-                <td style="text-align:right;border-bottom:1px solid #f4f4f4;">100.00</td>
+                <td style="border-right:1px solid #f5f5f5;border-bottom:1px solid #f5f5f5;">จำนวนเงินรวม</td>
+                <td style="text-align:right;border-bottom:1px solid #f5f5f5;">100.00</td>
               </tr>
               <tr>
-                <td style="border-right:1px solid #f4f4f4">ส่วนลด</td>
+                <td style="border-right:1px solid #f5f5f5">ส่วนลด</td>
                 <td style="text-align:right">100.00</td>
               </tr>
               <tr>
-                <td style="border-right:1px solid #f4f4f4">จำนวนเงินหลังหักส่วนลด</td>
+                <td style="border-right:1px solid #f5f5f5">จำนวนเงินหลังหักส่วนลด</td>
                 <td style="text-align:right">100.00</td>
               </tr>
               <tr>
-                <td style="border-right:1px solid #f4f4f4">ภาษีมูลค่าเพิ่ม (7%)</td>
+                <td style="border-right:1px solid #f5f5f5">ภาษีมูลค่าเพิ่ม (7%)</td>
                 <td style="text-align:right">100.00</td>
               </tr>
               <tr>
-                <td style="border-right:1px solid #f4f4f4;border-top:1px solid #f4f4f4">จำนวนเงินรวมทั้งสิ้น</td>
-                <td style="text-align:right;border-top:1px solid #f4f4f4">100.00</td>
+                <td style="border-right:1px solid #f5f5f5;border-top:1px solid #f5f5f5">จำนวนเงินรวมทั้งสิ้น</td>
+                <td style="text-align:right;border-top:1px solid #f5f5f5">100.00</td>
               </tr>
             </table>
       </td>
@@ -169,9 +169,9 @@
 <table>
   <tr>
     <td>
- <table cellpadding="7" cellspacing="0" style="height:100px;border:1px solid #f4f4f4;">
+ <table cellpadding="7" cellspacing="0" style="height:100px;border:1px solid #f5f5f5;">
       <tr>
-        <td style="height:100px;border-bottom:1px solid #f4f4f4;">ลงชื่อ</td>
+        <td style="height:100px;border-bottom:1px solid #f5f5f5;">ลงชื่อ</td>
       </tr>
       <tr>
         <td>ผู้อนุมัติคำสั่งซื้อ</td>
@@ -182,9 +182,9 @@
     </table>
     </td>
       <td>
-        <table cellpadding="7" cellspacing="0" style="height:100px;border:1px solid #f4f4f4;">
+        <table cellpadding="7" cellspacing="0" style="height:100px;border:1px solid #f5f5f5;">
           <tr>
-            <td style="height:100px;border-bottom:1px solid #f4f4f4;">ลงชื่อ</td>
+            <td style="height:100px;border-bottom:1px solid #f5f5f5;">ลงชื่อ</td>
           </tr>
           <tr>
             <td>พนักงานขาย</td>
@@ -195,9 +195,9 @@
         </table>
       </td>
       <td>
-        <table cellpadding="7" cellspacing="0" style="height:100px;width:220px;border:1px solid #f4f4f4;">
+        <table cellpadding="7" cellspacing="0" style="height:100px;width:220px;border:1px solid #f5f5f5;">
           <tr>
-            <td style="height:100px;border-bottom:1px solid #f4f4f4;">ลงชื่อ</td>
+            <td style="height:100px;border-bottom:1px solid #f5f5f5;">ลงชื่อ</td>
           </tr>
           <tr>
             <td>พนักงานทั่วไป</td>
@@ -221,11 +221,11 @@
   }
   .xCNPanel{
     background-color: #ffffff;
-    border: 1px solid #f4f4f4;
+    border: 1px solid #f5f5f5;
   }
   .xWSQDocName{
     background-color: #B0DAA7;
-    border: 1px solid #f4f4f4;
+    border: 1px solid #f5f5f5;
     height: 15px;
     text-align: center;
     font-size: 25px;
@@ -233,19 +233,19 @@
   }
   .xWCmpSection{
     padding-top:10;
-    border-bottom:1px solid #f4f4f4;
+    border-bottom:1px solid #f5f5f5;
   }
   .xCNTitle{
     font-weight: 700;
     font-size: 22px;
   }
   .XCNItemTitle{
-    border-bottom:1px solid #f4f4f4;
-    border-top:1px solid #f4f4f4;
+    border-bottom:1px solid #f5f5f5;
+    border-top:1px solid #f5f5f5;
   }
   .xWTextNumber{
     background-color: #B0DAA7;
-    border: 1px solid #f4f4f4;
+    border: 1px solid #f5f5f5;
     height: 15px;
     text-align: center;
     font-size: 18px;
