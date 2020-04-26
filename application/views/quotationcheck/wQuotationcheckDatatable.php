@@ -224,7 +224,7 @@
 
 				$('.alert-success').addClass('show').fadeIn();
 				$('.alert-success').find('.badge-success').text('สำเร็จ');
-				$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลสำเร็จ');
+				$('.alert-success').find('.xCNTextShow').text('ข้อมูลมีการเปลี่ยนแปลง');
 				setTimeout(function(){
 					$('.alert-success').find('.close').click();
 					$('.xCNDialog_Footer').css('display','none');
