@@ -1099,6 +1099,12 @@ class mQuotation extends CI_Model
 		$nPdtUnitPrice   = $paItem['nPdtUnitPrice'];
 		$tWorkerID	= $this->session->userdata('tSesUsercode');
 
+		if($nDiscount == ''){
+			$nDiscount = 0;
+		}else{
+			$nDiscount = $nDiscount;
+		}
+
 		$tSQL = "UPDATE TARTSqDTTmp
 					         SET    FCXqdDis = '" . $nDiscount . "',FCXqdUnitPrice='" . $nPdtUnitPrice . "'
 									 WHERE  FTWorkerID = '" . $tWorkerID . "'
