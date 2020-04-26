@@ -168,13 +168,14 @@ class cQuotationDoc extends CI_Controller
 			$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
 
 			$aDocCst = array(
-				"FTXqcCstName" 		=> $oDocCstInfo[0]["value"],
-				"FTXqcAddress" 		=> $oDocCstInfo[1]["value"],
-				"FTXqhTaxNo" 		=> $oDocCstInfo[2]["value"],
-				"FTXqhContact" 		=> $oDocCstInfo[3]["value"],
-				"FTXqhEmail" 		=> $oDocCstInfo[4]["value"],
-				"FTXqhTel" 			=> $oDocCstInfo[5]["value"],
-				"FTXqhFax" 			=> $oDocCstInfo[6]["value"],
+				"FTXqcCstCode" => $oDocCstInfo[0]["value"],
+				"FTXqcCstName" 		=> $oDocCstInfo[1]["value"],
+				"FTXqcAddress" 		=> $oDocCstInfo[2]["value"],
+				"FTXqhTaxNo" 		=> $oDocCstInfo[3]["value"],
+				"FTXqhContact" 		=> $oDocCstInfo[4]["value"],
+				"FTXqhEmail" 		=> $oDocCstInfo[5]["value"],
+				"FTXqhTel" 			=> $oDocCstInfo[6]["value"],
+				"FTXqhFax" 			=> $oDocCstInfo[7]["value"],
 				"tWorkerID" 		=> $tWorkerID,
 				"tDocNo" 			=> $tDocNo
 			);
@@ -480,7 +481,7 @@ class cQuotationDoc extends CI_Controller
 
 			// สร้างข้อเนื้อหา pdf ด้วยคำสั่ง writeHTMLCell()
 			$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-		
+
 
       // ---------------------------------------------------------
 

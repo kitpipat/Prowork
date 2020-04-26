@@ -709,9 +709,10 @@ class mQuotation extends CI_Model
 		$tSQL .= " FTXqhContact = '" . $paCstData['FTXqhContact'] . "',";
 		$tSQL .= " FTXqhEmail = '" . $paCstData['FTXqhEmail'] . "',";
 		$tSQL .= " FTXqhTel = '" . $paCstData['FTXqhTel'] . "',";
-		$tSQL .= " FTXqhFax = '" . $paCstData['FTXqhFax'] . "'";
+		$tSQL .= " FTXqhFax = '" . $paCstData['FTXqhFax'] . "',";
+		$tSQL .= " FTXqcCstCode = '" . $paCstData['FTXqcCstCode'] . "'";
 		$tSQL .= " WHERE FTWorkerID='" . $paCstData['tWorkerID'] . "'";
-
+    //echo $tSQL;
 		if ($paCstData['tDocNo'] != "") {
 
 			$tSQL .= " AND FTXqhDocNo='" . $paCstData['tDocNo'] . "'";
@@ -897,7 +898,7 @@ class mQuotation extends CI_Model
 										 $aResult = $oQuery->result_array();
 										 $nFootDisAvg = 0;
 										 $nNetAFHD = 0;
-										 
+
 										 for($i = 0;$i<$nCountRows;$i++){
 
 											    $nItemAmt = $aResult[$i]['FCXqdAfDT'];
@@ -1073,7 +1074,7 @@ class mQuotation extends CI_Model
 			$tTextSearch 	= trim($paData['tSearchCustomer']);
 			$tSQL  = "SELECT c.* FROM(";
 			$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTCstCode ASC) AS rtRowID,* FROM (";
-			$tSQL .= " SELECT 
+			$tSQL .= " SELECT
 							CUS.FTCstCode,
 							CUS.FTBchCode,
 							CUS.FTCstName,
@@ -1093,8 +1094,8 @@ class mQuotation extends CI_Model
 						FROM TCNMCst CUS ";
 			$tSQL .= " WHERE 1=1 ";
 			$tSQL .= " AND CUS.FTCstStaActive = 1 ";
-	
-	
+
+
 			//ค้นหาธรรมดา
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND ( CUS.FTCstCode LIKE '%$tTextSearch%' ";
@@ -1103,13 +1104,13 @@ class mQuotation extends CI_Model
 				$tSQL .= " OR CUS.FTCstCardID LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR CUS.FTCstTel LIKE '%$tTextSearch%' )";
 			}
-	
+
 			$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
 			$oQuery = $this->db->query($tSQL);
 			if($oQuery->num_rows() > 0){
 				$oFoundRow 	= $this->FCxMQUGetCustomer_PageAll($paData);
 				$nFoundRow 	= $oFoundRow[0]->counts;
-				$nPageAll 	= ceil($nFoundRow/$paData['nRow']); 
+				$nPageAll 	= ceil($nFoundRow/$paData['nRow']);
 				$aResult 	= array(
 					'raItems'  		=> $oQuery->result_array(),
 					'rnAllRow'      => $nFoundRow,
@@ -1134,7 +1135,7 @@ class mQuotation extends CI_Model
 		try{
 			$tTextSearch 	= trim($paData['tSearchCustomer']);
 			$tWorkerID		= $this->session->userdata('tSesUsercode');
-			$tSQL 		= "SELECT COUNT (CUS.FTCstCode) AS counts 
+			$tSQL 		= "SELECT COUNT (CUS.FTCstCode) AS counts
 							FROM TCNMCst CUS  ";
 			$tSQL 		.= " WHERE 1=1 ";
 			$tSQL 		.= " AND CUS.FTCstStaActive = 1 ";
