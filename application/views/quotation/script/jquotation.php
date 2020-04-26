@@ -84,6 +84,7 @@
 				datatype: 'json'
 			})
 			.done(function(data) {
+				JSxModalProgress('close');
 				$("#odvQuoItemsList").html(data);
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
