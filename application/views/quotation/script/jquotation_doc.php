@@ -322,7 +322,6 @@
 			datatype : 'json'
 		})
 		.done(function(data) {
-			alert('DOCNO : ' + tDocNo);
 			if(data == 'expired'){
 				alert('เซสชั่นของคุณหมดอายุ กรุณาเข้าสู่ระบบและทำรายการใหม่อีกครั้ง');
 				window.location('<?=base_url('Login')?>')
@@ -340,8 +339,8 @@
 				aDocInfo = JSON.parse(data)
 		 			if (aDocInfo['nStaRender'] == 1) {
 
-		 				$('#olbDocNo').text(aDocInfo['tXqhDocNo']);
-		 				$('#olbDocNo').attr("data-docno", aDocInfo['tXqhDocNo']);
+		 				$('#ospDocNo').text(aDocInfo['tXqhDocNo']);
+		 				$('#ospDocNo').attr("data-docno", aDocInfo['tXqhDocNo']);
 		 				$('#ospDocDate').text(aDocInfo['dDocDate']);
 
 		 				//บันทึกผ่านเเล้ว จะมีปุ่ม อนุมัติ ยกเลิก
