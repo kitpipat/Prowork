@@ -62,11 +62,18 @@
 						<div class="col-lg-12">
 							<form id="ofmQuotationCst">
 								<div class="row">
+
+									<!--รหัสลูกค้า-->
+									<input type="hidden" id="ohdCustomerCode" name="ohdCustomerCode" >
+
 									<!--ลูกค้า-->
 									<div class="col-lg-12">
-										<div class="form-group">
-											<label><span style="color:red;">*</span> ชื่อลูกค้า</label>
+										<label><span style="color:red;">*</span> ชื่อลูกค้า</label>
+										<div class="input-group md-form form-sm form-2 pl-0 form-group">
 											<input type="text" class="form-control" maxlength="255" id="oetCstName" name="oetCstName" placeholder="กรุณาระบุชื่อลูกค้า" autocomplete="off" value="">
+											<div class="input-group-append">
+												<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseCustomer();"><i class="fa fa-search" aria-hidden="true"></i></span>
+											</div>
 										</div>
 									</div>
 
@@ -447,6 +454,43 @@
 	</div>
 </div>
 
+<!-- Modal ให้เลือกลูกค้า -->
+<button id="obtModalSelectCustomer" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSelectCustomer"></button>
+<div class="modal fade" id="odvModalSelectCustomer" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<h5 class="modal-title">เลือกลูกค้า</h5>
+					</div>
+					<div class="col-lg-6 col-md-6"></div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="input-group md-form form-sm form-2 pl-0">
+							<input class="form-control my-0 py-1 red-border xCNFormSerach" autocomplete="off" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchCustomer" onkeypress="Javascript:if(event.keyCode==13) JSxSelectCustomer(1)">
+							<div class="input-group-append">
+								<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxSelectCustomer(1);"><i class="fa fa-search" aria-hidden="true"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<button type="button" class="btn  btn-success xCNConfirmCustomer" onclick="JSxInsCustomerToForm();" style="float: right;">ยืนยัน</button>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div id="odvContentSelectCustomer" style="margin-top:10px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <link rel="stylesheet" href="<?= base_url('application/assets/css/quotation.css') ?>">
 <script type="text/javascript" src="<?= base_url('application/assets/js/jFormValidate.js') ?>"></script>
@@ -481,5 +525,60 @@
 				alert(jqXHR, textStatus, errorThrown);
 			}
 		});
+	}
+
+	//เลือกลูกค้า
+	function JSxChooseCustomer(){
+		$('#obtModalSelectCustomer').click();
+		JSxSelectCustomer(1);
+	}
+
+	//เลือกลูกค้า
+	function JSxSelectCustomer(pnPage){
+		$.ajax({
+			type	: "POST",
+			url		: "r_selectCustomer",
+			data 	: { 'nPage' : pnPage , 'tSearchCustomer' : $('#oetSearchCustomer').val() },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('#odvContentSelectCustomer').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+
+	//กดยืนยันเลือกลูกค้า
+	function JSxInsCustomerToForm(){
+		var LocalItemSelect = localStorage.getItem("LocalItemData");
+		if(LocalItemSelect !== null){
+			var aResult = LocalItemSelect.split(",");
+
+			var tCusname			= aResult[0];
+			var tCustomercode 		= aResult[1];
+			var tAddress 			= aResult[2];
+			var tTaxno 				= aResult[3];
+			var tContactname 		= aResult[4];
+			var tEmail 				= aResult[5];
+			var tTel 				= aResult[6];
+			var tFax 				= aResult[7];
+
+			$('#oetCstName').val(tCusname);
+			$('#oetAddress').text(tAddress);
+			$('#oetTaxNo').val(tTaxno);
+			$('#oetContact').val(tContactname);
+			$('#oetEmail').val(tEmail);
+			$('#oetTel').val(tTel);
+			$('#oetFax').val(tFax);
+			$('#ohdCustomerCode').val(tCustomercode);
+
+			obj = [];
+			localStorage.clear();
+			$('#obtModalSelectCustomer').click();
+		}else{
+
+		}
 	}
 </script>

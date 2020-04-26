@@ -134,7 +134,7 @@
 
 			<div class="row">
 
-				<div class="col-lg-9 col-md-9 col-sm-9">
+				<div class="col-lg-9 col-md-9 col-sm-9" id="odvItem">
 					<div class="card">
 						<div class="card-body">
 							<!--ค้นหา-->
@@ -178,7 +178,7 @@
 					</div>
 				</div>
 
-				<div class="col-lg-3 col-md-3 col-sm-3">
+				<div class="col-lg-3 col-md-3 col-sm-3" id="odvResultBill">
 					<div class="card">
 						<div class="card-body">
 							<div class="row">
@@ -251,6 +251,13 @@
 			//Content
 			$('.xCNContentProduct').addClass('xCNUseFilter12');
 			$('.xCNContentProduct').addClass('col-lg-12');
+
+			//หน้าต่างสินค้า
+			$('#odvItem').removeClass('col-lg-8').addClass('col-lg-9');
+			//หน้าต่างสรุปบิล
+			$('#odvResultBill').removeClass('col-lg-4').addClass('col-lg-3');
+			$('#odvQuoPdtList').css('overflow-x','hidden');
+			$('#odvContentScroll').css('min-width','0px');
 		}else{
 			//Filter
 			$('.xCNFilterSearch').removeClass("xCNFilterBlockHide");
@@ -259,6 +266,14 @@
 			//Content
 			$('.xCNContentProduct').removeClass('xCNUseFilter12 col-lg-12');
 			$('.xCNContentProduct').addClass('col-lg-9');
+
+			//หน้าต่างสินค้า
+			$('#odvItem').removeClass('col-lg-9').addClass('col-lg-8');
+			//หน้าต่างสรุปบิล
+			$('#odvResultBill').removeClass('col-lg-3').addClass('col-lg-4');
+			$('#odvQuoPdtList').css('overflow-x','auto');
+			$('#odvContentScroll').css('min-width','1100px');
+
 		}
 	});
 

@@ -531,7 +531,6 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				console.log(tResult);
 				oResult 			= JSON.parse(tResult);
 				var tResult 		= oResult.tStatus;
 				var tDocumentNumber = oResult.tDocuementnumber;
@@ -603,7 +602,6 @@
 				cache	: false,
 				timeout	: 0,
 				success	: function (tResult) {
-					console.log(tResult);
 					obj = [];
 					localStorage.clear();
 					$('#obtModalSelectPDT').click();

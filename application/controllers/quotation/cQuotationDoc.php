@@ -1,15 +1,18 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class cQuotationDoc extends CI_Controller{
+class cQuotationDoc extends CI_Controller
+{
 
-	public function __construct(){
+	public function __construct()
+	{
 		parent::__construct();
 		$this->load->model('quotation/mQuotation');
 	}
 
 	//แปลงตัวเลขเป็น TEXT
-	public function FCNtReadNumber($number){
+	public function FCNtReadNumber($number)
+	{
 		$txtnum1 = array('ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า', 'สิบ');
 		$txtnum2 = array('', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน');
 		$number = str_replace(",", "", $number);
@@ -74,7 +77,8 @@ class cQuotationDoc extends CI_Controller{
 	}
 
 	//Get ข้อมูลส่วนหัว
-	public function FSaCQUODocHeader(){
+	public function FSaCQUODocHeader()
+	{
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
 		$tDocNo 		= $this->input->get('tDocNo');
 		$aConditions 	= array("tDocNo" => $tDocNo, "tWorkerID" => $tWorkerID);
@@ -83,7 +87,8 @@ class cQuotationDoc extends CI_Controller{
 	}
 
 	//Get ข้อมูลส่วนลูกค้า
-	public function FSaCQUODocCst(){
+	public function FSaCQUODocCst()
+	{
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
 		$tDocNo 		= $this->input->get('tDocNo');
 		$aConditions 	= array("tDocNo" => $tDocNo, "tWorkerID" => $tWorkerID);
@@ -92,7 +97,8 @@ class cQuotationDoc extends CI_Controller{
 	}
 
 	//Get ข้อมูลส่วนรายการสินค้า
-	public function FSvCQUODocItems(){
+	public function FSvCQUODocItems()
+	{
 		$tSesUserGroup 	= $this->session->userdata('tSesUserGroup');
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
 		$tDocNo 		= $this->input->get('tDocNo');
@@ -104,7 +110,8 @@ class cQuotationDoc extends CI_Controller{
 
 
 	//บันทึกข้อมูลเอกสาร
-	public function FSxCQUODocSave(){
+	public function FSxCQUODocSave()
+	{
 
 		$oDocHeaderInfo 	= $this->input->post("oDocHeaderInfo");
 		$oDocCstInfo 		= $this->input->post("oDocCstInfo");
@@ -129,197 +136,197 @@ class cQuotationDoc extends CI_Controller{
 			$nVatable = str_replace(",", "", $nAfDis) - str_replace(",", "", $nAmtVat);
 		}
 
-				$aDocHD = array(
-					"FNXqhSmpDay" 		=> $oDocHeaderInfo[0]["value"],
-					"FDXqhEftTo" 		=> date('Y-m-d',strtotime(str_replace('/', '-', $oDocHeaderInfo[1]["value"]))) . ' ' . date('H:i:s'),
-					"FTXqhCshOrCrd" 	=> $oDocHeaderInfo[2]["value"],
-					"FNXqhCredit" 		=> $oDocHeaderInfo[3]["value"],
-					"FDDeliveryDate" 	=> date('Y-m-d',strtotime(str_replace('/', '-', $oDocHeaderInfo[4]["value"]))) . ' ' . date('H:i:s'),
-					"FTXqhVATInOrEx" 	=> $oDocHeaderInfo[5]["value"],
-					"FTXqhStaExpress" 	=> $nStaExpress,
-					"FTXqhStaActive" 	=> $nStaDocActive,
-					"FTXqhStaDeli" 		=> $nStaDeli,
-					"FTXqhPrjName" 		=> $oDocCstInfo[7]["value"],
-					"FTXqhPrjCodeRef" 	=> $oDocCstInfo[8]["value"],
-					"FCXqhB4Dis" 		=> $nB4Dis,
-					"FCXqhDis" 			=> $nDis,
-					"FTXqhDisTxt" 		=> $tDisText,
-					"FCXqhAFDis" 		=> $nAfDis,
-					"FCXqhVatRate" 		=> $nVatRate,
-					"FCXqhAmtVat" 		=> $nAmtVat,
-					"FCXqhVatable" 		=> $nVatable,
-					"FCXqhGrand" 		=> $nGrandTotal,
-					"FTXqhGndText" 		=> $tGndText,
-					"FTXqhRmk" 			=> $tDocRemark,
-					"tWorkerID" 		=> $tWorkerID,
-					"tDocNo" 			=> $tDocNo
-				);
-		    //ถ้า session ยังไม่หมดอายุ
-		    if($tWorkerID !=''){
+		$aDocHD = array(
+			"FNXqhSmpDay" 		=> $oDocHeaderInfo[0]["value"],
+			"FDXqhEftTo" 		=> date('Y-m-d', strtotime(str_replace('/', '-', $oDocHeaderInfo[1]["value"]))) . ' ' . date('H:i:s'),
+			"FTXqhCshOrCrd" 	=> $oDocHeaderInfo[2]["value"],
+			"FNXqhCredit" 		=> $oDocHeaderInfo[3]["value"],
+			"FDDeliveryDate" 	=> date('Y-m-d', strtotime(str_replace('/', '-', $oDocHeaderInfo[4]["value"]))) . ' ' . date('H:i:s'),
+			"FTXqhVATInOrEx" 	=> $oDocHeaderInfo[5]["value"],
+			"FTXqhStaExpress" 	=> $nStaExpress,
+			"FTXqhStaActive" 	=> $nStaDocActive,
+			"FTXqhStaDeli" 		=> $nStaDeli,
+			"FTXqhPrjName" 		=> $oDocCstInfo[7]["value"],
+			"FTXqhPrjCodeRef" 	=> $oDocCstInfo[8]["value"],
+			"FCXqhB4Dis" 		=> $nB4Dis,
+			"FCXqhDis" 			=> $nDis,
+			"FTXqhDisTxt" 		=> $tDisText,
+			"FCXqhAFDis" 		=> $nAfDis,
+			"FCXqhVatRate" 		=> $nVatRate,
+			"FCXqhAmtVat" 		=> $nAmtVat,
+			"FCXqhVatable" 		=> $nVatable,
+			"FCXqhGrand" 		=> $nGrandTotal,
+			"FTXqhGndText" 		=> $tGndText,
+			"FTXqhRmk" 			=> $tDocRemark,
+			"tWorkerID" 		=> $tWorkerID,
+			"tDocNo" 			=> $tDocNo
+		);
+		//ถ้า session ยังไม่หมดอายุ
+		if ($tWorkerID != '') {
 
-							$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
+			$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
 
-							$aDocCst = array(
-								"FTXqcCstName" 		=> $oDocCstInfo[0]["value"],
-								"FTXqcAddress" 		=> $oDocCstInfo[1]["value"],
-								"FTXqhTaxNo" 		=> $oDocCstInfo[2]["value"],
-								"FTXqhContact" 		=> $oDocCstInfo[3]["value"],
-								"FTXqhEmail" 		=> $oDocCstInfo[4]["value"],
-								"FTXqhTel" 			=> $oDocCstInfo[5]["value"],
-								"FTXqhFax" 			=> $oDocCstInfo[6]["value"],
-								"tWorkerID" 		=> $tWorkerID,
-								"tDocNo" 			=> $tDocNo
-							);
+			$aDocCst = array(
+				"FTXqcCstName" 		=> $oDocCstInfo[0]["value"],
+				"FTXqcAddress" 		=> $oDocCstInfo[1]["value"],
+				"FTXqhTaxNo" 		=> $oDocCstInfo[2]["value"],
+				"FTXqhContact" 		=> $oDocCstInfo[3]["value"],
+				"FTXqhEmail" 		=> $oDocCstInfo[4]["value"],
+				"FTXqhTel" 			=> $oDocCstInfo[5]["value"],
+				"FTXqhFax" 			=> $oDocCstInfo[6]["value"],
+				"tWorkerID" 		=> $tWorkerID,
+				"tDocNo" 			=> $tDocNo
+			);
 
-							//Update Header Information
-							$this->mQuotation->FCxMQUODocUpdCst($aDocCst);
+			//Update Header Information
+			$this->mQuotation->FCxMQUODocUpdCst($aDocCst);
 
-							$oDocInfo = $this->mQuotation->FCxMQUCheckDocNoExiting($tWorkerID);
-							if ($oDocInfo['rtCode'] == 1) {
-								$tXqhDocNo = $oDocInfo['raItems'][0]['FTXqhDocNo'];
-								if ($tXqhDocNo == '') {
+			$oDocInfo = $this->mQuotation->FCxMQUCheckDocNoExiting($tWorkerID);
+			if ($oDocInfo['rtCode'] == 1) {
+				$tXqhDocNo = $oDocInfo['raItems'][0]['FTXqhDocNo'];
+				if ($tXqhDocNo == '') {
 
-										$tBchCode 	= $this->session->userdata('tSesBCHCode');
-										$tXqhDocNo 	= $this->mQuotation->FCtMQUGetDocNo($tBchCode);
-										$dDocDate 	= date("Y-m-d H:i:s");
-										$this->mQuotation->FCtMQUUpdateDocNo($tXqhDocNo, $dDocDate, $tBchCode, $tWorkerID);
-										$aDocData 	= array("tXqhDocNo" => $tXqhDocNo, "dDocDate" => $dDocDate, "nStaRender" => 1);
-										$this->mQuotation->FCxMQUMoveTemp2HD($tXqhDocNo, $tWorkerID);
-										$this->mQuotation->FCxMQUMoveTempHDCst($tXqhDocNo, $tWorkerID);
-										$this->mQuotation->FCxMQUMoveTemp2DT($tXqhDocNo, $tWorkerID);
-										$this->mQuotation->FCxMQUProrate($tXqhDocNo,$nB4Dis,$nDis);
-										echo json_encode($aDocData);
+					$tBchCode 	= $this->session->userdata('tSesBCHCode');
+					$tXqhDocNo 	= $this->mQuotation->FCtMQUGetDocNo($tBchCode);
+					$dDocDate 	= date("Y-m-d H:i:s");
+					$this->mQuotation->FCtMQUUpdateDocNo($tXqhDocNo, $dDocDate, $tBchCode, $tWorkerID);
+					$aDocData 	= array("tXqhDocNo" => $tXqhDocNo, "dDocDate" => $dDocDate, "nStaRender" => 1);
+					$this->mQuotation->FCxMQUMoveTemp2HD($tXqhDocNo, $tWorkerID);
+					$this->mQuotation->FCxMQUMoveTempHDCst($tXqhDocNo, $tWorkerID);
+					$this->mQuotation->FCxMQUMoveTemp2DT($tXqhDocNo, $tWorkerID);
+					$this->mQuotation->FCxMQUProrate($tXqhDocNo, $nB4Dis, $nDis);
+					echo json_encode($aDocData);
+				} else {
 
-								} else {
+					$aDocData =  array("tXqhDocNo" => '', "dDocDate" => '', "nStaRender" => 0);
 
-											$aDocData =  array("tXqhDocNo" => '', "dDocDate" => '', "nStaRender" => 0);
+					$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
+					$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
+					$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
+					$this->mQuotation->FCxMQUProrate($tDocNo, $nB4Dis, $nDis);
 
-											$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
-											$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
-											$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
-											$this->mQuotation->FCxMQUProrate($tDocNo,$nB4Dis,$nDis);
-
-											echo json_encode($aDocData);
-
-								}
-							}
-				}else{
-					 // session expired
-					 echo 'expired';
+					echo json_encode($aDocData);
 				}
+			}
+		} else {
+			// session expired
+			echo 'expired';
+		}
 	}
 
 	// แก้ไขจำนวนสินค้าในเอกสาร
-  public function FSxCQUOEventEditQty(){
-		     $nItemSeq = $this->input->post('nItemSeq');
-				 $tQuoDocNo = $this->input->post('tQuoDocNo');
-				 $nItemQTY = str_replace(",","",$this->input->post('nItemQTY'));
-				 $tPdtCode = $this->input->post('tPdtCode');
-				 $nPdtUnitPrice = str_replace(",","",$this->input->post('nPdtUnitPrice'));
-				 $nItemDiscount = $this->input->post('nItemDiscount');
+	public function FSxCQUOEventEditQty()
+	{
+		$nItemSeq = $this->input->post('nItemSeq');
+		$tQuoDocNo = $this->input->post('tQuoDocNo');
+		$nItemQTY = str_replace(",", "", $this->input->post('nItemQTY'));
+		$tPdtCode = $this->input->post('tPdtCode');
+		$nPdtUnitPrice = str_replace(",", "", $this->input->post('nPdtUnitPrice'));
+		$nItemDiscount = $this->input->post('nItemDiscount');
 
-          $nItemNet = number_format($nItemQTY,0) * $nPdtUnitPrice;
+		$nItemNet = number_format($nItemQTY, 0) * $nPdtUnitPrice;
 
-				  $nStrCountDisTxt = strlen($nItemDiscount) - 1;
+		$nStrCountDisTxt = strlen($nItemDiscount) - 1;
 
-					$tDisType = substr($nItemDiscount,$nStrCountDisTxt);
-					$nDiscountCal = 0;
-					$nDiscount = 0;
-					//echo $nItemDiscount;
-					if($tDisType =='%'){
-							 $nDiscountCal = substr($nItemDiscount,0,$nStrCountDisTxt);
-							 $nDiscount = ($nItemNet * $nDiscountCal)/100;
+		$tDisType = substr($nItemDiscount, $nStrCountDisTxt);
+		$nDiscountCal = 0;
+		$nDiscount = 0;
+		//echo $nItemDiscount;
+		if ($tDisType == '%') {
+			$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
+			$nDiscount = ($nItemNet * $nDiscountCal) / 100;
+		} else {
 
-					}else{
+			$nDiscount = $nItemDiscount;
+		}
 
-							$nDiscount = $nItemDiscount;
-					}
+		$aDataUpdate = array(
+			"tQuoDocNo" => $tQuoDocNo,
+			"nItemSeq" => $nItemSeq,
+			"nItemQTY" => $nItemQTY,
+			"tPdtCode" => $tPdtCode,
+			"nDiscount" => $nDiscount
+		);
 
-				 $aDataUpdate = array("tQuoDocNo" => $tQuoDocNo,
-					                    "nItemSeq"=>$nItemSeq,
-														  "nItemQTY" => $nItemQTY,
-														  "tPdtCode" => $tPdtCode,
-														  "nDiscount"=> $nDiscount);
-
-        $this->mQuotation->FCxMQUEditItemInTemp($aDataUpdate);
-
-
+		$this->mQuotation->FCxMQUEditItemInTemp($aDataUpdate);
 	}
 
 
 	// แก้ไขราคาสินค้าในเอกสาร
-  public function FSxCQUOEventItemPri(){
+	public function FSxCQUOEventItemPri()
+	{
 
-		     $nItemSeq = $this->input->post('nItemSeq');
-				 $tQuoDocNo = $this->input->post('tQuoDocNo');
-				 $nItemQTY = str_replace(",","",$this->input->post('nItemQTY'));
-				 $tPdtCode = $this->input->post('tPdtCode');
-				 $nPdtUnitPrice = str_replace(",","",$this->input->post('nPdtUnitPrice'));
-				 $nItemDiscount = $this->input->post('nItemDiscount');
+		$nItemSeq = $this->input->post('nItemSeq');
+		$tQuoDocNo = $this->input->post('tQuoDocNo');
+		$nItemQTY = str_replace(",", "", $this->input->post('nItemQTY'));
+		$tPdtCode = $this->input->post('tPdtCode');
+		$nPdtUnitPrice = str_replace(",", "", $this->input->post('nPdtUnitPrice'));
+		$nItemDiscount = $this->input->post('nItemDiscount');
 
-          $nItemNet = number_format($nItemQTY,0) * $nPdtUnitPrice;
+		$nItemNet = number_format($nItemQTY, 0) * $nPdtUnitPrice;
 
-				  $nStrCountDisTxt = strlen($nItemDiscount) - 1;
+		$nStrCountDisTxt = strlen($nItemDiscount) - 1;
 
-					$tDisType = substr($nItemDiscount,$nStrCountDisTxt);
-					$nDiscountCal = 0;
-					$nDiscount = 0;
-					//echo $nItemDiscount;
-					if($tDisType =='%'){
-							 $nDiscountCal = substr($nItemDiscount,0,$nStrCountDisTxt);
-							 $nDiscount = ($nItemNet * $nDiscountCal)/100;
+		$tDisType = substr($nItemDiscount, $nStrCountDisTxt);
+		$nDiscountCal = 0;
+		$nDiscount = 0;
+		//echo $nItemDiscount;
+		if ($tDisType == '%') {
+			$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
+			$nDiscount = ($nItemNet * $nDiscountCal) / 100;
+		} else {
 
-					}else{
+			$nDiscount = $nItemDiscount;
+		}
 
-							$nDiscount = $nItemDiscount;
-					}
+		$aDataUpdate = array(
+			"tQuoDocNo" => $tQuoDocNo,
+			"nItemSeq" => $nItemSeq,
+			"nPdtUnitPrice" => $nPdtUnitPrice,
+			"tPdtCode" => $tPdtCode,
+			"nDiscount" => $nDiscount
+		);
 
-				 $aDataUpdate = array("tQuoDocNo" => $tQuoDocNo,
-					                    "nItemSeq"=>$nItemSeq,
-														  "nPdtUnitPrice" => $nPdtUnitPrice,
-														  "tPdtCode" => $tPdtCode,
-														  "nDiscount"=> $nDiscount);
-
-        $this->mQuotation->FCxMQUEditUnitPriInTemp($aDataUpdate);
-
-
+		$this->mQuotation->FCxMQUEditUnitPriInTemp($aDataUpdate);
 	}
 
 	// แก้ไขส่วนลดรายการ
-	public function FSxCQUOEventItemDis(){
+	public function FSxCQUOEventItemDis()
+	{
 
-					$tQuoDocNo= $this->input->post('tQuoDocNo');
-					$nItemSeq = $this->input->post('nItemSeq');
-					$nItemDiscount = $this->input->post('nItemDiscount');
-					$tPdtCode = $this->input->post('tPdtCode');
-					$nItemNet = str_replace(",","",$this->input->post('nItemNet'));
+		$tQuoDocNo = $this->input->post('tQuoDocNo');
+		$nItemSeq = $this->input->post('nItemSeq');
+		$nItemDiscount = $this->input->post('nItemDiscount');
+		$tPdtCode = $this->input->post('tPdtCode');
+		$nItemNet = str_replace(",", "", $this->input->post('nItemNet'));
 
-          $nStrCountDisTxt = strlen($nItemDiscount) - 1;
-					$tDisType = substr($nItemDiscount,$nStrCountDisTxt);
-					$nDiscountCal = 0;
-					$nItemNetAFDis = 0;
-					$nDiscount = 0;
-					//echo $nItemDiscount;
-					if($tDisType =='%'){
-						  $nDiscountCal = substr($nItemDiscount,0,$nStrCountDisTxt);
-              $nDiscount = ($nItemNet * $nDiscountCal)/100;
+		$nStrCountDisTxt = strlen($nItemDiscount) - 1;
+		$tDisType = substr($nItemDiscount, $nStrCountDisTxt);
+		$nDiscountCal = 0;
+		$nItemNetAFDis = 0;
+		$nDiscount = 0;
+		//echo $nItemDiscount;
+		if ($tDisType == '%') {
+			$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
+			$nDiscount = ($nItemNet * $nDiscountCal) / 100;
+		} else {
 
-					}else{
+			$nDiscount = $nItemDiscount;
+		}
 
-							$nDiscount = $nItemDiscount;
-					}
-
-					$aItemDisData = array("tQuoDocNo"=>$tQuoDocNo,
-				                        "nItemSeq"=>$nItemSeq,
-															  "tPdtCode"=>$tPdtCode,
-															  "nDiscount"=>$nDiscount,
-															  "tDisText"=>$nItemDiscount
-															  );
-					$this->mQuotation->FCxMQUEditItemIDisCount($aItemDisData);
+		$aItemDisData = array(
+			"tQuoDocNo" => $tQuoDocNo,
+			"nItemSeq" => $nItemSeq,
+			"tPdtCode" => $tPdtCode,
+			"nDiscount" => $nDiscount,
+			"tDisText" => $nItemDiscount
+		);
+		$this->mQuotation->FCxMQUEditItemIDisCount($aItemDisData);
 	}
 
 	//ลบข้อมูลใน Temp - รายการ
-	public function FSxCQUOEventDeleteItem(){
+	public function FSxCQUOEventDeleteItem()
+	{
 		$tDocument 	= $this->input->post('ptDocument');
 		$nSeq 		= $this->input->post('pnSeq');
 		$nPDTCode 	= $this->input->post('pnPDTCode');
@@ -332,45 +339,47 @@ class cQuotationDoc extends CI_Controller{
 		$this->mQuotation->FCxMQUDeleteItemInTemp($aItem);
 	}
 
-  //ส่วนลดท้ายบิล
-	public function FSxCQUOEventFootDis(){
+	//ส่วนลดท้ายบิล
+	public function FSxCQUOEventFootDis()
+	{
 
-		     $tQuoDocNo 	  = $this->input->post('tQuoDocNo');
-				 $nDiscount 		= $this->input->post('nDiscount');
-				 $nDiscountTxt  = $nDiscount;
-				 $nNetฺฺB4HD 	= str_replace(",","",$this->input->post('nNetฺฺB4HD'));
+		$tQuoDocNo 	  = $this->input->post('tQuoDocNo');
+		$nDiscount 		= $this->input->post('nDiscount');
+		$nDiscountTxt  = $nDiscount;
+		$nNetฺฺB4HD 	= str_replace(",", "", $this->input->post('nNetฺฺB4HD'));
 
-				 $nStrCountDisTxt = strlen($nDiscount) - 1;
-				 $tDisType = substr($nDiscount,$nStrCountDisTxt);
-				 $nDiscountCal = 0;
-				 $nItemNetAFDis = 0;
-				 //echo $nItemDiscount;
-				 if($tDisType =='%'){
-						 $nDiscountCal = substr($nDiscount,0,$nStrCountDisTxt);
-						 $nDiscount = ($nNetฺฺB4HD * $nDiscountCal)/100;
+		$nStrCountDisTxt = strlen($nDiscount) - 1;
+		$tDisType = substr($nDiscount, $nStrCountDisTxt);
+		$nDiscountCal = 0;
+		$nItemNetAFDis = 0;
+		//echo $nItemDiscount;
+		if ($tDisType == '%') {
+			$nDiscountCal = substr($nDiscount, 0, $nStrCountDisTxt);
+			$nDiscount = ($nNetฺฺB4HD * $nDiscountCal) / 100;
+		} else {
 
-				 }else{
+			$nDiscount = $nDiscount;
+		}
+		$tWorkerID	= $this->session->userdata('tSesUsercode');
 
-						 $nDiscount = $nDiscount;
-				 }
-         $tWorkerID	= $this->session->userdata('tSesUsercode');
+		$aDisInfo = array(
+			"tQuoDocNo" => $tQuoDocNo,
+			"nDiscount" => $nDiscount,
+			"tDisTxt" => $nDiscountTxt,
+			"tWorkerID" => $tWorkerID
+		);
 
-				 $aDisInfo = array("tQuoDocNo"=>$tQuoDocNo,
-			                     "nDiscount"=>$nDiscount,
-												   "tDisTxt"=>$nDiscountTxt,
-												   "tWorkerID"=>$tWorkerID);
-
-				 if($tWorkerID !=""){
-               $this->mQuotation->FCxMQUEditDocDisCount($aDisInfo);
-							 echo $nDiscount;
-				 }else{
-					 echo 'expired';
-				 }
-
+		if ($tWorkerID != "") {
+			$this->mQuotation->FCxMQUEditDocDisCount($aDisInfo);
+			echo $nDiscount;
+		} else {
+			echo 'expired';
+		}
 	}
 
 	//ยกเลิกเอกสาร
-	public function FSxCQUOEventCancleDocument(){
+	public function FSxCQUOEventCancleDocument()
+	{
 		$tDocumentNumber = $this->input->post('tDocNo');
 		$aItem = array(
 			'FTXqhDocNo'	=> $tDocumentNumber
@@ -379,11 +388,30 @@ class cQuotationDoc extends CI_Controller{
 	}
 
 	//อนุมัติเอกสาร
-	public function FSxCQUOEventApproveDocument(){
+	public function FSxCQUOEventApproveDocument()
+	{
 		$tDocumentNumber = $this->input->post('tDocNo');
 		$aItem = array(
 			'FTXqhDocNo'	=> $tDocumentNumber
 		);
 		$this->mQuotation->FCxMQUApproveDocument($aItem);
+	}
+
+	//เลือกลูกค้าในหน้าเอกสาร (Master)
+	public function FSxCQUOSelectCustomer(){
+		$nPage	= $this->input->post('nPage');
+
+		$aCondition = array(
+			'nPage'         	=> $nPage,
+			'nRow'          	=> 10,
+			'tSearchCustomer'   => $this->input->post('tSearchCustomer')
+		);
+
+		$aListCustomer 	= $this->mQuotation->FCxMQUGetCustomerAll($aCondition);
+		$aPackData 	= array(
+			'aListCustomer'		=> $aListCustomer,
+			'nPage'				=> $nPage
+		);
+		$this->load->view('quotation/wSelectCustomer',$aPackData);
 	}
 }
