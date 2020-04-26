@@ -1027,6 +1027,11 @@ class mQuotation extends CI_Model
 		$nItemQTY 	= $paItem['nItemQTY'];
 		$tPdtCode  = $paItem['tPdtCode'];
 		$nDiscount  = $paItem['nDiscount'];
+		if($nDiscount ==''){
+			$nDiscount = 0;
+		}else{
+			$nDiscount = $nDiscount;
+		}
 		$tWorkerID	= $this->session->userdata('tSesUsercode');
 		$tSQL = "UPDATE TARTSqDTTmp
 					         SET    FCXqdQty = '" . $nItemQTY . "',FCXqdDis='" . $nDiscount . "'
