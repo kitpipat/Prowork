@@ -200,8 +200,9 @@
 		});
 	}
 
-	//เข้าหน้าแก้ไข PI
+	//เข้าหน้าแก้ไข ใบเสนอราคา
 	function JSwPICCallPageEditPI(ptCode){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: 'r_quotationListPageEdit',
