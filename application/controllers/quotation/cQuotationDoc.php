@@ -412,7 +412,7 @@ class cQuotationDoc extends CI_Controller
 		$this->load->view('quotation/wSelectCustomer',$aPackData);
 	}
 
-	public function FSaCQUODocPrintForm()
+	public function FSaCQUODocPrintForm($ptDocNo)
 	{
 
 			// สร้าง object สำหรับใช้สร้าง pdf
@@ -429,8 +429,8 @@ class cQuotationDoc extends CI_Controller
 			//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 001', PDF_HEADER_STRING, array(0,64,255), array(0,64,128));
 			$pdf->setPrintHeader(false);
 
-			//$pdf->setFooterData(array(0,64,0), array(0,64,128));
-			$pdf->SetFooterData('testxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 0, '', 'test');
+			$pdf->setFooterData(array(0,64,0), array(0,64,128));
+
 			$pdf->setPrintFooter(true);
 
 			// กำหนดรูปแบบของฟอนท์และขนาดฟอนท์ที่ใช้ใน header และ footer

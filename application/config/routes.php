@@ -76,6 +76,7 @@ $route['r_quoDocFootDiscount'] 					= 'quotation/cQuotationDoc/FSxCQUOEventFootD
 $route['r_quoCancleDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventCancleDocument';
 $route['r_quoApproveDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventApproveDocument';
 $route['r_selectCustomer'] 						= 'quotation/cQuotationDoc/FSxCQUOSelectCustomer';
+$route['r_quoPrintForm(:num)'] 						= 'quotation/cQuotationDoc/FSaCQUODocPrintForm/$1';
 
 
 //หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
