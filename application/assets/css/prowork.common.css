@@ -670,3 +670,11 @@ table tbody .xCNTableGroupMenu{
 {
 	background-color: #c1c1c1;
 }
+
+.xCNIconFind{
+	padding-top: 0px !important;
+    cursor: pointer;
+    float: right;
+    width: 17px;
+	content:url('../../assets/images/icon/find.png')
+}
