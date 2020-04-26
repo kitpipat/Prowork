@@ -22,11 +22,11 @@
 		<th rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">หน่วยสินค้า</th>
 		<th rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">สถานะเอกสาร</th>
 		<th class="xCNBorderleft" colspan="2" style="text-align:center;">จัดซื้อสินค้า</th>
-		<th class="xCNBorderleft xCNBorderright" colspan="2" style="text-align:center;">สถานะสั้งสินค้าและบิล</th>
+		<th class="xCNBorderleft xCNBorderright" colspan="2" style="text-align:center;">สถานะสั่งสินค้าและบิล</th>
 		<th rowspan="2" style="width:80px; text-align: left; vertical-align: middle;">ผู้รับ</th>
 	</tr>
 	<tr>
-		<th class="xCNBorderleft" style="text-align:center; width:110px;">วันที่สั้งสินค้า</th>
+		<th class="xCNBorderleft" style="text-align:center; width:110px;">วันที่สั่งสินค้า</th>
 		<th style="text-align:center; width:110px;">วันกำหนดส่งของ</th>
 		<th class="xCNBorderleft" style="text-align:center; width:110px;">วันที่รับสินค้า</th>
 		<th class="xCNBorderright" style="text-align:center; width:110px;">เลขที่บิล</th>
