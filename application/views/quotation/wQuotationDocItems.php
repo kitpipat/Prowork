@@ -160,8 +160,28 @@
 
 <span id="ospDocNetTotal" style="display:none"><?=$nDocNetTotal;?></span>
 
+<!-- Modal กดลบสินค้าในตะกร้า -->
+<button id="obtModalDeleteItemForm" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalDeleteItemItemForm"></button>
+<div class="modal fade" id="odvModalDeleteItemItemForm" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">ลบข้อมูล</h5>
+      </div>
+      <div class="modal-body">
+        <label>ยืนยันการลบข้อมูล ? </label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+        <button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmDeleteItemForm">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="<?=base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
+
 	//Delete Item
 	function JSxDeleteItemInTempQuotation(pnSeq,pnPDTCode){
 		if($('#olbDocNo').text() == 'SQ######-#####'){
@@ -169,18 +189,26 @@
 		}else{
 			tDocumentnumber = $('#olbDocNo').text();
 		}
-		$.ajax({
-			type	: "POST",
-			url		: 'r_quodeleteItem',
-			data	: { 'pnSeq' : pnSeq , 'pnPDTCode' : pnPDTCode , 'ptDocument' : tDocumentnumber },
-			cache	: false,
-			timeout	: 0,
-			success	: function(tResult) {
-				FSvQUODocItems();
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
-			}
+
+		$('#obtModalDeleteItemForm').click();
+		$('.xCNConfirmDeleteItemForm').off();
+		$('.xCNConfirmDeleteItemForm').on("click",function(){
+			$.ajax({
+				type	: "POST",
+				url		: 'r_quodeleteItem',
+				data	: { 'pnSeq' : pnSeq , 'pnPDTCode' : pnPDTCode , 'ptDocument' : tDocumentnumber },
+				cache	: false,
+				timeout	: 0,
+				success	: function(tResult) {
+					$('#obtModalDeleteItemForm').click();
+					setTimeout(function(){
+						FSvQUODocItems();
+					}, 500);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
 		});
 	}
 </script>
