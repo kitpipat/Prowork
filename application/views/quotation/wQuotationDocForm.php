@@ -371,14 +371,14 @@
 
 						<!--ภาษีมูลค่าเพิ่ม-->
 						<div class="col-lg-6">
-							<label>ภาษีมูลค่าเพิ่ม (%)</label>
+							<label>ภาษีมูลค่าเพิ่ม (7%)</label>
 						</div>
 
 						<div class="col-lg-6 text-right">
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="">
-										<input type="text" autocomplete="off" id="oetVatRate" class="text-right form-control xCNInputNumericWithDecimal">
+										<input type="text" autocomplete="off" id="oetVatRate" class="text-right form-control xCNInputNumericWithDecimal" style="display:none">
 									</div>
 								</div>
 								<div class="col-lg-6">

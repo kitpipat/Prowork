@@ -798,7 +798,7 @@ class mQuotation extends CI_Model
 				WHERE FTWorkerID = '" . $tWorkerID . "'
 				AND FTXqhDocNo = '" . $tDocNo . "'";
 
-				
+
 		$this->db->query($tSQL);
 	}
 
@@ -883,8 +883,40 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
-	public function FCxMQUProrate($ptDocNo){
-        //Prorate
+	public function FCxMQUProrate($ptDocNo,$pnB4Dis,$pnFootDis){
+
+         $tSQL = "SELECT  FCXqdAfDT,FTPdtCode,FNXqdSeq
+				          FROM    TARTSqDT WITH (NOLOCK)
+									WHERE   FTXqhDocNo = '$ptDocNo' ";
+
+									$oQuery = $this->db->query($tSQL);
+									$nCountRows = $oQuery->num_rows();
+
+									if ($nCountRows > 0) {
+
+										 $aResult = $oQuery->result_array();
+										 $nFootDisAvg = 0;
+										 $nNetAFHD = 0;
+										 
+										 for($i = 0;$i<$nCountRows;$i++){
+
+											    $nItemAmt = $aResult[$i]['FCXqdAfDT'];
+													$tPdtCode = $aResult[$i]['FTPdtCode'];
+													$nXqdSeq = $aResult[$i]['FNXqdSeq'];
+
+													$nFootDisAvg = ($nItemAmt * $pnFootDis) / str_replace(",","",$pnB4Dis);
+													$nNetAFHD = $nItemAmt - $nFootDisAvg;
+
+													$tSQLUpd = "UPDATE TARTSqDT SET FCXqdFootAvg = '".$nFootDisAvg."',";
+													$tSQLUpd.= " FCXqdNetAfHD = '".$nNetAFHD."'";
+													$tSQLUpd.= " WHERE FTXqhDocNo = '".$ptDocNo."'";
+													$tSQLUpd.= " AND FTPdtCode = '".$tPdtCode."'";
+													$tSQLUpd.= " AND FNXqdSeq = '".$nXqdSeq."'";
+													$this->db->query($tSQLUpd);
+										 }
+
+									}
+
 	}
 
 	//ลบข้อมูลรายการ

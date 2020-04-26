@@ -187,7 +187,7 @@ class cQuotationDoc extends CI_Controller{
 										$this->mQuotation->FCxMQUMoveTemp2HD($tXqhDocNo, $tWorkerID);
 										$this->mQuotation->FCxMQUMoveTempHDCst($tXqhDocNo, $tWorkerID);
 										$this->mQuotation->FCxMQUMoveTemp2DT($tXqhDocNo, $tWorkerID);
-										$this->mQuotation->FCxMQUProrate($tXqhDocNo);
+										$this->mQuotation->FCxMQUProrate($tXqhDocNo,$nB4Dis,$nDis);
 										echo json_encode($aDocData);
 
 								} else {
@@ -197,7 +197,7 @@ class cQuotationDoc extends CI_Controller{
 											$this->mQuotation->FCxMQUMoveTemp2HD($tDocNo, $tWorkerID);
 											$this->mQuotation->FCxMQUMoveTempHDCst($tDocNo, $tWorkerID);
 											$this->mQuotation->FCxMQUMoveTemp2DT($tDocNo, $tWorkerID);
-											$this->mQuotation->FCxMQUProrate($tDocNo);
+											$this->mQuotation->FCxMQUProrate($tDocNo,$nB4Dis,$nDis);
 
 											echo json_encode($aDocData);
 
