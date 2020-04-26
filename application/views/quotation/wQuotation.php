@@ -200,7 +200,7 @@
 									<!--สรุปบิล-->
 									<div class="row">
 										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-											<button type="button" class="xCNCalcelImport btn btn-outline-danger pull-right" style="width:100%; margin-right:0px !important;">ยกเลิก</button>
+											<button type="button" class="xCNCalcelImport btn btn-outline-danger pull-right" onclick="FSvQUOCancleDocumentItem()" style="width:100%; margin-right:0px !important;">ยกเลิก</button>
 										</div>
 										<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 											<button type="button" class="xCNButtonSave pull-right" style="width:100%" onclick="FSvQUOCallDocument()">ถัดไป</button>
@@ -215,6 +215,25 @@
 			</div>
 		</div>
 
+	</div>
+</div>
+
+<!--Modal ยกเลิกเอกสาร-->
+<button id="obtModalCancleDocumentItem" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalCancleDocumentItem"></button>
+<div class="modal fade" id="odvModalCancleDocumentItem" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">ยกเลิกเอกสาร</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;">สินค้าทั้งหมดจะถูกยกเลิก และทำรายการใหม่อีกครั้ง คุณต้องการที่จะยกเลิกเอกสารนี้หรือไม่?</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+				<button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmCancleDocument">ยืนยัน</button>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -290,5 +309,30 @@
 		var aFilterAdv = aFilter;
 		FSvQUOGetPdtList(nPage,aFilterAdv)
 		aFilter = [];
+	}
+
+	//กดยกเลิก
+	function FSvQUOCancleDocumentItem(){
+		$('#obtModalCancleDocumentItem').click();
+
+		$('.xCNConfirmCancleDocument').off();
+		$('.xCNConfirmCancleDocument').on("click",function(){
+			$.ajax({
+				type	: "POST",
+				url		: 'r_quotation/1',
+				cache	: false,
+				timeout	: 0,
+				success	: function(tResult) {
+					$('#obtModalCancleDocumentItem').click();
+
+					setTimeout(function(){
+						$('.content').html(tResult);
+					}, 500);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
+		});
 	}
 </script>
