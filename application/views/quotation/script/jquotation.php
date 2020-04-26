@@ -51,7 +51,7 @@
 
 	function FSvQUOCallDocHeader() {
 
-		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
+		tQuoDocNo = $("#odvQuoDocNo").text();
 		$.ajax({
 				url: 'r_quotationcalldocheader',
 				timeout: 0,
@@ -88,7 +88,8 @@
 	//เลือกสินค้า เข้าตะกร้า
 	function FSvQUOAddItemToTemp(ptElm) {
 		$("#odvQuoItemsList").html('<div style="padding:5px;font-size:16px">กำลังเพิ่มสินค้าในเอกสารกรุณารอซักครู่...</div>');
-		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
+		tQuoDocNo = $("#odvQuoDocNo").text();
+		
 		tDataItem = $(ptElm).attr("data-iteminfo");
 		$.ajax({
 			url: 'r_quotationeventAddItems',
@@ -113,7 +114,7 @@
 
 	//ลบสินค้าใน ตะกร้า
 	function FSxQUODelItem(ptElm) {
-		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
+		tQuoDocNo = $("#odvQuoDocNo").text();
 		nItemSeq = $(ptElm).attr("data-seq");
 
 		$('#obtModalDeleteItemPI').click();
@@ -147,7 +148,7 @@
 		if (e.keyCode == 13) {
 
 			var nItemQTY = $(poElm).val();
-			tQuoDocNo = $("#odvQuoDocNo").attr("data-docno");
+			tQuoDocNo = $("#odvQuoDocNo").text();
 			nItemSeq = $(poElm).attr("data-seq");
 			nUnitPrice = $(poElm).attr("data-unitpri");
 
@@ -185,7 +186,7 @@
 			return;
 		}
 
-		tQuoDocNo = $("#odvQuoDocNo").attr("data-docno")
+		tQuoDocNo = $("#odvQuoDocNo").text()
 		$.ajax({
 			url: 'r_quotationcallsqdoc',
 			timeout: 0,

@@ -592,7 +592,7 @@
 						 				nGrandTotal = 0
 
 						 				if (nVatType == "1") {
-										
+
 						 					nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
 						 					nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
 
@@ -614,6 +614,24 @@
 								return false;
 					}
 		}
+	}
+
+  //กลับไปหน้าเพิ่มสินค้าเข้าเอกสาร
+	function FSxQUOBackToCart(){
+
+		$.ajax({
+				url: 'r_quotation/2',
+				timeout: 0,
+				type: 'GET',
+				data: {},
+				datatype: 'json'
+			})
+			.done(function(data) {
+           $('.content').html(data);
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				//serrorFunction();
+			});
 	}
 
 

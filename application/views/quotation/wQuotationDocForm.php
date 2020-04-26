@@ -290,7 +290,7 @@
 			<div class="row">
 				<div class="col-lg-12" id="odvQuoDocItems"></div>
 				<div class="col-lg-12" id="odvMoreItem">
-					<button class="xCNButtonInsert pull-left" onclick="xxxxx()">+</button><span id="ospmorePDT">เพิ่มเติมรายการสินค้า</span>
+					<button class="xCNButtonInsert pull-left" onclick="FSxQUOBackToCart()">+</button><span id="ospmorePDT">เพิ่มเติมรายการสินค้า</span>
 				</div>
 			</div>
 		</div>
