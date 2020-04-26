@@ -473,6 +473,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('#odvAJPTableDT').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

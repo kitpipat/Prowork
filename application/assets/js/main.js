@@ -92,6 +92,8 @@ jQuery(document).ready(function($) {
             timeout: 0,
             success: function(tResult) {
 
+				JSxModalProgress('open');
+				
       				var nWidth = $('#left-panel').width();
       				if(nWidth > 70){
       					$('#menuToggle').click();

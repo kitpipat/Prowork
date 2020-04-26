@@ -500,6 +500,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('#odvAJCTableDT').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -524,6 +525,8 @@
 			$('#obtModalPlzSelectPDT').click();
 			return;
 		}
+
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: ptRoute,

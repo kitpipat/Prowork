@@ -55,6 +55,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('#odvContent_GroupProduct').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -65,6 +66,7 @@
 
 	//โหลดหน้า เพิ่มข้อมูล
 	function JSwGroupProductCallPageInsert(ptType,ptCode){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: "r_groupproductcallpageInsertorEdit",
@@ -75,6 +77,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -85,12 +88,14 @@
 
 	//กด ย้อนกลับ(กลับหน้า main)
 	function JSxCallPageGroupProductMain(){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: "r_groupproduct",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

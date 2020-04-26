@@ -219,7 +219,6 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				console.log(tResult);
 				//เปิด message
 				$('.xCNDialog_Footer').css('display','block');
 

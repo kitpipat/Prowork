@@ -55,6 +55,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('#odvContent_Permission').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -65,6 +66,7 @@
 
 	//โหลดหน้า เพิ่มข้อมูล
 	function JSwPermissionCallPageInsert(ptType,ptCode){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: "r_permissioncallpageInsertorEdit",
@@ -75,6 +77,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -85,12 +88,14 @@
 
 	//กด กลุ่มสิทธิ์(กลับหน้า main)
 	function JSxCallPagePermissionMain(){
+		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
 			url		: "r_permission",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('close');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

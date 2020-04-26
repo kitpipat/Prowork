@@ -244,7 +244,6 @@
 			return;
 		}
 
-
 		$.ajax({
 			type	: "POST",
 			url		: ptRoute,
@@ -252,7 +251,6 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				console.log(tResult);
 				if(tResult == 'pass_insert'){
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
