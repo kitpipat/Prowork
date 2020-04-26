@@ -84,7 +84,6 @@ jQuery(document).ready(function($) {
 
 
     $('.JSxCallContentMenu').on('click', function(event) {
-        $('.content').html('<div style="background:#FFFFFF;padding:10px">กำลังโหลดหน้ากรุณารอซักครู่...</div>');
         $.ajax({
             type: "POST",
             url: $(this).attr('data-menuname'),
