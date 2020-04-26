@@ -42,7 +42,7 @@
 			<button type="button" class="xCNButtonSave pull-right" onclick="FSxQUOSaveDoc()">บันทึก</button>
 			<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติ</button>
 			<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิก</button>
-			<button type="button" class="<?=$tEventHidePrint?> xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right" >พิมพ์</button>
+			<button type="button" class="<?=$tEventHidePrint?> xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right" onclick="FSxQUOPrintForm()">พิมพ์</button>
 		</div>
 	</div>
 

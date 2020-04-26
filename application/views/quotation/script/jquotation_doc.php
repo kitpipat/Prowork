@@ -335,7 +335,7 @@
 					$('.alert-success').find('.close').click();
 					$('.xCNDialog_Footer').css('display','none');
 				}, 3000);
-				
+
 				aDocInfo = JSON.parse(data)
 		 			if (aDocInfo['nStaRender'] == 1) {
 
@@ -641,6 +641,11 @@
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				//serrorFunction();
 			});
+	}
+
+	function FSxQUOPrintForm(){
+		       tDocNo = $("#ospDocNo").attr('data-docno')
+           window.open("r_quoPrintForm/"+tDocNo,"_blank")
 	}
 
 </script>

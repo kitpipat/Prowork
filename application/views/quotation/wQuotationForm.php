@@ -78,12 +78,12 @@
       <th class="XCNItemTitle" style="width:80px;text-align:right;">ส่วนลด</th>
       <th class="XCNItemTitle" style="width:100px;text-align:right;">ราคารวม</th>
     </tr>
-    <?php $nTotal = 15;?>
+    <?php $nTotal = 7;?>
     <?php for($i=1;$i<$nTotal;$i++){?>
     <tr>
       <td><?=$i?></td>
       <td><img src="<?=base_url('application/assets/images/products/Img7E3Y1VZ8M620200425.png')?>" style="width:25px;"></td>
-      <td><?php echo mb_substr("P38-โคมไฟห้อยเพดาน Q245 ยี่ห้อโปรเวิร์ค Prowork",0,28,"utf-8");?></td>
+      <td><?php echo mb_substr("P38-โคมไฟห้อยเพดาน Q245",0,28,"utf-8");?></td>
       <td style="text-align:right;">12,500.00</td>
       <td style="text-align:right;">1</td>
       <td>ชิ้น</td>
@@ -124,24 +124,24 @@
       <td>
             <table style="border:1px solid #f4f4f4;" cellpadding="7" cellspacing="0">
               <tr>
-                <td>จำนวนเงินรวม</td>
+                <td style="border-right:1px solid #f4f4f4;border-bottom:1px solid #f4f4f4;">จำนวนเงินรวม</td>
+                <td style="text-align:right;border-bottom:1px solid #f4f4f4;">100.00</td>
+              </tr>
+              <tr>
+                <td style="border-right:1px solid #f4f4f4">ส่วนลด</td>
                 <td style="text-align:right">100.00</td>
               </tr>
               <tr>
-                <td>ส่วนลด</td>
+                <td style="border-right:1px solid #f4f4f4">จำนวนเงินหลังหักส่วนลด</td>
                 <td style="text-align:right">100.00</td>
               </tr>
               <tr>
-                <td>จำนวนเงินหลังหักส่วนลด</td>
+                <td style="border-right:1px solid #f4f4f4">ภาษีมูลค่าเพิ่ม (7%)</td>
                 <td style="text-align:right">100.00</td>
               </tr>
               <tr>
-                <td>ภาษีมูลค่าเพิ่ม (7%)</td>
-                <td style="text-align:right">100.00</td>
-              </tr>
-              <tr>
-                <td>จำนวนเงินรวมทั้งสิ้น</td>
-                <td style="text-align:right">100.00</td>
+                <td style="border-right:1px solid #f4f4f4;border-top:1px solid #f4f4f4">จำนวนเงินรวมทั้งสิ้น</td>
+                <td style="text-align:right;border-top:1px solid #f4f4f4">100.00</td>
               </tr>
             </table>
       </td>
@@ -169,7 +169,7 @@
 <table>
   <tr>
     <td>
-    <table cellpadding="7" cellspacing="0" style="height:100px;border:1px solid #f4f4f4;">
+ <table cellpadding="7" cellspacing="0" style="height:100px;border:1px solid #f4f4f4;">
       <tr>
         <td style="height:100px;border-bottom:1px solid #f4f4f4;">ลงชื่อ</td>
       </tr>
@@ -195,7 +195,7 @@
         </table>
       </td>
       <td>
-        <table cellpadding="7" cellspacing="0" style="height:100px;border:1px solid #f4f4f4;">
+        <table cellpadding="7" cellspacing="0" style="height:100px;width:220px;border:1px solid #f4f4f4;">
           <tr>
             <td style="height:100px;border-bottom:1px solid #f4f4f4;">ลงชื่อ</td>
           </tr>
