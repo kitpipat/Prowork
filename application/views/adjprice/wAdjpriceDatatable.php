@@ -14,8 +14,8 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="width:200px; text-align: left;">เลขที่เอกสาร</th>
-		<th style="text-align: left;">วันที่-เวลาเอกสาร</th>
+		<th style="width:150px; text-align: left;">เลขที่เอกสาร</th>
+		<th style="width:200px; text-align: left;">วันที่-เวลาเอกสาร</th>
 		<th style="width:150px; text-align: left;">กลุ่มราคาที่มีผล</th>
 		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
 		<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>

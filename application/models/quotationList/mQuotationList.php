@@ -52,6 +52,12 @@ class mQuotationList extends CI_Model{
 			$tSQL .= " AND ( HD.FTXqhDocNo LIKE '%$tTextSearch%' )";
 		}
 
+		//รองรับการมองเห็นตามสาขา
+		if($this->session->userdata('tSesUserLevel') == 'BCH'){
+			$tBCHCode = $this->session->userdata('tSesBCHCode');
+			$tSQL .= " AND HD.FTBchCode = '$tBCHCode' ";
+		}
+
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
@@ -86,6 +92,12 @@ class mQuotationList extends CI_Model{
 			$tSQL 		.= " WHERE 1=1 ";
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND ( HD.FTXqhDocNo LIKE '%$tTextSearch%' )";
+			}
+
+			//รองรับการมองเห็นตามสาขา
+			if($this->session->userdata('tSesUserLevel') == 'BCH'){
+				$tBCHCode = $this->session->userdata('tSesBCHCode');
+				$tSQL .= " AND HD.FTBchCode = '$tBCHCode' ";
 			}
 
             $oQuery = $this->db->query($tSQL);
