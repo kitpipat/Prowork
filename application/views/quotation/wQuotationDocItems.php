@@ -82,11 +82,18 @@
 					  <?=$tPdtCode . " - " . $tPdtName; ?> </label>
 				</td>
 				<td><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
-				<?php if ($tSesUserGroup == 4) { ?>
-					<td><label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label></td>
-					<td class="text-right">
+				<?php
+        $tStaSwhSplCost = '';
+				if ($tSesUserGroup == 4) {
+            $tStaSwhSplCost = "display:block";
+				}else{
+					  $tStaSwhSplCost = "display:none";
+				}
+				?>
+					<td style="<?=$tStaSwhSplCost?>"><label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label></td>
+					<td class="text-right" style="<?=$tStaSwhSplCost?>">
 						  <label class="xCNLineHeightInTable" id="oblPdtCost<?=$nSeq?>"><?=number_format($nXqdCost, 2); ?></label></td>
-				<?php } ?>
+
 				<td class="text-right">
 					<label class="xCNLineHeightInTable">
 						      <div class="input-container">
