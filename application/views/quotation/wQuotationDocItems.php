@@ -1,3 +1,11 @@
+<?php
+		$tStaSwhSplCost = '';
+		if ($tSesUserGroup == 4) {
+				$tStaSwhSplCost = "display:table-cell";
+		}else{
+				$tStaSwhSplCost = "display:none";
+		}
+?>
 <table class="table table-striped xCNTableCenter">
 	<thead>
 		<tr>
@@ -6,11 +14,8 @@
 			<th style="text-align: center;">รูปภาพ</th>
 			<th>รายการ</th>
 			<th>หน่วย</th>
-			<?php
-			if ($tSesUserGroup == 4) { ?>
-				<th>ผู้จำหน่าย</th>
-				<th style="text-align: right;">ต้นทุน</th>
-			<?php } ?>
+			<th style="<?=$tStaSwhSplCost?>">ผู้จำหน่าย</th>
+			<th style="text-align: right;<?=$tStaSwhSplCost?>">ต้นทุน</th>
 			<th style="text-align: right;">ราคา/หน่วย</th>
 			<th style="text-align: right; width:100px;">จำนวน</th>
 			<th style="text-align: right;">จำนวนเงิน</th>
@@ -82,18 +87,12 @@
 					  <?=$tPdtCode . " - " . $tPdtName; ?> </label>
 				</td>
 				<td><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
-				<?php
-        $tStaSwhSplCost = '';
-				if ($tSesUserGroup == 4) {
-            $tStaSwhSplCost = "display:block";
-				}else{
-					  $tStaSwhSplCost = "display:none";
-				}
-				?>
-					<td style="<?=$tStaSwhSplCost?>"><label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label></td>
-					<td class="text-right" style="<?=$tStaSwhSplCost?>">
-						  <label class="xCNLineHeightInTable" id="oblPdtCost<?=$nSeq?>"><?=number_format($nXqdCost, 2); ?></label></td>
-
+				<td style="<?=$tStaSwhSplCost?>">
+						  <label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label>
+				</td>
+				<td class="text-right" style="<?=$tStaSwhSplCost?>">
+						  <label class="xCNLineHeightInTable" id="oblPdtCost<?=$nSeq?>"><?=number_format($nXqdCost, 2); ?></label>
+				</td>
 				<td class="text-right">
 					<label class="xCNLineHeightInTable">
 						      <div class="input-container">
