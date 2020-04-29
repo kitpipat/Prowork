@@ -412,6 +412,7 @@ class cQuotationDoc extends CI_Controller
 		$this->load->view('quotation/wSelectCustomer',$aPackData);
 	}
 
+  //พิมพ์ใบเสนอราคา
 	public function FSaCQUODocPrintForm($ptDocNo)
 	{
 
@@ -471,8 +472,15 @@ class cQuotationDoc extends CI_Controller
 			// กำหนดเงาของข้อความ
 			//$pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
 
+      $aDocHeader 	= $this->mQuotation->FCaMQUODocPrintHD($ptDocNo);
+			$aDocCustomer 	= $this->mQuotation->FCaMQUODocPrintHDCst($ptDocNo);
+			$aDocDT	= $this->mQuotation->FCaMQUODocPrintDT($ptDocNo);
 
-			$html = $this->load->view('quotation/wQuotationForm','',true);
+			$aSQData = array("aDocHeader"=>$aDocHeader,
+		                   "aDocCustomer"=>$aDocCustomer,
+										   "aDocDT" =>$aDocDT);
+
+			$html = $this->load->view('quotation/wQuotationForm',$aSQData,true);
 
 			// สร้างข้อเนื้อหา pdf ด้วยคำสั่ง writeHTMLCell()
 			$pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);

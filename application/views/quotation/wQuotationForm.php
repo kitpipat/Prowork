@@ -4,21 +4,12 @@
       <td valign="top" class="xCNPanel">
         <table cellpadding="5" cellspacing="5">
           <tr>
-            <td class="xWCmpSection">
-              <img src="<?=base_url('application/assets/images/logo.png')?>" style="width:120px;"> <br>
-              <label style="font-size:22px">บริษัท โปรเวิร์ค รีเทล จำกัด </label>  <br>
-              เลขที่ 2044/1 ถนนเพชรบุรีตัดใหม่ แขวงบางกะปิ<br>
-              เขตห้วยขวาง จังหวัดกรุงเทพๆ 10310<br>
-              Tel : 098-257-5229  Email: Prowork.lamp@gmail.com
+            <td class="xWCmpSection"><img src="<?=base_url('application/assets/images/logo.png')?>" style="width:120px;"><br><label style="font-size:22px"><?php echo $aDocHeader['raItems'][0]['FTCmpName'];?></label><br>สาขา <?php echo $aDocHeader['raItems'][0]['FTBchName'];?><?php echo $aDocHeader['raItems'][0]['FTAdrName'];?> ถนน<?php echo $aDocHeader['raItems'][0]['FTAdrRoad'];?>่ แขวง/ตำบล <?php echo $aDocHeader['raItems'][0]['FTAdrSubDistric'];?><br>เขต/อำเภอ <?php echo $aDocHeader['raItems'][0]['FTAdrDistric'];?> จังหวัด <?php echo $aDocHeader['raItems'][0]['FTAdrProvince'];?> <?php echo $aDocHeader['raItems'][0]['FTAdrPosCode'];?><br>โทร <?php echo $aDocHeader['raItems'][0]['FTAdrTel'];?>  อีเมลล์ <?php echo $aDocHeader['raItems'][0]['FTAdrEmail'];?>
             </td>
           </tr>
           <tr>
-            <td>
-              ลูกค้า <br>
-              นายกิตติ์พิภัทร์  แก้วเขียว<br>
-              99/9  ถนนลาดพร้าว แขวงคลองเจ้าคุณสิงห์<br>
-              เขตวังทองหลาง กรุงเทพมหานคร 10310 โทร 099-6549870 <br>
-              เลขประจำตัวผู้เสียภาษี
+            <td>ลูกค้า
+              <?php echo ($aDocCustomer['raItems'][0]['FTXqcCstName'] != "" ? $aDocCustomer['raItems'][0]['FTXqcCstName'] : "ไม่ระบุลูกค้า");?><br><span><?php echo ($aDocCustomer['raItems'][0]['FTXqcAddress'] != "" ? $aDocCustomer['raItems'][0]['FTXqcAddress'] : "-")?></span><br>โทร <?php echo ($aDocCustomer['raItems'][0]['FTXqhTel'] != "" ? $aDocCustomer['raItems'][0]['FTXqhTel'] : "-");?> <br>เลขประจำตัวผู้เสียภาษี <?php echo ($aDocCustomer['raItems'][0]['FTXqhTaxNo'] != "" ? $aDocCustomer['raItems'][0]['FTXqhTaxNo'] : "-");?>
             </td>
           </tr>
         </table>
@@ -38,25 +29,25 @@
 
             <tr>
               <th>เลขที่ใบเสนอราคา</th>
-              <td>SQ00001202004-0001s</td>
+              <td><?php echo $aDocHeader['raItems'][0]['FTXqhDocNo'];?></td>
             </tr>
             <tr>
               <th>วันที่เอกสาร</th>
-              <td>26/04/2020</td>
+              <td><?php echo $aDocHeader['raItems'][0]['FDXqhDocDate'];?></td>
             </tr>
           </table>
           <table cellpadding="0" cellspacing="7" class="xCNPanel">
             <tr>
-              <td>ยื่นราคาภายใน : 30 วัน</td>
-              <td>มีผลถึง : 30/05/2020</td>
+              <td>ยื่นราคาภายใน : <?php echo $aDocHeader['raItems'][0]['FNXqhSmpDay'];?> วัน</td>
+              <td>มีผลถึง : <?php echo $aDocHeader['raItems'][0]['FDXqhEftTo'];?></td>
             </tr>
             <tr>
-              <td>การชำระเงิน : เงินสด</td>
-              <td>จำนวนวันเครดิต : 30 วัน</td>
+              <td>การชำระเงิน : <?php echo $aDocHeader['raItems'][0]['FTXqhCshOrCrd'];?></td>
+              <td>จำนวนวันเครดิต : <?php echo $aDocHeader['raItems'][0]['FNXqhCredit'];?> วัน</td>
             </tr>
             <tr>
-              <td>วันกำหนดส่งของ : 30/05/2020</td>
-              <td>ผู้ติดต่อ : คุณรันต์ <br><br></td>
+              <td>วันกำหนดส่งของ : <?php echo $aDocHeader['raItems'][0]['FDDeliveryDate'];?></td>
+              <td>ผู้ติดต่อ : <?php echo ($aDocCustomer['raItems'][0]['FTXqhContact'] != "" ? $aDocCustomer['raItems'][0]['FTXqhContact'] : "-");?> <br><br></td>
             </tr>
           </table>
 
@@ -78,20 +69,24 @@
       <th class="XCNItemTitle" style="width:80px;text-align:right;">ส่วนลด</th>
       <th class="XCNItemTitle" style="width:100px;text-align:right;">ราคารวม</th>
     </tr>
-    <?php $nTotal = 7;?>
-    <?php for($i=1;$i<$nTotal;$i++){?>
+    <?php $nTotal = $aDocDT['rnTotal'];?>
+    <?php if($nTotal > 0){?>
+    <?php for($i=0;$i<$nTotal;$i++){?>
     <tr>
-      <td><?=$i?></td>
+      <td><?=$i+1?></td>
       <td><img src="<?=base_url('application/assets/images/products/Img7E3Y1VZ8M620200425.png')?>" style="width:25px;"></td>
-      <td><?php echo mb_substr("P38-โคมไฟห้อยเพดาน Q245",0,28,"utf-8");?></td>
-      <td style="text-align:right;">12,500.00</td>
-      <td style="text-align:right;">1</td>
-      <td>ชิ้น</td>
-      <td style="text-align:right;">12,500.00</td>
-      <td style="text-align:right;">500.00</td>
-      <td style="text-align:right;">12,000.00</td>
+      <td><?php echo mb_substr($aDocDT['raItems'][$i]['FTPdtCode']."-".$aDocDT['raItems'][$i]['FTPdtName'],0,27,"utf-8");?></td>
+      <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXqdUnitPrice'],2);?></td>
+      <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXqdQty'],0);?></td>
+      <td><?php echo $aDocDT['raItems'][$i]['FTPunName'];?></td>
+      <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXqdB4Dis'],2);?></td>
+      <td style="text-align:right;"><?php echo $aDocDT['raItems'][$i]['FTXqdDisTxt'];?></td>
+      <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXqdAfDT'],2);?></td>
     </tr>
     <?php } ?>
+  <?php }else{ ?>
+    <tr><td colspan="9">--ไม่มีรายการสินค้าในเอกสาร--</td></tr>
+  <?php } ?>
   </table>
   <?php if($nTotal == 12){?>
   <br><br><br><br><br><br><br><br><br><br>
@@ -111,13 +106,13 @@
 <td>
 <table cellpadding="7" cellspacing="0">
   <tr>
-    <td class="xWTextNumber">หนึ่งพันบาทถ้วน</td>
+    <td class="xWTextNumber"><?php echo $aDocHeader['raItems'][0]['FTXqhGndText'];?></td>
   </tr>
   <tr>
     <td>หมายเหตุ</td>
   </tr>
   <tr>
-    <td style="height:100px;border:1px solid #f5f5f5;">-</td>
+    <td style="height:100px;border:1px solid #f5f5f5;"><?php echo $aDocHeader['raItems'][0]['FTXqhRmk'];?></td>
   </tr>
 </table>
 </td>
@@ -125,23 +120,23 @@
             <table style="border:1px solid #f5f5f5;" cellpadding="7" cellspacing="0">
               <tr>
                 <td style="border-right:1px solid #f5f5f5;border-bottom:1px solid #f5f5f5;">จำนวนเงินรวม</td>
-                <td style="text-align:right;border-bottom:1px solid #f5f5f5;">100.00</td>
+                <td style="text-align:right;border-bottom:1px solid #f5f5f5;"><?php echo number_format($aDocHeader['raItems'][0]['FCXqhB4Dis'],2);?></td>
               </tr>
               <tr>
                 <td style="border-right:1px solid #f5f5f5">ส่วนลด</td>
-                <td style="text-align:right">100.00</td>
+                <td style="text-align:right"><?php echo number_format($aDocHeader['raItems'][0]['FCXqhDis'],2);?></td>
               </tr>
               <tr>
                 <td style="border-right:1px solid #f5f5f5">จำนวนเงินหลังหักส่วนลด</td>
-                <td style="text-align:right">100.00</td>
+                <td style="text-align:right"><?php echo number_format($aDocHeader['raItems'][0]['FCXqhAFDis'],2);?></td>
               </tr>
               <tr>
                 <td style="border-right:1px solid #f5f5f5">ภาษีมูลค่าเพิ่ม (7%)</td>
-                <td style="text-align:right">100.00</td>
+                <td style="text-align:right"><?php echo number_format($aDocHeader['raItems'][0]['FCXqhAmtVat'],2);?></td>
               </tr>
               <tr>
                 <td style="border-right:1px solid #f5f5f5;border-top:1px solid #f5f5f5">จำนวนเงินรวมทั้งสิ้น</td>
-                <td style="text-align:right;border-top:1px solid #f5f5f5">100.00</td>
+                <td style="text-align:right;border-top:1px solid #f5f5f5"><?php echo number_format($aDocHeader['raItems'][0]['FCXqhGrand'],2);?></td>
               </tr>
             </table>
       </td>

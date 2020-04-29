@@ -1247,4 +1247,153 @@ class mQuotation extends CI_Model
 			echo $Error;
 		}
 	}
+
+	public function FCaMQUODocPrintHD($ptDocNo){
+
+				 $tSQL = "SELECT HD.FTBchCode
+									      ,HD.FTXqhDocNo
+									      ,CONVERT(VARCHAR(16),HD.FDXqhDocDate,121) AS FDXqhDocDate
+									      ,CASE WHEN HD.FTXqhCshOrCrd = 1 THEN 'เงินสด' WHEN HD.FTXqhCshOrCrd = 2 THEN 'เครดิต' ELSE '-' END AS  FTXqhCshOrCrd
+									      ,HD.FNXqhCredit
+									      ,HD.FTXqhVATInOrEx
+									      ,HD.FNXqhSmpDay
+									      ,CONVERT(VARCHAR(10),HD.FDXqhEftTo,121) AS FDXqhEftTo
+									      ,CONVERT(VARCHAR(10),HD.FDDeliveryDate,121) AS FDDeliveryDate
+									      ,HD.FTXqhStaExpress
+									      ,HD.FTXqhStaDoc
+									      ,HD.FTXqhStaActive
+									      ,HD.FTXqhStaDeli
+									      ,HD.FTXqhPrjName
+									      ,HD.FTXqhPrjCodeRef
+									      ,HD.FCXqhB4Dis
+									      ,HD.FCXqhDis
+									      ,HD.FTXqhDisTxt
+									      ,HD.FCXqhAFDis
+									      ,HD.FCXqhVatRate
+									      ,HD.FCXqhAmtVat
+									      ,HD.FCXqhVatable
+									      ,HD.FCXqhGrand
+									      ,HD.FCXqhRnd
+									      ,HD.FTXqhGndText
+									      ,HD.FTXqhRmk
+									      ,HD.FTUsrDep
+												,CMP.FTCmpName
+												,BCH.FTBchName
+												,BCH.FTAdrName
+												,BCH.FTAdrRoad
+												,BCH.FTAdrSubDistric
+												,BCH.FTAdrDistric
+												,BCH.FTAdrProvince
+												,BCH.FTAdrPosCode
+												,BCH.FTAdrTel
+												,BCH.FTAdrFax
+												,BCH.FTAdrEmail
+									  FROM TARTSqHD HD
+										INNER JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode
+										INNER JOIN TCNMCompany CMP ON BCH.FTCmpCode = CMP.FTCmpCode
+										WHERE HD.FTXqhDocNo = '".$ptDocNo."'";
+
+				 $oQuery = $this->db->query($tSQL);
+	 		 	 if ($oQuery->num_rows() > 0) {
+
+		 		 			$aResult 	= array(
+		 		 				'raItems'  		=> $oQuery->result_array(),
+		 		 				'rtCode'   		=> '1',
+		 		 				'rtDesc'   		=> 'success',
+		 		 			);
+
+	 		 	 } else {
+
+		 		 			$aResult = array(
+									'raItems'  		=> '',
+									'rtCode'   		=> '0',
+									'rtDesc'   		=> 'Empty',
+		 		 			);
+
+	 		 		}
+
+					return $aResult;
+	}
+
+	public function FCaMQUODocPrintHDCst($ptDocNo){
+
+				 $tSQL = "SELECT FTXqhDocNo
+									      ,FTXqcCstCode
+									      ,ISNULL(FTXqcCstName,'ไม่ระบุชื่อ') AS FTXqcCstName
+									      ,ISNULL(FTXqcAddress,'-') AS FTXqcAddress
+									      ,ISNULL(FTXqhTaxNo,'-') AS FTXqhTaxNo
+									      ,ISNULL(FTXqhContact,'-') AS FTXqhContact
+									      ,ISNULL(FTXqhEmail,'-') AS FTXqhEmail
+									      ,ISNULL(FTXqhTel,'-') AS FTXqhTel
+									      ,ISNULL(FTXqhFax,'-') AS FTXqhFax
+									  FROM TARTSqHDCst
+										WHERE FTXqhDocNo = '".$ptDocNo."'";
+
+				 $oQuery = $this->db->query($tSQL);
+	 		 	 if ($oQuery->num_rows() > 0) {
+
+		 		 			$aResult 	= array(
+		 		 				'raItems'  		=> $oQuery->result_array(),
+		 		 				'rtCode'   		=> '1',
+		 		 				'rtDesc'   		=> 'success',
+		 		 			);
+
+	 		 	 } else {
+
+		 		 			$aResult = array(
+									'raItems'  		=> '',
+									'rtCode'   		=> '0',
+									'rtDesc'   		=> 'Empty',
+		 		 			);
+
+	 		 		}
+
+					return $aResult;
+	}
+
+	public function FCaMQUODocPrintDT($ptDocNo){
+
+				 $tSQL = "SELECT FTXqhDocNo
+									      ,FNXqdSeq
+									      ,FTPdtCode
+									      ,ISNULL(FTPdtName,'-') AS FTPdtName
+									      ,FTPunCode
+									      ,ISNULL(FTPunName,'-') AS FTPunName
+									      ,FCXqdUnitPrice
+									      ,FTXqdCost
+									      ,FTSplCode
+									      ,FCXqdQty
+									      ,FCXqdB4Dis
+									      ,FCXqdDis
+									      ,FTXqdDisTxt
+									      ,FCXqdAfDT
+									      ,FCXqdFootAvg
+									      ,FCXqdNetAfHD
+									  FROM TARTSqDT
+										WHERE FTXqhDocNo = '".$ptDocNo."'";
+         $tSQL.=" ORDER BY FTPdtCode ";
+				 $oQuery = $this->db->query($tSQL);
+	 		 	 if ($oQuery->num_rows() > 0) {
+
+		 		 			$aResult 	= array(
+								'rnTotal'     =>$oQuery->num_rows(),
+		 		 				'raItems'  		=> $oQuery->result_array(),
+		 		 				'rtCode'   		=> '1',
+		 		 				'rtDesc'   		=> 'success',
+		 		 			);
+
+	 		 	 } else {
+
+		 		 			$aResult = array(
+								  'rnTotal'     => 0,
+									'raItems'  		=> '',
+									'rtCode'   		=> '0',
+									'rtDesc'   		=> 'Empty',
+		 		 			);
+
+	 		 		}
+
+					return $aResult;
+	}
+
 }
