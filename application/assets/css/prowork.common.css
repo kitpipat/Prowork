@@ -274,6 +274,15 @@ table tbody .xCNTableGroupMenu{
 
 .xCNLineBarFilter{
 	border-bottom: 1px solid #e8e8e8;
+	display: inline-block;
+}
+
+.xCNCloseAdv{
+	text-align: center;
+	cursor: pointer;
+	font-size: 13px;
+	float: right;
+	padding: 12.5px 0px;
 }
 
 .xCNSubFilter{

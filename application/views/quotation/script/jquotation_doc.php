@@ -95,8 +95,14 @@
 				//ค่าต่างๆ
 				$("#oetXqhSmpDay").val(nXqhSmpDay);
 				$("#oetXqhCredit").val(nXqhCredit);
+
+				var dXqhEftTo = moment(moment(dXqhEftTo, 'YYYY-MM-DD')).format('DD/MM/YYYY'); 
 				$("#odpXqhEftTo").val(dXqhEftTo);
+
+				var dDeliveryDate = moment(moment(dDeliveryDate, 'YYYY-MM-DD')).format('DD/MM/YYYY'); 
 				$("#odpDeliveryDate").val(dDeliveryDate);
+
+
 				$('#osmCashorCard option[value="' + tXqhCshOrCrd + '"]').attr("selected", "selected");
 				$("#ospCreateBy").text(tUsrApvNameBy);
 				$("#ospApproveDate").text('-');

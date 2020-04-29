@@ -8,7 +8,9 @@
 				<div class="row">
 
 					<div class="xCNFilterAdvSub">
-						<div class="xCNHeadFilter xCNLineBarFilter"> ตัวกรองค้นหา </div>
+						<div class="xCNHeadFilter xCNLineBarFilter" style="width:80%;"> ตัวกรองค้นหา </div>
+						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;"> <i class="fa fa-times" aria-hidden="true"></i> </div>
+
 					</div>
 
 					<div class="xCNFilterAdvSub">
@@ -260,7 +262,7 @@
 		$('.xCNSubFilter').css('height',tHeightContent+'px');
 	}
 
-	$('.xCNFilter').click(function() {
+	$('.xCNFilter , .xCNCloseAdv').click(function() {
 		var tCheck = $('.xCNFilterSearch').hasClass('xCNFilterBlockHide');
 		if(tCheck == false){
 			//Filter
