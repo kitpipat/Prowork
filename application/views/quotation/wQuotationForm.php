@@ -4,7 +4,7 @@
       <td valign="top" class="xCNPanel">
         <table cellpadding="5" cellspacing="5">
           <tr>
-            <td class="xWCmpSection"><img src="<?=base_url('application/assets/images/logo.png')?>" style="width:120px;"><br><label style="font-size:22px"><?php echo $aDocHeader['raItems'][0]['FTCmpName'];?></label><br>สาขา <?php echo $aDocHeader['raItems'][0]['FTBchName'];?><?php echo $aDocHeader['raItems'][0]['FTAdrName'];?> ถนน<?php echo $aDocHeader['raItems'][0]['FTAdrRoad'];?>่ แขวง/ตำบล <?php echo $aDocHeader['raItems'][0]['FTAdrSubDistric'];?><br>เขต/อำเภอ <?php echo $aDocHeader['raItems'][0]['FTAdrDistric'];?> จังหวัด <?php echo $aDocHeader['raItems'][0]['FTAdrProvince'];?> <?php echo $aDocHeader['raItems'][0]['FTAdrPosCode'];?><br>โทร <?php echo $aDocHeader['raItems'][0]['FTAdrTel'];?>  อีเมลล์ <?php echo $aDocHeader['raItems'][0]['FTAdrEmail'];?>
+            <td class="xWCmpSection"><img src="<?=base_url('application/assets/images/logo.png')?>" style="width:120px;"><br><label style="font-size:22px"><?php echo $aDocHeader['raItems'][0]['FTCmpName'];?></label><br>สาขา <?php echo $aDocHeader['raItems'][0]['FTBchName'];?><br><?php echo $aDocHeader['raItems'][0]['FTAdrName'];?> ถนน<?php echo $aDocHeader['raItems'][0]['FTAdrRoad'];?>่ แขวง/ตำบล <?php echo $aDocHeader['raItems'][0]['FTAdrSubDistric'];?><br>เขต/อำเภอ <?php echo $aDocHeader['raItems'][0]['FTAdrDistric'];?> จังหวัด <?php echo $aDocHeader['raItems'][0]['FTAdrProvince'];?> <?php echo $aDocHeader['raItems'][0]['FTAdrPosCode'];?><br>โทร <?php echo $aDocHeader['raItems'][0]['FTAdrTel'];?>  อีเมลล์ <?php echo $aDocHeader['raItems'][0]['FTAdrEmail'];?>
             </td>
           </tr>
           <tr>
