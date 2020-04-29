@@ -19,7 +19,7 @@
 			$nTotal 		= $nTotal + $nItemPrice;
 		?>
 
-		<?php 
+		<?php
 			if(@$FTPdtImage != '' || @$FTPdtImage != null){
 				$tPathImage = './application/assets/images/products/'.@$FTPdtImage;
 				if (file_exists($tPathImage)){
@@ -84,14 +84,14 @@
 <div class="modal fade" id="odvModalItemEmpty" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">กรุณาเลือกสินค้า</h5>
+      <div class="modal-header" style="background:#940808;color:#FFFFFF">
+        <h5 class="modal-title">แจ้งเตือน</h5>
       </div>
       <div class="modal-body">
-        <label>ไม่พบสินค้า ในการทำรายการ กรุณาเลือกสินค้าก่อนทำรายการ </label>
+        <label>กรุณาเพิ่มสินค้าในเอกสารอย่างน้อย 1 รายการ</label>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+        <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ฉันเข้าใจแล้ว</button>
       </div>
     </div>
   </div>

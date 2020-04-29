@@ -225,7 +225,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>จำนวนวันเครดิต (วัน)</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetXqhCredit" name="oetXqhCredit" placeholder="1" autocomplete="off">
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetXqhCredit" name="oetXqhCredit" placeholder="0" autocomplete="off">
 										</div>
 									</div>
 

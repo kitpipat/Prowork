@@ -439,8 +439,8 @@ class mQuotation extends CI_Model
 	{
 		$tSessionBCH = $this->session->userdata('tSesBCHCode');
 		$dDocDate 	 = date('Y-m-d H:i:s');
-		$tSQL1 		 = "INSERT INTO TARTSqHDTmp (FTBchCode,FDXqhDocDate,FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
-		$tSQL1 		.= "('" . $tSessionBCH . "','" . $dDocDate . "','" . $ptWorkerID . "','" . $ptWorkerID . "','" . $dDocDate . "')";
+		$tSQL1 		 = "INSERT INTO TARTSqHDTmp (FTBchCode,FDXqhDocDate,FTWorkerID,FTCreateBy,FDCreateOn,FNXqhSmpDay,FTXqhCshOrCrd,FDXqhEftTo,FDDeliveryDate) VALUES	";
+		$tSQL1 		.= "('" . $tSessionBCH . "','" . $dDocDate . "','" . $ptWorkerID . "','" . $ptWorkerID . "','" . $dDocDate . "','30','1','".$dDocDate."','".$dDocDate."')";
 		$this->db->query($tSQL1);
 
 		$tSQL2 = "INSERT INTO TARTSqHDCstTmp(FTWorkerID,FTCreateBy,FDCreateOn) VALUES	";
