@@ -6,7 +6,7 @@
 			<!--เลือกการมองเห็นแบบรูปภาพ-->
 			<?php if ($tPdtViewType == 1) { ?>
 					<?php if($aPdtList['rtCode'] != 800){ ?>
-						<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){ 
+						<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){
 									$tPdtCode 		= $aValue['FTPdtCode'];
 									$tPdtName 		= $aValue['FTPdtName'];
 									$tPunCode 		= $aValue['FTPunCode'];
@@ -28,7 +28,7 @@
 							?>
 							<div class="col-sm-3 col-md-3 col-lg-3">
 
-								<?php 
+								<?php
 									if($nKey >= 4){
 										$tClassCSSMargin = 'xCNClassPDTCardMargin';
 									}else{
@@ -36,9 +36,9 @@
 									}
 								?>
 
-								<div class="xCNImageCardPDT <?=$tClassCSSMargin?>" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
+								<div title="เลือกรายการนี้" class="xCNImageCardPDT <?=$tClassCSSMargin?>" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
 
-									<?php 
+									<?php
 										if(@$FTPdtImage != '' || @$FTPdtImage != null){
 											$tPathImage = './application/assets/images/products/'.@$FTPdtImage;
 											if (file_exists($tPathImage)){
@@ -80,7 +80,7 @@
 							</thead>
 							<tbody>
 								<?php if($aPdtList['rtCode'] != 800){ ?>
-									<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){ 
+									<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){
 												$tPdtCode 		= $aValue['FTPdtCode'];
 												$tPdtName 		= $aValue['FTPdtName'];
 												$tPunCode 		= $aValue['FTPunCode'];
@@ -138,11 +138,11 @@
 
 						<!--ปุ่มจำนวนหน้า-->
 						<?php for($i=max($nPage-2, 1); $i<=max(0, min($aPdtList['rnAllPage'],$nPage+2)); $i++){?>
-							<?php 
-								if($nPage == $i){ 
-									$tActive 		= 'active'; 
+							<?php
+								if($nPage == $i){
+									$tActive 		= 'active';
 									$tDisPageNumber = 'disabled';
-								}else{ 
+								}else{
 									$tActive 		= '';
 									$tDisPageNumber = '';
 								}
@@ -168,13 +168,13 @@
 		var nPageCurrent = '';
 		switch (ptPage) {
 			case 'next': //กดปุ่ม Next
-				nPageOld 		= $('.xCNPagenation .active').text(); 
-				nPageNew 		= parseInt(nPageOld, 10) + 1; 
+				nPageOld 		= $('.xCNPagenation .active').text();
+				nPageNew 		= parseInt(nPageOld, 10) + 1;
 				nPageCurrent 	= nPageNew
 			break;
 			case 'previous': //กดปุ่ม Previous
-				nPageOld 		= $('.xCNPagenation .active').text(); 
-				nPageNew 		= parseInt(nPageOld, 10) - 1; 
+				nPageOld 		= $('.xCNPagenation .active').text();
+				nPageNew 		= parseInt(nPageOld, 10) - 1;
 				nPageCurrent 	= nPageNew
 			break;
 			default:
@@ -204,7 +204,7 @@
 									'width': 75,
 									'height': 75
 					}, 1000, 'easeInOutExpo');
-					
+
 					imgclone.animate({
 							'width': 0,
 							'height': 0
@@ -215,4 +215,3 @@
 	});
 
 </script>
-

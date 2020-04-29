@@ -173,10 +173,10 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">ลบข้อมูล</h5>
+        <h5 class="modal-title">การแจ้งยืนยัน</h5>
       </div>
       <div class="modal-body">
-        <label>ยืนยันการลบข้อมูล ? </label>
+        <label>คุณต้องการลบรายการสินค้านี้ออกจากเอกสารใช่หรือไม่ ? <br>-กดปุ่ม "ยืนยัน" เพื่อลบรายการ <br>-กดปุ่ม "ปิด" เพื่อยกเลิกการลบรายการ</label>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>

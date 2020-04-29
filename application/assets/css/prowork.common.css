@@ -48,8 +48,8 @@ body {
 .xCNButtonInsert {
     background-color: #51c448;
     border-radius: 50px;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     color: #FFF;
     border: 0px solid;
     box-shadow: 2px 2px 6px rgba(178, 178, 178, 0.69);
@@ -666,7 +666,7 @@ table tbody .xCNTableGroupMenu{
 	background-color: #F5F5F5;
 }
 
-::-webkit-scrollbar-thumb 
+::-webkit-scrollbar-thumb
 {
 	background-color: #c1c1c1;
 }
@@ -743,5 +743,5 @@ table tbody .xCNTableGroupMenu{
 	  opacity		: 0;
 	}
 }
-  
+
 /*//////////////////////////////////////////////////////////////////////////////////////*/

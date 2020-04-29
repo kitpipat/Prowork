@@ -10,7 +10,7 @@
 					<div class="xCNFilterAdvSub">
 						<div class="xCNHeadFilter xCNLineBarFilter"> ตัวกรองค้นหา </div>
 					</div>
-					
+
 					<div class="xCNFilterAdvSub">
 						<div class="xCNSubFilter">
 							<!--ยี่ห้อ-->
@@ -21,10 +21,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="PBN" value="<?=$aValue['FTPbnCode']?>"><?=$aValue['FTPbnName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--สี-->
 							<?php if($aFilter_Color['rtCode'] != 800){ ?>
@@ -34,10 +34,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="CLR" value="<?=$aValue['FTPClrCode']?>"><?=$aValue['FTPClrName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--กลุ่ม-->
 							<?php if($aFilter_Group['rtCode'] != 800){ ?>
@@ -47,10 +47,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="PGP" value="<?=$aValue['FTPgpCode']?>"><?=$aValue['FTPgpName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--รุ่น-->
 							<?php if($aFilter_Modal['rtCode'] != 800){ ?>
@@ -60,10 +60,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="MOL" value="<?=$aValue['FTMolCode']?>"><?=$aValue['FTMolName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--ขนาด-->
 							<?php if($aFilter_Size['rtCode'] != 800){ ?>
@@ -73,10 +73,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="PZE" value="<?=$aValue['FTPzeCode']?>"><?=$aValue['FTPzeName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--ประเภท-->
 							<?php if($aFilter_Type['rtCode'] != 800){ ?>
@@ -86,7 +86,7 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="PTY" value="<?=$aValue['FTPtyCode']?>"><?=$aValue['FTPtyName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
 							<?php } ?>
@@ -99,7 +99,7 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox"  data-filter="PUN" value="<?=$aValue['FTPunCode']?>"><?=$aValue['FTPunName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
 							<?php } ?>
@@ -112,7 +112,7 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="SPL" value="<?=$aValue['FTSplCode']?>"><?=$aValue['FTSplName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
 							<?php } ?>
@@ -143,7 +143,7 @@
 								<!-- Input Filter -->
 								<div class="col-lg-7 col-md-7 col-sm-7">
 									<div class="input-group md-form form-sm form-2 pl-0">
-										<input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchPI" onkeypress="Javascript:if(event.keyCode==13) FSvQUOGetPdtList(1)">
+										<input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา เช่น รหัส/ชื่อสินค้า" id="oetSearchPI" onkeypress="Javascript:if(event.keyCode==13) FSvQUOGetPdtList(1)">
 										<div class="input-group-append">
 											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="FSvQUOGetPdtList(1);"><i class="fa fa-search" aria-hidden="true"></i></span>
 										</div>
@@ -259,7 +259,7 @@
 		var tHeightContent = $(window).height() - 160;
 		$('.xCNSubFilter').css('height',tHeightContent+'px');
 	}
-	
+
 	$('.xCNFilter').click(function() {
 		var tCheck = $('.xCNFilterSearch').hasClass('xCNFilterBlockHide');
 		if(tCheck == false){

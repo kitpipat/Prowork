@@ -97,7 +97,7 @@
 				$("#oetXqhCredit").val(nXqhCredit);
 				$("#odpXqhEftTo").val(dXqhEftTo);
 				$("#odpDeliveryDate").val(dDeliveryDate);
-				$('#ocmXqhCshOrCrd option[value="' + tXqhCshOrCrd + '"]').attr("selected", "selected");
+				$('#osmCashorCard option[value="' + tXqhCshOrCrd + '"]').attr("selected", "selected");
 				$("#ospCreateBy").text(tUsrApvNameBy);
 				$("#ospApproveDate").text('-');
 				$("#ospApprovedBy").text('-');

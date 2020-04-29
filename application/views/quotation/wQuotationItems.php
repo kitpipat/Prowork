@@ -51,7 +51,7 @@
 	<?php } ?>
 <?php }else { ?>
 	<?php $nTotal = 0; ?>
-	<div class="col-lg-12"><span class="xCNWaringEmptyPDT">[การแจ้งเตือน] ยังไม่มีรายการสินค้าในเอกสารนี้</span></div>
+	<div class="col-lg-12"><span class="xCNWaringEmptyPDT">[การแจ้งเตือน] ยังไม่มีรายการสินค้าในเอกสารนี้<br>คุณสามารถเลือกสินค้าจากตารางด้านซ้ายมือ</span></div>
 <?php } ?>
 
 
@@ -66,10 +66,10 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">ลบข้อมูล</h5>
+        <h5 class="modal-title">การแจ้งยืนยัน</h5>
       </div>
       <div class="modal-body">
-        <label>ยืนยันการลบข้อมูล ? </label>
+        <label>คุณต้องการลบรายการสินค้านี้ออกจากเอกสารใช่หรือไม่ ? <br>-กดปุ่ม "ยืนยัน" เพื่อลบรายการ <br>-กดปุ่ม "ปิด" เพื่อยกเลิกการลบรายการ</label>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
@@ -88,7 +88,10 @@
         <h5 class="modal-title">แจ้งเตือน</h5>
       </div>
       <div class="modal-body">
-        <label>กรุณาเพิ่มสินค้าในเอกสารอย่างน้อย 1 รายการ</label>
+        <label>กรุณาเพิ่มสินค้าในเอกสารอย่างน้อย 1 รายการ<br>
+					    -คุณสามารถค้นหาสินค้าจากกล่องค้นหาสินค้าด้านบน<br>
+					    -คุณสามารถเลือกสินค้าที่ต้องการจากตารางด้านซ้ายมือ<br>
+				</label>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ฉันเข้าใจแล้ว</button>
