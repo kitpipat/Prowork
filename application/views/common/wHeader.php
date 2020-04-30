@@ -33,7 +33,7 @@
 			<div id="main-menu" class="main-menu collapse navbar-collapse xCNWidthFull">
 				<ul class="nav navbar-nav xCNWidthFull">
 					<li class="active xCNMenuActive">
-						<a href="Mainpage" class=""><i class="menu-icon fa fa-laptop"></i>หน้าหลัก </a>
+						<a href="Mainpage" class=""><i class="menu-icon fa fa-laptop"></i>บัญชีส่วนตัว </a>
 					</li>
 					<?php if($aMenuList['rtCode'] == 800){ ?> 
 
@@ -85,10 +85,6 @@
 					}
 					?>
 					<span class="xCNNameCompanyAndBCH"> <?=$this->session->userdata('tSesCMPName')?> <?=$tShowBCH?> </span>
-
-					<!--เดียวลบ-->
-					<span class="xCNNameCompanyAndBCH" style="color:red;"> [เดียวมาลบ LEVEL : <?=$this->session->userdata('tSesUserLevel')?> ]</span>
-
 				</div>
 			</div>
 			<div class="top-right">
@@ -99,7 +95,7 @@
 							<img class="user-avatar rounded-circle" src="<?=base_url('application/assets/')?>images/admin.jpg">
 						</a>
 						<div class="user-menu dropdown-menu">
-							<a class="nav-link xCNMenuProfile" href="#">ประวัติส่วนตัว</a>
+							<a class="nav-link xCNMenuProfile" href="#">บัญชีส่วนตัว</a>
 							<a class="nav-link xCNMenuProfile" href="Logout">ออกจากระบบ</a>
 						</div>
 					</div>
