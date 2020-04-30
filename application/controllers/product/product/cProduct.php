@@ -268,7 +268,11 @@ class cProduct extends CI_Controller {
 		$aData 		= $this->input->post('aData');
 		$nCountData = count($aData);
 		if($nCountData != 0){
-			$this->mProduct->FSxMPDTImportExcelMoveTmpToHD();
+
+			$aIns = array(
+				'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns);
 			for($i=0; $i<$nCountData; $i++){
 
 				//Insert ฐานข้อมูล
