@@ -275,7 +275,7 @@ class cProduct extends CI_Controller {
 				// 	'FTPdtCode'			=> $aData[$i]['nPDTCode'],
 				// 	'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
 				// );
-				// $this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns);
+				$this->mProduct->FSxMPDTImportExcelMoveTmpToHD();
 
 				//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
 				$paData = array(
