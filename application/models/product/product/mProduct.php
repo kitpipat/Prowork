@@ -534,7 +534,7 @@ class mProduct extends CI_Model {
 					,'$dCurrent'
 					,'' AS FTPdtReason
 				FROM TCNMPdt_DataTmp
-				WHERE FTPdtCode = '$FTPdtCode' AND FTWorkerID = '$FTWorkerID' ";
+				WHERE FTWorkerID = '$FTWorkerID' ";
 				$this->db->query($tSQL);
 	}
 

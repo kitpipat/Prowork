@@ -271,11 +271,11 @@ class cProduct extends CI_Controller {
 			for($i=0; $i<$nCountData; $i++){
 
 				//Insert ฐานข้อมูล
-				$aIns = array(
-					'FTPdtCode'			=> $aData[$i]['nPDTCode'],
-					'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
-				);
-				$this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns);
+				// $aIns = array(
+				// 	'FTPdtCode'			=> $aData[$i]['nPDTCode'],
+				// 	'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
+				// );
+				// $this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns);
 
 				//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
 				$paData = array(
