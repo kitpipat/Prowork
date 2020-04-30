@@ -270,8 +270,11 @@
 							}else{
 								setTimeout(function(){
 									$('#obtModalProcess').click();
-									$('.content').html(tResult);
 								}, 2000);
+
+								setTimeout(function(){
+									$('.content').html(tResult);
+								}, 2500);
 							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
