@@ -5,12 +5,21 @@
              //ตรวจสอบว่ามีการส่งค่าสำหรับการคำนวนมาหรือไม่
              if(count($paPdtInfo) > 0){
 
-                 $nStdCost =    $paPdtInfo['nStdCost'];
-                 $tDisCost =    $paPdtInfo['tStepDisCost'];
+                 $nStdCost =    trim($paPdtInfo['nStdCost']);
+                 $tDisCost =    trim($paPdtInfo['tStepDisCost']);
 
                  //ตรวจสอบว่ามีการส่งต้นทุนสำหรับการคำนวนมาหรือไม่
                  if($nStdCost == '' or $nStdCost == null){
-                    $nStdCost = 0;
+                    return  0;
+                 }else{
+
+                    //ตรวจสอบว่าต้นทุนที่ส่งมาสามารถนำไปคำนวนได้หรือไม่
+                    if(is_numeric($nStdCost)){
+                       $nStdCost = $nStdCost;
+                    }else{
+                       return  0;
+                    }
+
                  }
 
                  //ตรวจสอบว่ามีการกรอกส่วนลดมาหรือไม่

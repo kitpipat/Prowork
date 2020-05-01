@@ -10,7 +10,7 @@ class test extends CI_Controller {
 
     public function index()
     {
-        $aPdtInfo = array("nStdCost" => 200,
+        $aPdtInfo = array("nStdCost" => "100 ",
                           "tStepDisCost"=> "-0%%%B,-50,5%,K52$,2%,:)" );
         // $aPdtInfo = array();
         echo FCNnHCOSCalCost($aPdtInfo);
