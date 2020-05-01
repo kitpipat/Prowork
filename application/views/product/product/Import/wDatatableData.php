@@ -12,7 +12,7 @@
 	<div class="card" style="margin-top: 10px;">
 		<div class="card-body">
 			<div class="row">
-				
+
 				<table class="table table-striped xCNTableCenter" id="otbConfirmDataPDT">
 					<thead>
 						<tr>
@@ -31,7 +31,7 @@
 					<tbody>
 						<?php if($aList['rtCode'] != 800){ ?>
 							<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
-								<?php 
+								<?php
 									//สถานะ
 									$tPDTClassStatus		= '';
 									switch ($aValue) {
@@ -75,7 +75,7 @@
 										default:
 											$tIconClassStatus 	= 'xCNIconStatus_open';
 											$tTextClassStatus 	= 'xCNTextClassStatus_open';
-											$tTextStatus 		= 'รอยืนยัน'; 
+											$tTextStatus 		= 'รอยืนยัน';
 											$tStatusAprove		= 'pass';
 									}
 
@@ -96,7 +96,7 @@
 									}else{
 										$tCostDisClassStatus	= '';
 									}
-									
+
 									//รหัสกลุ่มสินค้า
 									if($aValue['FTPgpName'] == '' || $aValue['FTPgpName'] == null){
 										$tPgpName 			= $aValue['FTPgpCode'];
@@ -132,7 +132,7 @@
 										$tSplName 			= $aValue['FTSplName'];
 										$tSplClassStatus	= '';
 									}
-								
+
 								?>
 
 								<tr data-pdtcode="<?=$aValue['FTPdtCode'];?>" data-staapv='<?=$tStatusAprove;?>'>
@@ -181,7 +181,7 @@
 
 
 <script>
- 
+
 	//ยกเลิกการนำเข้า
 	function JSxCancleImportExcel(){
 		$('#obtModalCancleImport').click();
@@ -224,6 +224,7 @@
 				type	: "POST",
 				url		: 'r_producteventAproveDataInTmp',
 				cache	: false,
+				async	: false,
 				data 	: {'aData' : aUpdateExcel},
 				timeout	: 0,
 				success	: function (tResult) {

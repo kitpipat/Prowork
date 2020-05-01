@@ -8,7 +8,7 @@
 	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
 	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
-?> 
+?>
 
 <div class="container-fulid">
 	<div class="row">
@@ -23,7 +23,7 @@
 						<div class="xCNHeadFilter xCNLineBarFilter" style="width:80%;"> ตัวกรองค้นหา </div>
 						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;"> <i class="fa fa-times" aria-hidden="true"></i> </div>
 					</div>
-					
+
 					<div class="xCNFilterAdvSub">
 						<div class="xCNSubFilter">
 							<!--ยี่ห้อ-->
@@ -34,10 +34,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="PBN" value="<?=$aValue['FTPbnCode']?>"><?=$aValue['FTPbnName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--สี-->
 							<?php if($aFilter_Color['rtCode'] != 800){ ?>
@@ -47,10 +47,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="CLR" value="<?=$aValue['FTPClrCode']?>"><?=$aValue['FTPClrName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--กลุ่ม-->
 							<?php if($aFilter_Group['rtCode'] != 800){ ?>
@@ -60,10 +60,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="PGP" value="<?=$aValue['FTPgpCode']?>"><?=$aValue['FTPgpName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--รุ่น-->
 							<?php if($aFilter_Modal['rtCode'] != 800){ ?>
@@ -73,10 +73,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="MOL" value="<?=$aValue['FTMolCode']?>"><?=$aValue['FTMolName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--ขนาด-->
 							<?php if($aFilter_Size['rtCode'] != 800){ ?>
@@ -86,10 +86,10 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="PZE" value="<?=$aValue['FTPzeCode']?>"><?=$aValue['FTPzeName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
-							<?php } ?> 
+							<?php } ?>
 
 							<!--ประเภท-->
 							<?php if($aFilter_Type['rtCode'] != 800){ ?>
@@ -99,7 +99,7 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="PTY" value="<?=$aValue['FTPtyCode']?>"><?=$aValue['FTPtyName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
 							<?php } ?>
@@ -112,7 +112,7 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox"  data-filter="PUN" value="<?=$aValue['FTPunCode']?>"><?=$aValue['FTPunName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
 							<?php } ?>
@@ -125,7 +125,7 @@
 										<label class="container-checkbox xCNCheckboxFilter">
 											<input class="xCNFilterAdv" type="checkbox" data-filter="SPL" value="<?=$aValue['FTSplCode']?>"><?=$aValue['FTSplName']?>
 											<span class="checkmark"></span>
-										</label>							
+										</label>
 									<?php } ?>
 								</div>
 							<?php } ?>
@@ -164,7 +164,7 @@
 												</div>
 											</div>
 										</div>
-										
+
 										<!--ตัวกรองค้นหาขั้นสูง-->
 										<div class="col-lg-1">
 											<div class="xCNFilter">
@@ -197,7 +197,7 @@
 							</div>
 						</div>
 					</div>
-				</div>									
+				</div>
 			</div>
 		</div>
 	</div>
@@ -213,7 +213,7 @@
 		</div>
 		<div class="modal-body">
 			<label style="text-align: center; display: block;" id="olbModalProcessText">กรุณารอสักครู่ กำลังตรวจสอบไฟล์รูปภาพ</label>
-			<label style="text-align: center; display: block; font-size: 17px;">โปรดอย่าปิดหน้าจอขณะอัพโหลดไฟล์</label>	
+			<label style="text-align: center; display: block; font-size: 17px;">โปรดอย่าปิดหน้าจอขณะอัพโหลดไฟล์</label>
 			<div class="progress" style="height: 25px; width: 100%;">
 				<div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
 			</div>
@@ -225,7 +225,7 @@
 <script>
 	//อัพโหลดไฟล์ excel
 	function JSxImportDataExcel(){
-		$('#ofeImportExcel').click(); 
+		$('#ofeImportExcel').click();
 	}
 
 	//Import Excel
@@ -240,7 +240,7 @@
 				var contents = processExcel(e.target.result);
 				var aJSON = JSON.parse(contents);
 
-					$('#olbModalProcessText').text('กรุณารอสักครู่ กำลังตรวจสอบไฟล์ข้อมูล');
+					$('#olbModalProcessText').text('กรุณารอสักครู่ กำลังตรวจสอบไฟล์');
 					$('#obtModalProcess').click();
 
 					$.ajax({
@@ -248,7 +248,7 @@
 						url		: "r_productCallpageUplodeFile",
 						data	: { 'aPackdata' : aJSON },
 						cache	: true,
-						async	: false,
+						async	: true,
 						timeout	: 0,
 						success	: function (tResult) {
 							if(tResult == 'Fail'){
@@ -267,6 +267,7 @@
 								setTimeout(function(){
 									$('.alert-danger').find('.close').click();
 								}, 3000);
+
 							}else{
 								setTimeout(function(){
 									$('#obtModalProcess').click();
@@ -311,7 +312,7 @@
 	};
 </script>
 
-<script>	
+<script>
 	//คำนวณหน้าจอ
 	JSxCalculateWidthFilterAdv();
 	function JSxCalculateWidthFilterAdv(){
@@ -330,7 +331,7 @@
 		var tHeightContent = $(window).height() - 160;
 		$('.xCNSubFilter').css('height',tHeightContent+'px');
 	}
-	
+
 	$('.xCNFilter , .xCNCloseAdv').click(function() {
 		var tCheck = $('.xCNFilterSearch').hasClass('xCNFilterBlockHide');
 		if(tCheck == false){
@@ -356,7 +357,7 @@
 
 	//อัพโหลดไฟล์ zip
 	function JSxExtractImage(){
-		$('#inputfileuploadImagePDT').click(); 
+		$('#inputfileuploadImagePDT').click();
 	}
 
 	//หลังจากอัพโหลด zip
@@ -377,7 +378,7 @@
 	}
 
 	/*************************************************************************************/
-	
+
 	//กดนำไปใช้ หรือ ค้นหาขั้นสูง
 	var aFilter 		= [];
 	function JSxPDTFilterAdv(){
