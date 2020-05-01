@@ -10,10 +10,19 @@ class test extends CI_Controller {
 
     public function index()
     {
-        $aPdtInfo = array("nStdCost" => "100 ",
+
+        /*
+         fn parameter
+         nStdCost = ต้นทุน
+         tStepDisCost = ส่วนลดต้นทุนที่ผู้ใช้กรอกมา */
+
+        $aPdtInfo = array("nStdCost" => 100,
                           "tStepDisCost"=> "-0%%%B,-50,5%,K52$,2%,:)" );
-        // $aPdtInfo = array();
-        echo FCNnHCOSCalCost($aPdtInfo);
+
+        //return ต้นทุนหลังหักส่วนลด รองรับการลดแบบ step
+        $nCostAFDis =  FCNnHCOSCalCost($aPdtInfo);
+        echo $nCostAFDis;
+
     }
 
 }
