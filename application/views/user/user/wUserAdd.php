@@ -93,43 +93,7 @@
 
 					<!--รายละเอียด-->
 					<div class="col-lg-5 col-md-5">
-						<!--สาขา-->
-						<?php if($tLevelUser == 'HQ'){ ?>
-							<div class="form-group">
-								<label><span style="color:red;">*</span> สาขา</label>
-								<select class="form-control" id="oetUserBCH" name="oetUserBCH">
-									<option value="0">สำนักงานใหญ่</option>
-									<?php foreach($aBCHList['raItems'] AS $nKey => $aValue){ ?>
-										<option <?=(@$FTBchCode == $aValue['FTBchCode'])? "selected" : "";?> value="<?=$aValue['FTBchCode'];?>"><?=$aValue['FTBchName'];?> - (<?=$aValue['FTCmpName'];?>)</option>
-									<?php } ?>
-								</select>
-							</div>
-						<?php }else{ ?>
-							<div class="form-group">
-								<?php $tBCHName = $this->session->userdata('tSesBCHName'); ?>
-								<?php $tBCHCode = $this->session->userdata('tSesBCHCode'); ?>
-								<label><span style="color:red;">*</span> สาขา</label>
-								<input type="text" class="form-control" value="<?=@$tBCHName?>" autocomplete="off" readonly>
-								<input type="hidden" id="oetUserBCH" name="oetUserBCH" value="<?=@$tBCHCode?>" autocomplete="off">
-							</div>
-						<?php } ?>
-
-						<!--กลุ่มสิทธิ์-->
-						<div class="form-group">
-							<label><span style="color:red;">*</span> กลุ่มสิทธิ์</label>
-							<select class="form-control" id="oetUserPermission" name="oetUserPermission">
-								<?php foreach($aPermissionList['raItems'] AS $nKey => $aValue){ ?>
-									<option <?=(@$FNRhdID == $aValue['FNRhdID'])? "selected" : "";?> value="<?=$aValue['FNRhdID'];?>"><?=$aValue['FTRhdName'];?></option>
-								<?php } ?>
-							</select>
-						</div>
-
-						<!--แผนก-->
-						<div class="form-group">
-							<label>แผนก</label>
-							<input type="text" class="form-control" id="oetUserDepartment" name="oetUserDepartment" placeholder="กรุณาระบุแผนก" autocomplete="off" value="<?=@$FTUsrDep;?>">
-						</div>
-
+						
 						<!--กลุ่มราคา-->
 						<div class="form-group">
 							<label><span style="color:red;">*</span> กลุ่มราคา</label>
@@ -199,6 +163,44 @@
 							<label><span style="color:red;">*</span> รหัสผ่าน</label>
 							<input type="password" class="form-control" maxlength="225" id="oetUserPassword" name="oetUserPassword" placeholder="*********" autocomplete="off"  value="<?=@$FTUsrPwd;?>">
 						</div>
+
+						<!--สาขา-->
+						<?php if($tLevelUser == 'HQ'){ ?>
+							<div class="form-group">
+								<label><span style="color:red;">*</span> สาขา</label>
+								<select class="form-control" id="oetUserBCH" name="oetUserBCH">
+									<option value="0">สำนักงานใหญ่</option>
+									<?php foreach($aBCHList['raItems'] AS $nKey => $aValue){ ?>
+										<option <?=(@$FTBchCode == $aValue['FTBchCode'])? "selected" : "";?> value="<?=$aValue['FTBchCode'];?>"><?=$aValue['FTBchName'];?> - (<?=$aValue['FTCmpName'];?>)</option>
+									<?php } ?>
+								</select>
+							</div>
+						<?php }else{ ?>
+							<div class="form-group">
+								<?php $tBCHName = $this->session->userdata('tSesBCHName'); ?>
+								<?php $tBCHCode = $this->session->userdata('tSesBCHCode'); ?>
+								<label><span style="color:red;">*</span> สาขา</label>
+								<input type="text" class="form-control" value="<?=@$tBCHName?>" autocomplete="off" readonly>
+								<input type="hidden" id="oetUserBCH" name="oetUserBCH" value="<?=@$tBCHCode?>" autocomplete="off">
+							</div>
+						<?php } ?>
+
+						<!--กลุ่มสิทธิ์-->
+						<div class="form-group">
+							<label><span style="color:red;">*</span> กลุ่มสิทธิ์</label>
+							<select class="form-control" id="oetUserPermission" name="oetUserPermission">
+								<?php foreach($aPermissionList['raItems'] AS $nKey => $aValue){ ?>
+									<option <?=(@$FNRhdID == $aValue['FNRhdID'])? "selected" : "";?> value="<?=$aValue['FNRhdID'];?>"><?=$aValue['FTRhdName'];?></option>
+								<?php } ?>
+							</select>
+						</div>
+
+						<!--แผนก-->
+						<div class="form-group">
+							<label>แผนก</label>
+							<input type="text" class="form-control" id="oetUserDepartment" name="oetUserDepartment" placeholder="กรุณาระบุแผนก" autocomplete="off" value="<?=@$FTUsrDep;?>">
+						</div>
+
 
 						<label class="container-checkbox">ใช้งาน
 							<input type="checkbox" id="ocmUserStaUse" name="ocmUserStaUse" <?=@$FNStaUse == '1' ? 'checked' : ''; ?>>

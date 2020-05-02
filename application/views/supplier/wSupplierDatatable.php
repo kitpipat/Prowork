@@ -15,8 +15,8 @@
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
 		<th style="width:80px; text-align: center;">รูปภาพ</th>
+		<th style="width:160px; text-align: left;">รหัสผู้จำหน่าย</th>
 		<th style="text-align: left;">ชื่อผู้จำหน่าย</th>
-		<th style="width:15%; text-align: left;">ชื่อผู้ติดต่อ</th>
 		<th style="width:10%; text-align: left;">เบอร์โทรศัพท์</th>
 		<th style="width:10%; text-align: left;">อีเมลล์</th>
 		<th style="width:10%; text-align: left;">สถานะติดต่อ</th>
@@ -42,8 +42,8 @@
 						}
 					?>
 					<td class="xCNTdHaveImage"><img id="oimImgMastersupplier" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
+					<td><?=$aValue['FTSplCode']?></td>
 					<td><?=$aValue['FTSplName']?></td>
-					<td><?=($aValue['FTSplContact'] == '') ? '-' : $aValue['FTSplContact'] ?></td>
 					<td><?=($aValue['FTSplTel']  == '') ? '-' : $aValue['FTSplTel'] ?></td>
 					<td><?=($aValue['FTSplEmail']  == '') ? '-' : $aValue['FTSplEmail'] ?></td>
 					

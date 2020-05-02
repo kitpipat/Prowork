@@ -276,6 +276,11 @@
 	//บันทึกเอกสาร
 	function FSxQUOSaveDoc() {
 
+		if($('#oetCstName').val() == '' || $('#oetCstName').val() == null){
+			$('#oetCstName').focus();
+			return;
+		}
+
 		oDocCstInfo 		= $("#ofmQuotationCst").serializeArray()
 		oDocHeaderInfo 		= $("#ofmQuotationHeader").serializeArray()
 

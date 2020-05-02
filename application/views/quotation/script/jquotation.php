@@ -42,6 +42,7 @@
 		})
 		.done(function(data) {
 			$("#odvQuoPdtList").html(data);
+			JSxModalProgress('close');
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
 			//serrorFunction();

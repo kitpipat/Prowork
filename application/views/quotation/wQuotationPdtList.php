@@ -180,7 +180,7 @@
 			default:
 				nPageCurrent = ptPage
 		}
-
+		JSxModalProgress('open');
 		FSvQUOGetPdtList(nPageCurrent);
 	}
 

@@ -18,7 +18,6 @@
 		<th style="width:100px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
 		<th style="width:160px; text-align: left;">กลุ่มสินค้า</th>
-		<th style="width:160px; text-align: left;">ผู้จำหน่าย</th>
 		<th style="width:100px; text-align: left;">สถานะ</th>
 		<th style="width:50px; text-align: center;">แก้ไข</th>
 		<th style="width:50px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
@@ -45,7 +44,6 @@
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtCode'] == '') ? '-' : $aValue['FTPdtCode'];?></label></td>
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtName'] == '') ? '-' : $aValue['FTPdtName'];?></label></td>
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPgpName'] == '') ? '-' : $aValue['FTPgpName'];?></label></td>
-					<td><label class="xCNLineHeightInTable"><?=($aValue['FTSplName'] == '') ? '-' : $aValue['FTSplName'];?></label></td>
 					<?php 
 						if($aValue['FTPdtStatus'] == 1){
 							$tIconClassStatus 	= 'xCNIconStatus_open';

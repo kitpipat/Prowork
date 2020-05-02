@@ -11,10 +11,10 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				var nWidth = $('#left-panel').width();
-				if(nWidth > 70){
-					$('#menuToggle').click();
-				}
+				// var nWidth = $('#left-panel').width();
+				// if(nWidth > 70){
+				// 	$('#menuToggle').click();
+				// }
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

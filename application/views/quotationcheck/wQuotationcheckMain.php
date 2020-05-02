@@ -42,7 +42,7 @@
 				<div class="col-lg-2">
 					<div class="form-group">
 						<label>เลขที่เอกสาร</label>
-						<input type="text" class="form-control" id="oetDocNumber" name="oetDocNumber" placeholder="กรอกเลขที่เอกสาร" autocomplete="off">
+						<input type="text" class="form-control xCNInputWithoutSingleQuote" id="oetDocNumber" name="oetDocNumber" placeholder="กรอกเลขที่เอกสาร" autocomplete="off">
 					</div>
 				</div>
 
@@ -98,6 +98,7 @@
 		</div>
 	</div>
 <div>
+<script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 
 <script>
 	//หน้าตาราง
