@@ -92,10 +92,10 @@
 					<div class="user-area dropdown float-right">
 						<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span style="margin-right: 15px;"><?=$this->session->userdata('tSesFirstname')?> <?=$this->session->userdata('tSesLastname')?> (<?=$this->session->userdata('tSesDepartment')?>)</span>
-							<img class="user-avatar rounded-circle" src="<?=base_url('application/assets/')?>images/admin.jpg">
+							<!-- <img class="user-avatar rounded-circle" src="<?=base_url('application/assets/')?>images/admin.jpg"> -->
 						</a>
 						<div class="user-menu dropdown-menu">
-							<a class="nav-link xCNMenuProfile" href="#">บัญชีส่วนตัว</a>
+							<a class="nav-link xCNMenuProfile" href="Mainpage">บัญชีส่วนตัว</a>
 							<a class="nav-link xCNMenuProfile" href="Logout">ออกจากระบบ</a>
 						</div>
 					</div>

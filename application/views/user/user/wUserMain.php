@@ -85,22 +85,4 @@
 			}
 		});
 	}
-
-	//กด ผู้ใช้(กลับหน้า main)
-	function JSxCallPageUserMain(){
-		JSxModalProgress('open');
-		$.ajax({
-			type	: "POST",
-			url		: "r_user",
-			cache	: false,
-			timeout	: 0,
-			success	: function (tResult) {
-				JSxModalProgress('close');
-				$('.content').html(tResult);
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
-			}
-		});
-	}
 </script>

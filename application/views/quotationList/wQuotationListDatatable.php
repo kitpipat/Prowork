@@ -7,7 +7,7 @@
 		<th style="width:130px; text-align: left;">ประเภทชำระ</th>
 		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
 		<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>
-		<th style="width:100px; text-align: left;">ผู้อนุมัติ</th>
+		<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;">ลบ</th>
     </tr>
