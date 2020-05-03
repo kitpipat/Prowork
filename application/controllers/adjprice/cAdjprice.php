@@ -153,15 +153,15 @@ class cAdjprice extends CI_Controller {
 		$aPackData 	= $this->input->post('aPackdata');
 		$tCode 		= $this->input->post('tCode');
 
-		if(isset($aPackData['Adjustment'])){
+		if(isset($aPackData['AdjustmentPrice'])){
 			// echo 'Correct';
 		}else{
 			echo 'Fail';
 			exit;
 		}
 
-		$nPackData 	= count($aPackData['Adjustment']);
-		$aResult   	= $aPackData['Adjustment'];
+		$nPackData 	= count($aPackData['AdjustmentPrice']);
+		$aResult   	= $aPackData['AdjustmentPrice'];
 		for($i=1; $i<$nPackData; $i++){
 
 			if(isset($aResult[$i][0])){

@@ -171,15 +171,15 @@ class cAdjcost extends CI_Controller {
 		$aPackData 	= $this->input->post('aPackdata');
 		$tCode 		= $this->input->post('tCode');
 
-		if(isset($aPackData['Adjustment'])){
+		if(isset($aPackData['AdjustmentCost'])){
 			// echo 'Correct';
 		}else{
 			echo 'Fail';
 			exit;
 		}
 
-		$nPackData 	= count($aPackData['Adjustment']);
-		$aResult   	= $aPackData['Adjustment'];
+		$nPackData 	= count($aPackData['AdjustmentCost']);
+		$aResult   	= $aPackData['AdjustmentCost'];
 		$nSeq = $this->mAdjcost->FSaMAJCGetSeqLast($tCode,$this->session->userdata('tSesUsercode'));
 		if($nSeq['rtCode'] == 800){
 			$nSeq = '1';
