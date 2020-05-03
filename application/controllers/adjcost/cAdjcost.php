@@ -148,15 +148,33 @@ class cAdjcost extends CI_Controller {
 		$this->mAdjcost->FSaMAJCDeletePDTInTmp($aDelete);
 	}
 
-	//แก้ไขจำนวนในตาราง Tmp
+	//แก้ไขส่วนลดต้นทุนในตาราง Tmp
 	public function FSvCAJCUpdateInlinePDTInTmp(){
 		$tPDTCode 		= $this->input->post('tPdtCode');
 		$tCode 			= $this->input->post('tCode');
 		$tValueUpdate	= $this->input->post('tValueUpdate'); 
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
-		$aSet 		= array(
-			'FTXpdDisCost' 	=> $tValueUpdate
+
+		//หาต้นทุนตั้งต้น
+		$aMasterPDT = $this->mAdjcost->FSaMAJCFindSplAndSTDCost($tPDTCode);
+		if($aMasterPDT['rtCode'] == 800){
+			$tCostSTD = 0.00;
+		}else{
+			$tCostSTD = $aMasterPDT['raItems'][0]['FCPdtCostStd'];
+		}
+
+		//หาต้นทุน
+		$aPdtInfo = array(
+			"nStdCost" 		=> $tCostSTD,
+			"tStepDisCost"	=> $tValueUpdate
 		);
+		$nCost = FCNnHCOSCalCost($aPdtInfo);
+
+		$aSet 		= array(
+			'FTXpdDisCost' 	=> $tValueUpdate,
+			'FCCostAfDis'	=> $nCost
+		);
+
 		$aWhere 	= array(
 			'FTBchCode'		=> $this->session->userdata('tSesBCHCode'),
 			'FTXphDocNo' 	=> $tCode,
@@ -203,7 +221,7 @@ class cAdjcost extends CI_Controller {
 
 					if((isset($aResult[$i][1]))){
 						$nDisCost = $aResult[$i][1];
-						if(preg_replace('/[^ก-ฮA-Za-z]/u','',$nDisCost)){
+						if(preg_replace('/[^ก-ฮA-Za-z]/u','',$nDisCost) || strripos($nDisCost,"%%") >= 1 ){
 							$nDisCost = 0.00;
 						}else{
 							$nDisCost = $aResult[$i][1];
@@ -221,6 +239,13 @@ class cAdjcost extends CI_Controller {
 						$tCostSTD = $aMasterPDT['raItems'][0]['FCPdtCostStd'];
 					}
 
+					//หาต้นทุน
+					$aPdtInfo = array(
+						"nStdCost" 		=> $tCostSTD,
+						"tStepDisCost"	=> (isset($nDisCost)) ? $nDisCost : '0'
+					);
+					$nCost = FCNnHCOSCalCost($aPdtInfo);
+
 					$aIns = array(
 						'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
 						'FTXpdSplCode'	=> $tSPLCode,
@@ -228,6 +253,7 @@ class cAdjcost extends CI_Controller {
 						'FNXpdSeq'		=> $nSeq,
 						'FTXphDocNo'	=> $tCode,
 						'FTXpdDisCost'	=> $nDisCost,
+						'FCCostAfDis'	=> $nCost,
 						'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
 					);
 
@@ -346,19 +372,18 @@ class cAdjcost extends CI_Controller {
 		$tCode = $this->input->post('tCode');
 		$this->mAdjcost->FSaMAJCAproveDocument($tCode);
 
-		$aPDTItem = $this->mAdjcost->FSaMAJCGetItemInPDT($tCode);
-		if(isset($aPDTItem)){
-			for($i=0; $i<count($aPDTItem); $i++){
-				$dDateActive = explode(" ",$aPDTItem[$i]['FDXphDStart']);
-				$paData = array(
-					"tPdtCode"		=> $aPDTItem[$i]['FTPdtCode'],
-					"dDateActive"	=> $dDateActive[0],
-					"tDocno"		=> $tCode
-				);
-				FCNaHPDCAdjPdtCost($paData);
-			}
-		}
-
+		// $aPDTItem = $this->mAdjcost->FSaMAJCGetItemInPDT($tCode);
+		// if(isset($aPDTItem)){
+		// 	// for($i=0; $i<count($aPDTItem); $i++){
+		// 	// 	$dDateActive = explode(" ",$aPDTItem[$i]['FDXphDStart']);
+		// 	// 	$paData = array(
+		// 	// 		"tPdtCode"		=> $aPDTItem[$i]['FTPdtCode'],
+		// 	// 		"dDateActive"	=> $dDateActive[0],
+		// 	// 		"tDocno"		=> $tCode
+		// 	// 	);
+		// 	// 	FCNaHPDCAdjPdtCost($paData);
+		// 	// }
+		// }
 	}
 
 }

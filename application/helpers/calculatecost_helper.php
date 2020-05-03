@@ -44,7 +44,7 @@
                                 if($tDisType == '%'){
                                    $nCostAFDis = $nCostAFDis - (($nCostAFDis * $tDisCost)/100); //ลดเป็นเปอร์เซนต์
                                 }else{
-                                   $nCostAFDis = $nCostAFDis - (-$tDisCost); //ลดเป็นบาท
+                                   $nCostAFDis = $nCostAFDis - ($tDisCost); //ลดเป็นบาท
                                 }
                         }
 

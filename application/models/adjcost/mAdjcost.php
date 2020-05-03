@@ -504,7 +504,8 @@ class mAdjcost extends CI_Model {
 				FCXpdCost,
 				FTXpdDisCost,
 				FDCreateOn,
-				FTCreateBy
+				FTCreateBy,
+				FCCostAfDis
 			)
 			SELECT 
 				'$tSesstionBCH' AS FTBchCode,
@@ -515,7 +516,8 @@ class mAdjcost extends CI_Model {
 				FCXpdCost,
 				FTXpdDisCost,
 				'$dCurrent' AS FDCreateOn,
-				$tSession AS FTCreateBy
+				$tSession AS FTCreateBy,
+				FCCostAfDis
 			FROM TCNTPdtAdjCostDTTmp
 			INNER JOIN TCNMPDT ON TCNTPdtAdjCostDTTmp.FTPdtCode = TCNMPDT.FTPdtCode
 			WHERE TCNTPdtAdjCostDTTmp.FTWorkerID = '$tSession'";
@@ -586,7 +588,8 @@ class mAdjcost extends CI_Model {
 				FTLastUpdBy,
 				FDCreateOn,
 				FTCreateBy,
-				FTWorkerID
+				FTWorkerID,
+				FCCostAfDis
 			)
 			SELECT 
 				FTBchCode,
@@ -600,7 +603,8 @@ class mAdjcost extends CI_Model {
 				FTLastUpdBy,
 				FDCreateOn,
 				FTCreateBy,
-				$tSession AS FTWorkerID
+				$tSession AS FTWorkerID,
+				FCCostAfDis
 			FROM TCNTPdtAdjCostDT DT
 			WHERE DT.FTXphDocNo = '$ptCode'";
 			$this->db->query($tSQL);
@@ -666,6 +670,26 @@ class mAdjcost extends CI_Model {
 			);
 			$this->db->where('FTXphDocNo', $ptCode);
 			$this->db->update('TCNTPdtAdjCostHD', $aSet);
+
+
+			//อัพเดทราคาต้นทุน
+			$tBCH = $this->session->userdata('tSesBCHCode');
+			$tSQLCost = "INSERT INTO TCNTPdtCost (
+						FTBchCode
+						,FTPdtCode
+						,FCPdtCost
+						,FDCosActive
+					)
+					SELECT 
+						HD.FTBchCode AS FTBchCode
+						,DT.FTPdtCode
+						,DT.FCCostAfDis AS FCPdtCost
+						,HD.FDXphDStart AS FDCosActive
+					FROM TCNTPdtAdjCostDT DT
+					LEFT JOIN TCNTPdtAdjCostHD HD ON DT.FTXphDocNo = HD.FTXphDocNo AND DT.FTBchCode = HD.FTBchCode
+					WHERE HD.FTXphDocNo = '$ptCode' ";
+			$this->db->query($tSQLCost);
+
 		}catch(Exception $Error){
 			echo $Error;
 		}
