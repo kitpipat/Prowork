@@ -407,7 +407,7 @@
 						url		: "r_adjcostPDTCallpageUplodeFile",
 						data	: { 'aPackdata' : aJSON , 'tCode' : '<?=$tDocumentNumber?>' },
 						cache	: true,
-						async	: false,
+						async	: true,
 						timeout	: 0,
 						success	: function (tResult) {
 							if(tResult == 'Fail'){

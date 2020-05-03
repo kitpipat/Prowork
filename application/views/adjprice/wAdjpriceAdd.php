@@ -387,7 +387,7 @@
 						url		: "r_adjpricePDTCallpageUplodeFile",
 						data	: { 'aPackdata' : aJSON , 'tCode' : '<?=$tDocumentNumber?>' },
 						cache	: true,
-						async	: false,
+						async	: true,
 						timeout	: 0,
 						success	: function (tResult) {
 							// console.log(tResult);
