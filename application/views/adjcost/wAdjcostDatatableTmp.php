@@ -35,19 +35,26 @@
 						$tTextClassStatus 	= '';
 						$tDisabledBTN		= '';
 						$tPDTName			= $aValue['FTPdtName'];
-					} ?>
-
+					} 
+					
+					if(strripos($aValue['FTXpdDisCost'],"%%") >= 1 || preg_replace('/[^ก-ฮA-Za-z]/u','',$aValue['FTXpdDisCost'])){
+						$nValueCost = '0';
+					}else{
+						$nValueCost = $aValue['FTXpdDisCost'];
+					}
+					
+					?>
 					<th><label class="xCNLineHeightInTable"><?=$aValue['rtRowID']?></label></th>
 					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$aValue['FTPdtCode']?></label></td>
 					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$tPDTName;?></label></td>
 					
 					<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 						<td>
-							<input <?=$tDisabledBTN?> type="text" maxlength="250" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdateCost(this);" onchange="JSxUpdateCost(this);" class="xCNEditInline xCNNumberandPercent" style="text-align: left; width: 100%;" id="oetAddCost<?=$aValue['FTPdtCode']?>" value="<?=$aValue['FTXpdDisCost'];?>" >
+							<input <?=$tDisabledBTN?> type="text" maxlength="250" data-pdtcode="<?=$aValue['FTPdtCode']?>" onkeypress="Javascript:if(event.keyCode==13) JSxUpdateCost(this);" onchange="JSxUpdateCost(this);" class="xCNEditInline xCNNumberandPercent" style="text-align: left; width: 100%;" id="oetAddCost<?=$aValue['FTPdtCode']?>" value="<?=$nValueCost;?>" >
 						</td>
 					<?php }else{ ?>
 						<td>
-							<label style="text-align: left; width: 100%;" class="xCNLineHeightInTable"><?=$aValue['FTXpdDisCost'];?></label>
+							<label style="text-align: left; width: 100%;" class="xCNLineHeightInTable"><?=$nValueCost;?></label>
 						</td>
 					<?php } ?>
 
