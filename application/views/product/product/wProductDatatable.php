@@ -141,7 +141,7 @@
 			default:
 				nPageCurrent = ptPage
 		}
-
+		JSxModalProgress('open');
 		JSwLoadTableList(nPageCurrent);
 	}
 

@@ -87,7 +87,7 @@
 									}
 
 									//เช็คว่าส่วนลดต้นทุนมี ภาษาไทยไหม
-									if(preg_replace('/[^ก-ฮA-Za-z]/u','',$aValue['FTPdtCostDis'])){
+									if(strripos($aValue['FTPdtCostDis'],"%%") >= 1 || preg_replace('/[^ก-ฮA-Za-z]/u','',$aValue['FTPdtCostDis'])){
 										$tIconClassStatus 		= 'xCNIconStatus_close';
 										$tTextClassStatus 		= 'xCNTextClassStatus_close';
 										$tTextStatus 			= 'ข้อมูลส่วนลดต้นทุนไม่ถูกต้อง';
@@ -135,7 +135,7 @@
 
 								?>
 
-								<tr data-pdtcode="<?=$aValue['FTPdtCode'];?>" data-staapv='<?=$tStatusAprove;?>'>
+								<tr data-pdtcode="<?=$aValue['FTPdtCode'];?>" data-staapv='<?=$tStatusAprove;?>' class="<?=$tStatusAprove;?>">
 									<th><?=$nKey+1?></th>
 									<td><label class="xCNLineHeightInTable <?=$tPDTClassStatus;?>"><?=($aValue['FTPdtCode'] == '') ? '-' : $aValue['FTPdtCode'];?></label></td>
 									<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtName'] == '') ? '-' : $aValue['FTPdtName'];?></label></td>
@@ -206,42 +206,39 @@
 
 	//ยืนยันการนำเข้า
 	function JSxApvImportExcel(){
-		var aUpdateExcel = [];
-		var nLen = $('#otbConfirmDataPDT > tbody  > tr').length;
-		for(var i=0; i<nLen; i++){
-			var nPDTCode = $("#otbConfirmDataPDT tbody tr:eq("+i+")").data('pdtcode');
-			var tStaApv	 = $("#otbConfirmDataPDT tbody tr:eq("+i+")").data('staapv');
-			if(tStaApv == 'pass'){
-				var tResult = {'nPDTCode' : nPDTCode , 'tStaApv' : tStaApv }
-				aUpdateExcel.push(tResult);
-			}
+		JSxModalProgress('open');
+		var aPDTFailExcel 	= [];
+		var nLenFail 		= $('#otbConfirmDataPDT > tbody  > tr.fail').length;
+		for(var i=0; i<nLenFail; i++){
+			// var nPDTCode = $("#otbConfirmDataPDT tbody tr:eq("+i+")").data('pdtcode');
+			// var tStaApv	 = $("#otbConfirmDataPDT tbody tr:eq("+i+")").data('staapv');
+
+			//เอาตัวที่ไม่ผ่าน
+			var nPDTCode = $("#otbConfirmDataPDT > tbody  > tr.fail:eq("+i+")").data('pdtcode');
+			aPDTFailExcel.push({'nPDTCode' : nPDTCode});
 		}
 
-		if(aUpdateExcel.length == 0){
-			console.log('empty');
-		}else{
-			$.ajax({
-				type	: "POST",
-				url		: 'r_producteventAproveDataInTmp',
-				cache	: false,
-				async	: false,
-				data 	: {'aData' : aUpdateExcel},
-				timeout	: 0,
-				success	: function (tResult) {
-					console.log(tResult);
-					$('.alert-success').addClass('show').fadeIn();
-					$('.alert-success').find('.badge-success').text('สำเร็จ');
-					$('.alert-success').find('.xCNTextShow').text('นำเข้าข้อมูลสินค้าสำเร็จ');
-					JSxCallPageProductMain();
-					setTimeout(function(){
-						$('.alert-success').find('.close').click();
-					}, 3000);
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					alert(jqXHR, textStatus, errorThrown);
-				}
-			});
-		}
+		$.ajax({
+			type	: "POST",
+			url		: 'r_producteventAproveDataInTmp',
+			cache	: false,
+			async	: false,
+			data 	: {'aPDTFailExcel' : aPDTFailExcel},
+			timeout	: 0,
+			success	: function (tResult) {
+				JSxModalProgress('close');
+				$('.alert-success').addClass('show').fadeIn();
+				$('.alert-success').find('.badge-success').text('สำเร็จ');
+				$('.alert-success').find('.xCNTextShow').text('นำเข้าข้อมูลสินค้าสำเร็จ');
+				JSxCallPageProductMain();
+				setTimeout(function(){
+					$('.alert-success').find('.close').click();
+				}, 3000);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
 	}
 
 </script>

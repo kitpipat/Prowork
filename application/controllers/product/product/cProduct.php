@@ -238,6 +238,12 @@ class cProduct extends CI_Controller {
 
 		for($i=1; $i<$nPackData; $i++){
 
+			$aPdtInfo = array(
+				"nStdCost" 		=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '0',
+				"tStepDisCost"	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '0'
+			);
+			$nCost = FCNnHCOSCalCost($aPdtInfo);
+
 			if(isset($aResult[$i][0])){
 				$aIns = array(
 					'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
@@ -247,7 +253,8 @@ class cProduct extends CI_Controller {
 					'FTSplCode' 	=> (isset($aResult[$i][4])) ? $aResult[$i][4] : '',
 					'FCPdtCostStd' 	=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '',
 					'FTPdtCostDis' 	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '',
-					'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
+					'FTWorkerID'	=> $this->session->userdata('tSesUsercode'),
+					'FCCostAfDis'	=> $nCost
 				);
 			}
 
@@ -265,34 +272,26 @@ class cProduct extends CI_Controller {
 
 	//ยินยันการนำข้อมูลใน Excel เข้า (Excel)
 	public function FSxCPDTEventAproveDataInTmp(){
-		$aData 		= $this->input->post('aData');
-		$nCountData = count($aData);
+		$aDataFail 		= $this->input->post('aPDTFailExcel');
+		$nCountData 	= count($aDataFail);
+		$tNotInItem		= '';
 		if($nCountData != 0){
-
-			$aIns = array(
-				'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
-			);
-			$this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns);
 			for($i=0; $i<$nCountData; $i++){
-
-				//Insert ฐานข้อมูล
-				// $aIns = array(
-				// 	'FTPdtCode'			=> $aData[$i]['nPDTCode'],
-				// 	'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
-				// );
-				// $this->mProduct->FSxMPDTImportExcelMoveTmpToHD();
-
-				//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
-				$paData = array(
-					"tPdtCode"		=> $aData[$i]['nPDTCode'],
-					"dDateActive"	=> '',
-					"tDocno"		=> ''
-				);
-				FCNaHPDCAdjPdtCost($paData);
+				$tNotInItem .= "'".$aDataFail[$i]['nPDTCode']."',";
+				if($i == ($nCountData - 1)){
+					$tNotInItem = substr($tNotInItem,0,-1);
+				}
 			}
 		}
 
+		//ย้ายข้อมูล
+		$aIns = array(
+			'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
+		);
+		$this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns,$tNotInItem);
+
 		//ลบข้อมูลในฐานข้อมูล
 		$this->mProduct->FSxMPDTImportExcelDeleteTmp();
+	
 	}
 }

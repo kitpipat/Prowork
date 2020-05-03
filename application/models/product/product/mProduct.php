@@ -482,12 +482,13 @@ class mProduct extends CI_Model {
 	}
 
 	//นำเข้าข้อมูล - ย้ายข้อมูลจาก Tmp ไป ตารางจริง
-	public function FSxMPDTImportExcelMoveTmpToHD($ptDataTmp){
-		$FTPdtCode 	= $ptDataTmp['FTPdtCode'];
+	public function FSxMPDTImportExcelMoveTmpToHD($ptDataTmp,$ptNotIn){
+
 		$FTWorkerID = $ptDataTmp['FTWorkerID'];
 		$tSession  	= $this->session->userdata('tSesUsercode');
 		$dCurrent	= date('Y-m-d H:i:s');
 
+		//Move สินค้า
 		$tSQL = "INSERT INTO TCNMPdt (
 					FTPdtCode
 					,FTBchCode
@@ -535,7 +536,34 @@ class mProduct extends CI_Model {
 					,'' AS FTPdtReason
 				FROM TCNMPdt_DataTmp
 				WHERE FTWorkerID = '$FTWorkerID' ";
-				$this->db->query($tSQL);
+
+		if($ptNotIn != ''){
+			$tNotIn = ' AND TCNMPdt_DataTmp.FTPdtCode NOT IN ('.$ptNotIn.')';
+			$tSQL .= $tNotIn;
+		}
+
+		$this->db->query($tSQL);
+
+		//Move ต้นทุน
+		$tBCH = $this->session->userdata('tSesBCHCode');
+		$tSQLCost = "INSERT INTO TCNTPdtCost (
+					FTBchCode
+					,FTPdtCode
+					,FCPdtCost
+					,FDCosActive
+				)
+				SELECT 
+					'$tBCH' AS FTBchCode
+					,FTPdtCode
+					,FCCostAfDis AS FCPdtCost
+					,NULL AS FDCosActive
+				FROM TCNMPdt_DataTmp
+				WHERE FTWorkerID = '$FTWorkerID' ";
+		if($ptNotIn != ''){
+			$tNotIn = ' AND TCNMPdt_DataTmp.FTPdtCode NOT IN ('.$ptNotIn.')';
+			$tSQLCost .= $tNotIn;
+		}
+		$this->db->query($tSQLCost);
 	}
 
 	//นำเข้าข้อมูล - ลบข้อมูล 
