@@ -363,7 +363,23 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6 col-md-6">
+					<div class="col-lg-3 col-md-3">
+						<!--ผู้จำหน่าย-->
+						<div class="form-group">
+							<select class="form-control xCNFilterBySPL" id="oetPDTSPL" name="oetPDTSPL">
+								<option selected disabled>เลือกค้นหาตามผู้จำหน่าย</option>
+								<?php if($aFilter_Spl['rtCode'] == 800){ ?>
+									<option value="0">ทั้งหมด</option>
+								<?php }else{ ?> 
+									<option value="0">ทั้งหมด</option>
+									<?php foreach($aFilter_Spl['raItems'] AS $nKey => $aValue){ ?>
+										<option value="<?=$aValue['FTSplCode'];?>"><?=$aValue['FTSplName'];?></option>
+									<?php } ?>
+								<?php } ?>
+							</select>
+						</div>	
+					</div>
+					<div class="col-lg-3 col-md-3">
 						<button type="button" class="btn  btn-success xCNConfirmPDT" onclick="JSxInsPDTToTmp();" style="float: right;">ยืนยัน</button>
 					</div>
 				</div>
@@ -561,6 +577,10 @@
 		});
 	}
 
+	$('.xCNFilterBySPL').change(function() {
+		JSxSelectPDTToTmp(1);
+	});
+
 	//เลือกสินค้า
 	function JSxBrowsePDTInDocument(){
 		$('#obtModalSelectPDT').click();
@@ -570,6 +590,7 @@
 	//เลือกสินค้า
 	var obj = [];
 	function JSxSelectPDTToTmp(pnPage){
+
 		$.ajax({
 			type	: "POST",
 			url		: "r_adjcostloadPDT",
@@ -577,7 +598,8 @@
 						'tTypepage'  	: '<?=$tTypePage?>',
 						'tCode'	 	 	: '<?=$tDocumentNumber?>',
 						'nPage' 		: pnPage,
-						'tSearchPDT'	: $('#oetSearchPDTToTmp').val()
+						'tSearchPDT'	: $('#oetSearchPDTToTmp').val(),
+						'tValueSPL'		: $('#oetPDTSPL option:selected').val()
 					  },
 			cache	: false,
 			timeout	: 0,

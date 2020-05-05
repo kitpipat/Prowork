@@ -2,7 +2,7 @@
 	$tLevelUser = $this->session->userdata('tSesUserLevel');
 	if($tTypePage == 'insert'){
 		$tRoute 			= 'r_adjpriceeventinsert';
-		$tRouteUrl			= 'สร้างใบปรับราคาสินค้า';
+		$tRouteUrl			= 'สร้างใบปรับราคาขาย';
 
 		$tDocumentNumber	= '-';
 		$dDocumentDate		= date('d/m/Y') . ' - ' . date("H:i:s");
@@ -11,7 +11,7 @@
 		$tDocumentStaApv	= '-';
 	}else if($tTypePage == 'edit'){
 		$tRoute 			= 'r_adjpriceeventedit';
-		$tRouteUrl			= 'แก้ไขใบปรับราคาสินค้า';
+		$tRouteUrl			= 'แก้ไขใบปรับราคาขาย';
 
 		$tDocumentNumber	= $aResult[0]['FTXphDocNo'];
 		$dDocumentDate		= date('d/m/Y',strtotime($aResult[0]['FDXphDocDate'])) . ' - ' . $aResult[0]['FTXphDocTime'];

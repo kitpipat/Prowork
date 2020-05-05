@@ -220,6 +220,13 @@ class mAdjcost extends CI_Model {
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND TMP.FTPdtCode IS NULL ";
 
+		//ค้นหาแบบผู้จำหน่าย
+		$tValueSPL = $paData['tValueSPL'];
+		if($tValueSPL != '' || $tValueSPL != null){
+			if($tValueSPL != 0){
+				$tSQL .= " AND ( SPL.FTSplCode = '$tValueSPL' )";
+			}
+		}
 
 		//ค้นหาธรรมดา
 		if($tTextSearch != '' || $tTextSearch != null){
@@ -247,6 +254,7 @@ class mAdjcost extends CI_Model {
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
+
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMAJCGetDataPDT_PageAll($paData);
@@ -292,6 +300,14 @@ class mAdjcost extends CI_Model {
 			$tSQL 		.= " WHERE 1=1 ";
 			$tSQL 		.= " AND TMP.FTPdtCode IS NULL ";
 
+			//ค้นหาแบบผู้จำหน่าย
+			$tValueSPL = $paData['tValueSPL'];
+			if($tValueSPL != '' || $tValueSPL != null){
+				if($tValueSPL != 0){
+					$tSQL .= " AND ( SPL.FTSplCode = '$tValueSPL' )";
+				}
+			}
+			
 			//ค้นหาธรรมดา
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";

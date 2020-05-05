@@ -14,7 +14,7 @@
 
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ใบปรับราคาสินค้า</span></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ใบปรับราคาขาย</span></div>
 		<div class="col-lg-6 col-md-6 <?=$tPer_create?>"><button class="xCNButtonInsert pull-right" onClick="JSwAJPCallPageInsert('insert','')">+</button></div>
 	</div>
 

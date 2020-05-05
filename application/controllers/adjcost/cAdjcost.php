@@ -46,9 +46,13 @@ class cAdjcost extends CI_Controller {
 			$this->mAdjcost->FSaMAJCMoveDTToTmp($tCode);
 		}
 
+		//โหลดข้อมูล spl
+		$this->load->model('product/product/mProduct');
 		$aPackData = array(
 			'tTypePage' 		=> $tTypePage,
-			'aResult'			=> $aResult
+			'aResult'			=> $aResult,
+			'aFilter_Spl'       => $this->mProduct->FSaMPDTGetData_Filter('TCNMSpl')
+
 		);
 		$this->load->view('adjcost/wAdjcostAdd',$aPackData);
 	}
@@ -84,7 +88,8 @@ class cAdjcost extends CI_Controller {
 		$aCondition = array(
 			'nPage'         => $nPage,
 			'nRow'          => 10,
-			'tSearchPDT'    => $this->input->post('tSearchPDT')
+			'tSearchPDT'    => $this->input->post('tSearchPDT'),
+			'tValueSPL'		=> $this->input->post('tValueSPL')
 		);
 
 		$aListPDT 	= $this->mAdjcost->FSaMAJCGetPDTToTmp($aCondition);
