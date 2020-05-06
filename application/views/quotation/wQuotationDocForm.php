@@ -32,6 +32,18 @@
 	}
 ?>
 
+<?php
+	$aPermission = FCNaPERGetPermissionByPage('r_quotation/1');
+	$aPermission = $aPermission[0];
+	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
+	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
+	if($aPermission['P_delete'] != 1){ 		$tPer_delete 	= 'xCNHide'; }else{ $tPer_delete = ''; }
+	if($aPermission['P_edit'] != 1){ 		$tPer_edit 		= 'xCNHide'; }else{ $tPer_edit = ''; }
+	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
+	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
+	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+?> 
+
 <div class="container-fulid">
 
 	<!--Section บน-->
@@ -39,10 +51,36 @@
 		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="FSvCallPageBackStep('<?=$tRoute?>');">ใบเสนอราคา</span><span class="xCNHeadMenu"> / รายละเอียด</span></div>
 
 		<div class="col-lg-6 col-md-6 text-right">
-			<button type="button" class="xCNButtonSave pull-right" onclick="FSxQUOSaveDoc()">บันทึก</button>
-			<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติ</button>
-			<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิก</button>
-			<button type="button" class="<?=$tEventHidePrint?> xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right" onclick="FSxQUOPrintForm()">พิมพ์</button>
+
+			<?php 
+				if($tEvent == 'Edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
+					if($tPer_edit == ''){
+						$tAlwSave = '';
+					}else{
+						$tAlwSave = 'xCNHide';
+					}
+				}else if($tEvent == 'Insert'){ //เข้ามาแบบ ขา Insert และ สิทธิสามารถบันทึกได้
+					if($tPer_create == ''){
+						$tAlwSave = '';
+					}else{
+						$tAlwSave = 'xCNHide';
+					}
+				}
+			?>
+			<button type="button" class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="FSxQUOSaveDoc()">บันทึก</button>
+		
+			<?php if($tPer_approved == ''){ ?> 
+				<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติ</button>
+			<?php } ?>
+				
+			<?php if($tPer_cancle == ''){ ?> 
+				<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิก</button>
+			<?php } ?>
+
+			<?php if($tPer_print == ''){ ?> 
+				<button type="button" class="<?=$tEventHidePrint?> xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right" onclick="FSxQUOPrintForm()">พิมพ์</button>
+			<?php } ?>
+
 		</div>
 	</div>
 
@@ -284,6 +322,10 @@
 								<div class="col-lg-6">
 									วันที่อนุมัติ : <span id="ospApproveDate"></span>
 								</div>
+
+								<!--รหัสสาขา-->
+								<input type="hidden" id="ohdBCHDocument" name="ohdBCHDocument" >
+
 							</div>
 
 						</div>

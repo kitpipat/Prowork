@@ -218,14 +218,22 @@
 		}else{
 			tQuoDocNo = tQuoDocNo;
 		}
-			
 
+		//ส่งสาขาไปด้วย
+		var tLevelUser = '<?=$this->session->userdata('tSesUserLevel'); ?>';
+		if(tLevelUser == 'HQ'){
+			var tBCH = $('#oetBCH option:selected').val();
+		}else{
+			var tBCH = $('#oetBCH').val();
+		}
+		
 		$.ajax({
 			url: 'r_quotationcallsqdoc',
 			timeout: 0,
 			type: 'GET',
 			data: {
-				tQuoDocNo: tQuoDocNo
+				tQuoDocNo	: tQuoDocNo,
+				tBCH 		: tBCH
 			},
 			datatype: 'json'
 		})

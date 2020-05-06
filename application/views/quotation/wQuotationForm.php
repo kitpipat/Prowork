@@ -71,10 +71,22 @@
     </tr>
     <?php $nTotal = $aDocDT['rnTotal'];?>
     <?php if($nTotal > 0){?>
-    <?php for($i=0;$i<$nTotal;$i++){?>
+		<?php for($i=0;$i<$nTotal;$i++){?>
     <tr>
-      <td><?=$i+1?></td>
-      <td><img src="<?=base_url('application/assets/images/products/Img7E3Y1VZ8M620200425.png')?>" style="width:25px;"></td>
+			<td><?=$i+1?></td>
+			<?php
+				if($aDocDT['raItems'][$i]['FTPdtImage'] != '' || $aDocDT['raItems'][$i]['FTPdtImage'] != null){
+					$tPathImage = './application/assets/images/products/'.$aDocDT['raItems'][$i]['FTPdtImage'];
+					if (file_exists($tPathImage)){
+						$tPathImage = base_url().'application/assets/images/products/'.$aDocDT['raItems'][$i]['FTPdtImage'];
+					}else{
+						$tPathImage = base_url().'application/assets/images/products/NoImage.png';
+					}
+				}else{
+					$tPathImage = './application/assets/images/products/NoImage.png';
+				}
+			?>
+			<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>" style="width:25px;"></td>
       <td><?php echo mb_substr($aDocDT['raItems'][$i]['FTPdtCode']."-".$aDocDT['raItems'][$i]['FTPdtName'],0,27,"utf-8");?></td>
       <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXqdUnitPrice'],2);?></td>
       <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXqdQty'],0);?></td>

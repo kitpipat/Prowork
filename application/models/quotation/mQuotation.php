@@ -739,6 +739,7 @@ class mQuotation extends CI_Model
 
 		$tSQL = "UPDATE TARTSqHDTmp ";
 		$tSQL .= " SET FNXqhSmpDay = '" . $paItemData['FNXqhSmpDay'] . "',";
+		$tSQL .= " FTBchCode = '" . $paItemData['FTBchCode'] . "',";
 		$tSQL .= " FDXqhEftTo = '" . $paItemData['FDXqhEftTo'] . "',";
 		$tSQL .= " FTXqhCshOrCrd = '" . $paItemData['FTXqhCshOrCrd'] . "',";
 		$tSQL .= " FNXqhCredit = '" . $paItemData['FNXqhCredit'] . "',";
@@ -764,6 +765,7 @@ class mQuotation extends CI_Model
 		if ($paItemData['tDocNo'] != "") {
 			$tSQL .= " AND FTXqhDocNo='" . $paItemData['tDocNo'] . "'";
 		}
+
 		$this->db->query($tSQL);
 	}
 
@@ -1355,36 +1357,39 @@ class mQuotation extends CI_Model
 
 	public function FCaMQUODocPrintDT($ptDocNo){
 
-				 $tSQL = "SELECT FTXqhDocNo
-									      ,FNXqdSeq
-									      ,FTPdtCode
-									      ,ISNULL(FTPdtName,'-') AS FTPdtName
-									      ,FTPunCode
-									      ,ISNULL(FTPunName,'-') AS FTPunName
-									      ,FCXqdUnitPrice
-									      ,FTXqdCost
-									      ,FTSplCode
-									      ,FCXqdQty
-									      ,FCXqdB4Dis
-									      ,FCXqdDis
-									      ,FTXqdDisTxt
-									      ,FCXqdAfDT
-									      ,FCXqdFootAvg
-									      ,FCXqdNetAfHD
-									  FROM TARTSqDT
-										WHERE FTXqhDocNo = '".$ptDocNo."'";
-         $tSQL.=" ORDER BY FTPdtCode ";
-				 $oQuery = $this->db->query($tSQL);
-	 		 	 if ($oQuery->num_rows() > 0) {
+				 $tSQL = "SELECT 
+				 			DT.FTXqhDocNo
+							,DT.FNXqdSeq
+							,DT.FTPdtCode
+							,ISNULL(DT.FTPdtName,'-') AS FTPdtName
+							,DT.FTPunCode
+							,ISNULL(DT.FTPunName,'-') AS FTPunName
+							,DT.FCXqdUnitPrice
+							,DT.FTXqdCost
+							,DT.FTSplCode
+							,DT.FCXqdQty
+							,DT.FCXqdB4Dis
+							,DT.FCXqdDis
+							,DT.FTXqdDisTxt
+							,DT.FCXqdAfDT
+							,DT.FCXqdFootAvg
+							,DT.FCXqdNetAfHD
+							,PDT.FTPdtImage
+						FROM TARTSqDT DT
+						LEFT JOIN TCNMPdt PDT ON DT.FTPdtCode = PDT.FTPdtCode
+						WHERE FTXqhDocNo = '".$ptDocNo."'";
+		$tSQL.=" ORDER BY FTPdtCode ";
+		$oQuery = $this->db->query($tSQL);
+		if ($oQuery->num_rows() > 0) {
 
-		 		 			$aResult 	= array(
-								'rnTotal'     =>$oQuery->num_rows(),
-		 		 				'raItems'  		=> $oQuery->result_array(),
-		 		 				'rtCode'   		=> '1',
-		 		 				'rtDesc'   		=> 'success',
-		 		 			);
+				$aResult 	= array(
+					'rnTotal'     =>$oQuery->num_rows(),
+					'raItems'  		=> $oQuery->result_array(),
+					'rtCode'   		=> '1',
+					'rtDesc'   		=> 'success',
+				);
 
-	 		 	 } else {
+		} else {
 
 		 		 			$aResult = array(
 								  'rnTotal'     => 0,
@@ -1396,6 +1401,21 @@ class mQuotation extends CI_Model
 	 		 		}
 
 					return $aResult;
+	}
+
+	//อัพเดท สาขา
+	public function FCxMQUOUpdateBCHInQuotation($paData){
+		$tDocNo 	= $paData['tDocNo'];
+		$tBCH 		= $paData['tBCH'];
+		$tWorkerID 	= $this->session->userdata('tSesUsercode');
+
+		//อัพเดทเอกสาร HD Tmp
+		$tSQL = "UPDATE TARTSqHDTmp SET FTBchCode = '" . $tBCH . "'
+				WHERE FTWorkerID = '" . $tWorkerID . "'";
+		if ($tDocNo != "") {
+			$tSQL .= " AND FTXqhDocNo = '" . $tDocNo . "'";
+		}
+		$this->db->query($tSQL);
 	}
 
 }

@@ -115,6 +115,7 @@ class cQuotationDoc extends CI_Controller
 	{
 
 		$oDocHeaderInfo 	= $this->input->post("oDocHeaderInfo");
+		$tBCH 				= $this->input->post('tBchCode');
 		$oDocCstInfo 		= $this->input->post("oDocCstInfo");
 		$tWorkerID 			= $this->session->userdata('tSesUsercode');
 		$tDocNo 			= $this->input->post('tDocNo');
@@ -138,6 +139,7 @@ class cQuotationDoc extends CI_Controller
 		}
 
 		$aDocHD = array(
+			'FTBchCode'			=> $tBCH,
 			"FNXqhSmpDay" 		=> $oDocHeaderInfo[0]["value"],
 			"FDXqhEftTo" 		=> date('Y-m-d', strtotime(str_replace('/', '-', $oDocHeaderInfo[1]["value"]))) . ' ' . date('H:i:s'),
 			"FTXqhCshOrCrd" 	=> $oDocHeaderInfo[2]["value"],
@@ -162,11 +164,11 @@ class cQuotationDoc extends CI_Controller
 			"tWorkerID" 		=> $tWorkerID,
 			"tDocNo" 			=> $tDocNo
 		);
+
 		//ถ้า session ยังไม่หมดอายุ
 		if ($tWorkerID != '') {
 
 			$this->mQuotation->FCxMQUODocUpdHeader($aDocHD);
-
 			$aDocCst = array(
 				"FTXqcCstCode" 		=> $oDocCstInfo[0]["value"],
 				"FTXqcCstName" 		=> $oDocCstInfo[1]["value"],
@@ -186,7 +188,7 @@ class cQuotationDoc extends CI_Controller
 			if ($oDocInfo['rtCode'] == 1) {
 				$tXqhDocNo = $oDocInfo['raItems'][0]['FTXqhDocNo'];
 				if ($tXqhDocNo == '') {
-					$tBchCode 	= $this->session->userdata('tSesBCHCode');
+					$tBchCode 	= $tBCH;
 					$tXqhDocNo 	= $this->mQuotation->FCtMQUGetDocNo($tBchCode);
 					$dDocDate 	= date("Y-m-d H:i:s");
 					$this->mQuotation->FCtMQUUpdateDocNo($tXqhDocNo, $dDocDate, $tBchCode, $tWorkerID);
@@ -206,7 +208,6 @@ class cQuotationDoc extends CI_Controller
 				}
 			}
 		} else {
-			// session expired
 			echo 'expired';
 		}
 	}

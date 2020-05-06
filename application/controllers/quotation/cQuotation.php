@@ -89,7 +89,7 @@ class cQuotation extends CI_Controller
 
 	//เอาข้อมูลของเอกสารออกมาโชว์
 	public function FCwCQUOCallDocHeader(){
-
+		$this->load->model('user/user/mUser');
 		$tWorkerID 		= $this->session->userdata('tSesUsercode');
 		$tWorkerName 	= $this->session->userdata('tSesFirstname');
 		$tQuoDocNo 		= $this->input->get("tQuoDocNo");
@@ -98,7 +98,8 @@ class cQuotation extends CI_Controller
 		$aData = array(
 			"aDocHD" 		=> $aDocHD,
 			"tWorkerID" 	=> $tWorkerID,
-			"tWorkerName" 	=> $tWorkerName
+			"tWorkerName" 	=> $tWorkerName,
+			'aBCHList'		=> $this->mUser->FSaMUSRGetBranch()
 		);
 
 		return $this->load->view('quotation/wQuotationHeader', $aData);
@@ -203,6 +204,17 @@ class cQuotation extends CI_Controller
 
 	//โหลดข้อมูลเอกสาร
 	public function FCwCQUOCallDocPage(){
+
+		//update bch
+		$tDocNo = $this->input->get("tQuoDocNo");
+		$tBCH   = $this->input->get("tBCH");
+		$aPackData = array(
+			"tDocNo" => $tDocNo,
+			"tBCH" 	 => $tBCH
+		);
+		$this->mQuotation->FCxMQUOUpdateBCHInQuotation($aPackData);
+
+
 		$tDocNo = $this->input->get("tQuoDocNo");
 		$aData = array(
 			"tDocNo" 		=> $tDocNo,

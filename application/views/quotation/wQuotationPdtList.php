@@ -122,7 +122,7 @@
 
 <!--หน้าของข้อมูล-->
 <?php if($aPdtList['rtCode'] != 800){ ?>
-	<div class="row" style="margin-top:10px;">
+	<div class="row" style="margin-top:20px;">
 		<div class="col-md-6">
 			<label>พบข้อมูลทั้งหมด <?=$aPdtList['rnAllRow']?> รายการ แสดงหน้า <?=$aPdtList['rnCurrentPage']?> / <?=$aPdtList['rnAllPage']?></label>
 		</div>

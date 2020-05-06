@@ -44,6 +44,9 @@
 				tXqhDisTxt 		= aDocHD["raItems"][0]["FTXqhDisTxt"]
 				nXqhDis 		= aDocHD["raItems"][0]["FCXqhDis"]
 
+				//สาขา
+				$('#ohdBCHDocument').val(tBchCode);
+
 				//เลขที่เอกสาร
 				if (tXqhDocNo == "") {
 					tXqhDocNo = "SQ######-#####"
@@ -309,6 +312,7 @@
 		nAmtVat 		= $("#otdVat").text();
 		nGrandTotal 	= $("#otdGrandTotal").text();
 		tDocRemark 		= $("#otaDocRemark").val();
+		tBchCode		= $("#ohdBCHDocument").val();
 
 		$.ajax({
 			url		: 'r_quodocsavedoc',
@@ -328,7 +332,8 @@
 				nVatRate		: nVatRate,
 				nAmtVat			: nAmtVat,
 				nGrandTotal		: nGrandTotal,
-				tDocRemark		: tDocRemark
+				tDocRemark		: tDocRemark,
+				tBchCode		: tBchCode
 			},
 			datatype : 'json'
 		})
