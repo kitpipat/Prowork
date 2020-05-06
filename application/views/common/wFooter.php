@@ -52,13 +52,14 @@
 					cache 			: true,
 					contentType		: false,
 					processData		: false,
+					async			: true,
 					data 			: oImgFromZip,
 					datatype		: "JSON",
 					complete: function(xhr) {
+						$('#obtModalProcess').click();
 						setTimeout(function(){
-							$('#obtModalProcess').click();
 							return window['JSxReturnExtractFileImage']();
-						}, 2000);
+						}, 500);
 					},
 					error: function (data){
 						console.log(data);

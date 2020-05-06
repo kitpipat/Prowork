@@ -84,6 +84,10 @@ jQuery(document).ready(function($) {
 
 
     $('.JSxCallContentMenu').on('click', function(event) {
+		if($(this).attr('data-menuname') == '#'){
+			return;
+		}
+		
         $.ajax({
             type: "POST",
             url: $(this).attr('data-menuname'),
