@@ -62,7 +62,7 @@ class cQuotation extends CI_Controller
 
 		//การแสดงผลแบบรูปภาพ
 		if(	$tPdtViewType == 1){
-			$nRow = 12;
+			$nRow = 16;
 		}else{ //การแสดงข้อมูลแบบรายการ
 			$nRow = 20;
 		}

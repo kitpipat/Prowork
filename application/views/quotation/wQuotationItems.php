@@ -108,7 +108,7 @@
 	JSxModalProgress('close');
 
 
-	if('<?=$aQuoItemsList['nTotalRes']?>' >= 3){
-		$('.xCNScrollItem').css('height','355px');
+	if('<?=$aQuoItemsList['nTotalRes']?>' >= 4){
+		$('.xCNScrollItem').css('height','470px');
 	}
 </script>

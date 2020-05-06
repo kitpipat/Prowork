@@ -52,10 +52,10 @@
 				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><?=$tUsrDep?></div>
 				
 				<!--สาขา-->
-				<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">สาขา</div>
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">สาขา</div>
 				<?php $tLevelUser = $this->session->userdata('tSesUserLevel'); ?>
 				<?php if($tLevelUser == 'HQ'){ ?>
-					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="form-group">
 							<select class="form-control" id="oetBCH" name="oetBCH">
 								<?php foreach($aBCHList['raItems'] AS $nKey => $aValue){ ?>
@@ -65,7 +65,7 @@
 						</div>
 					</div>
 				<?php }else{ ?>
-					<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="form-group">
 							<?php $tBCHName = $this->session->userdata('tSesBCHName'); ?>
 							<?php $tBCHCode = $this->session->userdata('tSesBCHCode'); ?>
