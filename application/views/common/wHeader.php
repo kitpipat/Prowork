@@ -31,7 +31,7 @@
 			<div id="main-menu" class="main-menu collapse navbar-collapse xCNWidthFull">
 				<ul class="nav navbar-nav xCNWidthFull">
 					<li class="active xCNMenuActive">
-						<a href="Mainpage" class=""><i class="menu-icon fa fa-laptop"></i>บัญชีส่วนตัว </a>
+						<a href="Mainpage" class=""><i class="menu-icon fa fa-home"></i>หน้าหลัก </a>
 					</li>
 					<?php if($aMenuList['rtCode'] == 800){ ?> 
 
@@ -101,6 +101,7 @@
 			</div>
 		</header>
 
+
 <!-- Scripts -->
 
 <script src="<?=base_url('application/assets/js/')?>jquery-3.5.0.min.js"></script>
@@ -112,5 +113,5 @@
 <script src="<?=base_url('application/assets/js/')?>main.js"></script>
 <script src="<?=base_url('application/assets/js/')?>bootstrap-datepicker.js"></script>
 <script src="<?=base_url('application/assets/js/')?>xlsx.full.min.js"></script>
-
+<!-- <script src="https://kit.fontawesome.com/a65b409245.js" crossorigin="anonymous"></script> -->
 

@@ -15,7 +15,7 @@
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
 		<th style="text-align: left;">เลขที่เอกสาร</th>
-		<th style="width:130px; text-align: left;">วันที่-เวลาเอกสาร</th>
+		<th style="width:130px; text-align: left;">วันที่</th>
 		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
 		<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>
 		<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
