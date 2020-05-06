@@ -162,7 +162,7 @@
   <br><br><br><br><br><br><br><br>
   <?php } ?>
   <?php if($nTotal == 10){?>
-  <br><br><br><br><br>
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
   <?php } ?>
   <?php if($nTotal == 11){?>
   <br><br><br>
