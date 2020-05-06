@@ -100,6 +100,9 @@
     <tr><td colspan="9">--ไม่มีรายการสินค้าในเอกสาร--</td></tr>
   <?php } ?>
   </table>
+  <?php if($nTotal == 10){?>
+  <br><br><br><br><br><br><br><br><br><br>
+  <?php } ?>
   <?php if($nTotal == 12){?>
   <br><br><br><br><br><br><br><br><br><br>
   <?php } ?>
@@ -162,7 +165,7 @@
   <br><br><br><br><br><br><br><br>
   <?php } ?>
   <?php if($nTotal == 10){?>
-  <br><br><br><br><br><br><br><br><br><br><br>
+  <br><br><br><br><br>
   <?php } ?>
   <?php if($nTotal == 11){?>
   <br><br><br>
