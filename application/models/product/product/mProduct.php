@@ -47,7 +47,9 @@ class mProduct extends CI_Model {
 					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
 					LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
 					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
-					LEFT JOIN TARTSqDT SQDT 	ON PDT.FTPdtCode 	= SQDT.FTPdtCode ";
+					LEFT JOIN (
+						SELECT DISTINCT FTPdtCode FROM TARTSqDT SQDT
+					) SQDT ON PDT.FTPdtCode = SQDT.FTPdtCode";
 		$tSQL .= " WHERE 1=1 ";
 
 		//ค้นหาขั้นสูง
@@ -142,6 +144,7 @@ class mProduct extends CI_Model {
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
+
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMPDTGetData_PageAll($paData);
