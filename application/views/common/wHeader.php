@@ -24,7 +24,7 @@
 		</div>
 		<span id="ospLoadProgress">กำลังโหลดข้อมูล กรุณารอสักครู่</span>
 	</div>
-	
+
 	<!-- เมนู -->
 	<aside id="left-panel" class="left-panel">
 		<nav class="navbar navbar-expand-sm navbar-default xCNWidthFull">
@@ -33,22 +33,22 @@
 					<li class="active xCNMenuActive">
 						<a href="Mainpage" class=""><i class="menu-icon fa fa-home"></i>หน้าหลัก </a>
 					</li>
-					<?php if($aMenuList['rtCode'] == 800){ ?> 
+					<?php if($aMenuList['rtCode'] == 800){ ?>
 
 					<?php }else{ ?>
 						<?php $nGroupOld = ''; ?>
 						<?php foreach($aMenuList['raItems'] AS $nKey => $nValue){ ?>
 							<?php if($nValue['CodeGroup'] == 0){ ?>
 								<li>
-									<a class='JSxCallContentMenu' data-menuname="<?=$nValue['PathRoute']?>" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
-										<i class="menu-icon <?=$nValue['MenuIcon']?>"></i><?=$nValue['FTMenName'];?>
+									<a class='JSxCallContentMenu' data-menuname="<?=$nValue['PathRoute']?>" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<i class="menu-icon <?=$nValue['MenuIcon']?>" title="<?=$nValue['FTMenName'];?>"></i><?=$nValue['FTMenName'];?>
 									</a>
 								</li>
 								<?php if($nValue['CodeMenu'] == 3){ ?><div id="odvLineGroupMenu"></div><?php } ?>
 							<?php }else{ ?>
 								<?php if($nGroupOld != $nValue['CodeGroup']){ ?>
 									<li class="menu-item-has-children dropdown">
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> 
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<i class="menu-icon <?=$nValue['GroupIcon']?>"></i>
 										<?=$nValue['NameGroup'];?></a>
 										<ul class="sub-menu children dropdown-menu">
@@ -114,4 +114,3 @@
 <script src="<?=base_url('application/assets/js/')?>bootstrap-datepicker.js"></script>
 <script src="<?=base_url('application/assets/js/')?>xlsx.full.min.js"></script>
 <!-- <script src="https://kit.fontawesome.com/a65b409245.js" crossorigin="anonymous"></script> -->
-
