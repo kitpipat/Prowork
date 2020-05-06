@@ -4,7 +4,7 @@
     $tXqhDocNo = $aDocHD['raItems'][0]['FTXqhDocNo'];
     $tCreateBy = $aDocHD['raItems'][0]['FTCreateBy'];
     $tUsrDep = $aDocHD['raItems'][0]['FTUsrDep'];
-    $dCreateOn = $aDocHD['raItems'][0]['FDCreateOn'];
+    $dCreateOn = date('d/m/Y',strtotime( $aDocHD['raItems'][0]['FDCreateOn']));
 	 $FTBchCode = $aDocHD['raItems'][0]['FTBchCode'];
   }else{
     $tXqhDocNo = '';
@@ -29,7 +29,7 @@
   if($dCreateOn != ""){
      $dCreateOn = $dCreateOn;
   }else{
-     $dCreateOn = date("Y-m-d");
+     $dCreateOn = date("Y/m/d");
   }
 
  ?>
