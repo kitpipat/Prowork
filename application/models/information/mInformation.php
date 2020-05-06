@@ -78,7 +78,7 @@ class mInformation extends CI_Model {
 					 LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode ";
 		$tSQL .= " WHERE 1=1 ";
 
-		$tSQL .= " AND HD.FTCreateBy = '$tUsercode ' ";
+		$tSQL .= " AND HD.FTCreateBy = '$tUsercode' ";
 
 		if($tTextSearch != '' || $tTextSearch != null){
 			$tSQL .= " AND ( HD.FTXqhDocNo LIKE '%$tTextSearch%' )";
@@ -124,7 +124,7 @@ class mInformation extends CI_Model {
 			$tSQL 		 = "SELECT COUNT (HD.FTXqhDocNo) AS counts FROM TARTSqHD HD ";
 			$tSQL 		.= " WHERE 1=1 ";
 
-			$tSQL .= " AND HD.FTCreateBy = '$tUsercode ' ";
+			$tSQL .= " AND HD.FTCreateBy = '$tUsercode' ";
 
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND ( HD.FTXqhDocNo LIKE '%$tTextSearch%' )";
@@ -150,17 +150,21 @@ class mInformation extends CI_Model {
 	//หาจำนวนเอกสารแต่ละประเภท
 	public function FSaMINFGetCountQutation($ptType){
 		try{
+			$tUsercode 		= $this->session->userdata('tSesUsercode');
 			$tSQL = "SELECT COUNT (HD.FTXqhDocNo) AS counts FROM TARTSqHD HD ";
 
 			switch ($ptType) {
 				case 1:  //เอกสารที่อนุมัติแล้ว
 						$tSQL .= " WHERE HD.FTXqhStaApv = 1 ";
+						$tSQL .= " AND HD.FTCreateBy = '$tUsercode' ";
 					break;
 				case 2:  //เอกสารทั้งหมด
 						$tSQL .= " WHERE 1=1 ";
+						$tSQL .= " AND HD.FTCreateBy = '$tUsercode' ";
 					break;
 				case 3:  //เอกสารที่ยกเลิก
 						$tSQL .= " WHERE HD.FTXqhStaDoc = 2 ";
+						$tSQL .= " AND HD.FTCreateBy = '$tUsercode' ";
 					break;
 				default:
 			}
