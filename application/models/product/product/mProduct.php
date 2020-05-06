@@ -350,6 +350,15 @@ class mProduct extends CI_Model {
 	//ตัวกรองค้นหา parameter คือตาราง
 	public function FSaMPDTGetData_Filter($ptTableName){
 		$tSQL = "SELECT * FROM $ptTableName ";
+
+		switch ($ptTableName) {
+			case "TCNMSpl":
+				$tSQL .= " WHERE FTSplStaActive = 1 ";
+				break;
+			default:
+				$tSQL .= " ";
+		}
+
 		$oQuery = $this->db->query($tSQL);
 		if($oQuery->num_rows() > 0){
 			$aResult = array(
