@@ -65,7 +65,7 @@
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div><span class="count"><?=(float)$aCountQutationAll?></span> รายการ</div>
-											<div><span>ใบเสนอราคาทั้งหมดตามสาขา</span></div>
+											<div><span>ใบเสนอราคาทั้งหมด</span></div>
 										</div>
 									</div>
 								</div>
