@@ -7,7 +7,6 @@
 	<link rel="shortcut icon" 	href="<?=base_url('application/assets/images/48x48.png')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/bootstrap.css')?>">
     <link rel="stylesheet" 		href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" 		href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" 		href="<?=base_url('application/assets/css/cs-skin-elastic.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/style.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.menu.css')?>">
