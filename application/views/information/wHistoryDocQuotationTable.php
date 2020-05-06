@@ -4,11 +4,11 @@
 			<th style="width:10px; text-align: center;">ลำดับ</th>
 			<th style="text-align: left;">เลขที่เอกสาร</th>
 			<th style="width:130px; text-align: left;">วันที่-เวลาเอกสาร</th>
-			<th style="width:130px; text-align: left;">ประเภทชำระ</th>
+			<!-- <th style="width:130px; text-align: left;">ประเภทชำระ</th> -->
 			<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
 			<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>
-			<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
-			<th style="width:80px; text-align: center;">ตรวจสอบ</th>
+			<!-- <th style="width:150px; text-align: left;">ผู้อนุมัติ</th> -->
+			<th style="width:100px; text-align: center;">ตรวจสอบ</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -27,7 +27,7 @@
 								$tTextCshOrCrd 			= "เครดิต";
 							}
 						?>
-						<td><?=$tTextCshOrCrd?></td>
+						<!-- <td><?=$tTextCshOrCrd?></td> -->
 
 						<!--สถานะเอกสาร-->
 						<?php 
@@ -60,7 +60,7 @@
 							}
 						?>
 						<td><div class="<?=$tIconClassStaApv?>"></div><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td>
-						<td><?=($aValue['FTUsrFName'] == '') ? '-' : $aValue['FTUsrFName'];?></td>
+						<!-- <td><?=($aValue['FTUsrFName'] == '') ? '-' : $aValue['FTUsrFName'];?></td> -->
 						<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/View201.png';?>" onClick="JSxLoadQutationList('<?=$aValue['FTXqhDocNo']?>');"></td>
 					</tr>
 				<?php } ?>
