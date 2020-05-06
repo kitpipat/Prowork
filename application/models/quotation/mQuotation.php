@@ -588,11 +588,13 @@ class mQuotation extends CI_Model
 				FROM TARTSqDTTmp D WITH (NOLOCK)
 				LEFT JOIN TCNMPdt P WITH (NOLOCK) ON D.FTPdtCode = P.FTPdtCode
 				LEFT JOIN TCNMSpl SPL WITH (NOLOCK) ON D.FTSplCode = SPL.FTSplCode
-				WHERE D.FTWorkerID = '" . $tWorkerID . "' ORDER BY D.FDTmpTnsDate DESC ";
+				WHERE D.FTWorkerID = '" . $tWorkerID . "' ";
 
 		if ($tDocNo != "") {
 			$tSQL .= " AND D.FTXqhDocNo = '" . $tDocNo . "'";
 		}
+
+		$tSQL .= " ORDER BY D.FDTmpTnsDate DESC ";
 
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
