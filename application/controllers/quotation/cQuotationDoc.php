@@ -143,7 +143,7 @@ class cQuotationDoc extends CI_Controller
 			"FNXqhSmpDay" 		=> $oDocHeaderInfo[0]["value"],
 			"FDXqhEftTo" 		=> date('Y-m-d', strtotime(str_replace('/', '-', $oDocHeaderInfo[1]["value"]))) . ' ' . date('H:i:s'),
 			"FTXqhCshOrCrd" 	=> $oDocHeaderInfo[2]["value"],
-			"FNXqhCredit" 		=> $oDocHeaderInfo[3]["value"],
+			"FNXqhCredit" 		=> str_replace(",", "", $oDocHeaderInfo[3]["value"]),
 			"FDDeliveryDate" 	=> date('Y-m-d', strtotime(str_replace('/', '-', $oDocHeaderInfo[4]["value"]))) . ' ' . date('H:i:s'),
 			"FTXqhVATInOrEx" 	=> $oDocHeaderInfo[5]["value"],
 			"FTXqhStaExpress" 	=> $nStaExpress,
@@ -151,14 +151,14 @@ class cQuotationDoc extends CI_Controller
 			"FTXqhStaDeli" 		=> $nStaDeli,
 			"FTXqhPrjName" 		=> $oDocCstInfo[7]["value"],
 			"FTXqhPrjCodeRef" 	=> $oDocCstInfo[8]["value"],
-			"FCXqhB4Dis" 		=> $nB4Dis,
-			"FCXqhDis" 			=> $nDis,
+			"FCXqhB4Dis" 		=> str_replace(",", "", $nB4Dis),
+			"FCXqhDis" 			=> str_replace(",", "", $nDis),
 			"FTXqhDisTxt" 		=> $tDisText,
-			"FCXqhAFDis" 		=> $nAfDis,
-			"FCXqhVatRate" 		=> $nVatRate,
-			"FCXqhAmtVat" 		=> $nAmtVat,
-			"FCXqhVatable" 		=> $nVatable,
-			"FCXqhGrand" 		=> $nGrandTotal,
+			"FCXqhAFDis" 		=> str_replace(",", "", $nAfDis),
+			"FCXqhVatRate" 		=> str_replace(",", "", $nVatRate),
+			"FCXqhAmtVat" 		=> str_replace(",", "", $nAmtVat),
+			"FCXqhVatable" 		=> str_replace(",", "", $nVatable),
+			"FCXqhGrand" 		=> str_replace(",", "", $nGrandTotal),
 			"FTXqhGndText" 		=> $tGndText,
 			"FTXqhRmk" 			=> $tDocRemark,
 			"tWorkerID" 		=> $tWorkerID,
@@ -343,8 +343,8 @@ class cQuotationDoc extends CI_Controller
 
 		$tQuoDocNo 	  = $this->input->post('tQuoDocNo');
 		$nDiscount 		= $this->input->post('nDiscount');
-		$nDiscountTxt  = $nDiscount;
-		$nNetฺฺB4HD 	= str_replace(",", "", $this->input->post('nNetฺฺB4HD'));
+		$nDiscountTxt  = str_replace(",", "", $nDiscount);
+		$nNetB4HD 	= str_replace(",", "", $this->input->post('nNetB4HD'));
 
 		$nStrCountDisTxt = strlen($nDiscount) - 1;
 		$tDisType = substr($nDiscount, $nStrCountDisTxt);
@@ -353,7 +353,7 @@ class cQuotationDoc extends CI_Controller
 		//echo $nItemDiscount;
 		if ($tDisType == '%') {
 			$nDiscountCal = substr($nDiscount, 0, $nStrCountDisTxt);
-			$nDiscount = ($nNetฺฺB4HD * $nDiscountCal) / 100;
+			$nDiscount = ($nNetB4HD * $nDiscountCal) / 100;
 		} else {
 
 			$nDiscount = $nDiscount;
@@ -362,8 +362,8 @@ class cQuotationDoc extends CI_Controller
 
 		$aDisInfo = array(
 			"tQuoDocNo" => $tQuoDocNo,
-			"nDiscount" => $nDiscount,
-			"tDisTxt" => $nDiscountTxt,
+			"nDiscount" => str_replace(",", "", $nDiscount),
+			"tDisTxt" 	=> $nDiscountTxt,
 			"tWorkerID" => $tWorkerID
 		);
 

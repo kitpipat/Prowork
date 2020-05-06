@@ -585,9 +585,9 @@
 
 					nDiscount = $(poElm).val();
 					tQuoDocNo = $("#ospDocNo").attr("data-docno");
-          nNetฺฺB4HD = $("#otdDocNetTotal").text()
+          nNetB4HD = $("#otdDocNetTotal").text()
 
-					//console.log(nDiscount+'+'+tQuoDocNo+'+'+nNetฺฺB4HD);
+					//console.log(nDiscount+'+'+tQuoDocNo+'+'+nNetB4HD);
           if($(poElm).val() != ''){
 
 								$.ajax({
@@ -597,7 +597,7 @@
 										data: {
 											tQuoDocNo: tQuoDocNo,
 											nDiscount: nDiscount,
-											nNetฺฺB4HD : nNetฺฺB4HD
+											nNetB4HD : nNetB4HD
 										},
 										datatype: 'json'
 									})
@@ -605,8 +605,8 @@
 										 $("#ospXqhDis").text(data)
 
 										 nFootDiscount = parseFloat(data)
-										 nNetฺฺB4HD = nNetฺฺB4HD.replace(/,/g, "");
-										 nNetAFHD = parseFloat(nNetฺฺB4HD) - parseFloat(nFootDiscount)
+										 nNetB4HD = nNetB4HD.replace(/,/g, "");
+										 nNetAFHD = parseFloat(nNetB4HD) - parseFloat(nFootDiscount)
 
 										 $("#ospXqhDis").text(accounting.formatMoney(nFootDiscount.toFixed(2), ""))
 										 $("#otdNetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))

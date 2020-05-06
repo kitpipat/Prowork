@@ -975,12 +975,13 @@ class mQuotation extends CI_Model
 
 			for ($i = 0; $i < $nCountRows; $i++) {
 
-				$nItemAmt = $aResult[$i]['FCXqdAfDT'];
-				$tPdtCode = $aResult[$i]['FTPdtCode'];
-				$nXqdSeq = $aResult[$i]['FNXqdSeq'];
-
-				$nFootDisAvg = ($nItemAmt * $pnFootDis) / str_replace(",", "", $pnB4Dis);
-				$nNetAFHD = $nItemAmt - $nFootDisAvg;
+				$nItemAmt 		= str_replace(",", "", $aResult[$i]['FCXqdAfDT']);
+				$tPdtCode 		= $aResult[$i]['FTPdtCode'];
+				$nXqdSeq 		= str_replace(",", "", $aResult[$i]['FNXqdSeq']);
+				$pnFootDis 		= str_replace(",", "", $pnFootDis);
+				$pnB4Dis		= str_replace(",", "", $pnB4Dis);
+				$nFootDisAvg 	= ($nItemAmt * $pnFootDis) / str_replace(",", "", $pnB4Dis);
+				$nNetAFHD 		= $nItemAmt - $nFootDisAvg;
 
 				$tSQLUpd = "UPDATE TARTSqDT SET FCXqdFootAvg = '" . $nFootDisAvg . "',";
 				$tSQLUpd .= " FCXqdNetAfHD = '" . $nNetAFHD . "'";
@@ -1081,9 +1082,7 @@ class mQuotation extends CI_Model
 		$tDisTxt   = $paItem['tDisTxt'];
 		$tWorkerID   = $paItem['tWorkerID'];
 
-		$tSQL = "UPDATE TARTSqHDTmp
-					         SET    FCXqhDis = '" . $nDiscount . "',FTXqhDisTxt='" . $tDisTxt . "'
-									 WHERE  FTWorkerID = '" . $tWorkerID . "'";
+		$tSQL = "UPDATE TARTSqHDTmp SET FCXqhDis = '" . $nDiscount . "', FTXqhDisTxt='" . $tDisTxt . "'  WHERE FTWorkerID = '" . $tWorkerID . "'";
 
 		if ($tQuoDocNo != "") {
 			$tSQL .= " AND FTXqhDocNo = '" . $tQuoDocNo . "' ";
