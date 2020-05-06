@@ -65,7 +65,7 @@
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div><span class="count"><?=(float)$aCountQutationAll?></span> รายการ</div>
-											<div><span>ใบเสนอราคาทั้งหมด</span></div>
+											<div><span>ใบเสนอราคาของฉัน</span></div>
 										</div>
 									</div>
 								</div>
@@ -85,7 +85,7 @@
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div><span class="count"><?=(float)$aCountQutationAprove?></span> รายการ</div>
-											<div><span>ใบเสนอราคาที่ผ่านอนุมัติ</span></div>
+											<div><span>ใบเสนอราคาที่ผ่านอนุมัติของฉัน</span></div>
 										</div>
 									</div>
 								</div>
@@ -105,7 +105,7 @@
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div><span class="count"><?=(float)$aCountQutationCancle?></span> รายการ</div>
-											<div><span>ใบเสนอราคาที่ถูกยกเลิก</span></div>
+											<div><span>ใบเสนอราคาที่ถูกยกเลิกของฉัน</span></div>
 										</div>
 									</div>
 								</div>
@@ -196,7 +196,7 @@
 					<div class="card-header">
 					<h2 class="mb-0">
 						<button style="margin-top: -8px; color: #FFF;" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-							ประวัติการทำเอกสารใบเสนอราคา 
+							ประวัติการทำเอกสารใบเสนอราคาของฉัน
 						</button>
 					</h2>
 					</div>
