@@ -36,7 +36,8 @@ class mProduct extends CI_Model {
 						SIZ.FTPzeName,
 						TYP.FTPtyName,
 						UNIT.FTPunName,
-						SPL.FTSplName
+						SPL.FTSplName,
+						SQDT.FTPdtCode AS 'PDT_use'
 					FROM TCNMPdt PDT 
 					LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode 
 					LEFT JOIN TCNMPdtColor COP 	ON PDT.FTPClrCode 	= COP.FTPClrCode 
@@ -46,7 +47,7 @@ class mProduct extends CI_Model {
 					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
 					LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
 					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
-					";
+					LEFT JOIN TARTSqDT SQDT 	ON PDT.FTPdtCode 	= SQDT.FTPdtCode ";
 		$tSQL .= " WHERE 1=1 ";
 
 		//ค้นหาขั้นสูง

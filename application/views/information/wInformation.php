@@ -38,8 +38,9 @@
 						<div class="card">
 							<div class="card-body">
 								<div class="stat-widget-five">
-									<div class="stat-icon dib flat-color-2">
-										<i class="pe-7s-cart"></i>
+								<div class="stat-icon dib flat-color-1">
+										<?php $tPathImage = './application/assets/images/icon/Cart.png';?>
+										<img class="img-responsive xCNImgCenter xCNIconDocument" src="<?=$tPathImage;?>" style="width: 45px;">
 									</div>
 									<div class="stat-content">
 										<div class="text-left dib">
@@ -59,7 +60,7 @@
 								<div class="stat-widget-five">
 									<div class="stat-icon dib flat-color-1">
 										<?php $tPathImage = './application/assets/images/icon/DocAll.png';?>
-										<img class="img-responsive xCNImgCenter xCNIconDocument" src="<?=$tPathImage;?>">
+										<img class="img-responsive xCNImgCenter xCNIconDocument" src="<?=$tPathImage;?>" >
 									</div>
 									<div class="stat-content">
 										<div class="text-left dib">

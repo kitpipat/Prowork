@@ -7,7 +7,6 @@
 	<link rel="shortcut icon" 	href="<?=base_url('application/assets/images/48x48.png')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/bootstrap.css')?>">
     <link rel="stylesheet" 		href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" 		href="https://cdn.jsdelivr.net/gh/lykmapipo/themify-icons@0.1.2/css/themify-icons.css">
     <link rel="stylesheet" 		href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
     <link rel="stylesheet" 		href="<?=base_url('application/assets/css/cs-skin-elastic.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/style.css')?>">
@@ -113,5 +112,6 @@
 <script src="<?=base_url('application/assets/js/')?>jquery.matchHeight.min.js"></script>
 <script src="<?=base_url('application/assets/js/')?>main.js"></script>
 <script src="<?=base_url('application/assets/js/')?>bootstrap-datepicker.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<script src="<?=base_url('application/assets/js/')?>xlsx.full.min.js"></script>
+
 

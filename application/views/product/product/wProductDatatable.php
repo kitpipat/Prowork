@@ -55,9 +55,21 @@
 							$tTextStatus 		= 'ไม่ใช้งาน';
 						}
 					?>
+
+					<!--ถ้าสินค้านี้เคยใช้งานในใบเสนอราคาจะลบไม่ได้-->
+					<?php 
+						if( $aValue['PDT_use'] == '' || $aValue['PDT_use'] == null){
+							$oEventDelete 			= "JSxProduct_Delete('".$aValue['FTPdtCode']."')";
+							$tClassDisabledDelete 	= '';
+						}else{
+							$oEventDelete 			= '';
+							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
+						}
+					 ?>
+
 					<td><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>
 					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwProductCallPageInsert('edit','<?=$aValue['FTPdtCode']?>');"></td>
-					<td class='<?=$tPer_delete?>'><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxProduct_Delete('<?=$aValue['FTPdtCode']?>');"></td>
+					<td class='<?=$tPer_delete?>'><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
