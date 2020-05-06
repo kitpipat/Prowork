@@ -85,7 +85,7 @@
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div><span class="count"><?=(float)$aCountQutationAprove?></span> รายการ</div>
-											<div><span>ใบเสนอราคาที่ผ่านอนุมัติของฉัน</span></div>
+											<div><span>ใบเสนอราคาที่ผ่านอนุมัติ</span></div>
 										</div>
 									</div>
 								</div>
@@ -105,7 +105,7 @@
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div><span class="count"><?=(float)$aCountQutationCancle?></span> รายการ</div>
-											<div><span>ใบเสนอราคาที่ถูกยกเลิกของฉัน</span></div>
+											<div><span>ใบเสนอราคาที่ถูกยกเลิก</span></div>
 										</div>
 									</div>
 								</div>
