@@ -35,10 +35,10 @@
 	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
 	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
-?> 
+?>
 
 <div class="container-fulid">
-	
+
 	<form id="ofmUser" class="form-signin" method="post" action="javascript:void(0)">
 
 		<input type="hidden" id="ohdUserCode" name="ohdUserCode" value="<?=@$FTUsrCode;?>">
@@ -46,8 +46,8 @@
 		<!--Section บน-->
 		<div class="row">
 			<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPageUserMain();">ผู้ใช้</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
-			
-			<?php 
+
+			<?php
 				if($tTypePage == 'edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
 					if($tPer_edit == ''){
 						$tAlwSave = '';
@@ -72,7 +72,7 @@
 					<!--รูปภาพ-->
 					<div class="col-lg-4 col-md-4">
 
-						<?php 
+						<?php
 							if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
 								$tPathImage = './application/assets/images/user/'.@$FTUsrImgPath;
 								if (file_exists($tPathImage)){
@@ -93,32 +93,6 @@
 
 					<!--รายละเอียด-->
 					<div class="col-lg-5 col-md-5">
-						
-						<!--กลุ่มราคา-->
-						<div class="form-group">
-							<label><span style="color:red;">*</span> กลุ่มราคา</label>
-							<select class="form-control" id="oetUserPriGrp" name="oetUserPriGrp">
-								<?php foreach($aPriGrp['raItems'] AS $nKey => $aValue){ ?>
-									<option <?=(@$FTPriGrpID == $aValue['FTPriGrpID'])? "selected" : "";?> value="<?=$aValue['FTPriGrpID'];?>"><?=$aValue['FTPriGrpName'];?></option>
-								<?php } ?>
-							</select>
-						</div>
-
-						<!--กลุ่มของผู้ใช้จะมองเห็นเฉพาะ แอดมิน-->
-						<div class="form-group">
-							<label><span style="color:red;">*</span> กลุ่มของผู้ใช้</label>
-							<?php if($tLevelUser == 'HQ'){ ?>
-								<select class="form-control" id="oetUserGrp" name="oetUserGrp">
-									<option <?=(@$FNUsrGrp == 1)? "selected" : "";?> value="1">พนักงานจัดซื้อ</option>
-									<option <?=(@$FNUsrGrp == 2)? "selected" : "";?> value="2">พนักงานขาย</option>
-									<option <?=(@$FNUsrGrp == 3)? "selected" : "";?> value="3">ผู้จัดการ</option>
-									<option <?=(@$FNUsrGrp == 4)? "selected" : "";?> value="4">เจ้าของกิจการ</option>
-								</select>
-							<?php }else{ ?>
-								<input type="text" class="form-control" id="oetUserGrpName" name="oetUserGrpName" autocomplete="off" value="พนักงานขาย" readonly> 
-								<input type="hidden" class="form-control" id="oetUserGrp" name="oetUserGrp" autocomplete="off" value="2">
-							<?php } ?>
-						</div>
 
 						<!--ชื่อ-->
 						<div class="form-group">
@@ -148,6 +122,39 @@
 						<div class="form-group">
 							<label>หมายเหตุ</label>
 							<textarea type="text" class="form-control" id="oetUserReason" name="oetUserReason" placeholder="หมายเหตุ" rows="3"><?=@$FTUsrRmk;?></textarea>
+						</div>
+
+						<!--แผนก-->
+						<div class="form-group">
+							<label>แผนก</label>
+							<input type="text" class="form-control" id="oetUserDepartment" name="oetUserDepartment" placeholder="กรุณาระบุแผนก" autocomplete="off" value="<?=@$FTUsrDep;?>">
+						</div>
+
+
+						<!--กลุ่มของผู้ใช้จะมองเห็นเฉพาะ แอดมิน-->
+						<div class="form-group">
+							<label><span style="color:red;">*</span>ตำแหน่ง</label>
+							<?php if($tLevelUser == 'HQ'){ ?>
+								<select class="form-control" id="oetUserGrp" name="oetUserGrp">
+									<option <?=(@$FNUsrGrp == 1)? "selected" : "";?> value="1">พนักงานจัดซื้อ</option>
+									<option <?=(@$FNUsrGrp == 2)? "selected" : "";?> value="2">พนักงานขาย</option>
+									<option <?=(@$FNUsrGrp == 3)? "selected" : "";?> value="3">ผู้จัดการ</option>
+									<option <?=(@$FNUsrGrp == 4)? "selected" : "";?> value="4">เจ้าของกิจการ</option>
+								</select>
+							<?php }else{ ?>
+								<input type="text" class="form-control" id="oetUserGrpName" name="oetUserGrpName" autocomplete="off" value="พนักงานขาย" readonly>
+								<input type="hidden" class="form-control" id="oetUserGrp" name="oetUserGrp" autocomplete="off" value="2">
+							<?php } ?>
+						</div>
+
+						<!--กลุ่มราคา-->
+						<div class="form-group">
+							<label><span style="color:red;">*</span> กลุ่มราคา</label>
+							<select class="form-control" id="oetUserPriGrp" name="oetUserPriGrp">
+								<?php foreach($aPriGrp['raItems'] AS $nKey => $aValue){ ?>
+									<option <?=(@$FTPriGrpID == $aValue['FTPriGrpID'])? "selected" : "";?> value="<?=$aValue['FTPriGrpID'];?>"><?=$aValue['FTPriGrpName'];?></option>
+								<?php } ?>
+							</select>
 						</div>
 
 						<div><hr></div>
@@ -195,13 +202,6 @@
 							</select>
 						</div>
 
-						<!--แผนก-->
-						<div class="form-group">
-							<label>แผนก</label>
-							<input type="text" class="form-control" id="oetUserDepartment" name="oetUserDepartment" placeholder="กรุณาระบุแผนก" autocomplete="off" value="<?=@$FTUsrDep;?>">
-						</div>
-
-
 						<label class="container-checkbox">ใช้งาน
 							<input type="checkbox" id="ocmUserStaUse" name="ocmUserStaUse" <?=@$FNStaUse == '1' ? 'checked' : ''; ?>>
 							<span class="checkmark"></span>
@@ -225,7 +225,7 @@
 
 	//อัพโหลดรูปภาพ
 	function JSxUploadImageUser(){
-		$('#inputfileuploadImage').click(); 
+		$('#inputfileuploadImage').click();
 	}
 
 	//อีเวนท์บันทึกข้อมูล
@@ -265,7 +265,7 @@
 				}else if(tResult == 'pass_insert'){
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
-					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนผู้ใช้สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('สร้างบัญชีผู้ใช้สำเร็จ');
 					JSxCallPageUserMain();
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
