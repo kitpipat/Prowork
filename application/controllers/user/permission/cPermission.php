@@ -54,25 +54,24 @@ class cPermission extends CI_Controller {
 		$tRoleReason 	= $this->input->post('tRoleReason');
 		$aMenu 			= $this->input->post('aMenu');
 
-		//Insert Role HD
-		$aInsHD = array(
-			'FTRhdName'		=> $tRoleName,
-			'FTRhdRmk'		=> $tRoleReason,
-			'FTCreateBy'	=> $this->session->userdata('tSesUsercode'),
-			'FDCreateOn'	=> date('Y-m-d H:i:s')
-		);
-		$tt = $this->mPermission->FSxMPERInsertHD($aInsHD);
-		
-
-		//Gen Code
 		$aLastRoleCode 	= $this->mPermission->FSaMPERGetLastRolecode();
 		if($aLastRoleCode['rtCode'] == 800){
 			$nRoleCode = 1;
 		}else{
 			$nRoleCode = $aLastRoleCode['raItems'][0]['FNRhdID'];
-			$nRoleCode = $nRoleCode;
+			$nRoleCode = $nRoleCode + 1;
 		}
 
+		//Insert Role HD
+		$aInsHD = array(
+			'FNRhdID'		=> $nRoleCode,
+			'FTRhdName'		=> $tRoleName,
+			'FTRhdRmk'		=> $tRoleReason,
+			'FTCreateBy'	=> $this->session->userdata('tSesUsercode'),
+			'FDCreateOn'	=> date('Y-m-d H:i:s')
+		);
+		$this->mPermission->FSxMPERInsertHD($aInsHD);
+		
 		//Insert Role DT
 		$this->mPermission->FSxMPERDeleteDT($nRoleCode);
 		for($i=0; $i<count($aMenu); $i++){
