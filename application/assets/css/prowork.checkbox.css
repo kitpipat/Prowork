@@ -136,6 +136,10 @@ table .container-checkbox{
 }
 
 .xCNButtonCheckboxdisabled{
-	background: #c7c7c7 !important;
+	background: #eee !important;
 	cursor: no-drop;
+}
+
+.container-checkbox .xCNButtonCheckboxopen{
+	background-color: #c7c7c7;
 }
