@@ -90,22 +90,21 @@
 					<div class="user-area dropdown float-right">
 						<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span style="margin-right: 15px;"><?=$this->session->userdata('tSesFirstname')?> <?=$this->session->userdata('tSesLastname')?> (<?=$this->session->userdata('tSesDepartment')?>)</span>
-                   <?php
-
-                          $FTUsrImgPath = $this->session->userdata('tSesUsrImg');
-                          echo $FTUsrImgPath;
-                          if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
-                            $tPathImage = './application/assets/images/user/'.@$FTUsrImgPath;
-                            if (file_exists($tPathImage)){
-                              $tPathImage = base_url().'application/assets/images/user/'.@$FTUsrImgPath;
-                            }else{
-                              $tPathImage = base_url().'application/assets/images/user/NoImage.png';
-                            }
-                          }else{
-                              $tPathImage = './application/assets/images/user/NoImage.png';
-                          }
-                   ?>
-                  <img class="user-avatar rounded-circle" src="<?=$tPathImage?>">
+						
+						<?php
+							$FTUsrImgPath = $this->session->userdata('tSesUsrImg');
+							if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
+								$tPathImage = './application/assets/images/user/'.@$FTUsrImgPath;
+							if (file_exists($tPathImage)){
+								$tPathImage = base_url().'application/assets/images/user/'.@$FTUsrImgPath;
+							}else{
+								$tPathImage = base_url().'application/assets/images/user/NoImage.png';
+							}
+							}else{
+								$tPathImage = './application/assets/images/user/NoImage.png';
+							}
+						?>
+                  		<img class="user-avatar rounded-circle" src="<?=$tPathImage?>">
 						</a>
 						<div class="user-menu dropdown-menu">
 							<a class="nav-link xCNMenuProfile" href="Mainpage">บัญชีส่วนตัว</a>
