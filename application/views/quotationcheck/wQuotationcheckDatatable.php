@@ -1,6 +1,6 @@
 <style>
        table {
-			table-layout: fixed; 
+			table-layout: fixed;
 			width: 100%;
 		}
 
@@ -11,7 +11,7 @@
 
 		.hard_left {
 			position:absolute;
-			right:0; 
+			right:0;
 			width:100px;
 		}
 
@@ -32,7 +32,7 @@
 			position		: absolute;
 			width			: 10%;
 			right			: 0px;
-			text-align		: left; 
+			text-align		: left;
 			vertical-align	: middle !important;
 			text-align		: center;
 			padding-top		: 26px !important;
@@ -86,7 +86,7 @@
 			width		: 35.65%;
 			top			: 34px;
 			position	: absolute;
-			right		: 10%; 
+			right		: 10%;
 			display		: table;
 		}
 
@@ -94,7 +94,7 @@
 		.inner {
 			overflow-x:scroll;
 			overflow-y:visible;
-			width:54.5%; 
+			width:54.5%;
 		}
 
 		.datepicker{
@@ -102,7 +102,7 @@
 		}
 
 		.xCNEditInline{
-			height: 25px; 
+			height: 25px;
 			margin-top: 2.5px;
 		}
 </style>
@@ -117,7 +117,7 @@
 	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
 	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
-?> 
+?>
 
 <div class="outer">
   	<div class="inner">
@@ -133,7 +133,7 @@
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">หน่วยสินค้า</th>
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">สถานะเอกสาร</th>
 					<th class="xCNBorderleft hard_left_Top_Right1" colspan="2" style="text-align:center;">จัดซื้อสินค้า</th>
-					<th class="xCNBorderleft hard_left_Top_Right2" colspan="2" style="text-align:center;">สถานะสั่งสินค้าและบิล</th>
+					<th class="xCNBorderleft hard_left_Top_Right2" colspan="2" style="text-align:center;">รับสินค้า</th>
 					<th class="xCNBorderleft hard_left_Top_Right3" rowspan="2">ผู้รับ</th>
 				</tr>
 				<tr class="hard_left_Sub_Right">
@@ -155,7 +155,7 @@
 								<td class="text-right"><?=($aValue['FCXqdQty'] == '') ? '0.00' : $aValue['FCXqdQty']?></td>
 								<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
 								<!--สถานะอนุมัติ-->
-								<?php 
+								<?php
 									if($aValue['FTXqhStaApv'] == 1){
 										$tTextStaApv 			= "อนุมัติแล้ว";
 										$tClassStaApv 			= 'xCNTextClassStatus_open';
@@ -171,11 +171,11 @@
 									}
 								?>
 								<td><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td>
-								
+
 
 								<!--วันที่สั้งสินค้า-->
 								<td class="xCNBorderleft xCNFreezeSection1">
-									<?php 
+									<?php
 										if($aValue['FDXqdPucDate'] != '' || $aValue['FDXqdPucDate'] != null){
 											$FDXqdPucDate = date('d/m/Y',strtotime($aValue['FDXqdPucDate']));
 										}else{
@@ -192,7 +192,7 @@
 								</td>
 
 								<td class="xCNFreezeSection2">
-									<?php 
+									<?php
 										if($aValue['FDXqdDliDate'] != '' || $aValue['FDXqdDliDate'] != null){
 											$FDXqdDliDate = date('d/m/Y',strtotime($aValue['FDXqdDliDate']));
 										}else{
@@ -209,7 +209,7 @@
 
 								<!--วันที่รับสินค้า-->
 								<td class="xCNBorderleft xCNFreezeSection3">
-									<?php 
+									<?php
 										if($aValue['FDXqdPikDate'] != '' || $aValue['FDXqdPikDate'] != null){
 											$FDXqdPikDate = date('d/m/Y',strtotime($aValue['FDXqdPikDate']));
 										}else{
@@ -231,7 +231,7 @@
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FTXqdRefInv == null) ? '-' : $FTXqdRefInv?></label>
 									<?php } ?>
-								
+
 								</td>
 
 								<!--ผู้รับ-->
@@ -246,7 +246,7 @@
 		</table>
 	</div>
 </div>
- 
+
 <div class="row" style="margin-top: 15px;">
     <div class="col-md-6">
         <label>พบข้อมูลทั้งหมด <?=$aList['rnAllRow']?> รายการ แสดงหน้า <?=$aList['rnCurrentPage']?> / <?=$aList['rnAllPage']?></label>
@@ -262,11 +262,11 @@
 
 				<!--ปุ่มจำนวนหน้า-->
 				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aList['rnAllPage'],$nPage+2)); $i++){?>
-					<?php 
-						if($nPage == $i){ 
-							$tActive 		= 'active'; 
+					<?php
+						if($nPage == $i){
+							$tActive 		= 'active';
 							$tDisPageNumber = 'disabled';
-						}else{ 
+						}else{
 							$tActive 		= '';
 							$tDisPageNumber = '';
 						}
@@ -286,8 +286,8 @@
 
 <script>
 
-	$('ducument').ready(function(){ 
-		$('.xCNDatePicker').datepicker({ 
+	$('ducument').ready(function(){
+		$('.xCNDatePicker').datepicker({
 			format          : 'dd/mm/yyyy',
 			autoclose       : true,
 			todayHighlight  : true,
@@ -300,13 +300,13 @@
 		var nPageCurrent = '';
 		switch (ptPage) {
 			case 'next': //กดปุ่ม Next
-				nPageOld 		= $('.xCNPagenation .active').text(); 
-				nPageNew 		= parseInt(nPageOld, 10) + 1; 
+				nPageOld 		= $('.xCNPagenation .active').text();
+				nPageNew 		= parseInt(nPageOld, 10) + 1;
 				nPageCurrent 	= nPageNew
 			break;
 			case 'previous': //กดปุ่ม Previous
-				nPageOld 		= $('.xCNPagenation .active').text(); 
-				nPageNew 		= parseInt(nPageOld, 10) - 1; 
+				nPageOld 		= $('.xCNPagenation .active').text();
+				nPageNew 		= parseInt(nPageOld, 10) - 1;
 				nPageCurrent 	= nPageNew
 			break;
 			default:

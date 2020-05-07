@@ -21,7 +21,7 @@
 	$aPermission = FCNaPERGetPermissionByPage('r_user');
 	$aPermission = $aPermission[0];
 	if($aPermission['P_edit'] != 1){ $tPer_edit = 'xCNHide'; }else{ $tPer_edit = ''; }
-?> 
+?>
 
 <div class="container-fulid">
 	<!--Section ล่าง-->
@@ -32,7 +32,7 @@
 			<div class="animated fadeIn">
 				<!-- Widgets  -->
 				<div class="row">
-					
+
 					<!--จำนวนสินค้าทั้งหมดในระบบ-->
 					<!-- <div class="col-lg-12 col-md-6">
 						<div class="card">
@@ -85,7 +85,7 @@
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div><span class="count"><?=(float)$aCountQutationAprove?></span> รายการ</div>
-											<div><span>ใบเสนอราคาที่ผ่านอนุมัติ</span></div>
+											<div><span>ใบเสนอราคา (อนุมัติแล้ว)</span></div>
 										</div>
 									</div>
 								</div>
@@ -105,7 +105,7 @@
 									<div class="stat-content">
 										<div class="text-left dib">
 											<div><span class="count"><?=(float)$aCountQutationCancle?></span> รายการ</div>
-											<div><span>ใบเสนอราคาที่ถูกยกเลิก</span></div>
+											<div><span>ใบเสนอราคา (ยกเลิก)</span></div>
 										</div>
 									</div>
 								</div>
@@ -118,13 +118,13 @@
 
 		<div class="col-lg-9" style="margin-top: 10px;">
 			<div class="accordion" id="accordionExample">
-				
+
 				<!--ข้อมูลผู้ใช้-->
 				<div class="card">
 					<div class="card-header">
 						<h2 class="mb-0">
 							<button style="margin-top: -8px; color: #FFF;" class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-								ข้อมูลผู้ใช้
+								บัญชีของฉัน
 							</button>
 						</h2>
 					</div>
@@ -132,7 +132,7 @@
 					<div id="collapseOne" class="collapse show" data-parent="#accordionExample">
 						<div class="card-body">
 							<div class="row">
-									
+
 								<div class="col-lg-12" style="margin-top: -10px; margin-bottom: 10px;">
 									<?php if($tPer_edit != 'xCNHide'){
 										if($this->session->userdata('tSesUsercode') != 1){ ?> <!--ถ้าเป็น useradmin แก้ไขไม่ได้-->
@@ -142,7 +142,7 @@
 								</div>
 
 								<div class="col-lg-4">
-									<?php 
+									<?php
 										$FTUsrImgPath = $aGetInfomation[0]['FTUsrImgPath'];
 										if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
 											$tPathImage = './application/assets/images/user/'.@$FTUsrImgPath;
@@ -161,26 +161,26 @@
 									<table class="table table-striped xCNTableCenter" id="otbConfirmImgPDT">
 										<tbody>
 											<tr style="font-weight: bold;">
-												<td colspan='2'> ยินดีต้อนรับ คุณ <span><?=$aGetInfomation[0]['FTUsrFName'] . ' ' . $aGetInfomation[0]['FTUsrLName'];?></span></td> 
+												<td colspan='2'>ชื่อบัญชี <span><?=$aGetInfomation[0]['FTUsrFName'] . ' ' . $aGetInfomation[0]['FTUsrLName'];?></span></td>
 											</tr>
 											<tr>
-												<td> สาขา : </td> 
+												<td> สาขา : </td>
 												<td> <span class="ospValue"><?=($aGetInfomation[0]['FTBchName'] == '') ? 'ไม่ระบุสาขา' : $aGetInfomation[0]['FTBchName'];?></span> </td>
 											</tr>
 											<tr>
-												<td> แผนก : </td> 
+												<td> แผนก : </td>
 												<td> <span class="ospValue"><?=($aGetInfomation[0]['FTUsrDep'] == '') ? 'ไม่พบแผนก' : $aGetInfomation[0]['FTUsrDep'];?></span> </td>
 											</tr>
 											<tr>
-												<td> กลุ่มสิทธิ์ : </td> 
+												<td> กลุ่มสิทธิ์ : </td>
 												<td> <span class="ospValue"><?=($aGetInfomation[0]['FTRhdName'] == '') ? 'ไม่พบกลุ่มสิทธิ์' : $aGetInfomation[0]['FTRhdName'];?></span> </td>
 											</tr>
 											<tr>
-												<td> กลุ่มราคา : </td> 
+												<td> กลุ่มราคา : </td>
 												<td> <span class="ospValue"><?=($aGetInfomation[0]['FTPriGrpName'] == '') ? 'ไม่พบกลุ่มราคา' : $aGetInfomation[0]['FTPriGrpName'];?></span> </td>
 											</tr>
 											<tr>
-												<td> หมายเหตุ : </td> 
+												<td> หมายเหตุ : </td>
 												<td> <span class="ospValue"><?=($aGetInfomation[0]['FTUsrRmk'] == '') ? '-' : $aGetInfomation[0]['FTUsrRmk'];?></span> </td>
 											</tr>
 										</tbody>
@@ -196,7 +196,7 @@
 					<div class="card-header">
 					<h2 class="mb-0">
 						<button style="margin-top: -8px; color: #FFF;" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-							ประวัติการทำเอกสารใบเสนอราคาของฉัน
+							ใบเสนอราคาของฉัน
 						</button>
 					</h2>
 					</div>
@@ -204,9 +204,9 @@
 						<div class="card-body">
 							<div class="row">
 
-								<div class="col-lg-4">
+								<div class="col-lg-6">
 									<div class="input-group md-form form-sm form-2 pl-0">
-										<input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearch" onkeypress="Javascript:if(event.keyCode==13) JSwLoadTableList(1)">
+										<input class="form-control my-0 py-1 red-border xCNFormSerach" type="text" placeholder="ค้นหาจากเลขที่เอกสาร" id="oetSearch" onkeypress="Javascript:if(event.keyCode==13) JSwLoadTableList(1)">
 										<div class="input-group-append">
 											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSwLoadTableList(1);"><i class="fa fa-search" aria-hidden="true"></i></span>
 										</div>
@@ -223,10 +223,10 @@
 			</div>
 		</div>
 
-	</div>	
+	</div>
 </div>
 
-<script>  
+<script>
 	//ตัวเลขวิ่งเอง
 	$('.count').each(function() {
         $(this).prop('Counter', 0).animate({

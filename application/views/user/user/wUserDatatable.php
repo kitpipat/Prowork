@@ -8,7 +8,7 @@
 	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
 	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
-?> 
+?>
 
 <table class="table table-striped xCNTableCenter">
   <thead>
@@ -17,7 +17,7 @@
 		<th style="width:100px; text-align: center;">รูปภาพ</th>
 		<th style="text-align: left;">ชื่อ-นามสกุล</th>
 		<th style="width:10%; text-align: left;">แผนก</th>
-		<th style="width:10%; text-align: left;">กลุ่มผู้ใช้</th>
+		<th style="width:10%; text-align: left;">ตำแหน่ง</th>
 		<th style="width:10%; text-align: left;">กลุ่มสิทธิ์</th>
 		<th style="width:10%; text-align: left;">กลุ่มราคา</th>
 		<th style="width:10%; text-align: left;">สถานะ</th>
@@ -30,7 +30,7 @@
 			<?php foreach($aUserList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
 					<th><?=$aValue['rtRowID']?></th>
-					<?php 
+					<?php
 						if($aValue['FTUsrImgPath'] != '' || $aValue['FTUsrImgPath'] != null){
 							$tPathImage = './application/assets/images/user/'.$aValue['FTUsrImgPath'];
 							if (file_exists($tPathImage)){
@@ -46,7 +46,7 @@
 					<td><?=$aValue['FTUsrFName']?> <?=$aValue['FTUsrLName']?></td>
 					<td><?=($aValue['FTUsrDep'] == '') ? '-' : $aValue['FTUsrDep']?></td>
 
-					<?php 
+					<?php
 						switch($aValue['FNUsrGrp']){
 							case 1:
 								$tNameUserGroup = 'พนักงานจัดซื้อ';
@@ -67,8 +67,8 @@
 					<td><?=$tNameUserGroup;?></td>
 					<td><?=$aValue['FTRhdName']?></td>
 					<td><?=$aValue['FTPriGrpName']?></td>
-					
-					<?php 
+
+					<?php
 						if($aValue['FNStaUse'] == 1){
 							$tIconClassStatus 	= 'xCNIconStatus_open';
 							$tTextClassStatus 	= 'xCNTextClassStatus_open';
@@ -105,11 +105,11 @@
 
 				<!--ปุ่มจำนวนหน้า-->
 				<?php for($i=max($nPage-2, 1); $i<=max(0, min($aUserList['rnAllPage'],$nPage+2)); $i++){?>
-					<?php 
-						if($nPage == $i){ 
-							$tActive 		= 'active'; 
+					<?php
+						if($nPage == $i){
+							$tActive 		= 'active';
 							$tDisPageNumber = 'disabled';
-						}else{ 
+						}else{
 							$tActive 		= '';
 							$tDisPageNumber = '';
 						}
@@ -153,13 +153,13 @@
 		var nPageCurrent = '';
 		switch (ptPage) {
 			case 'next': //กดปุ่ม Next
-				nPageOld 		= $('.xCNPagenation .active').text(); 
-				nPageNew 		= parseInt(nPageOld, 10) + 1; 
+				nPageOld 		= $('.xCNPagenation .active').text();
+				nPageNew 		= parseInt(nPageOld, 10) + 1;
 				nPageCurrent 	= nPageNew
 			break;
 			case 'previous': //กดปุ่ม Previous
-				nPageOld 		= $('.xCNPagenation .active').text(); 
-				nPageNew 		= parseInt(nPageOld, 10) - 1; 
+				nPageOld 		= $('.xCNPagenation .active').text();
+				nPageNew 		= parseInt(nPageOld, 10) - 1;
 				nPageCurrent 	= nPageNew
 			break;
 			default:
