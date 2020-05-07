@@ -1,5 +1,5 @@
 <?php
-	$aPermission = FCNaPERGetPermissionByPage('r_quotation/1');
+	$aPermission = FCNaPERGetPermissionByPage('r_quotationList');
 	$aPermission = $aPermission[0];
 	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
 	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }

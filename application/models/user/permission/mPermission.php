@@ -73,7 +73,7 @@ class mPermission extends CI_Model {
 
 	//หาเมนูทั้งหมด
 	public function FSaMPERGetMenuAll(){
-		$tSQL = "SELECT * FROM TSysMenu MEN WHERE MEN.FTMenStaUse = 1";
+		$tSQL = "SELECT * FROM TSysMenu MEN WHERE MEN.FTMenStaUse = 1 AND FNStaAlwSetPmi = 1";
 		$oQuery = $this->db->query($tSQL);
 		if($oQuery->num_rows() > 0){
 			$aResult = array(
@@ -165,8 +165,9 @@ class mPermission extends CI_Model {
 					RDT.FTRdtAlwApv,
 					RDT.FTRdtAlwPrint
 					FROM TCNMRoleHD RHD";
-		$tSQL .= " LEFT JOIN TCNMRoleDT RDT ON RHD.FNRhdID = RDT.FNRhdID ";
+		$tSQL .= " LEFT JOIN TCNMRoleDT RDT ON RHD.FNRhdID = RDT.FNRhdID AND RDT.FNMenID != 1 ";
 		$tSQL .= " WHERE RHD.FNRhdID = '$ptCode' ";
+
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->result_array();
 	}

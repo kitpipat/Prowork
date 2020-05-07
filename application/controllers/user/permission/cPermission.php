@@ -75,6 +75,25 @@ class cPermission extends CI_Controller {
 		//Insert Role DT
 		$this->mPermission->FSxMPERDeleteDT($nRoleCode);
 		for($i=0; $i<count($aMenu); $i++){
+
+			//ถ้าเอกสารใบเสนอราคา อนุญาติให้สร้าง จะต้องเพิ่มเมนูใบเสนอราคาเพิ่มด้วย
+			if($aMenu[$i]['menu'] == '2' && $aMenu[$i]['create'] == '1'){
+				$aInsDT = array(
+					'FNRhdID'			=> $nRoleCode,
+					'FNMenID'			=> 1,
+					'FTRdtAlwRead'		=> 1,
+					'FTRdtAlwCreate'	=> 1,
+					'FTRdtAlwDel'		=> 0,
+					'FTRdtAlwEdit'		=> 0,
+					'FTRdtAlwCancel'	=> 0,
+					'FTRdtAlwApv'		=> 0,
+					'FTRdtAlwPrint'		=> 0,
+					'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+					'FDCreateOn'		=> date('Y-m-d H:i:s')		
+				);	
+				$this->mPermission->FSxMPERInsertDT($aInsDT);
+			}
+
 			$aInsDT = array(
 				'FNRhdID'			=> $nRoleCode,
 				'FNMenID'			=> $aMenu[$i]['menu'],
@@ -117,6 +136,23 @@ class cPermission extends CI_Controller {
 		//Insert Role DT
 		$this->mPermission->FSxMPERDeleteDT($nRoleID);
 		for($i=0; $i<count($aMenu); $i++){
+			if($aMenu[$i]['menu'] == '2' && $aMenu[$i]['create'] == '1'){
+				$aInsDT = array(
+					'FNRhdID'			=> $nRoleID,
+					'FNMenID'			=> 1,
+					'FTRdtAlwRead'		=> 1,
+					'FTRdtAlwCreate'	=> 1,
+					'FTRdtAlwDel'		=> 0,
+					'FTRdtAlwEdit'		=> 0,
+					'FTRdtAlwCancel'	=> 0,
+					'FTRdtAlwApv'		=> 0,
+					'FTRdtAlwPrint'		=> 0,
+					'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+					'FDCreateOn'		=> date('Y-m-d H:i:s')		
+				);	
+				$this->mPermission->FSxMPERInsertDT($aInsDT);
+			}
+
 			$aInsDT = array(
 				'FNRhdID'			=> $nRoleID,
 				'FNMenID'			=> $aMenu[$i]['menu'],
