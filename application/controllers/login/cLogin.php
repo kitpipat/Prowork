@@ -22,7 +22,7 @@ class cLogin extends CI_Controller {
 		);
 		$aReturn = $this->mLogin->FSaMCheckLogin($paWhere);
 		if($aReturn['rtCode'] == 1){
-			
+
 			if($aReturn['raItems'][0]['FNStaUse'] == 0){ //0 คือไม่มีสิทธิใช้ระบบ
 				$aReturn = array(
 					'rtCode' => '400',
@@ -38,6 +38,8 @@ class cLogin extends CI_Controller {
 				$this->session->set_userdata("tSesRoleUser",$aReturn['raItems'][0]['FNRhdID']);			//รหัสกลุ่มสิทธิ
 				$this->session->set_userdata("tSesPriceGroup",$aReturn['raItems'][0]['FTPriGrpID']);	//รหัสกลุ่มราคา
 				$this->session->set_userdata("tSesUserGroup",$aReturn['raItems'][0]['FNUsrGrp']);		//รหัสกลุ่มของผู้ใช้ (มีผลต่อการมองเห็น)
+				$this->session->set_userdata("tSesUsrImg",$aReturn['raItems'][0]['FTUsrImgPath']);		//รูปภาพของผู้ใช้
+
 
 				if($aReturn['raItems'][0]['FTBchName'] == '' || $aReturn['raItems'][0]['FTBchName'] == null){
 					//USER : HQ ต้องวิ่งไปเอาบริษัท default
@@ -82,7 +84,7 @@ class cLogin extends CI_Controller {
 		if($aReturn['rtCode'] == 1){
 			//พบข้อมูล
 			$aSet = array(
-				'FTUsrPwd' 		=> $tNewPass 
+				'FTUsrPwd' 		=> $tNewPass
 			);
 
 			$aWhere = array(
