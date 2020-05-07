@@ -105,11 +105,26 @@
 									<input type="hidden" id="ohdCustomerCode" name="ohdCustomerCode" >
 
 									<!--ลูกค้า-->
+									<?php 
+										if($tEvent == 'Edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
+											if($tPer_edit == ''){
+												$tAlwCustomer = '';
+											}else{
+												$tAlwCustomer = 'xCNHide';
+											}
+										}else if($tEvent == 'Insert'){ //เข้ามาแบบ ขา Insert และ สิทธิสามารถบันทึกได้
+											if($tPer_create == ''){
+												$tAlwCustomer = '';
+											}else{
+												$tAlwCustomer = 'xCNHide';
+											}
+										}
+									?>
 									<div class="col-lg-12">
 										<label><span style="color:red;">*</span> ชื่อลูกค้า</label>
 										<div class="input-group md-form form-sm form-2 pl-0 form-group">
 											<input type="text" class="form-control" maxlength="255" id="oetCstName" name="oetCstName" placeholder="กรุณาระบุชื่อลูกค้า" autocomplete="off" value="">
-											<div class="input-group-append">
+											<div class="input-group-append <?=$tAlwCustomer?>">
 												<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseCustomer();">
 													<img class="xCNIconFind">
 												</span>
