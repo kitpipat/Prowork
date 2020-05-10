@@ -98,7 +98,7 @@ class mAdjcost extends CI_Model {
 	public function FSaMAJCGetDataInTmp($paData){
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchTmp']);
-		$tWorkerID		= $this->session->userdata('tSesUsercode');
+		$tWorkerID		= $this->session->userdata('tSesLogID');
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTPdtCode ASC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
@@ -152,7 +152,7 @@ class mAdjcost extends CI_Model {
 	public function FSaMAJCGetDataTmp_PageAll($paData){
 		try{
 			$tTextSearch 	= trim($paData['tSearchTmp']);
-			$tWorkerID		= $this->session->userdata('tSesUsercode');
+			$tWorkerID		= $this->session->userdata('tSesLogID');
 			$tSQL 			= "SELECT COUNT (DTTmp.FTPdtCode) AS counts FROM TCNTPdtAdjCostDTTmp DTTmp LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode ";
 			$tSQL 			.= " WHERE 1=1 ";
 			$tSQL 			.= " AND DTTmp.FTWorkerID = '$tWorkerID' ";
@@ -175,7 +175,7 @@ class mAdjcost extends CI_Model {
 	//หาสินค้า
 	public function FSaMAJCGetPDTToTmp($paData){
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
-		$tWorkerID		= $this->session->userdata('tSesUsercode');
+		$tWorkerID		= $this->session->userdata('tSesLogID');
 		$tTextSearch 	= trim($paData['tSearchPDT']);
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTPdtCode ASC) AS rtRowID,* FROM (";
@@ -284,7 +284,7 @@ class mAdjcost extends CI_Model {
 	public function FSaMAJCGetDataPDT_PageAll($paData){
 		try{
 			$tTextSearch 	= trim($paData['tSearchPDT']);
-			$tWorkerID		= $this->session->userdata('tSesUsercode');
+			$tWorkerID		= $this->session->userdata('tSesLogID');
 			$tSQL 		= "SELECT COUNT (PDT.FTPdtCode) AS counts 
 							FROM TCNMPdt PDT 
 							LEFT JOIN TCNMPdtBrand BAP 	ON PDT.FTPbnCode 	= BAP.FTPbnCode 
@@ -508,7 +508,8 @@ class mAdjcost extends CI_Model {
 	public function FSxMAJCInsertDT($tCode){
 		try{
 			$tSesstionBCH  	= $this->session->userdata('tSesBCHCode');
-			$tSession  		= $this->session->userdata('tSesUsercode');
+			$tSession  		= $this->session->userdata('tSesLogID');
+			$tSessionID  	= $this->session->userdata('tSesUsercode');
 			$dCurrent		= date('Y-m-d H:i:s');
 
 			$tSQL = "INSERT INTO TCNTPdtAdjCostDT (
@@ -532,7 +533,7 @@ class mAdjcost extends CI_Model {
 				FCXpdCost,
 				FTXpdDisCost,
 				'$dCurrent' AS FDCreateOn,
-				$tSession AS FTCreateBy,
+				'$tSessionID' AS FTCreateBy,
 				FCCostAfDis
 			FROM TCNTPdtAdjCostDTTmp
 			INNER JOIN TCNMPDT ON TCNTPdtAdjCostDTTmp.FTPdtCode = TCNMPDT.FTPdtCode
@@ -546,7 +547,7 @@ class mAdjcost extends CI_Model {
 	//ลบข้อมูลใน Tmp หลังจาก เพิ่มลงใน DT แล้ว
 	public function FSxMAJCDeleteTmpAfterInsDT($tCode){
 		try{
-			$FTWorkerID  = $this->session->userdata('tSesUsercode');
+			$FTWorkerID  = $this->session->userdata('tSesLogID');
 			
 			//ส่งเลขที่เอกสารมา
 			if($tCode != '' || $tCode != null){
@@ -589,7 +590,7 @@ class mAdjcost extends CI_Model {
 	//เอาข้อมูลจาก Insert DT to Tmp
 	public function FSaMAJCMoveDTToTmp($ptCode){
 		try{
-			$tSession  	= $this->session->userdata('tSesUsercode');
+			$tSession  	= $this->session->userdata('tSesLogID');
 			$dCurrent	= date('Y-m-d H:i:s');
 
 			$tSQL = "INSERT INTO TCNTPdtAdjCostDTTmp (
@@ -619,7 +620,7 @@ class mAdjcost extends CI_Model {
 				FTLastUpdBy,
 				FDCreateOn,
 				FTCreateBy,
-				$tSession AS FTWorkerID,
+				'$tSession' AS FTWorkerID,
 				FCCostAfDis
 			FROM TCNTPdtAdjCostDT DT
 			WHERE DT.FTXphDocNo = '$ptCode'";

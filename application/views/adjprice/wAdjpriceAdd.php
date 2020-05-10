@@ -293,7 +293,7 @@
 				<h5 class="modal-title">กรุณาเลือกสินค้า</h5>
 			</div>
 			<div class="modal-body">
-				<label style="text-align: left; display: block;" id="olbModalProcessText">ไม่พบสินค้า กรุณาเลือกสินค้า เพื่อทำการปรับราคา</label>
+				<label style="text-align: left; display: block;">ไม่พบสินค้า กรุณาเลือกสินค้า เพื่อทำการปรับราคา</label>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
