@@ -378,6 +378,7 @@
 			async	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				JSxModalProgress('hide');
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

@@ -4,7 +4,7 @@
 		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCancleImportImg();">สินค้า</span><span class="xCNHeadMenu">  /  นำเข้ารูปภาพ</span></div>
 		<div class="col-lg-6 col-md-6">
 			<button class="xCNButtonSave pull-right" onclick="JSxApvImportImg();">ยืนยันการนำเข้า</button>
-			<button class="xCNCalcelImport btn btn-outline-danger pull-right" onclick="JSxCancleImportImg();">ยกเลิกการนำเข้า</button>
+			<button class="xCNCalcelImport btn btn-outline-danger pull-right" style="float:right;" onclick="JSxCancleImportImg();">ยกเลิกการนำเข้า</button>
 		</div>
 	</div>
 
