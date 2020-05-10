@@ -8,7 +8,7 @@ class mQuotationList extends CI_Model{
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTXqhDocNo DESC) AS rtRowID,* FROM (";
-		$tSQL .= " SELECT 
+		$tSQL .= " SELECT
 						HD.FTBchCode,
 						HD.FTXqhDocNo,
 						HD.FDXqhDocDate,
@@ -43,7 +43,7 @@ class mQuotationList extends CI_Model{
 						HD.FTUpdateBy,
 						HD.FDUpdateOn,
 						HD.FTXqhStaApv,
-						USR.FTUsrFName 
+						USR.FTUsrFName
 					 FROM TARTSqHD HD
 					 LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode ";
 		$tSQL .= " WHERE 1=1 ";
@@ -111,7 +111,7 @@ class mQuotationList extends CI_Model{
         }
 	}
 
-	//ลบข้อมูลใน Tmp 
+	//ลบข้อมูลใน Tmp
 	public function FSaMPILDeleteTmpAll($ptWorkerID){
 
 		$tSQLHD = "DELETE FROM TARTSqHDTmp WHERE FTWorkerID = '$ptWorkerID' ";
@@ -126,8 +126,8 @@ class mQuotationList extends CI_Model{
 
 	//ย้ายข้อมูล จาก HD -> Tmp
 	public function FSaMPILMoveHDToTmp($ptDocNo,$ptWorkerID){
-		$tSQL = "INSERT INTO TARTSqHDTmp 
-					SELECT  
+		$tSQL = "INSERT INTO TARTSqHDTmp
+					SELECT
 						FTBchCode,
 						FTXqhDocNo,
 						FDXqhDocDate,
@@ -162,7 +162,7 @@ class mQuotationList extends CI_Model{
 						FDCreateOn,
 						FTUpdateBy,
 						FDUpdateOn,
-						$ptWorkerID AS FTWorkerID
+						'$ptWorkerID' AS FTWorkerID
 					FROM TARTSqHD
 					WHERE FTXqhDocNo = '".$ptDocNo."' ";
 		$this->db->query($tSQL);
@@ -188,7 +188,7 @@ class mQuotationList extends CI_Model{
 							null AS FDTmpTnsDate,
 							FTCreateBy,
 							FDCreateOn,
-							$ptWorkerID AS FTWorkerID
+							'$ptWorkerID' AS FTWorkerID
 						FROM TARTSqDT
 						WHERE FTXqhDocNo = '".$ptDocNo."' ";
 		$this->db->query($tSQL);
@@ -197,7 +197,7 @@ class mQuotationList extends CI_Model{
 	//ย้ายข้อมูล จาก HD Customer -> Tmp
 	public function FSaMPILMoveHDCusToTmp($ptDocNo,$ptWorkerID){
 		$tSQL = "INSERT INTO TARTSqHDCstTmp
-					SELECT 
+					SELECT
 						FTXqhDocNo,
 						FTXqcCstCode,
 						FTXqcCstName,
@@ -211,7 +211,7 @@ class mQuotationList extends CI_Model{
 						FDCreateOn,
 						FTUpdateBy,
 						FDUpdateOn,
-						$ptWorkerID AS FTWorkerID
+						'$ptWorkerID' AS FTWorkerID
 					FROM TARTSqHDCst
 					WHERE FTXqhDocNo = '".$ptDocNo."' ";
 		$this->db->query($tSQL);
