@@ -162,11 +162,12 @@
 					$('.xCNPrint').addClass('xCNHide');
 					$('.form-control').attr('disabled',true);
 					$('#odvMoreItem').addClass('xCNHide');
+					$('.xCNIconFindCustomer').addClass('xCNHide');
 				}else{
 					$('.xCNButtonSave').removeClass('xCNHide');
 					$('.xCNCancel').removeClass('xCNHide');
 					$('.xCNAprove').removeClass('xCNHide');
-
+					$('.xCNIconFindCustomer').removeClass('xCNHide');
 				}
 
 				//ถ้าเอกสารที่อนุมัติแล้วถึงจะพิมพ์ได้

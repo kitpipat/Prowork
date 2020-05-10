@@ -124,7 +124,7 @@
 										<label><span style="color:red;">*</span> ชื่อลูกค้า</label>
 										<div class="input-group md-form form-sm form-2 pl-0 form-group">
 											<input type="text" class="form-control" maxlength="255" id="oetCstName" name="oetCstName" placeholder="กรุณาระบุชื่อลูกค้า" autocomplete="off" value="">
-											<div class="input-group-append <?=$tAlwCustomer?>">
+											<div class="input-group-append <?=$tAlwCustomer?> xCNIconFindCustomer">
 												<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseCustomer();">
 													<img class="xCNIconFind">
 												</span>

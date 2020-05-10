@@ -128,6 +128,8 @@
 
 	//ลบสินค้าใน ตะกร้า
 	function FSxQUODelItem(ptElm) {
+		$('#obtModalDeleteItemPI').click();
+
 		tQuoDocNo = $("#odvQuoDocNo").text();
 		if(tQuoDocNo == 'SQ-##########'){
 			tQuoDocNo = '';
@@ -137,29 +139,30 @@
 
 		nItemSeq = $(ptElm).attr("data-seq");
 
-		$('#obtModalDeleteItemPI').click();
-
 		$('.xCNConfirmDelete').off();
 		$('.xCNConfirmDelete').on("click",function(){
-			$.ajax({
-				url: 'r_quotationeventDelItems',
-				timeout: 0,
-				type: 'POST',
-				data: {
-					tQuoDocNo: tQuoDocNo,
-					nItemSeq: nItemSeq
-				},
-				datatype: 'json'
-			})
-			.done(function(data) {
-				$('#obtModalDeleteItemPI').click();
-				setTimeout(function(){
-					FSvQUOCallItemList();
-				}, 500);
-			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				//serrorFunction();
-			});
+			$('#obtModalDeleteItemPI').click();
+
+			setTimeout(function(){
+				$.ajax({
+					url: 'r_quotationeventDelItems',
+					timeout: 0,
+					type: 'POST',
+					data: {
+						tQuoDocNo: tQuoDocNo,
+						nItemSeq: nItemSeq
+					},
+					datatype: 'json'
+				})
+				.done(function(data) {
+					setTimeout(function(){
+						FSvQUOCallItemList();
+					}, 500);
+				})
+				.fail(function(jqXHR, textStatus, errorThrown) {
+					//serrorFunction();
+				});
+			}, 500);
 		});
 	}
 

@@ -71,11 +71,11 @@
 						<table class="table table-striped xCNTableCenter">
 							<thead>
 								<tr>
-									<th style="width:20px;">ลำดับ</th>
-									<th style="width:100px;">รหัสสินค้า</th>
+									<th style="width:5%;">ลำดับ</th>
+									<th >รหัสสินค้า</th>
 									<th >ชื่อสินค้า</th>
-									<th style="width:250px; text-align: right;">ราคา/หน่วย</th>
-									<th style="width:100px; text-align: center;">เลือก</th>
+									<th style="width:20%; text-align: right;">ราคา/หน่วย</th>
+									<th style="width:15%; text-align: center;">เลือก</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -103,7 +103,7 @@
 											<td ><?=$tPdtCode;?></td>
 											<td style="text-align: left;"><?=$tPdtName;?></td>
 											<td style="text-align: right;"><?=number_format($nPdtUnitPri,2);?></td>
-											<td><button class="sm-button xCNSelectPDTInPI" data-iteminfo='<?= $tItemInfo ?>' onclick="FSvQUOAddItemToTemp(this)">เลือกสินค้า</button></td>
+											<td style="text-align: center;"><button class="sm-button xCNSelectPDTInPI" data-iteminfo='<?= $tItemInfo ?>' onclick="FSvQUOAddItemToTemp(this)">เลือกสินค้า</button></td>
 										</tr>
 									<?php } ?>
 								<?php }else{ ?>
