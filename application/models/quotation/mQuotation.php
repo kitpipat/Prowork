@@ -999,7 +999,7 @@ class mQuotation extends CI_Model
 		$nSeq 		= $paItem['FNXqdSeq'];
 		$tPDTCode 	= $paItem['FTPdtCode'];
 		$tDocument  = $paItem['FTXqhDocNo'];
-		$FTWorkerID	= $this->session->userdata('tSesUsercode');
+		$FTWorkerID	= $this->session->userdata('tSesLogID');
 
 		$tSQLDT = "DELETE FROM TARTSqDTTmp WHERE
 						FTXqhDocNo = '$tDocument' AND
@@ -1037,7 +1037,7 @@ class mQuotation extends CI_Model
 		}else{
 			$nDiscount = $nDiscount;
 		}
-		$tWorkerID	= $this->session->userdata('tSesUsercode');
+		$tWorkerID	= $this->session->userdata('tSesLogID');
 		$tSQL = "UPDATE TARTSqDTTmp
 					         SET    FCXqdQty = '" . $nItemQTY . "',FCXqdDis='" . $nDiscount . "'
 									 WHERE  FTWorkerID = '" . $tWorkerID . "'
@@ -1059,7 +1059,7 @@ class mQuotation extends CI_Model
 		$nDiscount 	= $paItem['nDiscount'];
 		$tPdtCode   = $paItem['tPdtCode'];
 		$tDisText   = $paItem['tDisText'];
-		$tWorkerID	= $this->session->userdata('tSesUsercode');
+		$tWorkerID	= $this->session->userdata('tSesLogID');
 
 		$tSQL = "UPDATE TARTSqDTTmp
 					         SET    FCXqdDis = '" . $nDiscount . "',FTXqdDisTxt='" . $tDisText . "'
@@ -1100,7 +1100,7 @@ class mQuotation extends CI_Model
 		$nDiscount 	= $paItem['nDiscount'];
 		$tPdtCode   = $paItem['tPdtCode'];
 		$nPdtUnitPrice   = $paItem['nPdtUnitPrice'];
-		$tWorkerID	= $this->session->userdata('tSesUsercode');
+		$tWorkerID	= $this->session->userdata('tSesLogID');
 
 		if($nDiscount == ''){
 			$nDiscount = 0;
@@ -1128,7 +1128,7 @@ class mQuotation extends CI_Model
 			$aSet = array(
 				'FTXqhStaDoc' 	=> 2,
 				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
-				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+				'FTUpdateBy'	=> $this->session->userdata('tSesLogID')
 			);
 			$this->db->where('FTXqhDocNo', $tDocumentNumber);
 			$this->db->update('TARTSqHD', $aSet);
@@ -1144,10 +1144,10 @@ class mQuotation extends CI_Model
 			$tDocumentNumber = $paItem['FTXqhDocNo'];
 			$aSet = array(
 				'FTXqhStaApv'  	=> 1,
-				'FTApprovedBy'	=> $this->session->userdata('tSesUsercode'),
+				'FTApprovedBy'	=> $this->session->userdata('tSesLogID'),
 				'FDApproveDate' => date('Y-m-d H:i:s'),
 				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
-				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+				'FTUpdateBy'	=> $this->session->userdata('tSesLogID')
 			);
 			$this->db->where('FTXqhDocNo', $tDocumentNumber);
 			$this->db->update('TARTSqHD', $aSet);
@@ -1160,7 +1160,7 @@ class mQuotation extends CI_Model
 	public function FCxMQUGetCustomerAll($paData)
 	{
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'], $paData['nPage']);
-		$tWorkerID		= $this->session->userdata('tSesUsercode');
+		$tWorkerID		= $this->session->userdata('tSesLogID');
 		$tTextSearch 	= trim($paData['tSearchCustomer']);
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTCstCode ASC) AS rtRowID,* FROM (";
@@ -1225,7 +1225,7 @@ class mQuotation extends CI_Model
 	{
 		try {
 			$tTextSearch 	= trim($paData['tSearchCustomer']);
-			$tWorkerID		= $this->session->userdata('tSesUsercode');
+			$tWorkerID		= $this->session->userdata('tSesLogID');
 			$tSQL 		= "SELECT COUNT (CUS.FTCstCode) AS counts
 							FROM TCNMCst CUS  ";
 			$tSQL 		.= " WHERE 1=1 ";
@@ -1356,7 +1356,7 @@ class mQuotation extends CI_Model
 
 	public function FCaMQUODocPrintDT($ptDocNo){
 
-				 $tSQL = "SELECT 
+				 $tSQL = "SELECT
 				 			DT.FTXqhDocNo
 							,DT.FNXqdSeq
 							,DT.FTPdtCode
@@ -1406,7 +1406,7 @@ class mQuotation extends CI_Model
 	public function FCxMQUOUpdateBCHInQuotation($paData){
 		$tDocNo 	= $paData['tDocNo'];
 		$tBCH 		= $paData['tBCH'];
-		$tWorkerID 	= $this->session->userdata('tSesUsercode');
+		$tWorkerID 	= $this->session->userdata('tSesLogID');
 
 		//อัพเดทเอกสาร HD Tmp
 		$tSQL = "UPDATE TARTSqHDTmp SET FTBchCode = '" . $tBCH . "'
