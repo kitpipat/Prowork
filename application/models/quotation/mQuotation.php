@@ -846,6 +846,7 @@ class mQuotation extends CI_Model
 	//ย้าย HD Tmp => HD
 	public function FCxMQUMoveTemp2HD($tDocNo, $tWorkerID)
 	{
+		$tCreateBy = $this->session->userdata('tSesUsercode');
 		$tSQLDel = "DELETE FROM TARTSqHD WHERE FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQLDel);
 
@@ -865,7 +866,7 @@ class mQuotation extends CI_Model
 					FCXqhB4Dis,FCXqhDis,FTXqhDisTxt,FCXqhAFDis,FCXqhVatRate,
 					FCXqhAmtVat,FCXqhVatable,FCXqhGrand,ISNULL(FCXqhRnd,0),FTXqhGndText,
 					FTXqhRmk,FTUsrDep,null AS FTXqhStaApv,FTApprovedBy,FDApproveDate,
-					FTCreateBy,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),$tWorkerID,CONVERT(VARCHAR(16),GETDATE(),121)
+					FTCreateBy,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),$tCreateBy,CONVERT(VARCHAR(16),GETDATE(),121)
 				FROM TARTSqHDTmp
 				WHERE FTWorkerID = '" . $tWorkerID . "'
 				AND FTXqhDocNo = '" . $tDocNo . "'";
@@ -877,6 +878,7 @@ class mQuotation extends CI_Model
 	//ย้าย HD Customer Tmp => HD Customer
 	public function FCxMQUMoveTempHDCst($tDocNo, $tWorkerID)
 	{
+		$tCreateBy = $this->session->userdata('tSesUsercode');
 		$tSQLDel = "DELETE FROM TARTSqHDCst WHERE FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQLDel);
 
@@ -890,9 +892,9 @@ class mQuotation extends CI_Model
 										      ,FTXqhEmail
 										      ,FTXqhTel
 										      ,FTXqhFax
-										      ,ISNULL(FTCreateBy,$tWorkerID)
+										      ,ISNULL(FTCreateBy,'$tCreateBy')
 										      ,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121))
-										      ,$tWorkerID
+										      ,$tCreateBy
 										      ,CONVERT(VARCHAR(16),GETDATE(),121)
 									  FROM TARTSqHDCstTmp
 										WHERE FTWorkerID = '" . $tWorkerID . "'
@@ -904,6 +906,7 @@ class mQuotation extends CI_Model
 	//ย้าย DT Tmp => DT
 	public function FCxMQUMoveTemp2DT($tDocNo, $tWorkerID)
 	{
+		$tCreateBy = $this->session->userdata('tSesUsercode');
 		$tSQLDel = "DELETE FROM TARTSqDT WHERE FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQLDel);
 
@@ -946,9 +949,9 @@ class mQuotation extends CI_Model
 										(ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0))-ISNULL(FCXqdDis,0),
 										FCXqdFootAvg,
 										((ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0))-ISNULL(FCXqdDis,0)+ISNULL(FCXqdFootAvg,0)),
-										ISNULL(FTCreateBy,$tWorkerID),
+										ISNULL(FTCreateBy,'$tCreateBy'),
 										ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),
-										$tWorkerID,
+										$tCreateBy,
 										CONVERT(VARCHAR(16),GETDATE(),121)
 										FROM TARTSqDTTmp
 										WHERE FTWorkerID = '" . $tWorkerID . "'
@@ -1144,10 +1147,10 @@ class mQuotation extends CI_Model
 			$tDocumentNumber = $paItem['FTXqhDocNo'];
 			$aSet = array(
 				'FTXqhStaApv'  	=> 1,
-				'FTApprovedBy'	=> $this->session->userdata('tSesLogID'),
+				'FTApprovedBy'	=> $this->session->userdata('tSesUsercode'),
 				'FDApproveDate' => date('Y-m-d H:i:s'),
 				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
-				'FTUpdateBy'	=> $this->session->userdata('tSesLogID')
+				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
 			);
 			$this->db->where('FTXqhDocNo', $tDocumentNumber);
 			$this->db->update('TARTSqHD', $aSet);
