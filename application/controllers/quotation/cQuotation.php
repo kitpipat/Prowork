@@ -7,11 +7,12 @@ class cQuotation extends CI_Controller
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('quotation/mQuotation');
+
 	}
 
 	//หน้า list สินค้า
 	public function index($pnMode){
-		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$tWorkerID = $this->session->userdata('tSesLogID');
 		if ($pnMode == 1) {
 			$this->mQuotation->FSxMQUOClearTempByWorkID($tWorkerID);
 
@@ -90,7 +91,7 @@ class cQuotation extends CI_Controller
 	//เอาข้อมูลของเอกสารออกมาโชว์
 	public function FCwCQUOCallDocHeader(){
 		$this->load->model('user/user/mUser');
-		$tWorkerID 		= $this->session->userdata('tSesUsercode');
+		$tWorkerID 		= $this->session->userdata('tSesLogID');
 		$tWorkerName 	= $this->session->userdata('tSesFirstname');
 		$tQuoDocNo 		= $this->input->get("tQuoDocNo");
 		$aConditions 	= array("tDocNo" => $tQuoDocNo, "tWorkerID" => $tWorkerID);
@@ -108,7 +109,7 @@ class cQuotation extends CI_Controller
 	public function FCaCQUOCallItemsList()
 	{
 
-		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$tWorkerID = $this->session->userdata('tSesLogID');
 		$aConditions = array(
 			"nMode" => 1,
 			"tDocNo" => '',
@@ -126,7 +127,7 @@ class cQuotation extends CI_Controller
 
 		$tQuoDocNo = $this->input->post("tQuoDocNo");
 
-		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$tWorkerID = $this->session->userdata('tSesLogID');
 
 		$oItem = $this->input->post("Item");
 
@@ -170,7 +171,7 @@ class cQuotation extends CI_Controller
 	{
 
 		$tQuoDocNo = $this->input->post("tQuoDocNo");
-		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$tWorkerID = $this->session->userdata('tSesLogID');
 		$nItemSeq = $this->input->post("nItemSeq");
 		$aItemData = array(
 			"tQuoDocNo" => $tQuoDocNo,
@@ -185,7 +186,7 @@ class cQuotation extends CI_Controller
 	{
 
 		$tQuoDocNo = $this->input->post("tQuoDocNo");
-		$tWorkerID = $this->session->userdata('tSesUsercode');
+		$tWorkerID = $this->session->userdata('tSesLogID');
 		$nItemSeq = $this->input->post("nItemSeq");
 		$nItemQTY = $this->input->post("nItemQTY");
 		$nUnitPrice = $this->input->post("nUnitPrice");
@@ -218,7 +219,7 @@ class cQuotation extends CI_Controller
 		$tDocNo = $this->input->get("tQuoDocNo");
 		$aData = array(
 			"tDocNo" 		=> $tDocNo,
-			"tRouteFrom" 	=> 'Create' 
+			"tRouteFrom" 	=> 'Create'
 		);
 		$this->load->view("quotation/wQuotationDocForm", $aData);
 	}

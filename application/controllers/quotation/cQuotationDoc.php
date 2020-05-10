@@ -80,7 +80,7 @@ class cQuotationDoc extends CI_Controller
 	//Get ข้อมูลส่วนหัว
 	public function FSaCQUODocHeader()
 	{
-		$tWorkerID 		= $this->session->userdata('tSesUsercode');
+		$tWorkerID 		= $this->session->userdata('tSesLogID');
 		$tDocNo 		= $this->input->get('tDocNo');
 		$aConditions 	= array("tDocNo" => $tDocNo, "tWorkerID" => $tWorkerID);
 		$aDocHeader 	= $this->mQuotation->FCaMQUOGetDocHD($aConditions);
@@ -90,7 +90,7 @@ class cQuotationDoc extends CI_Controller
 	//Get ข้อมูลส่วนลูกค้า
 	public function FSaCQUODocCst()
 	{
-		$tWorkerID 		= $this->session->userdata('tSesUsercode');
+		$tWorkerID 		= $this->session->userdata('tSesLogID');
 		$tDocNo 		= $this->input->get('tDocNo');
 		$aConditions 	= array("tDocNo" => $tDocNo, "tWorkerID" => $tWorkerID);
 		$aDocCst 		= $this->mQuotation->FCaMQUOGetDocCst($aConditions);
@@ -101,7 +101,7 @@ class cQuotationDoc extends CI_Controller
 	public function FSvCQUODocItems()
 	{
 		$tSesUserGroup 	= $this->session->userdata('tSesUserGroup');
-		$tWorkerID 		= $this->session->userdata('tSesUsercode');
+		$tWorkerID 		= $this->session->userdata('tSesLogID');
 		$tDocNo 		= $this->input->get('tDocNo');
 		$aFilter 		= array("tDocNo" => $tDocNo, "tWorkerID" => $tWorkerID, "nMode" => 1);
 		$aDocItems 		= $this->mQuotation->FCaMQUOGetItemsList($aFilter);
@@ -117,7 +117,7 @@ class cQuotationDoc extends CI_Controller
 		$oDocHeaderInfo 	= $this->input->post("oDocHeaderInfo");
 		$tBCH 				= $this->input->post('tBchCode');
 		$oDocCstInfo 		= $this->input->post("oDocCstInfo");
-		$tWorkerID 			= $this->session->userdata('tSesUsercode');
+		$tWorkerID 			= $this->session->userdata('tSesLogID');
 		$tDocNo 			= $this->input->post('tDocNo');
 		$nStaExpress 		= $this->input->post('nStaExpress');
 		$nStaDocActive 		= $this->input->post('nStaDocActive');
@@ -358,7 +358,7 @@ class cQuotationDoc extends CI_Controller
 
 			$nDiscount = $nDiscount;
 		}
-		$tWorkerID	= $this->session->userdata('tSesUsercode');
+		$tWorkerID	= $this->session->userdata('tSesLogID');
 
 		$aDisInfo = array(
 			"tQuoDocNo" => $tQuoDocNo,

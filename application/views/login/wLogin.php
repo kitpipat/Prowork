@@ -15,11 +15,11 @@
 
 			<div class="col-lg-7">
 				<div class="card login">
-					
+
 					<div id="odvCheckProgress" style="display:none;">
 						<div class="lds-ripple"><div></div><div></div></div>
 					</div>
-					
+
 					<div id="odvContentLogin">
 						<img id="oimLogin" src="<?=base_url('application/assets/')?>images/logo.jpg">
 						<form id="ofmLogin" class="form-signin" method="post">
@@ -94,10 +94,10 @@
 		$('#oimLoginScreenRight').css('height',cHeightScreen);
 
 		//ทุกครั้งที่ Key ข้อความต้องหาย
-		$('#oetUserLogin , #oetPassword').click(function () {    
+		$('#oetUserLogin , #oetPassword').click(function () {
 			$('.ospUserOrPasswordFail').removeClass('xCNTextRed');
 			$('.ospUserOrPasswordFail').text('ํ');
-		});  
+		});
 
 		//เข้าสู่ระบบ
 		$("#ofmLogin").validate({
@@ -123,6 +123,7 @@
 						cache	: false,
 						timeout	: 0,
 						success	: function (tResult) {
+          
 							var aReturn = JSON.parse(tResult);
 							if(aReturn.rtCode == '800'){
 								$('#odvCheckProgress').fadeOut("slow");
@@ -149,10 +150,10 @@
 		});
 
 		//ทุกครั้งที่ Key ข้อความต้องหาย
-		$('#oetForgetPasswordUserLogin , #oetForgetPasswordMailLogin , #oetForgetPasswordPassLogin').click(function () {    
+		$('#oetForgetPasswordUserLogin , #oetForgetPasswordMailLogin , #oetForgetPasswordPassLogin').click(function () {
 			$('.ospUserFail').removeClass('xCNTextRed');
 			$('.ospUserFail').text('ํ');
-		}); 
+		});
 
 		//ลืมรหัสผ่าน
 		$('.ospForgetPassword').click(function () {
@@ -186,7 +187,7 @@
 				$.ajax({
 					type	: "POST",
 					url		: "ForgetPassword",
-					data	: { 
+					data	: {
 						'tUserLogin' : $('#oetForgetPasswordUserLogin').val(),
 						'tEmail'	 : $('#oetForgetPasswordMailLogin').val(),
 						'tNewPass'	 : $('#oetForgetPasswordPassLogin').val()
@@ -217,4 +218,3 @@
 
 </body>
 </html>
-

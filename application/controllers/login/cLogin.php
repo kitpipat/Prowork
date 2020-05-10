@@ -31,6 +31,11 @@ class cLogin extends CI_Controller {
 				echo json_encode($aReturn);
 				exit;
 			}else{
+
+				$tPermitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz@$';
+				$tSessID = substr(str_shuffle($tPermitted_chars), 0, 15);
+      
+        $this->session->set_userdata("tSesLogID",$tSessID);		//session id
 				$this->session->set_userdata("tSesUsercode",$aReturn['raItems'][0]['FTUsrCode']);		//รหัสผู้ใช้
 				$this->session->set_userdata("tSesFirstname",$aReturn['raItems'][0]['FTUsrFName']);		//ชื่อ
 				$this->session->set_userdata("tSesLastname",$aReturn['raItems'][0]['FTUsrLName']);		//นามสกุล
