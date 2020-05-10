@@ -156,7 +156,8 @@ input.form-control {
     box-shadow: 2px 2px 6px rgba(178, 178, 178, 0.69);
 	cursor: pointer;
 	width: 140px;
-    height: 35px;
+	height: 35px;
+	float: right;
 }
 
 #oimImgInsertorEditproducts{
