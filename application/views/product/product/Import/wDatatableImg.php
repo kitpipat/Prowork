@@ -147,7 +147,8 @@
 		}
 
 		if(aUpdateImg.length == 0){
-			console.log('empty');
+			JSxCallPageProductMain();
+			return;
 		}else{
 			$.ajax({
 				type	: "POST",

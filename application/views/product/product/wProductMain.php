@@ -379,7 +379,10 @@
 			timeout	: 0,
 			success	: function (tResult) {
 				JSxModalProgress('hide');
-				$('.content').html(tResult);
+
+				setTimeout(function(){
+					$('.content').html(tResult);
+				}, 500);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);
