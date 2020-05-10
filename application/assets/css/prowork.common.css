@@ -832,3 +832,8 @@ table tbody .xCNTableGroupMenu{
 .pull-right{
 	float : right;
 }
+
+.pull-left{
+	float : left;
+}
+
