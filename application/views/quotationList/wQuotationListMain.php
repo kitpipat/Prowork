@@ -29,7 +29,10 @@
 					<div class="input-group md-form form-sm form-2 pl-0">
 						<input class="form-control my-0 py-1 red-border xCNFormSerach xCNInputWithoutSingleQuote" type="text" placeholder="ค้นหาจากเลขที่เอกสาร" id="oetSearch" onkeypress="Javascript:if(event.keyCode==13) JSwLoadTableList(1)">
 						<div class="input-group-append">
-							<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSwLoadTableList(1);"><i class="fa fa-search" aria-hidden="true"></i></span>
+							<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSwLoadTableList(1);">
+								<?php $tMenuBar = base_url().'application/assets/images/icon/search.png'; ?>
+								<img class="menu-icon xCNMenuSearch" src="<?=$tMenuBar?>">
+							</span>
 						</div>
 					</div>
 				</div>
