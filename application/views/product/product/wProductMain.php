@@ -21,7 +21,10 @@
 
 					<div class="xCNFilterAdvSub">
 						<div class="xCNHeadFilter xCNLineBarFilter" style="width:80%;"> ตัวกรองค้นหา </div>
-						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;"> <i class="fa fa-times" aria-hidden="true"></i> </div>
+						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;"> 
+							<?php $tIconClose = base_url().'application/assets/images/icon/close.png'; ?>
+							<img class="menu-icon xCNMenuSearch" src="<?=$tIconClose?>">
+						</div>
 					</div>
 
 					<div class="xCNFilterAdvSub">
@@ -171,13 +174,14 @@
 										<!--ตัวกรองค้นหาขั้นสูง-->
 										<div class="col-lg-1">
 											<div class="xCNFilter">
-												<i class="fa fa-filter xCNIconFilter" aria-hidden="true"></i>
+												<?php $tIconfilter = base_url().'application/assets/images/icon/filterNew.png'; ?>
+												<img class="menu-icon xCNMenuSearch xCNIconFilter" src="<?=$tIconfilter?>">
 											</div>
 										</div>
 
 										<!--นำเข้าข้อมูล-->
 										<div class="col-lg-7">
-											<div class="btn-group pull-right xCNImportBTN">
+											<div class="btn-group pull-right xCNImportBTN" style="float:right;">
 												<button type="button" class="btn btn-secondary dropdown-toggle xCNImport" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 													นำเข้าข้อมูล
 												</button>

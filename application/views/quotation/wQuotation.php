@@ -21,7 +21,10 @@
 
 					<div class="xCNFilterAdvSub">
 						<div class="xCNHeadFilter xCNLineBarFilter" style="width:80%;"> ตัวกรองค้นหา </div>
-						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;"> <i class="fa fa-times" aria-hidden="true"></i> </div>
+						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;"> 
+							<?php $tIconClose = base_url().'application/assets/images/icon/close.png'; ?>
+							<img class="menu-icon xCNMenuSearch" src="<?=$tIconClose?>">
+						</div>
 
 					</div>
 
@@ -171,7 +174,8 @@
 								<!--ตัวกรองค้นหาขั้นสูง-->
 								<div class="col-lg-1">
 									<div class="xCNFilter">
-										<i class="fa fa-filter xCNIconFilter" aria-hidden="true"></i>
+										<?php $tIconfilter = base_url().'application/assets/images/icon/filterNew.png'; ?>
+										<img class="menu-icon xCNMenuSearch xCNIconFilter" src="<?=$tIconfilter?>">
 									</div>
 								</div>
 
@@ -179,10 +183,12 @@
 								<div class="col-lg-4 col-md-4 col-sm-4">
 									<div class="btn-group float-right" role="group">
 										<button id="odvPdtTableView" data-viewtype="1" class="wxBntPdtVTypeActive xCNSelectMenuTableOrList" onclick="FSvQUOSwitView(1)">
-											<i class="fa fa-table xCNIconFilterTableOrList"></i>
+											<?php $tIconfilter = base_url().'application/assets/images/icon/find_Table.png'; ?>
+											<img class="menu-icon xCNMenuSearch xCNIconFilter" src="<?=$tIconfilter?>">
 										</button>
 										<button id="odvPdtListView" data-viewtype="2" class="xCNSelectMenuTableOrList" onclick="FSvQUOSwitView(2)">
-											<i class="fa fa-list xCNIconFilterTableOrList"></i>
+											<?php $tIconfilter = base_url().'application/assets/images/icon/find_List.png'; ?>
+											<img class="menu-icon xCNMenuSearch xCNIconFilter" src="<?=$tIconfilter?>">
 										</button>
 									</div>
 								</div>

@@ -320,8 +320,8 @@ table tbody .xCNTableGroupMenu{
 }
 
 .xCNIconFilter{
-	padding: 2px 14px;
-	font-size: 0.65rem !important;
+	margin: 8px auto;
+    display: block;
 }
 
 .xCNFilterSearch{
