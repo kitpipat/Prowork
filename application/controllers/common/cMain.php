@@ -136,7 +136,7 @@ class cMain extends CI_Controller {
 						$aResult = array(
 							'FTPdtCode' 	=> $aExplode[0],
 							'FTPathImgTmp' 	=> $tJpg,
-							'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
+							'FTWorkerID'	=> $this->session->userdata('tSesLogID')
 						);
 						$this->mProduct->FSxMPDTImportImgPDTInsert($aResult);
 					}

@@ -386,8 +386,7 @@
 		if('<?=$tTypePage?>' == 'edit' && '<?=$tPer_edit?>' != ''){
 			$('.form-control').attr('disabled',true);
 			$('.xCNChooseImage').hide();
-		}
-					
+		}	
 	});
 
 	//อัพโหลดรูปภาพ

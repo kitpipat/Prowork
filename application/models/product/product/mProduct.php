@@ -408,7 +408,7 @@ class mProduct extends CI_Model {
 	//นำเข้ารูปภาพ - ลบรูปภาพ
 	public function FSxMPDTImportImgPDTDelete(){
 		try{
-			$FTWorkerID = $this->session->userdata('tSesUsercode');
+			$FTWorkerID = $this->session->userdata('tSesLogID');
 			$this->db->where_in('FTWorkerID', $FTWorkerID);
 			$this->db->delete('TCNMPdt_ImgTmp');
 		}catch(Exception $Error){
@@ -498,7 +498,8 @@ class mProduct extends CI_Model {
 	public function FSxMPDTImportExcelMoveTmpToHD($ptDataTmp,$ptNotIn){
 
 		$FTWorkerID = $ptDataTmp['FTWorkerID'];
-		$tSession  	= $this->session->userdata('tSesUsercode');
+		$tSession  	= $this->session->userdata('tSesLogID');
+		$tUserData  = $this->session->userdata('tSesUsercode');
 		$dCurrent	= date('Y-m-d H:i:s');
 
 		//Move สินค้า
@@ -544,7 +545,7 @@ class mProduct extends CI_Model {
 					,0 AS FCPdtSalPrice
 					,'' AS FTPdtImage
 					,1 AS FTPdtStatus
-					,$tSession
+					,$tUserData
 					,'$dCurrent'
 					,'' AS FTPdtReason
 				FROM TCNMPdt_DataTmp
@@ -582,7 +583,7 @@ class mProduct extends CI_Model {
 	//นำเข้าข้อมูล - ลบข้อมูล 
 	public function FSxMPDTImportExcelDeleteTmp(){
 		try{
-			$FTWorkerID = $this->session->userdata('tSesUsercode');
+			$FTWorkerID = $this->session->userdata('tSesLogID');
 			$this->db->where_in('FTWorkerID', $FTWorkerID);
 			$this->db->delete('TCNMPdt_DataTmp');
 		}catch(Exception $Error){

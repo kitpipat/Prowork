@@ -109,7 +109,7 @@ class cAdjprice extends CI_Controller {
 					'FTPdtCode'		=> $aResult[$i],
 					'FCXpdAddPri'	=> '0.00',	
 					'FDXphDateAtv'	=> date('Y-m-d H:i:s'),
-					'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
+					'FTWorkerID'	=> $this->session->userdata('tSesLogID')
 				);
 
 				$this->mAdjprice->FSaMAJPInsertPDTToTmp($aIns);
@@ -122,7 +122,7 @@ class cAdjprice extends CI_Controller {
 	public function FSvCAJPDeletePDTInTmp(){
 		$tPDTCode 	= $this->input->post('tPdtCode');
 		$tCode 		= $this->input->post('tCode');
-		$tWorkerID 	= $this->session->userdata('tSesUsercode');
+		$tWorkerID 	= $this->session->userdata('tSesLogID');
 		$aDelete 	= array(
 			'FTXphDocNo' 	=> $tCode,
 			'FTPdtCode'		=> $tPDTCode,
@@ -136,7 +136,7 @@ class cAdjprice extends CI_Controller {
 		$tPDTCode 		= $this->input->post('tPdtCode');
 		$tCode 			= $this->input->post('tCode');
 		$tValueUpdate	= $this->input->post('tValueUpdate'); 
-		$tWorkerID 		= $this->session->userdata('tSesUsercode');
+		$tWorkerID 		= $this->session->userdata('tSesLogID');
 		$aSet 		= array(
 			'FCXpdAddPri'	=> $tValueUpdate
 		);
@@ -167,7 +167,7 @@ class cAdjprice extends CI_Controller {
 			if(isset($aResult[$i][0])){
 				$aCheck = array(
 					'FTXphDocNo'	=> $tCode,
-					'FTWorkerID'	=> $this->session->userdata('tSesUsercode'),
+					'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
 					'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : ''
 				);
 				$aCheckDuplicate = $this->mAdjprice->FSaMAJPCheckDataDuplicate($aCheck);
@@ -195,7 +195,7 @@ class cAdjprice extends CI_Controller {
 						'FTXphDocNo'	=> $tCode,
 						'FCXpdAddPri' 	=> $nAddPri,
 						'FDXphDateAtv'	=> date('Y-m-d H:i:s'),
-						'FTWorkerID'	=> $this->session->userdata('tSesUsercode')
+						'FTWorkerID'	=> $this->session->userdata('tSesLogID')
 					);
 
 					if($aIns['FTPdtCode'] != '' || $aIns['FTPdtCode'] != null){

@@ -4,7 +4,7 @@
 		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCancleImportExcel();">สินค้า</span><span class="xCNHeadMenu">  /  นำเข้าข้อมูล</span></div>
 		<div class="col-lg-6 col-md-6">
 			<button class="xCNButtonSave pull-right" onclick="JSxApvImportExcel();">ยืนยันการนำเข้า</button>
-			<button class="xCNCalcelImport btn btn-outline-danger pull-right" onclick="JSxCancleImportExcel();">ยกเลิกการนำเข้า</button>
+			<button class="xCNCalcelImport btn btn-outline-danger pull-right" style="float:right;" onclick="JSxCancleImportExcel();">ยกเลิกการนำเข้า</button>
 		</div>
 	</div>
 
@@ -210,12 +210,15 @@
 		var aPDTFailExcel 	= [];
 		var nLenFail 		= $('#otbConfirmDataPDT > tbody  > tr.fail').length;
 		for(var i=0; i<nLenFail; i++){
-			// var nPDTCode = $("#otbConfirmDataPDT tbody tr:eq("+i+")").data('pdtcode');
-			// var tStaApv	 = $("#otbConfirmDataPDT tbody tr:eq("+i+")").data('staapv');
-
 			//เอาตัวที่ไม่ผ่าน
 			var nPDTCode = $("#otbConfirmDataPDT > tbody  > tr.fail:eq("+i+")").data('pdtcode');
 			aPDTFailExcel.push({'nPDTCode' : nPDTCode});
+		}
+
+		var ntbody = $('#otbConfirmDataPDT > tbody  > tr').length;
+		if(ntbody == 0){
+			JSxCallPageProductMain();
+			return;
 		}
 
 		$.ajax({

@@ -828,3 +828,12 @@ table tbody .xCNTableGroupMenu{
 	width:15px;
 	height:15px;
 }
+
+.pull-right{
+	float : right;
+}
+
+.pull-left{
+	float : left;
+}
+

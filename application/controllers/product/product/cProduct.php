@@ -232,7 +232,7 @@ class cProduct extends CI_Controller {
 
 		//ลบข้อมูลก่อน
 		$aDelete = array(
-			'FTWorkerID' => $this->session->userdata('tSesUsercode')
+			'FTWorkerID' => $this->session->userdata('tSesLogID')
 		);
 		$this->mProduct->FSxMPDTImportExcelDelete($aDelete);
 
@@ -253,7 +253,7 @@ class cProduct extends CI_Controller {
 					'FTSplCode' 	=> (isset($aResult[$i][4])) ? $aResult[$i][4] : '',
 					'FCPdtCostStd' 	=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '',
 					'FTPdtCostDis' 	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '',
-					'FTWorkerID'	=> $this->session->userdata('tSesUsercode'),
+					'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
 					'FCCostAfDis'	=> $nCost
 				);
 			}
@@ -286,7 +286,7 @@ class cProduct extends CI_Controller {
 
 		//ย้ายข้อมูล
 		$aIns = array(
-			'FTWorkerID'		=> $this->session->userdata('tSesUsercode')
+			'FTWorkerID' =>  $this->session->userdata('tSesLogID')
 		);
 		$this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns,$tNotInItem);
 
