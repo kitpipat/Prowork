@@ -99,10 +99,10 @@
 				$("#oetXqhSmpDay").val(nXqhSmpDay);
 				$("#oetXqhCredit").val(nXqhCredit);
 
-				var dXqhEftTo = moment(moment(dXqhEftTo, 'YYYY-MM-DD')).format('DD/MM/YYYY'); 
+				var dXqhEftTo = moment(moment(dXqhEftTo, 'YYYY-MM-DD')).format('DD/MM/YYYY');
 				$("#odpXqhEftTo").val(dXqhEftTo);
 
-				var dDeliveryDate = moment(moment(dDeliveryDate, 'YYYY-MM-DD')).format('DD/MM/YYYY'); 
+				var dDeliveryDate = moment(moment(dDeliveryDate, 'YYYY-MM-DD')).format('DD/MM/YYYY');
 				$("#odpDeliveryDate").val(dDeliveryDate);
 
 
@@ -154,6 +154,7 @@
 				FSvQUODocItems();
 
 				//เอกสารถูกยกเลิก หรือ อนุมัติแล้วจะทำงานไม่ได้
+
 				if(tXqhStaDoc == 2 || FTXqhStaApv == 1){
 					$('.xCNButtonSave').addClass('xCNHide');
 					$('.xCNAprove').addClass('xCNHide');
@@ -161,6 +162,11 @@
 					$('.xCNPrint').addClass('xCNHide');
 					$('.form-control').attr('disabled',true);
 					$('#odvMoreItem').addClass('xCNHide');
+				}else{
+					$('.xCNButtonSave').removeClass('xCNHide');
+					$('.xCNCancel').removeClass('xCNHide');
+					$('.xCNAprove').removeClass('xCNHide');
+
 				}
 
 				//ถ้าเอกสารที่อนุมัติแล้วถึงจะพิมพ์ได้
