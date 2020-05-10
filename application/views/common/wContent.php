@@ -5,6 +5,10 @@
 	//โหลดหน้าตา
 	JSwLoadInfomation();
 	function JSwLoadInfomation(){
+		// $('.xCNHomePage img').addClass('ACTIVE');
+		$('.xCNHomeFisrt').removeClass('ACTIVE').css('display','none');
+		$('.xCNHomeLast').addClass('ACTIVE').css('display','block');
+		
 		$.ajax({
 			type	: "POST",
 			url		: "r_information",

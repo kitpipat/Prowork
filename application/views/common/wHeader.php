@@ -30,8 +30,19 @@
 		<nav class="navbar navbar-expand-sm navbar-default xCNWidthFull">
 			<div id="main-menu" class="main-menu collapse navbar-collapse xCNWidthFull">
 				<ul class="nav navbar-nav xCNWidthFull">
-					<li class="active xCNMenuActive">
-						<a href="Mainpage" class=""><i class="menu-icon fa fa-home"></i>หน้าหลัก </a>
+					<li class="xCNLiRow">
+						<a href="Mainpage" class="xCNHomePage">
+							<?php
+								$tPathImage = './application/assets/images/icon/menu_home.png';
+								if (file_exists($tPathImage)){
+									$tPathImage = base_url().'application/assets/images/icon/menu_home.png';
+								}else{
+									$tPathImage = base_url().'application/assets/images/icon/NoImage.png';
+								}
+							?>
+							<img class="menu-icon xCNSizeIconSubMenu xCNHomeFisrt" src="<?=$tPathImage?>">
+							<img class="menu-icon xCNSizeIconSubMenu xCNHomeLast"  src="<?=base_url().'application/assets/images/icon/last_menu_home.png'?>">
+						หน้าหลัก </a>
 					</li>
 					<?php if($aMenuList['rtCode'] == 800){ ?>
 
@@ -39,26 +50,50 @@
 						<?php $nGroupOld = ''; ?>
 						<?php foreach($aMenuList['raItems'] AS $nKey => $nValue){ ?>
 							<?php if($nValue['CodeGroup'] == 0){ ?>
-								<li>
-									<a class='JSxCallContentMenu' data-menuname="<?=$nValue['PathRoute']?>" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="menu-icon <?=$nValue['MenuIcon']?>" title="<?=$nValue['FTMenName'];?>"></i><?=$nValue['FTMenName'];?>
+								<li class="xCNLiRow">	
+									<a data-menuname="<?=$nValue['PathRoute']?>" class="JSxCallContentMenu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										<?php
+											$tPathImage = './application/assets/images/icon/'.$nValue['MenuIcon'];
+											if (file_exists($tPathImage)){
+												$tPathImage = base_url().'application/assets/images/icon/'.$nValue['MenuIcon'];
+											}else{
+												$tPathImage = base_url().'application/assets/images/icon/NoImage.png';
+											}
+										?>
+										<img class="menu-icon xCNSizeIconSubMenu xCNMainIcon" src="<?=$tPathImage?>">
+										<img class="menu-icon xCNSizeIconSubMenu" src="<?=base_url().'application/assets/images/icon/last_'.$nValue['MenuIcon'].''?>">
+										<?=$nValue['FTMenName'];?>
 									</a>
 								</li>
 								<?php if($nValue['CodeMenu'] == 3){ ?><div id="odvLineGroupMenu"></div><?php } ?>
 							<?php }else{ ?>
 								<?php if($nGroupOld != $nValue['CodeGroup']){ ?>
-									<li class="menu-item-has-children dropdown">
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<i class="menu-icon <?=$nValue['GroupIcon']?>"></i>
-										<?=$nValue['NameGroup'];?></a>
+									<li class="menu-item-has-children dropdown xCNLiRow">
+
+										<?php $tPathImage = base_url().'application/assets/images/icon/'.$nValue['GroupIcon']; ?>
+										<a href="#" class="dropdown-toggle xCNMenuImage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-namesubmenu='<?=$nValue['NameGroup'];?>'>
+											<?php
+												$tPathImage = './application/assets/images/icon/'.$nValue['GroupIcon'];
+												if (file_exists($tPathImage)){
+													$tPathImage = base_url().'application/assets/images/icon/'.$nValue['GroupIcon'];
+												}else{
+													$tPathImage = base_url().'application/assets/images/icon/NoImage.png';
+												}
+											?>
+											<img class="menu-icon xCNSizeIconSubMenu xCNMainIcon" src="<?=$tPathImage?>">
+											<img class="menu-icon xCNSizeIconSubMenu" src="<?=base_url().'application/assets/images/icon/last_'.$nValue['GroupIcon'].''?>">
+											<?=$nValue['NameGroup'];?>
+										</a>
+
 										<ul class="sub-menu children dropdown-menu">
 											<?php foreach($aMenuList['raItems'] AS $nKey => $nValueSubMenu){ ?>
 												<?php if($nValue['CodeGroup'] == $nValueSubMenu['CodeGroup']){ ?>
-													<li><i class=""></i><a class='JSxCallContentMenu' data-menuname="<?=$nValueSubMenu['PathRoute']?>" ><?=$nValueSubMenu['FTMenName'];?></a></li>
+													<li><a class='JSxCallContentMenu xCNSub' data-menuname="<?=$nValueSubMenu['PathRoute']?>" ><?=$nValueSubMenu['FTMenName'];?></a></li>
 												<?php } ?>
 											<?php } ?>
 										</ul>
 									</li>
+
 								<?php } ?>
 								<?php $nGroupOld = $nValue['CodeGroup'];?>
 							<?php } ?>

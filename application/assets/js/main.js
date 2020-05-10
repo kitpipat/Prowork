@@ -50,7 +50,7 @@ jQuery(document).ready(function($) {
         if (windowWidth < 1010) {
             $('body').removeClass('open');
             if (windowWidth < 760) {
-                $('#left-panel').slideToggle();
+				$('#left-panel').slideToggle();
             } else {
                 $('#left-panel').toggleClass('open-menu');
 			}
@@ -58,17 +58,23 @@ jQuery(document).ready(function($) {
 			$('body').toggleClass('open');
 			$('#left-panel').removeClass('open-menu');
 		}
+
+
+		$('.xCNNameMenu').toggleClass('xCNHide');
+		$('.xCNIconMenu').toggleClass('col-lg-12');
+		$('.xCNSizeIconSubMenu').toggleClass('xCNSizeIconSubMenuToggle');
     });
 
 
     $(".menu-item-has-children.dropdown").each(function() {
         $(this).on('click', function() {
-            var $temp_text = $(this).children('.dropdown-toggle').html();
+			var $temp_text = $(this).children('.dropdown-toggle').html();
+			var name_menu = $(this).children('.dropdown-toggle').attr('data-namesubmenu');
             var tCheckClass = $(this).children('.sub-menu').children().hasClass('subtitle');
             if (tCheckClass != true) {
-                $(this).children('.sub-menu').prepend('<li class="subtitle">' + $temp_text + '</li>');
+				$(this).children('.sub-menu').prepend('<li class="subtitle">' + name_menu + '</li>');
             }
-        });
+		});
     });
 
 
@@ -87,14 +93,28 @@ jQuery(document).ready(function($) {
 		if($(this).attr('data-menuname') == '#'){
 			return;
 		}
-		
+
+		//เมนูหน้าหลัก
+		$('.xCNHomeLast').removeClass('ACTIVE').css('display','none');
+		$('.xCNHomeFisrt').addClass('ACTIVE').css('display','block');
+
+
+
+		$('.JSxCallContentMenu , .xCNMenuImage').removeClass('ACTIVE');
+		if($(this).hasClass('xCNSub')){
+			$(this).parent().parent().parent().find('.xCNMenuImage').addClass('ACTIVE');
+		}else{
+			//เมนูอื่น
+			$(this).addClass('ACTIVE');
+		}
+
         $.ajax({
             type: "POST",
             url: $(this).attr('data-menuname'),
             cache: false,
             timeout: 0,
             success: function(tResult) {
-
+				
 				JSxModalProgress('open');
 				
       				var nWidth = $('#left-panel').width();
@@ -111,7 +131,6 @@ jQuery(document).ready(function($) {
                 alert(jqXHR, textStatus, errorThrown);
             }
         });
-    });
-
-
+	});
+	
 });
