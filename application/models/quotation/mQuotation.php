@@ -594,7 +594,7 @@ class mQuotation extends CI_Model
 			$tSQL .= " AND D.FTXqhDocNo = '" . $tDocNo . "'";
 		}
 
-		$tSQL .= " ORDER BY D.FDTmpTnsDate DESC ";
+		$tSQL .= " ORDER BY D.FNXqdSeq,D.FDTmpTnsDate DESC ";
 
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
@@ -1131,7 +1131,7 @@ class mQuotation extends CI_Model
 			$aSet = array(
 				'FTXqhStaDoc' 	=> 2,
 				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
-				'FTUpdateBy'	=> $this->session->userdata('tSesLogID')
+				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
 			);
 			$this->db->where('FTXqhDocNo', $tDocumentNumber);
 			$this->db->update('TARTSqHD', $aSet);
