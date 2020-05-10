@@ -985,7 +985,7 @@ aside.left-panel:hover {
 }
 
 .sub-menu .subtitle>.menu-icon {
-    display: none;
+    display: none !important;
 }
 
 .open aside.left-panel {
