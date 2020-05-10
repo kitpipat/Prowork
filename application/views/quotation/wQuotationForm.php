@@ -112,6 +112,21 @@
   <?php if($nTotal == 13){?>
   <br><br>
   <?php } ?>
+  <?php if($nTotal == 29){?>
+  <br><br><br><br><br><br><br><br><br>
+  <?php } ?>
+  <?php if($nTotal == 30){?>
+  <br><br><br><br><br><br>
+  <?php } ?>
+  <?php if($nTotal == 31){?>
+  <br><br><br><br><br>
+  <?php } ?>
+  <?php if($nTotal == 32){?>
+  <br><br>
+  <?php } ?>
+  <?php if($nTotal == 33){?>
+  <br>
+  <?php } ?>
 <table cellpadding="5" cellspacing="0">
 <tr>
 <td>
