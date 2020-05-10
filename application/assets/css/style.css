@@ -1213,7 +1213,7 @@ aside.left-panel:hover {
 }
 
 .right-panel .navbar-brand {
-    line-height: 42px;
+    /*line-height: 42px;*/
 }
 
 .right-panel .navbar-brand img {

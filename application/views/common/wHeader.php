@@ -6,7 +6,6 @@
     <link rel="shortcut icon" 	href="<?=base_url('application/assets/images/48x48.png')?>">
 	<link rel="shortcut icon" 	href="<?=base_url('application/assets/images/48x48.png')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/bootstrap.css')?>">
-    <link rel="stylesheet" 		href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" 		href="<?=base_url('application/assets/css/cs-skin-elastic.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/style.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.menu.css')?>">
@@ -109,7 +108,10 @@
 		<header id="header" class="header">
 			<div class="top-left">
 				<div class="navbar-header">
-					<a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
+					<a id="menuToggle" class="menutoggle">
+						<?php $tMenuBar = base_url().'application/assets/images/icon/listmenu.png'; ?>
+						<img class="menu-icon xCNMenuBar" src="<?=$tMenuBar?>">
+					</a>
 					<a class="navbar-brand" href="./"><img src="<?=base_url('application/assets/')?>images/logo.jpg" alt="Logo"></a>
 					<?php if($this->session->userdata('tSesBCHName') == ''){
 						$tShowBCH = '';
