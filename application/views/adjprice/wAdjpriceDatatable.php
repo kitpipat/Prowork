@@ -175,7 +175,7 @@
 				nPageCurrent 	= nPageNew
 			break;
 			case 'Last': //กดหน้าสุดท้าย
-				nPageCurrent 	= '<?=$aListTmp['rnAllPage']?>';
+				nPageCurrent 	= '<?=$aList['rnAllPage']?>';
 			break;
 			default:
 				nPageCurrent = ptPage
