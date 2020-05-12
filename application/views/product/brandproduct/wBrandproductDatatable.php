@@ -58,7 +58,10 @@
 				<!--ปุ่มย้อนกลับ-->
 				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvBrandPDT_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
+					<a class="page-link" aria-label="Previous" onclick="JSvBrandPDT_ClickPage('Fisrt')"><span aria-hidden="true">&laquo;</span></a>
+				</li>
+				<li class="page-item <?=$tDisabledLeft;?>">
+					<a class="page-link" aria-label="Previous" onclick="JSvBrandPDT_ClickPage('previous')"><span aria-hidden="true">&lsaquo;</span></a>
 				</li>
 
 				<!--ปุ่มจำนวนหน้า-->
@@ -78,7 +81,10 @@
 				<!--ปุ่มไปต่อ-->
 				<?php if($nPage >= $aList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvBrandPDT_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
+					<a class="page-link" aria-label="Next" onclick="JSvBrandPDT_ClickPage('next')"><span aria-hidden="true">&rsaquo;</span></a>
+				</li>
+				<li class="page-item <?=$tDisabledRight?>">
+					<a class="page-link" aria-label="Next" onclick="JSvBrandPDT_ClickPage('Last')"><span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</ul>
 		</nav>
@@ -110,6 +116,9 @@
 	function JSvBrandPDT_ClickPage(ptPage) {
 		var nPageCurrent = '';
 		switch (ptPage) {
+			case 'Fisrt': //กดหน้าแรก
+				nPageCurrent 	= 1;
+			break;
 			case 'next': //กดปุ่ม Next
 				nPageOld 		= $('.xCNPagenation .active').text(); 
 				nPageNew 		= parseInt(nPageOld, 10) + 1; 
@@ -119,6 +128,9 @@
 				nPageOld 		= $('.xCNPagenation .active').text(); 
 				nPageNew 		= parseInt(nPageOld, 10) - 1; 
 				nPageCurrent 	= nPageNew
+			break;
+			case 'Last': //กดหน้าสุดท้าย
+				nPageCurrent 	= '<?=$aList['rnAllPage']?>';
 			break;
 			default:
 				nPageCurrent = ptPage
