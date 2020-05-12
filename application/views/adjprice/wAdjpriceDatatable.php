@@ -16,6 +16,7 @@
 		<th style="width:10px; text-align: center;">ลำดับ</th>
 		<th style="text-align: left;">เลขที่เอกสาร</th>
 		<th style="width:200px; text-align: left;">วันที่-เวลาเอกสาร</th>
+		<th style="width:150px; text-align: left;">วันที่มีผล</th>
 		<th style="width:150px; text-align: left;">กลุ่มราคาที่มีผล</th>
 		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
 		<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>
@@ -31,6 +32,8 @@
 					<th><?=$aValue['rtRowID']?></th>
 					<td><?=$aValue['FTXphDocNo']?></td>
 					<td><?=date('d/m/Y',strtotime($aValue['FDXphDocDate'])) . ' - ' . $aValue['FTXphDocTime'];?></td>
+					<td><?=date('d/m/Y',strtotime($aValue['FDXphDateAtv']))?></td>
+
 					<td><?=$aValue['FTPriGrpName']?></td>
 
 					<!--สถานะเอกสาร-->

@@ -240,13 +240,15 @@ class cAdjprice extends CI_Controller {
 			'FTXphRmk'		=> $this->input->post('oetAJPReason'),
 			'FTCreateBy' 	=> $this->session->userdata('tSesUsercode'),
 			'FDCreateOn'	=> date('Y-m-d H:i:s'),
+			'FDXphDateAtv'  => date('Y-m-d',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))) . ' ' . date('H:i:s'),
 		);
 
 		//เพิ่มข้อมูลลง HD
 		$this->mAdjprice->FSxMAJPInsertHD($aInsertHD);
 
 		//เพิ่มข้อมูลลง DT
-		$this->mAdjprice->FSxMAJPInsertDT($tFormatCode);
+		$dDateActive = date('Y-m-d',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))) . ' ' . date('H:i:s');
+		$this->mAdjprice->FSxMAJPInsertDT($tFormatCode,$dDateActive);
 
 		//ลบข้อมูลใน Tmp หลังจาก เพิ่มลงใน DT แล้ว
 		$this->mAdjprice->FSxMAJPDeleteTmpAfterInsDT('');
@@ -266,7 +268,8 @@ class cAdjprice extends CI_Controller {
 				'FTPriGrpID'	=> $this->input->post('oetAJPPriGrp'),
 				'FTXphRmk'		=> $this->input->post('oetAJPReason'),
 				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
-				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode'),
+				'FDXphDateAtv'  => date('Y-m-d',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))) . ' ' . date('H:i:s'),
 			);
 
 			$aWhereUpdate = array(
@@ -278,7 +281,8 @@ class cAdjprice extends CI_Controller {
 			$this->mAdjprice->FSxMAJPDeleteDT($tFormatCode);
 
 			//เพิ่มข้อมูลลง DT
-			$this->mAdjprice->FSxMAJPInsertDT($tFormatCode);
+			$dDateActive = date('Y-m-d',strtotime(str_replace('/', '-', $this->input->post('oetDateActive')))) . ' ' . date('H:i:s');
+			$this->mAdjprice->FSxMAJPInsertDT($tFormatCode,$dDateActive);
 
 			//ลบข้อมูลใน Tmp หลังจาก เพิ่มลงใน DT แล้ว
 			$this->mAdjprice->FSxMAJPDeleteTmpAfterInsDT($tFormatCode);
