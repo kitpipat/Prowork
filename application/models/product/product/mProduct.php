@@ -437,7 +437,7 @@ class mProduct extends CI_Model {
 
 	//////////////////////////////////////////////////////////////////////// นำเข้าข้อมูล */
 
-	//น้ำเข้าข้อมูล - เพิ่มข้อมูล
+	//นำเข้าข้อมูล - เพิ่มข้อมูล
 	public function FSxMPDTImportExcelInsert($aResult){
 		try{
 			$this->db->insert('TCNMPdt_DataTmp', $aResult);
@@ -548,7 +548,7 @@ class mProduct extends CI_Model {
 					,$tUserData
 					,'$dCurrent'
 					,'' AS FTPdtReason
-				FROM TCNMPdt_DataTmp
+				FROM TCNMPdt_DataTmp INNER JOIN TCNMPdt ON TCNMPdt.FTPdtCode = TCNMPdt_DataTmp.FTPdtCode
 				WHERE FTWorkerID = '$FTWorkerID' ";
 
 		if($ptNotIn != ''){
@@ -589,5 +589,29 @@ class mProduct extends CI_Model {
 		}catch(Exception $Error){
             echo $Error;
         }
+	}
+
+	//เช็คสินค้าห้ามซ้ำใน Tmp
+	public function FSxMPDTCheckPDTInTmp($pnCode){
+		$FTWorkerID = $this->session->userdata('tSesLogID');
+		$tSQL = " SELECT * FROM TCNMPdt_DataTmp TMP ";
+		$tSQL .= " WHERE TMP.FTPdtCode = '$pnCode' ";
+		$tSQL .= " AND TMP.FTWorkerID = '$FTWorkerID' ";
+	
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'rtCode'   => '1',
+				'rtDesc'   => 'duplication',
+				'tSQL'	   => $tSQL
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'pass',
+				'tSQL'	   	=> $tSQL
+			);
+		}
+		return $aResult;
 	}
 }

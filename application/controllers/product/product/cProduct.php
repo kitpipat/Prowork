@@ -238,29 +238,40 @@ class cProduct extends CI_Controller {
 
 		for($i=1; $i<$nPackData; $i++){
 
-			$aPdtInfo = array(
-				"nStdCost" 		=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '0',
-				"tStepDisCost"	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '0'
-			);
-			$nCost = FCNnHCOSCalCost($aPdtInfo);
-
-			if(isset($aResult[$i][0])){
-				$aIns = array(
-					'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
-					'FTPdtName' 	=> (isset($aResult[$i][1])) ? $aResult[$i][1] : '',
-					'FTPgpCode' 	=> (isset($aResult[$i][2])) ? $aResult[$i][2] : '',
-					'FTPtyCode' 	=> (isset($aResult[$i][3])) ? $aResult[$i][3] : '',
-					'FTSplCode' 	=> (isset($aResult[$i][4])) ? $aResult[$i][4] : '',
-					'FCPdtCostStd' 	=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '',
-					'FTPdtCostDis' 	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '',
-					'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
-					'FCCostAfDis'	=> $nCost
-				);
-			}
-
 			//Insert ข้อมูล
-			if($aIns['FTPdtCode'] != '' || $aIns['FTPdtCode'] != null){
-				$this->mProduct->FSxMPDTImportExcelInsert($aIns);
+			if($aResult[$i][0] != '' || $aResult[$i][0] != null){
+				//รหัสสินค้าไม่เป็นค่าว่าง
+				$aCheckDuplicate = $this->mProduct->FSxMPDTCheckPDTInTmp($aResult[$i][0]);
+				if($aCheckDuplicate['rtCode'] == 1){
+					//ข้อมูลซ้ำ
+				}else{
+					$aPdtInfo = array(
+						"nStdCost" 		=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '0',
+						"tStepDisCost"	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '0'
+					);
+					$nCost = FCNnHCOSCalCost($aPdtInfo);
+	
+					if(isset($aResult[$i][0])){
+						$aIns = array(
+							'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
+							'FTPdtName' 	=> (isset($aResult[$i][1])) ? $aResult[$i][1] : '',
+							'FTPgpCode' 	=> (isset($aResult[$i][2])) ? $aResult[$i][2] : '',
+							'FTPtyCode' 	=> (isset($aResult[$i][3])) ? $aResult[$i][3] : '',
+							'FTSplCode' 	=> (isset($aResult[$i][4])) ? $aResult[$i][4] : '',
+							'FCPdtCostStd' 	=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '',
+							'FTPdtCostDis' 	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '',
+							'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
+							'FCCostAfDis'	=> $nCost
+						);
+					}
+	
+					//Insert ข้อมูล
+					if($aIns['FTPdtCode'] != '' || $aIns['FTPdtCode'] != null){
+						$this->mProduct->FSxMPDTImportExcelInsert($aIns);
+					}
+				}
+			}else{
+				//รหัสสินค้าเป้นค่าว่าง
 			}
 		}
 
