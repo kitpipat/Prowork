@@ -154,28 +154,57 @@
 				FSvQUODocItems();
 
 				//เอกสารถูกยกเลิก หรือ อนุมัติแล้วจะทำงานไม่ได้
+           tDocNo = $("#ospDocNo").attr("data-docno")
 
-				if(tXqhStaDoc == 2 || FTXqhStaApv == 1){
-					$('.xCNButtonSave').addClass('xCNHide');
+				if(tDocNo == ''){
+					//เปิด
+					$('.xCNButtonSave').removeClass('xCNHide');
+					$('.form-control').attr('disabled',false);
+					$('.xCNIconFindCustomer').removeClass('xCNHide');
+					$('#odvMoreItem').removeClass('xCNHide');
+
+					//ปิด
 					$('.xCNAprove').addClass('xCNHide');
 					$('.xCNCancel').addClass('xCNHide');
 					$('.xCNPrint').addClass('xCNHide');
-					$('.form-control').attr('disabled',true);
-					$('#odvMoreItem').addClass('xCNHide');
-					$('.xCNIconFindCustomer').addClass('xCNHide');
+
 				}else{
-					$('.xCNButtonSave').removeClass('xCNHide');
-					$('.xCNCancel').removeClass('xCNHide');
-					$('.xCNAprove').removeClass('xCNHide');
-					$('.xCNIconFindCustomer').removeClass('xCNHide');
+
+					  if(FTXqhStaApv =='' || FTXqhStaApv == null){
+                 $('.xCNAprove').removeClass('xCNHide');
+								 $('.xCNCancel').removeClass('xCNHide');
+						}
 				}
 
 				//ถ้าเอกสารที่อนุมัติแล้วถึงจะพิมพ์ได้
 				if(FTXqhStaApv == 1){
+
+					//เปิด
 					$('.xCNPrint').removeClass('xCNHide');
 					$("#ospApprovedBy").text(tUsrApvNameBy);
 					$("#ospApproveDate").text(dApproveDate);
+
+					//ปิด
+					$('.xCNButtonSave').addClass('xCNHide');
+					$('.xCNCancel').addClass('xCNHide');
+					$('.xCNAprove').addClass('xCNHide');
+					$('.form-control').attr('disabled',true);
+					$('.xCNIconFindCustomer').addClass('xCNHide');
+					$('#odvMoreItem').addClass('xCNHide');
+
 				}
+
+				if(tXqhStaDoc == 2){
+					$('.xCNButtonSave').addClass('xCNHide');
+					$('.xCNCancel').addClass('xCNHide');
+					$('.xCNAprove').addClass('xCNHide');
+					$('.form-control').attr('disabled',true);
+					$('.xCNIconFindCustomer').addClass('xCNHide');
+					$('#odvMoreItem').addClass('xCNHide');
+					$('.xCNPrint').addClass('xCNHide');
+				}
+
+
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				//serrorFunction();
