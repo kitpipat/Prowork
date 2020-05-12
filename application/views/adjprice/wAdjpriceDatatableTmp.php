@@ -73,7 +73,11 @@
 				<!--ปุ่มย้อนกลับ-->
 				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvAJP_ClickPage('previous')"><span aria-hidden="true">&laquo;</span></a>
+					<a class="page-link" aria-label="Previous" onclick="JSvAJP_ClickPage('Fisrt')"><span aria-hidden="true">&laquo;</span></a>
+				</li>
+
+				<li class="page-item <?=$tDisabledLeft;?>">
+					<a class="page-link" aria-label="Previous" onclick="JSvAJP_ClickPage('previous')"><span aria-hidden="true">&lsaquo;</span></a>
 				</li>
 
 				<!--ปุ่มจำนวนหน้า-->
@@ -93,7 +97,11 @@
 				<!--ปุ่มไปต่อ-->
 				<?php if($nPage >= $aListTmp['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvAJP_ClickPage('next')"><span aria-hidden="true">&raquo;</span></a>
+					<a class="page-link" aria-label="Next" onclick="JSvAJP_ClickPage('next')"><span aria-hidden="true">&rsaquo;</span></a>
+				</li>
+
+				<li class="page-item <?=$tDisabledRight?>">
+					<a class="page-link" aria-label="Next" onclick="JSvAJP_ClickPage('Last')"><span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</ul>
 		</nav>
@@ -111,6 +119,9 @@
 	function JSvAJP_ClickPage(ptPage) {
 		var nPageCurrent = '';
 		switch (ptPage) {
+			case 'Fisrt': //กดหน้าแรก
+				nPageCurrent 	= 1;
+			break;
 			case 'next': //กดปุ่ม Next
 				nPageOld 		= $('.xCNPagenation .active').text(); 
 				nPageNew 		= parseInt(nPageOld, 10) + 1; 
@@ -120,6 +131,9 @@
 				nPageOld 		= $('.xCNPagenation .active').text(); 
 				nPageNew 		= parseInt(nPageOld, 10) - 1; 
 				nPageCurrent 	= nPageNew
+			break;
+			case 'Last': //กดหน้าสุดท้าย
+				nPageCurrent 	= '<?=$aListTmp['rnAllPage']?>';
 			break;
 			default:
 				nPageCurrent = ptPage
