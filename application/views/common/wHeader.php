@@ -49,7 +49,7 @@
 						<?php $nGroupOld = ''; ?>
 						<?php foreach($aMenuList['raItems'] AS $nKey => $nValue){ ?>
 							<?php if($nValue['CodeGroup'] == 0){ ?>
-								<li class="xCNLiRow">	
+								<li class="xCNLiRow">
 									<a data-menuname="<?=$nValue['PathRoute']?>" class="JSxCallContentMenu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<?php
 											$tPathImage = './application/assets/images/icon/'.$nValue['MenuIcon'];
@@ -60,7 +60,7 @@
 											}
 										?>
 										<img class="menu-icon xCNSizeIconSubMenu xCNMainIcon" src="<?=$tPathImage?>">
-										<img class="menu-icon xCNSizeIconSubMenu" src="<?=base_url().'application/assets/images/icon/last_'.$nValue['MenuIcon'].''?>">
+										<img class="menu-icon xCNSizeIconSubMenu" src="<?=base_url().'application/assets/images/icon/last_'.$nValue['MenuIcon'].''?>" title="<?=$nValue['FTMenName'];?>">
 										<?=$nValue['FTMenName'];?>
 									</a>
 								</li>
@@ -127,7 +127,7 @@
 					<div class="user-area dropdown float-right">
 						<a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<span style="margin-right: 15px;"><?=$this->session->userdata('tSesFirstname')?> <?=$this->session->userdata('tSesLastname')?> (<?=$this->session->userdata('tSesDepartment')?>)</span>
-						
+
 						<?php
 							$FTUsrImgPath = $this->session->userdata('tSesUsrImg');
 							if(@$FTUsrImgPath != '' || @$FTUsrImgPath != null){
