@@ -194,3 +194,11 @@ $route['r_quotationcheckUpdate'] 				= 'quotationcheck/cQuotationcheck/FSwCCPIUp
 //หน้าบัญชีส่วนตัว ( start : 30-04-2020 / done : 30-04-2020 )
 $route['r_information'] 						= 'information/cInformation/index';
 $route['r_informationquotationListByUser'] 		= 'information/cInformation/FSwCINMLoadDatatable';
+
+//รายงาน
+$route['r_report'] 								= 'report/cReport/index';
+$route['r_reportListLoad'] 						= 'report/cReport/FSwCREPLoadDatatable';
+$route['r_reportPageDetail'] 					= 'report/cReport/FSwCREPPageDetail';
+$route['r_reportTable'] 						= 'report/cReport/FSwCREPLoadDetailDatatable';
+$route['r_reportExcel'] 						= 'report/cReport/FSwCREPExportExcel';
+
