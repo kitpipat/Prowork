@@ -10,17 +10,17 @@
 		<tr>
 			<th>1</th>
 			<td>รายงาน A</td>
-			<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/find.png';?>" onClick="JSwCallDetailReport('1','รายงาน A');"></td>
+			<td><img class="img-responsive xCNImageEdit" style="pointer-events: none;  opacity:0.1" src="<?=base_url().'application/assets/images/icon/find.png';?>" onClick="JSwCallDetailReport('1','รายงาน A');"></td>
 		</tr>
 		<tr>
 			<th>2</th>
 			<td>รายงาน B</td>
-			<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/find.png';?>" onClick="JSwCallDetailReport('2','รายงาน B');"></td>
+			<td><img class="img-responsive xCNImageEdit" style="pointer-events: none;  opacity:0.1" src="<?=base_url().'application/assets/images/icon/find.png';?>" onClick="JSwCallDetailReport('2','รายงาน B');"></td>
 		</tr>
 		<tr>
 			<th>3</th>
 			<td>รายงาน C</td>
-			<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/find.png';?>" onClick="JSwCallDetailReport('3','รายงาน C');"></td>
+			<td><img class="img-responsive xCNImageEdit" style="pointer-events: none; opacity:0.1" src="<?=base_url().'application/assets/images/icon/find.png';?>" onClick="JSwCallDetailReport('3','รายงาน C');"></td>
 		</tr>
   	</tbody>
 </table>
