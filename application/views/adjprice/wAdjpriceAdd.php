@@ -9,6 +9,7 @@
 		$tDocumentCreate	= $this->session->userdata('tSesFirstname') . ' ' . $this->session->userdata('tSesLastname');
 		$tDocumentStaDoc	= '-';
 		$tDocumentStaApv	= '-';
+		$FDXphDateAtv       = '';
 	}else if($tTypePage == 'edit'){
 		$tRoute 			= 'r_adjpriceeventedit';
 		$tRouteUrl			= 'แก้ไขใบปรับราคาขาย';
@@ -20,6 +21,7 @@
 		$tDocumentStaApv	= $aResult[0]['FTXphStaApv'];
 		$FTPriGrpID			= $aResult[0]['FTPriGrpID'];
 		$FTXphRmk			= $aResult[0]['FTXphRmk'];
+		$FDXphDateAtv       = date('d/m/Y',strtotime($aResult[0]['FDXphDateAtv']));
 	}
 
 	//ถ้าเอกสารถูกยกเลิก หรือ อนุมัติแล้ว
@@ -161,6 +163,15 @@
 												<?php } ?>
 											</select>										
 										</div>
+
+										<!--วันที่มีผล-->
+										<div class='form-group'>
+											<label><span style="color:red;">*</span> วันที่มีผล</label>
+											<div class='input-group'>
+												<input <?=$tDisabledInput?> placeholder="DD/MM/YYYY" type='text' class='form-control xCNDatePicker' autocomplete='off' id='oetDateActive' name='oetDateActive' value='<?=@$FDXphDateAtv?>'>
+											</div>
+										</div>
+
 										<!--หมายเหตุ-->
 										<div class="form-group">
 											<label>หมายเหตุ</label>
@@ -364,6 +375,24 @@
 	</div>
 </div>
 
+<!--Modal กรุณาเลือกวันที่เริ่มต้น-->
+<button id="obtModalPlzDateStart" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalPlzDateStart"></button>
+<div class="modal fade" id="odvModalPlzDateStart" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">กรุณากรอกข้อมูลให้ครบถ้วน</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;">กรุณากรอกข้อมูลวันที่มีผล ของเอกสารปรับราคาขาย</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete xCNConfirmDateActive" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 
 <!--อัพโหลดไฟล์ excel-->
@@ -456,12 +485,21 @@
 
 <script>	
 
-	//ถ้าเข้ามาแบบแก้ไข แต่ ไม่มีสิทธิ์ในการแก้ไข
-	if('<?=$tTypePage?>' == 'edit' && '<?=$tPer_edit?>' != ''){
-		$('.form-control').attr('disabled',true);
-		$('.xCNFormSerach').attr('disabled',false);
-	}
+	$('ducument').ready(function(){ 
+		//ถ้าเข้ามาแบบแก้ไข แต่ ไม่มีสิทธิ์ในการแก้ไข
+		if('<?=$tTypePage?>' == 'edit' && '<?=$tPer_edit?>' != ''){
+			$('.form-control').attr('disabled',true);
+			$('.xCNFormSerach').attr('disabled',false);
+		}
 
+
+		$('.xCNDatePicker').datepicker({ 
+			format          : 'dd/mm/yyyy',
+			autoclose       : true,
+			todayHighlight  : true,
+			orientation		: "top right"
+		});
+	});
 
 	//โหลดข้อมูลตารางสินค้า
 	JSvLoadTableDTTmp(1);
@@ -491,10 +529,21 @@
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
 
+		if($('#oetDateActive').val() == null || $('#oetDateActive').val() == ''){
+			$('#obtModalPlzDateStart').click();
+
+			$('.xCNConfirmDateActive').on('click',function(){
+				$('#oetDateActive').focus();
+			});
+			return;
+		}
+
 		if($('#otbAJPTable tbody tr').hasClass('otrAJPTmpEmpty') == true){
 			$('#obtModalPlzSelectPDT').click();
 			return;
 		}
+
+
 		$.ajax({
 			type	: "POST",
 			url		: ptRoute,
@@ -503,7 +552,6 @@
 			timeout	: 0,
 			success	: function (tResult) {
 				oResult 			= JSON.parse(tResult);
-				console.log(oResult);
 				var tResult 		= oResult.tStatus;
 				var tDocumentNumber = oResult.tDocuementnumber;
 				if(tResult == 'pass_insert'){

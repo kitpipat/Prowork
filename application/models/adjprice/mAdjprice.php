@@ -16,6 +16,7 @@ class mAdjprice extends CI_Model {
 						HD.FTXphStaDoc ,
 						HD.FTXphStaApv ,
 						HD.FTXphApvBy ,
+						HD.FDXphDateAtv ,
 						USR.FTUsrFName ,
 						PRI.FTPriGrpName
 					FROM TCNTPdtAdjPriHD HD 
@@ -428,7 +429,7 @@ class mAdjprice extends CI_Model {
 	}
 
 	//เพิ่มข้อมูล DT (Tmp To DT)
-	public function FSxMAJPInsertDT($tCode){
+	public function FSxMAJPInsertDT($tCode,$dDateActive){
 		try{
 			$tSession  	= $this->session->userdata('tSesUsercode');
 			$tWorkerID 	= $this->session->userdata('tSesLogID');
@@ -446,7 +447,7 @@ class mAdjprice extends CI_Model {
 				'$tCode' AS FTXphDocNo
 				,TCNTPdtAdjPriDTTmp.FTPdtCode
 				,FCXpdAddPri
-				,FDXphDateAtv
+				,'$dDateActive'
 				,$tSession AS FTCreateBy
 				,'$dCurrent' AS FDCreateOn
 			FROM TCNTPdtAdjPriDTTmp
@@ -491,7 +492,8 @@ class mAdjprice extends CI_Model {
 						HD.FDUpdateOn,
 						HD.FTUpdateBy,
 						USR.FTUsrFName,
-						USR.FTUsrLName
+						USR.FTUsrLName,
+						HD.FDXphDateAtv
 		 			FROM TCNTPdtAdjPriHD HD";
 		$tSQL .= " LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode";
 		$tSQL .= " WHERE HD.FTXphDocNo = '$ptCode' ";
