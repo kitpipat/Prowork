@@ -21,7 +21,7 @@
 
 					<div class="xCNFilterAdvSub">
 						<div class="xCNHeadFilter xCNLineBarFilter" style="width:80%;"> ตัวกรองค้นหา </div>
-						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;"> 
+						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;">
 							<?php $tIconClose = base_url().'application/assets/images/icon/close.png'; ?>
 							<img class="menu-icon xCNMenuSearch" src="<?=$tIconClose?>">
 						</div>
@@ -186,11 +186,12 @@
 													นำเข้าข้อมูล
 												</button>
 												<div class="dropdown-menu dropdown-menu-left xCNDropdown">
-													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href='<?=base_url('application/assets/templates/Product_Import_Template.xlsx')?>'>ดาวน์โหลดแม่แบบ</a></button>
-													<button class="dropdown-item xCNDropdownSub <?=$tPer_create?>" type="button" onclick="JSxExtractImage()">นำเข้าข้อมูล รูปภาพ</button>
-													<input type="file" id="inputfileuploadImagePDT" style="display:none;" name="inputfileuploadImagePDT" accept=".zip,.rar,.7zip" onchange="JSoExtractImageResize(this,'images/products_temp')">
+													<button class="dropdown-item xCNDropdownSub" type="button"><a style="color:#000000;" href='<?=base_url('application/assets/templates/Product_Import_Template.xlsx')?>'>ดาวน์โหลดไฟล์แม่แบบ</a></button>
 													<button class="dropdown-item xCNDropdownSub <?=$tPer_create?>" type="button" onclick="JSxImportDataExcel()">นำเข้าข้อมูล ไฟล์</button>
 													<input style="display:none;" type="file" id="ofeImportExcel" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
+													<button class="dropdown-item xCNDropdownSub <?=$tPer_create?>" type="button" onclick="JSxExtractImage()">นำเข้าข้อมูล รูปภาพ</button>
+													<input type="file" id="inputfileuploadImagePDT" style="display:none;" name="inputfileuploadImagePDT" accept=".zip,.rar,.7zip" onchange="JSoExtractImageResize(this,'images/products_temp')">
+
 												</div>
 											</div>
 										</div>
