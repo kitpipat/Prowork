@@ -62,8 +62,14 @@ class cReport extends CI_Controller {
 			WriterEntityFactory::createCell('great!'),
 		];
 
-		$singleRow = WriterEntityFactory::createRow($cells);
-		$writer->addRow($singleRow);
+		$multipleRows = [];
+		for($i=0; $i<=40000; $i++){
+			$multipleRows[] = WriterEntityFactory::createRow($cells);
+		}
+
+
+		$writer->addRows($multipleRows); 
+
 		$writer->close();
 	}
 }
