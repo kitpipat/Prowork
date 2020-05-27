@@ -130,7 +130,8 @@ class cAdjcost extends CI_Controller {
 					'FTXpdDisCost'	=> '0.00',
 					'FDCreateOn'	=> date('Y-m-d H:i:s'),
 					'FTCreateBy'	=> $this->session->userdata('tSesUsercode'),
-					'FTWorkerID'	=> $this->session->userdata('tSesLogID')
+					'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
+					'FCCostAfDis'	=> 0.00
 				);
 
 				$this->mAdjcost->FSaMAJCInsertPDTToTmp($aIns);

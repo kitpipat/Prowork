@@ -235,7 +235,7 @@
 								</td>
 
 								<!--ผู้รับ-->
-								<td class="xCNFreezeGiveUser xCNFreezeGiveUser<?=$aValue['FNXqdSeq']?>"><?=($aValue['FTUsrFName'] == '' ) ? '-' : $aValue['FTUsrFName'];?></td>
+								<td class="xCNFreezeGiveUser xCNFreezeGiveUser<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>"><?=($aValue['FTUsrFName'] == '' ) ? '-' : $aValue['FTUsrFName'];?></td>
 
 							</tr>
 						<?php } ?>
@@ -364,7 +364,7 @@
 
 				//ถ้ากรอกเลขที่บิล จะเอาต้อง อัพเดท ผู้รับให้เห็น
 				if(ptType == 'REF'){
-					$('.xCNFreezeGiveUser'+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
+					$('.xCNFreezeGiveUser'+tDocumentNubmer+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
