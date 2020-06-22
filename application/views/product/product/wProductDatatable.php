@@ -17,7 +17,12 @@
 		<th style="width:80px; text-align: center;">รูปภาพ</th>
 		<th style="width:100px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
+		<th style="width:100px; text-align: left;">หน่วย</th>
 		<th style="width:160px; text-align: left;">กลุ่มสินค้า</th>
+		<th style="width:120px; text-align: left;">สี</th>
+		<th style="width:120px; text-align: left;">รุ่น</th>
+		<th style="width:120px; text-align: left;">ยี่ห้อ</th>
+		<th style="width:200px; text-align: left;">ผู้จำหน่าย</th>
 		<th style="width:100px; text-align: left;">สถานะ</th>
 		<th style="width:50px; text-align: center;">แก้ไข</th>
 		<th style="width:50px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
@@ -43,7 +48,14 @@
 					<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtCode'] == '') ? '-' : $aValue['FTPdtCode'];?></label></td>
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtName'] == '') ? '-' : $aValue['FTPdtName'];?></label></td>
+					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'];?></label></td>
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPgpName'] == '') ? '-' : $aValue['FTPgpName'];?></label></td>
+
+					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPClrName'] == '') ? '-' : $aValue['FTPClrName'];?></label></td>
+					<td><label class="xCNLineHeightInTable"><?=($aValue['FTMolName'] == '') ? '-' : $aValue['FTMolName'];?></label></td>
+					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPbnName'] == '') ? '-' : $aValue['FTPbnName'];?></label></td>
+					<td><label class="xCNLineHeightInTable"><?=($aValue['FTSplName'] == '') ? '-' : $aValue['FTSplName'];?></label></td>
+
 					<?php 
 						if($aValue['FTPdtStatus'] == 1){
 							$tIconClassStatus 	= 'xCNIconStatus_open';

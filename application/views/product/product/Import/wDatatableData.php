@@ -221,27 +221,50 @@
 			return;
 		}
 
-		$.ajax({
-			type	: "POST",
-			url		: 'r_producteventAproveDataInTmp',
-			cache	: false,
-			async	: false,
-			data 	: {'aPDTFailExcel' : aPDTFailExcel},
-			timeout	: 0,
-			success	: function (tResult) {
-				JSxModalProgress('close');
-				$('.alert-success').addClass('show').fadeIn();
-				$('.alert-success').find('.badge-success').text('สำเร็จ');
-				$('.alert-success').find('.xCNTextShow').text('นำเข้าข้อมูลสินค้าสำเร็จ');
-				JSxCallPageProductMain();
-				setTimeout(function(){
-					$('.alert-success').find('.close').click();
-				}, 3000);
-			},
-			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+		//ถ้ามัน pass อย่างน้อย 1 ตัว ถึงจะให้มันวิ่งเข้า controller
+		tConfirmToInsert = false;
+		for(var j=0; j<ntbody; j++){
+			var tCheckStatus = $("#otbConfirmDataPDT > tbody  > tr").hasClass('pass').toString();
+			console.log(tCheckStatus);
+			if(tCheckStatus == 'true'){
+				tConfirmToInsert = true;
 			}
-		});
+		}
+
+		if(tConfirmToInsert == true){
+			$.ajax({
+				type	: "POST",
+				url		: 'r_producteventAproveDataInTmp',
+				cache	: false,
+				async	: false,
+				data 	: {'aPDTFailExcel' : aPDTFailExcel},
+				timeout	: 0,
+				success	: function (tResult) {
+					console.log(tResult);
+					JSxModalProgress('close');
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+					$('.alert-success').find('.xCNTextShow').text('นำเข้าข้อมูลสินค้าสำเร็จ');
+					JSxCallPageProductMain();
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					alert(jqXHR, textStatus, errorThrown);
+				}
+			});
+		}else{
+			JSxModalProgress('close');
+			$('.alert-danger').addClass('show').fadeIn();
+			$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
+			$('.alert-danger').find('.xCNTextShow').text('ไม่พบรายการสินค้าที่ผ่าน กรุณาลองใหม่อีกครั้ง');
+			$('#oetUserLogin').val('');
+			$('#oetUserLogin').focus();
+			setTimeout(function(){
+				$('.alert-danger').find('.close').click();
+			}, 3000);
+		}
 	}
 
 </script>

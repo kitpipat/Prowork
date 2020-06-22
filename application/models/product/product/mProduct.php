@@ -548,7 +548,7 @@ class mProduct extends CI_Model {
 					,$tUserData
 					,'$dCurrent'
 					,'' AS FTPdtReason
-				FROM TCNMPdt_DataTmp INNER JOIN TCNMPdt ON TCNMPdt.FTPdtCode = TCNMPdt_DataTmp.FTPdtCode
+				FROM TCNMPdt_DataTmp
 				WHERE FTWorkerID = '$FTWorkerID' ";
 
 		if($ptNotIn != ''){
@@ -610,6 +610,62 @@ class mProduct extends CI_Model {
 				'rtCode' 	=> '800',
 				'rtDesc' 	=> 'pass',
 				'tSQL'	   	=> $tSQL
+			);
+		}
+		return $aResult;
+	}
+
+	//หาส่วนลดต้นทุนล่าสุด
+	public function FSaMPDTFindDiscountCost($tCode){
+		$tSQL = " SELECT C.* FROM (
+					SELECT 
+						HD.FDXphDStart,
+						DT.FTXpdDisCost,
+						DT.FTPdtCode,
+						ROW_NUMBER() OVER (PARTITION BY FTPdtCode ORDER BY FDXphDStart DESC) AS FNPriorityNo
+					FROM TCNTPdtAdjCostHD HD
+					INNER JOIN TCNTPdtAdjCostDT DT ON HD.FTXphDocNo = DT.FTXphDocNo
+					WHERE FDXphDStart <= GETDATE() AND DT.FTPdtCode = '$tCode'
+				) C
+				WHERE C.FNPriorityNo = 1";
+				$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'rtCode'   => '1',
+				'tResult'  => $oQuery->result_array()
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'not Found'
+			);
+		}
+		return $aResult;
+	}
+
+	//หาขายบวกเพิ่มจากต้นทุน (%)
+	public function FSaMPDTFindAddPri($tCode){
+		$tSQL = " SELECT C.* FROM (
+					SELECT 
+						HD.FDXphDateAtv,
+						DT.FCXpdAddPri,
+						DT.FTPdtCode,
+						ROW_NUMBER() OVER (PARTITION BY FTPdtCode ORDER BY HD.FDXphDateAtv DESC) AS FNPriorityNo
+					FROM TCNTPdtAdjPriHD HD
+					INNER JOIN TCNTPdtAdjPriDT DT ON HD.FTXphDocNo = DT.FTXphDocNo
+					WHERE HD.FDXphDateAtv <= GETDATE() AND DT.FTPdtCode = '$tCode'
+				) C
+				WHERE C.FNPriorityNo = 1";
+				$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'rtCode'   => '1',
+				'tResult'  => $oQuery->result_array()
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'not Found'
 			);
 		}
 		return $aResult;

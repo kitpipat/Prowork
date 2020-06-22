@@ -43,10 +43,28 @@ class cProduct extends CI_Controller {
 	public function FSwCPDTCallPageInsertorEdit(){
 		$tTypePage = $this->input->post('tTypepage');
 		if($tTypePage == 'insert'){
-			$aResult	= '';
+			$aResult		= '';
+			$nDiscountCost 	= 'x';
+			$nAddPri 		= 'x';
 		}else if($tTypePage == 'edit'){
 			$tCode 		= $this->input->post('tCode');
 			$aResult 	= $this->mProduct->FSaMPDTGetDataBYID($tCode);
+
+			//หาส่วนลดต้นทุนเอาไปโชว์หน้าเว็บ
+			$aDiscountCost = $this->mProduct->FSaMPDTFindDiscountCost($tCode);
+			if($aDiscountCost['rtCode'] == 800){
+				$nDiscountCost = 'x';
+			}else{
+				$nDiscountCost = $aDiscountCost['tResult'][0]['FTXpdDisCost'];
+			}
+
+			//ขายบวกเพิ่มจากต้นทุน (%)
+			$aAddPri = $this->mProduct->FSaMPDTFindAddPri($tCode);
+			if($aAddPri['rtCode'] == 800){
+				$nAddPri = 'x';
+			}else{
+				$nAddPri = $aAddPri['tResult'][0]['FCXpdAddPri'];
+			}
 		}
 
 		$aPackData = array(
@@ -59,7 +77,9 @@ class cProduct extends CI_Controller {
 			'aFilter_Unit'      => $this->mProduct->FSaMPDTGetData_Filter('TCNMPdtUnit'),
 			'aFilter_Spl'       => $this->mProduct->FSaMPDTGetData_Filter('TCNMSpl'),
 			'tTypePage' 		=> $tTypePage,
-			'aResult'			=> $aResult
+			'aResult'			=> $aResult,
+			'nDiscountCost'		=> $nDiscountCost,
+			'nAddPri'			=> $nAddPri
 		);
 		$this->load->view('product/product/wProductAdd',$aPackData);
 	}

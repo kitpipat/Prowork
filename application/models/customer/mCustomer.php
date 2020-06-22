@@ -166,4 +166,34 @@ class mCustomer extends CI_Model {
 		}
 	}
 
+	//ห้ามรหัสบัตรประชาชนซ้ำ และ รหัสผู้เสียภาษีซ้ำ
+	public function FSaMCUSCheckDupCardIDAndTaxNo($ptType,$ptCardID,$ptTaxNo){
+		if($ptType == 'CardID'){
+			$tSQL = "SELECT TOP 1 FTCstCode FROM TCNMCst WHERE FTCstCardID = '$ptCardID' ";
+		}else{
+			$tSQL = "SELECT TOP 1 FTCstCode FROM TCNMCst WHERE FTCstTaxNo = '$ptTaxNo' ";
+		}
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+
+			if($ptType == 'CardID'){
+				$aResult = array(
+					'rtCode'   => '800',
+					'rtDesc'   => 'Data Duplicate CardID',
+				);
+			}else{
+				$aResult = array(
+					'rtCode'   => '801',
+					'rtDesc'   => 'Data Duplicate Taxno',
+				);
+			}
+		}else{
+			$aResult = array(
+				'rtCode' => '1',
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
+	}
+
 }

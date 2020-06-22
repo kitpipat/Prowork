@@ -22,7 +22,7 @@
 
 					<div id="odvContentLogin">
 						<img id="oimLogin" src="<?=base_url('application/assets/')?>images/logo.jpg">
-            <p style="text-align:center;color:green">Version 0.2.0-13052020</p>
+            <p style="text-align:center;color:green">Version 0.2.1-22062020</p>
 						<form id="ofmLogin" class="form-signin" method="post">
 							<div class="input">
 								<label class="olbLabelLogin">ชื่อผู้ใช้</label>
@@ -34,7 +34,7 @@
 								<input type="password" id="oetPassword" name="oetPassword" placeholder="********" />
 							</div>
 							<span class="ospUserOrPasswordFail">ํ</span>
-							<span class="ospForgetPassword">ลืมรหัสผ่าน</span>
+							<!-- <span class="ospForgetPassword">ลืมรหัสผ่าน</span> -->
 							<div class="clearfix"></div>
 							<button class="osmLogin" type="submit">เข้าสู่ระบบ</button>
 						</form>

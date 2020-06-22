@@ -72,6 +72,22 @@ class cCustomer extends CI_Controller {
 			$tFormatCode = 'C' . str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
 		}
 
+
+		//เช็คว่ารหัสบัตรประชาชน และ รหัสเลขที่ประจำตัวผู้เสียภาษี ซ้ำ
+		$tCardID 	= $this->input->post('oetCUSCardID');
+		$tTaxNo		= $this->input->post('oetCUSTaxNo');
+		$aCheckDup 	= $this->mCustomer->FSaMCUSCheckDupCardIDAndTaxNo('CardID',$tCardID,$tTaxNo);
+		if($aCheckDup['rtCode'] == 800){
+			echo 'Duplicate CardID';
+			exit;
+		}
+
+		$aCheckDup 	= $this->mCustomer->FSaMCUSCheckDupCardIDAndTaxNo('TaxNo',$tCardID,$tTaxNo);
+		if($aCheckDup['rtCode'] == 801){
+			echo 'Duplicate TaxNO';
+			exit;
+		}
+
 		$aInsert = array(
 			'FTCstCode'			=> $tFormatCode,
 			'FTBchCode'			=> ($this->input->post('oetCUSBCH') == 0) ? null : $this->input->post('oetCUSBCH'),

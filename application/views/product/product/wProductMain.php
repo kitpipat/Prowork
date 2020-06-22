@@ -190,7 +190,7 @@
 													<button class="dropdown-item xCNDropdownSub <?=$tPer_create?>" type="button" onclick="JSxImportDataExcel()">นำเข้าข้อมูล ไฟล์</button>
 													<input style="display:none;" type="file" id="ofeImportExcel" accept=".csv,application/vnd.ms-excel,.xlt,application/vnd.ms-excel,.xla,application/vnd.ms-excel,.xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,.xltx,application/vnd.openxmlformats-officedocument.spreadsheetml.template,.xlsm,application/vnd.ms-excel.sheet.macroEnabled.12,.xltm,application/vnd.ms-excel.template.macroEnabled.12,.xlam,application/vnd.ms-excel.addin.macroEnabled.12,.xlsb,application/vnd.ms-excel.sheet.binary.macroEnabled.12">
 													<button class="dropdown-item xCNDropdownSub <?=$tPer_create?>" type="button" onclick="JSxExtractImage()">นำเข้าข้อมูล รูปภาพ</button>
-													<input type="file" id="inputfileuploadImagePDT" style="display:none;" name="inputfileuploadImagePDT" accept=".zip,.rar,.7zip" onchange="JSoExtractImageResize(this,'images/products_temp')">
+													<input type="file" id="inputfileuploadImagePDT" style="display:none;" name="inputfileuploadImagePDT" accept=".zip" onchange="JSoExtractImageResize(this,'images/products_temp')">
 
 												</div>
 											</div>
@@ -372,6 +372,7 @@
 
 	//หลังจากอัพโหลด zip
 	function JSxReturnExtractFileImage(){
+		$('#obtModalProcess').click();
 		$.ajax({
 			type	: "POST",
 			url		: "r_productCallpageUplodeImage",
@@ -380,10 +381,9 @@
 			timeout	: 0,
 			success	: function (tResult) {
 				JSxModalProgress('hide');
-
 				setTimeout(function(){
 					$('.content').html(tResult);
-				}, 500);
+				}, 1000);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);

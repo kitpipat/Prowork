@@ -35,7 +35,7 @@
 				});
 			}
 
-			//อัพโหลดรูปภาพแบบ Zip , rar
+			//อัพโหลดรูปภาพแบบ Zip 
 			function JSoExtractImageResize(poImg,ptPath){
 				var oImgData 	= poImg.files[0];
 				var oImgFromZip = new FormData();
@@ -45,7 +45,7 @@
 				$('#olbModalProcessText').text('กรุณารอสักครู่ กำลังตรวจสอบไฟล์รูปภาพ');
 				$('#obtModalProcess').click();
 
-				//อัพโหลดรูปภาพแบบ Zip , rar
+				//อัพโหลดรูปภาพแบบ Zip 
 				$.ajax({
 					type 			: "POST",
 					url 			: "ImageUpload_zip",

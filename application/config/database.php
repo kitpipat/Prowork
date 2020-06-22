@@ -5,9 +5,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '150.95.89.45\SQLEXPRESS',
+	'hostname' => 'NBSUPAWAT\SQL2016',
 	'username' => 'sa',
-	'password' => 'Run4Y@u2020',
+	'password' => 'watwinwan38',
 	'database' => 'Prowork_Dev',
 	'dbdriver' => 'sqlsrv',
 	'dbprefix' => '',

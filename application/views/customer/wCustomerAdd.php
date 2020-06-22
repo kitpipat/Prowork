@@ -251,7 +251,25 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				if(tResult == 'pass_insert'){
+				if(tResult == 'Duplicate CardID'){
+					$('.alert-danger').addClass('show').fadeIn();
+					$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
+					$('.alert-danger').find('.xCNTextShow').text('หมายเลขบัตรประชาชนมีอยู่แล้วในระบบ กรุณากรอกใหม่อีกครั้ง');
+					$('#oetUserLogin').val('');
+					$('#oetUserLogin').focus();
+					setTimeout(function(){
+						$('.alert-danger').find('.close').click();
+					}, 3000);
+				}else if(tResult == 'Duplicate TaxNO'){
+					$('.alert-danger').addClass('show').fadeIn();
+					$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
+					$('.alert-danger').find('.xCNTextShow').text('หมายเลขประจำตัวผู้เสียภาษีมีอยู่แล้วในระบบ กรุณากรอกใหม่อีกครั้ง');
+					$('#oetUserLogin').val('');
+					$('#oetUserLogin').focus();
+					setTimeout(function(){
+						$('.alert-danger').find('.close').click();
+					}, 3000);
+				}else if(tResult == 'pass_insert'){
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนลูกค้าสำเร็จ');
