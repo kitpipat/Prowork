@@ -202,9 +202,7 @@
 					$('.xCNIconFindCustomer').addClass('xCNHide');
 					$('#odvMoreItem').addClass('xCNHide');
 					$('.xCNPrint').addClass('xCNHide');
-				}
-
-
+				}	
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				//serrorFunction();
@@ -305,6 +303,9 @@
 				$('#ospTotalText').text(thaibath);
 
 				JSxModalProgress('close');
+
+				//คำนวณส่วนลดท้ายบิลใหม่อีกครั้ง
+				FSxQUODocFootDis('13','#oetXqhDisText');
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				//serrorFunction();
@@ -617,63 +618,63 @@
 	//ส่วนท้ายบิล
 	function FSxQUODocFootDis(e, poElm) {
 		//See notes about 'which' and 'key'
-		if (e.keyCode == 13) {
+		if (e.keyCode == 13 || e == 13) {	
 
-					nDiscount = $(poElm).val();
-					tQuoDocNo = $("#ospDocNo").attr("data-docno");
-          nNetB4HD = $("#otdDocNetTotal").text()
+			if(poElm == '#oetXqhDisText'){
+				nDiscount = $('#oetXqhDisText').val();
+			}else{
+				nDiscount = $(poElm).val();
+			}
 
-					//console.log(nDiscount+'+'+tQuoDocNo+'+'+nNetB4HD);
-          if($(poElm).val() != ''){
+			tQuoDocNo = $("#ospDocNo").attr("data-docno");
+			nNetB4HD = $("#otdDocNetTotal").text()
 
-								$.ajax({
-										url: 'r_quoDocFootDiscount',
-										timeout: 0,
-										type: 'POST',
-										data: {
-											tQuoDocNo: tQuoDocNo,
-											nDiscount: nDiscount,
-											nNetB4HD : nNetB4HD
-										},
-										datatype: 'json'
-									})
-									.done(function(data) {
-										 $("#ospXqhDis").text(data)
+          	if(nDiscount != ''){
+				$.ajax({
+					url: 'r_quoDocFootDiscount',
+					timeout: 0,
+					type: 'POST',
+					data: {
+						tQuoDocNo: tQuoDocNo,
+						nDiscount: nDiscount,
+						nNetB4HD : nNetB4HD
+					},
+					datatype: 'json'
+				})
+				.done(function(data) {
+					$("#ospXqhDis").text(data)
 
-										 nFootDiscount = parseFloat(data)
-										 nNetB4HD = nNetB4HD.replace(/,/g, "");
-										 nNetAFHD = parseFloat(nNetB4HD) - parseFloat(nFootDiscount)
+					nFootDiscount = parseFloat(data)
+					nNetB4HD = nNetB4HD.replace(/,/g, "");
+					nNetAFHD = parseFloat(nNetB4HD) - parseFloat(nFootDiscount)
 
-										 $("#ospXqhDis").text(accounting.formatMoney(nFootDiscount.toFixed(2), ""))
-										 $("#otdNetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
+					$("#ospXqhDis").text(accounting.formatMoney(nFootDiscount.toFixed(2), ""))
+					$("#otdNetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
 
-										nVatType = $("#ocmVatType").val()
-						 				nVatRate = $("#oetVatRate").val()
-						 				nVat 		= 0
-						 				nGrandTotal = 0
+					nVatType = $("#ocmVatType").val()
+					nVatRate = $("#oetVatRate").val()
+					nVat 		= 0
+					nGrandTotal = 0
 
-						 				if (nVatType == "1") {
+					if (nVatType == "1") {
 
-						 					nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
-						 					nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
+						nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
+						nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
 
-						 				} else {
-						 					nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
-						 					nGrandTotal = parseFloat(nNetAFHD)
-						 				}
-
-						 				$("#otdVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
-										$("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
-
-
-
-									})
-									.fail(function(jqXHR, textStatus, errorThrown) {
-										//serrorFunction();
-									});
-
-								return false;
+					} else {
+						nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
+						nGrandTotal = parseFloat(nNetAFHD)
 					}
+
+					$("#otdVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
+					$("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
+
+				})
+				.fail(function(jqXHR, textStatus, errorThrown) {
+					//serrorFunction();
+				});
+				return false;
+			}
 		}
 	}
 
