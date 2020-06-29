@@ -459,6 +459,7 @@ class mProduct extends CI_Model {
 
 	//นำเข้าข้อมูล - โชว์ข้อมูล
 	public function FSxMPDTImportExcelSelect(){
+		$tSession  	= $this->session->userdata('tSesLogID');
 		$tSQL = " SELECT 
 				 	PDTTmp.FTPdtCode,
 					PDTTmp.FTPdtName,
@@ -478,6 +479,7 @@ class mProduct extends CI_Model {
 			LEFT JOIN TCNMPdtType PDTTYP	ON PDTTmp.FTPtyCode = PDTTYP.FTPtyCode
 			LEFT JOIN TCNMSpl SPL			ON PDTTmp.FTSplCode = SPL.FTSplCode";
 		$tSQL .= " WHERE 1=1 ";
+		$tSQL .= " AND FTWorkerID = '$tSession' ";
 		$oQuery = $this->db->query($tSQL);
 		if($oQuery->num_rows() > 0){
 			$aResult 	= array(
