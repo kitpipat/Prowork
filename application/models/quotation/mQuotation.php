@@ -866,7 +866,7 @@ class mQuotation extends CI_Model
 					FCXqhB4Dis,FCXqhDis,FTXqhDisTxt,FCXqhAFDis,FCXqhVatRate,
 					FCXqhAmtVat,FCXqhVatable,FCXqhGrand,ISNULL(FCXqhRnd,0),FTXqhGndText,
 					FTXqhRmk,FTUsrDep,null AS FTXqhStaApv,FTApprovedBy,FDApproveDate,
-					FTCreateBy,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),$tCreateBy,CONVERT(VARCHAR(16),GETDATE(),121)
+					$tCreateBy,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),$tCreateBy,CONVERT(VARCHAR(16),GETDATE(),121)
 				FROM TARTSqHDTmp
 				WHERE FTWorkerID = '" . $tWorkerID . "'
 				AND FTXqhDocNo = '" . $tDocNo . "'";

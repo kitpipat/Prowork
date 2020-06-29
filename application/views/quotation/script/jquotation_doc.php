@@ -108,25 +108,26 @@
 
 				$('#osmCashorCard option[value="' + tXqhCshOrCrd + '"]').attr("selected", "selected");
 				$("#ospCreateBy").text(tUsrApvNameBy);
+				
 				$("#ospApproveDate").text('-');
 				$("#ospApprovedBy").text('-');
 
 				//เอกสารด่วน
-				if (tXqhStaExpress == '') {
+				if (tXqhStaExpress == 0) {
 					$("#ocbStaExpress").prop("checked", false);
 				} else {
 					$("#ocbStaExpress").prop("checked", true);
 				}
 
 				//เคลื่อนไหว
-				if (tXqhStaActive == '') {
+				if (tXqhStaActive == 0) {
 					$("#ocbtStaDocActive").prop("checked", false);
 				} else {
 					$("#ocbtStaDocActive").prop("checked", true);
 				}
 
 				//จัดส่งสินค้าแล้ว
-				if (tXqhStaDeli == '') {
+				if (tXqhStaDeli == 0) {
 					$("#ocbStaDeli").prop("checked", false);
 				} else {
 					$("#ocbStaDeli").prop("checked", true);
@@ -182,6 +183,8 @@
 					//เปิด
 					$('.xCNPrint').removeClass('xCNHide');
 					$("#ospApprovedBy").text(tUsrApvNameBy);
+
+					dApproveDate = moment(moment(dApproveDate, 'YYYY-MM-DD')).format('DD/MM/YYYY');
 					$("#ospApproveDate").text(dApproveDate);
 
 					//ปิด
@@ -400,6 +403,9 @@
 		 				$('.xCNCancel').removeClass('xCNHide');
 		 				$('.xCNAprove').removeClass('xCNHide');
 
+						var tUsername = '<?=$this->session->userdata('tSesFirstname')?>';
+						$('#ospCreateBy').text(tUsername);
+
 		 			}
 			}
 
@@ -475,6 +481,12 @@
 						$('.alert-success').find('.close').click();
 						$('.xCNDialog_Footer').css('display','none');
 					}, 3000);
+
+					var tApvName = '<?=$this->session->userdata('tSesFirstname')?>';
+					$('#ospApprovedBy').text(tApvName);
+
+					// var tApvData = moment(moment(date(), 'YYYY-MM-DD')).format('DD/MM/YYYY');
+					// $('#ospApproveDate').text(tApvData);
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 					alert(jqXHR, textStatus, errorThrown);
