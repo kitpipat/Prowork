@@ -55,11 +55,16 @@
 					async			: true,
 					data 			: oImgFromZip,
 					datatype		: "JSON",
-					complete: function(xhr) {
-						$('#obtModalProcess').click();
-						setTimeout(function(){
-							return window['JSxReturnExtractFileImage']();
-						}, 500);
+					complete		: function(xhr) {
+						if(xhr == '1'){
+							setTimeout(function(){
+								return window['JSxFailUpLoadImage']();
+							}, 1000);
+						}else{
+							setTimeout(function(){
+								return window['JSxReturnExtractFileImage']();
+							}, 1000);
+						}
 					},
 					error: function (data){
 						console.log(data);

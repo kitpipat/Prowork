@@ -127,18 +127,23 @@ class cMain extends CI_Controller {
 					$tStatus = 'success';
 
 					//เพิ่มข้อมูลลง TCNMPdt_ImgTmp
-					
 					$tFiles = glob($tFolderUser."/*.{jpg,gif,png}",GLOB_BRACE);
-					foreach($tFiles as $tJpg){
-						$aExplode = explode("TmpImg_user".$this->session->userdata('tSesUsercode')."/",$tJpg);
-						$aExplode = explode('.',$aExplode[1]);
+					if(empty($tFiles)){
+						$tStatus = 'File no Format.';
+						echo 1;
+						exit;
+					}else{
+						foreach($tFiles as $tJpg){
+							$aExplode = explode("TmpImg_user".$this->session->userdata('tSesUsercode')."/",$tJpg);
+							$aExplode = explode('.',$aExplode[1]);
 
-						$aResult = array(
-							'FTPdtCode' 	=> $aExplode[0],
-							'FTPathImgTmp' 	=> $tJpg,
-							'FTWorkerID'	=> $this->session->userdata('tSesLogID')
-						);
-						$this->mProduct->FSxMPDTImportImgPDTInsert($aResult);
+							$aResult = array(
+								'FTPdtCode' 	=> $aExplode[0],
+								'FTPathImgTmp' 	=> $tJpg,
+								'FTWorkerID'	=> $this->session->userdata('tSesLogID')
+							);
+							$this->mProduct->FSxMPDTImportImgPDTInsert($aResult);
+						}
 					}
 
 				} else {

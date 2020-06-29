@@ -4,6 +4,7 @@
 		$tRoute 		= 'r_suppliereventinsert';
 		$tRouteUrl		= 'สร้างผู้จำหน่าย';
 		$FNStaUse       = 1;
+		$FTSplStaActive = 1;
 	}else if($tTypePage == 'edit'){
 		$FTSplCode 		= $aResult[0]['FTSplCode'];
 		$FTSplName		= $aResult[0]['FTSplName'];
