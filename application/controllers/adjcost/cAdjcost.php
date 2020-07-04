@@ -105,6 +105,8 @@ class cAdjcost extends CI_Controller {
 		$tTypepage 		= $this->input->post('tTypepage');
 		$tCode			= $this->input->post('tCode');
 		$aData			= $this->input->post('aData');
+		$nAdjCostALL	= $this->input->post('nAdjCostALL');
+
 		if($aData !== null){
 			$aResult = explode(",",$aData);
 			
@@ -127,7 +129,7 @@ class cAdjcost extends CI_Controller {
 					'FTPdtCode'		=> $aResult[$i],
 					'FTXpdSplCode'	=> $tSPLCode,
 					'FCXpdCost'		=> $tCostSTD,
-					'FTXpdDisCost'	=> '0.00',
+					'FTXpdDisCost'	=> ($nAdjCostALL == '') ? '0.00' : $nAdjCostALL,
 					'FDCreateOn'	=> date('Y-m-d H:i:s'),
 					'FTCreateBy'	=> $this->session->userdata('tSesUsercode'),
 					'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
@@ -391,5 +393,17 @@ class cAdjcost extends CI_Controller {
 		// 	// }
 		// }
 	}
+
+	//ปรับราคาทั้งหมด
+	public function FSxCAJCChangeAdjCostALL(){
+		$nAdjCostALL = $this->input->post('nAdjCostALL');
+		$aAdj = array(
+			'nAdjCost'		=> $nAdjCostALL,
+			'FTWorkerID'	=> $this->session->userdata('tSesLogID')
+		);
+
+		$this->mAdjcost->FSaMAJPAdjCostALL($aAdj);
+	}
+
 
 }

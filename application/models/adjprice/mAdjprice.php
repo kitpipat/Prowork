@@ -107,9 +107,12 @@ class mAdjprice extends CI_Model {
 						DTTmp.FCXpdAddPri,
 						DTTmp.FDXphDateAtv,
 						DTTmp.FTWorkerID,
-						PDT.FTPdtName
+						UNIT.FTPunName,
+						PDT.FTPdtName,
+						PDT.FCPdtCostStd
 					FROM TCNTPdtAdjPriDTTmp DTTmp 
-					LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode ";
+					LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode 
+					LEFT JOIN TCNMPdtUnit UNIT ON PDT.FTPunCode = UNIT.FTPunCode ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND DTTmp.FTWorkerID = '$tWorkerID' ";
 
@@ -585,6 +588,18 @@ class mAdjprice extends CI_Model {
 			);
 			$this->db->where('FTXphDocNo', $ptCode);
 			$this->db->update('TCNTPdtAdjPriHD', $aSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//ปรับราคาทั้งหมด
+	public function FSaMAJPAdjPriceALL($paPackData){
+		try{
+			$nAdjPrice 	= $paPackData['nAdjPrice'];
+			$FTWorkerID = $paPackData['FTWorkerID'];
+			$tSQL = "UPDATE TCNTPdtAdjPriDTTmp SET FCXpdAddPri = $nAdjPrice WHERE FTWorkerID = '$FTWorkerID'";
+			$this->db->query($tSQL);
 		}catch(Exception $Error){
 			echo $Error;
 		}

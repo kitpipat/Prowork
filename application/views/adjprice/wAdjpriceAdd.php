@@ -172,6 +172,22 @@
 											</div>
 										</div>
 
+										<!--ปรับทั้งหมด-->
+										<?php if($tDisabledInput != 'disabled'){ ?>
+										<div class='form-group'>
+											<label> ปรับราคาขายเพิ่มทั้งหมด(%)</label>
+											<div class="input-group md-form form-sm form-2 pl-0 form-group">
+												<input <?=$tDisabledInput?> type="text" style="text-align: right;" class="form-control xCNInputNumericWithDecimal" maxlength="5" id="oetADJPriceALL" name="oetADJPriceALL" placeholder="0" autocomplete="off" value="">
+
+												<div class="input-group-append xCNIconFindCustomer">
+													<span class="input-group-text red lighten-3" style="cursor: pointer; font-size: 18px !important; padding: 0px 12px;" onclick="JSxCahngePriceALL();">
+														ปรับทุกรายการ
+													</span>
+												</div>
+											</div>
+										</div>
+										<?php } ?>
+
 										<!--หมายเหตุ-->
 										<div class="form-group">
 											<label>หมายเหตุ</label>
@@ -526,6 +542,26 @@
 		});
 	}
 
+	//กดปรับราคาทั้งหมด
+	function JSxCahngePriceALL(){
+		$.ajax({
+			type	: "POST",
+			url		: "r_adjpriceAll",
+			data 	: {
+						'nAdjPriceALL' : $('#oetADJPriceALL').val(),
+					  },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				JSxModalProgress('close');
+				JSvLoadTableDTTmp(1);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
 
@@ -617,7 +653,8 @@
 				data 	: {
 							'tTypepage'  	: '<?=$tTypePage?>',
 							'tCode'	 	 	: '<?=$tDocumentNumber?>',
-							'aData'			: LocalItemSelect
+							'aData'			: LocalItemSelect,
+							'nAdjPriceALL'  : $('#oetADJPriceALL').val(),
 						},
 				cache	: false,
 				timeout	: 0,

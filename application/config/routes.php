@@ -163,6 +163,7 @@ $route['r_adjpricePDTUpdateInlineInTmp']   		= 'adjprice/cAdjprice/FSvCAJPUpdate
 $route['r_adjpricePDTCallpageUplodeFile'] 		= 'adjprice/cAdjprice/FSxCAJPCallpageUplodeFile';
 $route['r_adjpriceCancleDocument'] 				= 'adjprice/cAdjprice/FSxCAJPCancleDocument';
 $route['r_adjpriceAprove'] 						= 'adjprice/cAdjprice/FSxCAJPAproveDocument';
+$route['r_adjpriceAll'] 						= 'adjprice/cAdjprice/FSxCAJPChangeAdjPriALL';
 
 //หน้าจอใบปรับต้นทุน ( start : 21-04-2020 / done : 23-04-2020 )
 $route['r_adjcost'] 							= 'adjcost/cAdjcost/index';
@@ -179,6 +180,8 @@ $route['r_adjcostPDTUpdateInlineInTmp']   		= 'adjcost/cAdjcost/FSvCAJCUpdateInl
 $route['r_adjcostPDTCallpageUplodeFile'] 		= 'adjcost/cAdjcost/FSxCAJCCallpageUplodeFile';
 $route['r_adjcostCancleDocument'] 				= 'adjcost/cAdjcost/FSxCAJCCancleDocument';
 $route['r_adjcostAprove'] 						= 'adjcost/cAdjcost/FSxCAJCAproveDocument';
+$route['r_adjcostAll'] 							= 'adjcost/cAdjcost/FSxCAJCChangeAdjCostALL';
+
 
 //หน้าข้อมูลใบเสนอราคา ( start : 24-04-2020 / done : 25-04-2020 )
 $route['r_quotationList'] 						= 'quotationList/cQuotationList/index';

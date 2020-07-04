@@ -110,9 +110,14 @@ class mAdjcost extends CI_Model {
 						DTTmp.FCXpdCost,
 						DTTmp.FTXpdDisCost,
 						DTTmp.FTWorkerID,
-						PDT.FTPdtName
+						UNIT.FTPunName,
+						PDT.FTPdtName,
+						PDT.FCPdtCostStd,
+						SPL.FTSplName
 					FROM TCNTPdtAdjCostDTTmp DTTmp 
-					LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode ";
+					LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode 
+					LEFT JOIN TCNMPdtUnit UNIT ON PDT.FTPunCode = UNIT.FTPunCode 
+					LEFT JOIN TCNMSpl SPL ON PDT.FTSplCode = SPL.FTSplCode ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND DTTmp.FTWorkerID = '$tWorkerID' ";
 
@@ -722,6 +727,18 @@ class mAdjcost extends CI_Model {
 		$tSQL .= " WHERE HD.FTXphDocNo = '$ptCode' ";
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->result_array();
+	}
+
+	//ปรับต้นทุนทั้งหมด
+	public function FSaMAJPAdjCostALL($paPackData){
+		try{
+			$nAdjCost 	= $paPackData['nAdjCost'];
+			$FTWorkerID = $paPackData['FTWorkerID'];
+			$tSQL = "UPDATE TCNTPdtAdjCostDTTmp SET FTXpdDisCost = '$nAdjCost' WHERE FTWorkerID = '$FTWorkerID'";
+			$this->db->query($tSQL);
+		}catch(Exception $Error){
+			echo $Error;
+		}
 	}
 
 }

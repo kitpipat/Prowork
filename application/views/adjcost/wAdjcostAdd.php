@@ -162,6 +162,22 @@
 											</div>
 										</div>
 
+										<!--ปรับทั้งหมด-->
+										<?php if($tDisabledInput != 'disabled'){ ?>
+										<div class='form-group'>
+											<label> ปรับส่วนลดต้นทุนทั้งหมด</label>
+											<div class="input-group md-form form-sm form-2 pl-0 form-group">
+												<input <?=$tDisabledInput?> type="text" style="text-align: right;" class="form-control xCNNumberandPercent" maxlength="255" id="oetADJCostALL" name="oetADJCostALL" placeholder="0,10,20%" autocomplete="off" value="">
+
+												<div class="input-group-append xCNIconFindCustomer">
+													<span class="input-group-text red lighten-3" style="cursor: pointer; font-size: 18px !important; padding: 0px 12px;" onclick="JSxCahngeCostALL();">
+														ปรับทุกรายการ
+													</span>
+												</div>
+											</div>
+										</div>
+										<?php } ?>
+
 										<!--หมายเหตุ-->
 										<div class="form-group">
 											<label>หมายเหตุ</label>
@@ -531,6 +547,26 @@
 		});
 	}
 
+	//กดปรับต้นทุนทั้งหมด
+	function JSxCahngeCostALL(){
+		$.ajax({
+			type	: "POST",
+			url		: "r_adjcostAll",
+			data 	: {
+						'nAdjCostALL' : $('#oetADJCostALL').val(),
+					  },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				JSxModalProgress('close');
+				JSvLoadTableDTTmp(1);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
 
@@ -605,7 +641,7 @@
 						'tCode'	 	 	: '<?=$tDocumentNumber?>',
 						'nPage' 		: pnPage,
 						'tSearchPDT'	: $('#oetSearchPDTToTmp').val(),
-						'tValueSPL'		: $('#oetPDTSPL option:selected').val()
+						'tValueSPL'		: $('#oetPDTSPL option:selected').val(),
 					  },
 			cache	: false,
 			timeout	: 0,
@@ -628,7 +664,8 @@
 				data 	: {
 							'tTypepage'  	: '<?=$tTypePage?>',
 							'tCode'	 	 	: '<?=$tDocumentNumber?>',
-							'aData'			: LocalItemSelect
+							'aData'			: LocalItemSelect,
+							'nAdjCostALL' 	: $('#oetADJCostALL').val(),
 						},
 				cache	: false,
 				timeout	: 0,

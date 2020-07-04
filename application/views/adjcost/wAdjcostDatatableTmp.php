@@ -17,6 +17,9 @@
 		<th style="width:20px; text-align: center;">ลำดับ</th>
 		<th style="width:200px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
+		<th style="width:100px; text-align: left;">หน่วยสินค้า</th>
+		<th style="width:230px; text-align: left;">ผู้จำหน่าย</th>
+		<th style="width:150px; text-align: right;">ราคาต้นทุนตั้งต้น</th>
 		<th style="width:230px; text-align: left;">ส่วนลดต้นทุน</th>
 		<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 			<th style="width:80px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
@@ -47,6 +50,10 @@
 					<th><label class="xCNLineHeightInTable"><?=$aValue['rtRowID']?></label></th>
 					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$aValue['FTPdtCode']?></label></td>
 					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=$tPDTName;?></label></td>
+
+					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=($aValue['FTPunName'] =='') ? '-' : $aValue['FTPunName'];?></label></td>
+					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=($aValue['FTSplName'] =='') ? '-' : $aValue['FTSplName'];?></label></td>
+					<td><label style="text-align: right; width: 100%;" class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=number_format($aValue['FCPdtCostStd'],2)?></label></td>
 					
 					<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 						<td>

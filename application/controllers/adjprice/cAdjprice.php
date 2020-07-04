@@ -101,13 +101,14 @@ class cAdjprice extends CI_Controller {
 		$tTypepage 		= $this->input->post('tTypepage');
 		$tCode			= $this->input->post('tCode');
 		$aData			= $this->input->post('aData');
+		$nAdjPriceALL	= $this->input->post('nAdjPriceALL');
 		if($aData !== null){
 			$aResult = explode(",",$aData);
 			for($i=0; $i<count($aResult); $i++){
 				$aIns = array(
 					'FTXphDocNo'	=> $tCode,
 					'FTPdtCode'		=> $aResult[$i],
-					'FCXpdAddPri'	=> '0.00',	
+					'FCXpdAddPri'	=> ($nAdjPriceALL == '') ? '0.00' : $nAdjPriceALL,	
 					'FDXphDateAtv'	=> date('Y-m-d H:i:s'),
 					'FTWorkerID'	=> $this->session->userdata('tSesLogID')
 				);
@@ -313,6 +314,17 @@ class cAdjprice extends CI_Controller {
 	public function FSxCAJPAproveDocument(){
 		$tCode = $this->input->post('tCode');
 		$this->mAdjprice->FSaMAJPAproveDocument($tCode);
+	}
+
+	//ปรับราคาทั้งหมด
+	public function FSxCAJPChangeAdjPriALL(){
+		$nAdjPriceALL = $this->input->post('nAdjPriceALL');
+		$aAdj = array(
+			'nAdjPrice'		=> $nAdjPriceALL,
+			'FTWorkerID'	=> $this->session->userdata('tSesLogID')
+		);
+
+		$this->mAdjprice->FSaMAJPAdjPriceALL($aAdj);
 	}
 
 }
