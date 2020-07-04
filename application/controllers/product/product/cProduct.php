@@ -190,9 +190,16 @@ class cProduct extends CI_Controller {
 				$paData = array(
 					"tPdtCode"		=> $this->input->post('ohdProductCode'),
 					"dDateActive"	=> date('Y-m-d H:i:s'),
-					"tDocno"		=> ''
+					"tDocno"		=> '',
+					'tCostDis'		=> ($this->input->post('oetPDTCostPercent') == '' ) ? 0 : $this->input->post('oetPDTCostPercent')
 				);
 				FCNaHPDCAdjPdtCost($paData);
+
+				$paDataUpdate = array(
+						"tPdtCode"	=> $this->input->post('ohdProductCode'),
+						"nCostStd"	=> $this->input->post('oetPDTCost')
+				);
+				FSSetPdtCostStdChang($paDataUpdate);
 
 				echo 'pass_update';
 			}

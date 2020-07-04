@@ -16,7 +16,7 @@ function FSGetPdtCostStdChang($ptPdtCode,$pnCostStd){
                                $pnCostStd AS FCPdtCostStd,
                                CAST('<XMLRoot><RowData>' + REPLACE(FTPdtCostDis, ',', '</RowData><RowData>') + '</RowData></XMLRoot>' AS XML) AS X
                         FROM TCNTPdtCost
-                        WHERE FTPdtCode = 'P104'
+                        WHERE FTPdtCode = '$ptPdtCode'
                     	AND   FDCosActive > GETDATE()
                     ) T
                     CROSS APPLY X.nodes('/XMLRoot/RowData') M(N)";
@@ -41,7 +41,8 @@ function FSSetPdtCostStdChang($paData){
   if($nCountPdt > 0){
 
     $nPdtCostAFDis = 0;
-    $nPdtLastCost = 0;
+		$nPdtLastCost = 0;
+		$nIdx = 0;
     $nPdtStdCost = $paData['nCostStd'];
     for($i = 0; $i< $nCountPdt; $i++){
         $tCosTxnNo = $aProducts[$i]['FTCosTxnNo'];
@@ -58,10 +59,16 @@ function FSSetPdtCostStdChang($paData){
         }else{
               $nPdtCostAFDis = $nPdtLastCost - $nPdtCostDis;
               $nPdtLastCost = $nPdtCostAFDis;
-        }
+				}
+				if($nIdx!=$tCosTxnNo){
+
+					$nIdx = $tCosTxnNo;
+					$nPdtLastCost = $nPdtStdCost;
+
+				}
 
         $tSQLUpdate = "UPDATE TCNTPdtCost SET FCPdtCostStd = '$nPdtStdCost',FCPdtCost='$nPdtLastCost' ";
-        $tSQLUpdate = " WHERE FTCosTxnNo = '$tCosTxnNo' ";
+        $tSQLUpdate .= " WHERE FTCosTxnNo = '$tCosTxnNo' ";
         $oQuery = $ci->db->query($tSQLUpdate);
 
     }

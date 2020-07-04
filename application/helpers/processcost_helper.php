@@ -86,7 +86,14 @@
     */
     function FCNaHPDCAdjPdtCost($paData){
 
-       $aProducts = FCNtPDCGetProduct($paData['tPdtCode'],$paData['dDateActive'],$paData['tDocno']);
+	   $aProducts = FCNtPDCGetProduct($paData['tPdtCode'],$paData['dDateActive'],$paData['tDocno']);
+	   
+
+	   if(isset($paData['tCostDis'])){
+			$tCostDis = $paData['tCostDis'];
+	   }else{
+			$tCostDis = 0;
+	   }
       // echo "<pre>";
       // var_dump($aProducts);
       // echo "</pre>";
@@ -120,7 +127,7 @@
 					"FTPdtCode" 	=> $paData['tPdtCode'],
 					"FCPdtCost" 	=> $nPdtCostAFDis,
 					"FDCosActive"	=> $paData['dDateActive'],
-					'nPdtCostDis' 	=> $nPdtCostDis,
+					'nPdtCostDis' 	=> $tCostDis,
 					'nPdtCostSTD'	=> $nPdtStdCost,
 					'tDocumentNo'  => $paData['tDocno'],
 				);
