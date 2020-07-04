@@ -32,6 +32,9 @@ function FSGetPdtCostStdChang($ptPdtCode,$pnCostStd){
 
 function FSSetPdtCostStdChang($paData){
 
+
+  $ci = &get_instance();
+  $ci->load->database();
   $aProducts = FSGetPdtCostStdChang($paData['tPdtCode'],$paData['nCostStd']);
 
   $nCountPdt = count($aProducts);
