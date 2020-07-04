@@ -346,6 +346,7 @@
 												<div class="form-group">
 													<label><span style="color:red;">*</span> ต้นทุนมาตราฐาน</label>
 													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="50" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off" value="<?=@$FCPdtCostStd?>">
+													<input type="hidden" name="ohdPDTCostOld" id="ohdPDTCostOld"  value="<?=@$FCPdtCostStd?>">
 												</div>
 											</div>
 
@@ -430,6 +431,13 @@
 			$('#oetPDTCost').focus();
 			return;
 		}
+
+		if('<?=$tTypePage?>' == 'edit'){
+			if($('#ohdPDTCostOld').val() == $('#oetPDTCost').val()){
+
+			}
+		}
+
 
 		$.ajax({
 			type	: "POST",
