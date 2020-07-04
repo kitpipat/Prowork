@@ -15,9 +15,9 @@
   <thead>
     <tr>
 		<th style="width:20px; text-align: center;">ลำดับ</th>
-		<th style="width:200px; text-align: left;">รหัสสินค้า</th>
-		<th style="text-align: left;">ชื่อสินค้า</th>
-		<th style="width:100px; text-align: left;">หน่วยสินค้า</th>
+		<th style="width:170px; text-align: left;">รหัสสินค้า</th>
+		<th style="min-width: 100px; text-align: left;">ชื่อสินค้า</th>
+		<th style="width:100px; text-align: left;">หน่วย</th>
 		<th style="width:150px; text-align: right;">ราคาต้นทุนตั้งต้น</th>
 		<th style="width:150px; text-align: right;">ส่วนลดต้นทุน</th>
 		<th style="width:230px; text-align: right;">ราคาขายบวกเพิ่ม (%)</th>
