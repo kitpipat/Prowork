@@ -567,12 +567,16 @@ class mProduct extends CI_Model {
 					,FTPdtCode
 					,FCPdtCost
 					,FDCosActive
+					,FCPdtCostStd
+					,FTPdtCostDis
 				)
 				SELECT 
 					'$tBCH' AS FTBchCode
 					,FTPdtCode
 					,FCCostAfDis AS FCPdtCost
 					,NULL AS FDCosActive
+					,TCNMPdt_DataTmp.FCPdtCostStd AS FCPdtCostStd
+					,TCNMPdt_DataTmp.FTPdtCostDis AS FTPdtCostDis
 				FROM TCNMPdt_DataTmp
 				WHERE FTWorkerID = '$FTWorkerID' ";
 		if($ptNotIn != ''){

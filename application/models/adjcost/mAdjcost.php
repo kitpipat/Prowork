@@ -701,12 +701,16 @@ class mAdjcost extends CI_Model {
 						,FTPdtCode
 						,FCPdtCost
 						,FDCosActive
+						,FCPdtCostStd
+						,FTPdtCostDis
 					)
 					SELECT 
 						HD.FTBchCode AS FTBchCode
 						,DT.FTPdtCode
 						,DT.FCCostAfDis AS FCPdtCost
 						,HD.FDXphDStart AS FDCosActive
+						,DT.FCXpdCost AS FCPdtCostStd
+						,DT.FTXpdDisCost AS FTPdtCostDis
 					FROM TCNTPdtAdjCostDT DT
 					LEFT JOIN TCNTPdtAdjCostHD HD ON DT.FTXphDocNo = HD.FTXphDocNo AND DT.FTBchCode = HD.FTBchCode
 					WHERE HD.FTXphDocNo = '$ptCode' ";
