@@ -745,4 +745,24 @@ class mAdjcost extends CI_Model {
 		}
 	}
 
+	//หาสินค้าใน Tmp 
+	public function FSaMAJCGetDataInTmp_Adjcost(){
+		$tWorkerID = $this->session->userdata('tSesLogID');
+		$tSQL = "SELECT * FROM TCNTPdtAdjCostDTTmp WHERE FTWorkerID = '$tWorkerID' ";
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'raItems'  => $oQuery->result_array(),
+				'rtCode'   => '1',
+				'rtDesc'   => 'success',
+			);
+		}else{
+			$aResult = array(
+				'rtCode' => '800',
+				'rtDesc' => 'data not found',
+			);
+		}
+		return $aResult;
+	}
+
 }

@@ -561,10 +561,12 @@
 			url		: "r_adjcostAll",
 			data 	: {
 						'nAdjCostALL' : $('#oetADJCostALL').val(),
+						'tCode'	   	  : $('#ohdDocumentNumber').val()
 					  },
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				console.log(tResult);
 				JSxModalProgress('close');
 				JSvLoadTableDTTmp(1);
 			},
@@ -677,6 +679,7 @@
 				cache	: false,
 				timeout	: 0,
 				success	: function (tResult) {
+					console.log(tResult);
 					obj = [];
 					localStorage.clear();
 					$('#obtModalSelectPDT').click();

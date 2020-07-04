@@ -433,8 +433,8 @@
 		}
 
 		if('<?=$tTypePage?>' == 'edit'){
-			if($('#ohdPDTCostOld').val() == $('#oetPDTCost').val()){
-
+			if($('#ohdPDTCostOld').val() != $('#oetPDTCost').val()){
+				alert('ราคาต้นทุนมีการเปลี่ยนแปลง จะส่งผลต่อเอกสารปรับต้นทุนทั้งหมด !')
 			}
 		}
 

@@ -110,7 +110,9 @@ class cAdjcost extends CI_Controller {
 		if($aData !== null){
 			$aResult = explode(",",$aData);
 			
-			$nSeq = $this->mAdjcost->FSaMAJCGetSeqLast($tCode,$this->session->userdata('tSesUsercode'));
+			$nSeq = $this->mAdjcost->FSaMAJCGetSeqLast($tCode,$this->session->userdata('tSesLogID'));
+			// print_r($nSeq );
+
 			if($nSeq['rtCode'] == 800){
 				$nSeq = '1';
 			}else{
@@ -137,6 +139,43 @@ class cAdjcost extends CI_Controller {
 				);
 
 				$this->mAdjcost->FSaMAJCInsertPDTToTmp($aIns);
+
+				//ปรับต้นทุน
+				if($nAdjCostALL != 0.00 || $nAdjCostALL != '0.00' || $nAdjCostALL != '' || $nAdjCostALL != null){
+					$tPDTCode 		= $aResult[$i];
+					$tCode 			= $tCode;
+					$tValueUpdate	= $nAdjCostALL; 
+					$tWorkerID 		= $this->session->userdata('tSesLogID');
+	
+					//หาต้นทุนตั้งต้น
+					$aMasterPDT = $this->mAdjcost->FSaMAJCFindSplAndSTDCost($tPDTCode);
+					if($aMasterPDT['rtCode'] == 800){
+						$tCostSTD = 0.00;
+					}else{
+						$tCostSTD = $aMasterPDT['raItems'][0]['FCPdtCostStd'];
+					}
+	
+					//หาต้นทุน
+					$aPdtInfo = array(
+						"nStdCost" 		=> $tCostSTD,
+						"tStepDisCost"	=> $tValueUpdate
+					);
+					$nCost = FCNnHCOSCalCost($aPdtInfo);
+	
+					$aSet 		= array(
+						'FTXpdDisCost' 	=> $tValueUpdate,
+						'FCCostAfDis'	=> $nCost
+					);
+	
+					$aWhere 	= array(
+						'FTBchCode'		=> $this->session->userdata('tSesBCHCode'),
+						'FTXphDocNo' 	=> $tCode,
+						'FTPdtCode'		=> $tPDTCode,
+						'FTWorkerID'	=> $tWorkerID
+					);
+					$this->mAdjcost->FSaMAJCUpdatePDTInTmp($aSet,$aWhere);
+				}
+				
 				$nSeq++;
 			}
 		}
@@ -206,7 +245,7 @@ class cAdjcost extends CI_Controller {
 
 		$nPackData 	= count($aPackData['AdjustmentCost']);
 		$aResult   	= $aPackData['AdjustmentCost'];
-		$nSeq = $this->mAdjcost->FSaMAJCGetSeqLast($tCode,$this->session->userdata('tSesUsercode'));
+		$nSeq = $this->mAdjcost->FSaMAJCGetSeqLast($tCode,$this->session->userdata('tSesLogID'));
 		if($nSeq['rtCode'] == 800){
 			$nSeq = '1';
 		}else{
@@ -401,8 +440,50 @@ class cAdjcost extends CI_Controller {
 			'nAdjCost'		=> $nAdjCostALL,
 			'FTWorkerID'	=> $this->session->userdata('tSesLogID')
 		);
-
 		$this->mAdjcost->FSaMAJPAdjCostALL($aAdj);
+
+		//คำนวณต้นทุนใหม่อีกครั้ง
+		$aItem = $this->mAdjcost->FSaMAJCGetDataInTmp_Adjcost();
+		// print_r($aItem);
+
+		if($aItem['rtCode'] == 800){
+			//ไม่พบข้อมูล
+		}else{
+			for($i=0; $i<count($aItem['raItems']); $i++){
+				$tPDTCode 		= $aItem['raItems'][$i]['FTPdtCode'];
+				$tCode 			= $this->input->post('tCode');
+				$tValueUpdate	= $nAdjCostALL; 
+				$tWorkerID 		= $this->session->userdata('tSesLogID');
+
+				//หาต้นทุนตั้งต้น
+				$aMasterPDT = $this->mAdjcost->FSaMAJCFindSplAndSTDCost($tPDTCode);
+				if($aMasterPDT['rtCode'] == 800){
+					$tCostSTD = 0.00;
+				}else{
+					$tCostSTD = $aMasterPDT['raItems'][0]['FCPdtCostStd'];
+				}
+
+				//หาต้นทุน
+				$aPdtInfo = array(
+					"nStdCost" 		=> $tCostSTD,
+					"tStepDisCost"	=> $tValueUpdate
+				);
+				$nCost = FCNnHCOSCalCost($aPdtInfo);
+
+				$aSet 		= array(
+					'FTXpdDisCost' 	=> $tValueUpdate,
+					'FCCostAfDis'	=> $nCost
+				);
+
+				$aWhere 	= array(
+					'FTBchCode'		=> $this->session->userdata('tSesBCHCode'),
+					'FTXphDocNo' 	=> $tCode,
+					'FTPdtCode'		=> $tPDTCode,
+					'FTWorkerID'	=> $tWorkerID
+				);
+				$this->mAdjcost->FSaMAJCUpdatePDTInTmp($aSet,$aWhere);
+			}
+		}
 	}
 
 
