@@ -46,7 +46,7 @@
 
 					<td><label class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=($aValue['FTPunName'] =='') ? '-' : $aValue['FTPunName'];?></label></td>
 					<td><label  style="text-align: right; width: 100%;" class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=number_format($aValue['FCPdtCostStd'],2)?></label></td>
-					<td><label  style="text-align: right; width: 100%;" class="xCNLineHeightInTable <?=$tTextClassStatus;?>">xxxxx</label></td>
+					<td><label  style="text-align: right; width: 100%;" class="xCNLineHeightInTable <?=$tTextClassStatus;?>"><?=($aValue['FTXpdDisCost'] == '' ) ? '-' : $aValue['FTXpdDisCost'];?></label></td>
 					
 					<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 						<td>
@@ -180,10 +180,10 @@
 		var tValueUpdate 	= $(e).val();
 		var tPDTCode 		= $(e).data('pdtcode');
 
-		// if(tValueUpdate > 100){
-		// 	$(e).val(100);
-		// 	tValueUpdate = 100;
-		// }
+		if(tValueUpdate > 100){
+			$(e).val(100);
+			tValueUpdate = 100;
+		}
 
 		$.ajax({
 			type	: "POST",

@@ -99,6 +99,7 @@ class mAdjprice extends CI_Model {
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchTmp']);
 		$tWorkerID		= $this->session->userdata('tSesLogID');
+		$tSesPriceGroup = $this->session->userdata('tSesPriceGroup');
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTPdtCode ASC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
@@ -109,10 +110,12 @@ class mAdjprice extends CI_Model {
 						DTTmp.FTWorkerID,
 						UNIT.FTPunName,
 						PDT.FTPdtName,
-						PDT.FCPdtCostStd
+						PDT.FCPdtCostStd,
+						PRODE.FTXpdDisCost
 					FROM TCNTPdtAdjPriDTTmp DTTmp 
 					LEFT JOIN TCNMPDT PDT ON PDT.FTPdtCode = DTTmp.FTPdtCode 
-					LEFT JOIN TCNMPdtUnit UNIT ON PDT.FTPunCode = UNIT.FTPunCode ";
+					LEFT JOIN TCNMPdtUnit UNIT ON PDT.FTPunCode = UNIT.FTPunCode 
+					LEFT JOIN VCN_ProductsDetail PRODE ON PRODE.FTPdtCode = PDT.FTPdtCode AND PRODE.FTPriGrpID = '$tSesPriceGroup'  ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND DTTmp.FTWorkerID = '$tWorkerID' ";
 

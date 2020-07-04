@@ -672,4 +672,25 @@ class mProduct extends CI_Model {
 		}
 		return $aResult;
 	}
+
+	//หาต้นทุนหลังหักส่วนลด
+	public function FSaMPDTFindProductCostPrice($paPacData){
+		$tPDTCode 		= $paPacData['PDTCode'];
+		$tPriceGroup 	= $paPacData['PriceGroup'];
+
+		$tSQL = " SELECT * FROM VCN_ProductsDetail WHERE FTPdtCode = '$tPDTCode' AND (FTPriGrpID = '$tPriceGroup' OR FTPriGrpID = '') ";
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'rtCode'   => '1',
+				'tResult'  => $oQuery->result_array()
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'not Found'
+			);
+		}
+		return $aResult;
+	}
 }

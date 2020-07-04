@@ -551,6 +551,12 @@
 
 	//กดปรับราคาทั้งหมด
 	function JSxCahngePriceALL(){
+
+		var tValueUpdate = $('#oetADJPriceALL').val();
+		if(tValueUpdate > 100){
+			$('#oetADJPriceALL').val(100);
+		}
+
 		$.ajax({
 			type	: "POST",
 			url		: "r_adjpriceAll",

@@ -148,9 +148,9 @@
 		<div class="row">
 
 			<!--ข้อมูลอื่นๆ-->
-			<div class="col-lg-6">
+			<div class="col-lg-8">
 				<div class="card">
-					<div class="card-body" style="padding-bottom: 65px;">
+					<div class="card-body">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="xCNHeadFooterINPDT"><span> ข้อมูลอื่นๆ </span></div>
@@ -287,9 +287,32 @@
 						</div>
 					</div>
 				</div>
+					
+						<div class="row">
+
+							<!--หมายเหตุ-->
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="xCNHeadFooterINPDT"><span> หมายเหตุ </span></div>
+											</div>
+											<div class="col-lg-12">
+												<!--หมายเหตุ-->
+												<div class="form-group" style="margin-bottom: 0.75rem;">
+													<label>หมายเหตุ</label>
+													<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="2"><?=@$FTPdtReason;?></textarea>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 			</div>
 
-			<div class="col-lg-6">
+			<div class="col-lg-4">
 				<div class="row">
 					<!--ต้นทุนสินค้า และราคาขาย-->
 					<div class="col-lg-12">
@@ -326,45 +349,42 @@
 												</div>
 											</div>
 
-											<div class="col-lg-6" style="display:block;"> 
+											<div class="col-lg-12" style="display:block;"> 
 												<!--ส่วนลดต้นทุน %-->
 												<div class="form-group">
 													<label>ส่วนลดต้นทุน </label>
-													<input type="text" class="form-control text-right xCNNumberandPercent" readonly maxlength="50" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="10%,20,30" autocomplete="off" value="<?=($nDiscountCost == 'x') ? $FTPdtCostDis : $nDiscountCost?>">
+													<input type="text" class="form-control text-right xCNNumberandPercent" readonly maxlength="50" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="10%,20,30" autocomplete="off" value="<?=$nDiscountCost;?>">
 												</div>
 											</div>
 
-											<div class="col-lg-6"  style="display:block;"> 
+											<div class="col-lg-12" style="display:block;"> 
+												<!--ต้นทุนหลังหักส่วนลด-->
+												<div class="form-group">
+													<label>ต้นทุนหลังหักส่วนลด </label>
+													<input type="text" class="form-control text-right xCNNumberandPercent" readonly maxlength="50" id="oetPDTCostAFDiscount" name="oetPDTCostAFDiscount" placeholder="0" autocomplete="off" value="<?=number_format($nCostAFDis,2)?>">
+												</div>
+											</div>
+
+											<div class="col-lg-12"  style="display:block;"> 
 												<!--ขายบวกเพิ่มจากต้นทุน %-->
 												<div class="form-group">
 													<label> ขายบวกเพิ่มจากต้นทุน (%)</label>
 													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" readonly maxlength="5" id="oetPDTPriceSellPercent" name="oetPDTPriceSellPercent" placeholder="0 - 100" autocomplete="off" value="<?=($nAddPri == 'x') ? $FCPdtSalPrice : $nAddPri?>%">
 												</div>
 											</div>
+
+											<div class="col-lg-12" style="display:block;"> 
+												<!--ส่วนลดต้นทุน %-->
+												<div class="form-group">
+													<label>ราคาขาย </label>
+													<input type="text" class="form-control text-right xCNNumberandPercent" readonly maxlength="50" id="oetPDTPriceSell" name="oetPDTPriceSell" placeholder="0" autocomplete="off" value="<?=number_format($nPDTSetPrice,2)?>">
+												</div>
+											</div>
+
 										</div>
 										
 									</div>
 
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!--หมายเหตุ-->
-					<div class="col-lg-12">
-						<div class="card">
-							<div class="card-body">
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="xCNHeadFooterINPDT"><span> หมายเหตุ </span></div>
-									</div>
-									<div class="col-lg-12">
-										<!--หมายเหตุ-->
-										<div class="form-group" style="margin-bottom: 0.75rem;">
-											<label>หมายเหตุ</label>
-											<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="2"><?=@$FTPdtReason;?></textarea>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -418,6 +438,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+				console.log(tResult);
 				if(tResult == 'Duplicate'){
 					$('.alert-danger').addClass('show').fadeIn();
 					$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
