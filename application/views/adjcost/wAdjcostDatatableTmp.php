@@ -200,6 +200,10 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
+
+				var nPDTNext = $(e).parent().parent().next().children('td').eq(5).find('.xCNEditInline').data('pdtcode');
+				localStorage.setItem('ADJ_Cost_PDTLast',nPDTNext);
+
 				$('.alert-success').addClass('show').fadeIn();
 				$('.alert-success').find('.badge-success').text('สำเร็จ');
 				$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อมูลสำเร็จ');

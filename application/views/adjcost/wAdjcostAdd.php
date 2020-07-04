@@ -540,6 +540,13 @@
 			success	: function (tResult) {
 				JSxModalProgress('close');
 				$('#odvAJCTableDT').html(tResult);
+
+				//ตัวถัดไปจะต้อง curros
+				var oPDTLast = localStorage.getItem('ADJ_Cost_PDTLast');
+				if(oPDTLast != null || oPDTLast != ''){
+					$('#oetAddCost' + oPDTLast).focus();
+					$('#oetAddCost' + oPDTLast).select();
+				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				alert(jqXHR, textStatus, errorThrown);
