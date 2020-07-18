@@ -19,7 +19,7 @@
 		<th style="min-width: 100px; text-align: left;">ชื่อสินค้า</th>
 		<th style="width:100px; text-align: left;">หน่วย</th>
 		<th style="width:150px; text-align: right;">ราคาต้นทุนตั้งต้น</th>
-		<th style="width:150px; text-align: right;">ส่วนลดต้นทุน</th>
+		<th style="width:150px; text-align: right;">ส่วนลดราคาตั้ง</th>
 		<th style="width:230px; text-align: right;">ราคาขายบวกเพิ่ม (%)</th>
 		<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 			<th style="width:80px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>

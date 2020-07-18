@@ -344,7 +344,7 @@
 											<div class="col-lg-12"> 
 												<!--ต้นทุนมาตราฐาน-->
 												<div class="form-group">
-													<label><span style="color:red;">*</span> ต้นทุนมาตราฐาน</label>
+													<label><span style="color:red;">*</span> ราคาตั้ง</label>
 													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="50" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off" value="<?=@$FCPdtCostStd?>">
 													<input type="hidden" name="ohdPDTCostOld" id="ohdPDTCostOld"  value="<?=@$FCPdtCostStd?>">
 												</div>
@@ -353,7 +353,7 @@
 											<div class="col-lg-12" style="display:block;"> 
 												<!--ส่วนลดต้นทุน %-->
 												<div class="form-group">
-													<label>ส่วนลดต้นทุน </label>
+													<label>ส่วนลดราคาตั้ง </label>
 													<input type="text" class="form-control text-right xCNNumberandPercent" readonly maxlength="50" id="oetPDTCostPercent" name="oetPDTCostPercent" placeholder="10%,20,30" autocomplete="off" value="<?=$nDiscountCost;?>">
 												</div>
 											</div>
@@ -434,7 +434,7 @@
 
 		if('<?=$tTypePage?>' == 'edit'){
 			if($('#ohdPDTCostOld').val() != $('#oetPDTCost').val()){
-				if(confirm('ราคาต้นทุนมาตราฐานมีการเปลี่ยนแปลง จะส่งผลต่อต้นทุนทีมีผลปัจจุบัน และ เอกสารปรับต้นทุนที่ยังไม่หมดอายุ ! ')){
+				if(confirm('ราคาราคาตั้งมีการเปลี่ยนแปลง จะส่งผลต่อต้นทุนทีมีผลปัจจุบัน และ เอกสารปรับต้นทุนที่ยังไม่หมดอายุ ! ')){
 
 				}else{
 					$('#oetPDTCost').val($('#ohdPDTCostOld').val());

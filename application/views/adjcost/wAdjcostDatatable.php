@@ -17,9 +17,9 @@
 		<th style="text-align: left;">เลขที่เอกสาร</th>
 		<th style="width:200px; text-align: left;">วันที่-เวลาเอกสาร</th>
 		<th style="width:150px; text-align: left;">วันที่มีผล</th>
-		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
-		<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>
-		<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
+		<th style="width:120px; text-align: left;">สถานะเอกสาร</th>
+		<th style="width:120px; text-align: left;">สถานะอนุมัติ</th>
+		<th style="width:120px; text-align: left;">ผู้อนุมัติ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
     </tr>

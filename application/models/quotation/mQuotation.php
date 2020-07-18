@@ -97,7 +97,9 @@ class mQuotation extends CI_Model
 		$tPriceGrp 		= $paFilter["tPriceGrp"];
 		$aFilterAdv 	= $paFilter['aFilterAdv'];
 
-		$tSQL = "SELECT P.* FROM (
+		$tSQL = "
+				SELECT Q.* FROM(
+				 SELECT P.* , ROW_NUMBER() OVER(ORDER BY P.RowID) AS NewRowID FROM (
                  SELECT ROW_NUMBER() OVER(ORDER BY PDT.FTPdtCode) AS RowID,
                          PDT.FTPdtCode,
                          PDT.FTPdtName,
@@ -241,7 +243,10 @@ class mQuotation extends CI_Model
 			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tSearchAll . "%'";
 		}
 
-		$tSQL .= " AND P.RowID > $aRowLen[0] AND P.RowID <=$aRowLen[1] ";
+
+
+		$tSQL .= " ) AS Q WHERE Q.NewRowID > $aRowLen[0] AND Q.NewRowID <=$aRowLen[1] ";
+
 		$oQuery = $this->db->query($tSQL);
 		if ($oQuery->num_rows() > 0) {
 			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paFilter);

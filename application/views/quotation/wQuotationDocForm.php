@@ -70,17 +70,16 @@
 			<button type="button" class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="FSxQUOSaveDoc()">บันทึก</button>
 		
 			<?php if($tPer_approved == ''){ ?> 
-				<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติ</button>
-			<?php } ?>
-				
-			<?php if($tPer_cancle == ''){ ?> 
-				<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิก</button>
+				<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px; margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติสั่งสินค้า</button>
 			<?php } ?>
 
 			<?php if($tPer_print == ''){ ?> 
 				<button type="button" class="<?=$tEventHidePrint?> xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right" onclick="FSxQUOPrintForm()">พิมพ์</button>
 			<?php } ?>
-
+				
+			<?php if($tPer_cancle == ''){ ?> 
+				<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิก</button>
+			<?php } ?>
 		</div>
 	</div>
 
@@ -494,7 +493,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">อนุมัติเอกสาร</h5>
+				<h5 class="modal-title">อนุมัติสั้งสินค้า</h5>
 			</div>
 			<div class="modal-body">
 				<label style="text-align: left; display: block;">คำเตือน : การอนุมัติจะมีผลดังนี้</label>

@@ -20,7 +20,7 @@
 		<th style="width:100px; text-align: left;">หน่วย</th>
 		<th style="width:230px; text-align: left;">ผู้จำหน่าย</th>
 		<th style="width:150px; text-align: right;">ต้นทุนตั้งต้น</th>
-		<th style="width:230px; text-align: left;">ส่วนลดต้นทุน</th>
+		<th style="width:230px; text-align: left;">ส่วนลดราคาตั้ง</th>
 		<?php if($tControlWhenAprOrCan != 'disabled'){ ?>
 			<th style="width:80px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
 		<?php } ?>

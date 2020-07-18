@@ -69,7 +69,7 @@
 				//สถานะเอกสาร
 				switch (tXqhStaDoc) {
 					case '':
-						$("#ospStaDoc").text("รออนุมัติ")
+						$("#ospStaDoc").text("รออนุมัติสั้งสินค้า")
 						break;
 					case '1':
 						$("#ospStaDoc").text("สมบูรณ์")
@@ -78,20 +78,20 @@
 						$("#ospStaDoc").text("ยกเลิก")
 						break;
 					default:
-						$("#ospStaDoc").text("รออนุมัติ")
+						$("#ospStaDoc").text("รออนุมัติสั้งสินค้า")
 				}
 				$('#ohdStaDoc').val(tXqhStaDoc);
 
 				//สถานะอนุมัติ
 				switch (FTXqhStaApv) {
 					case '':
-						$("#ospStaDocApv").text("รออนุมัติ")
+						$("#ospStaDocApv").text("รออนุมัติสั้งสินค้า")
 						break;
 					case '1':
 						$("#ospStaDocApv").text("อนุมัติแล้ว")
 						break;
 					default:
-						$("#ospStaDocApv").text("รออนุมัติ")
+						$("#ospStaDocApv").text("รออนุมัติสั้งสินค้า")
 				}
 				$('#ohdStaApv').val(FTXqhStaApv);
 
@@ -195,6 +195,10 @@
 					$('.xCNIconFindCustomer').addClass('xCNHide');
 					$('#odvMoreItem').addClass('xCNHide');
 
+				}
+
+				if(tXqhStaDoc == 1){
+					$('.xCNPrint').removeClass('xCNHide');
 				}
 
 				if(tXqhStaDoc == 2){
@@ -401,7 +405,8 @@
 
 		 				//บันทึกผ่านเเล้ว จะมีปุ่ม อนุมัติ ยกเลิก
 		 				$('.xCNCancel').removeClass('xCNHide');
-		 				$('.xCNAprove').removeClass('xCNHide');
+						 $('.xCNAprove').removeClass('xCNHide');
+						 $('.xCNPrint').removeClass('xCNHide');
 
 						var tUsername = '<?=$this->session->userdata('tSesFirstname')?>';
 						$('#ospCreateBy').text(tUsername);

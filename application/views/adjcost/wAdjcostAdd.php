@@ -165,7 +165,7 @@
 										<!--ปรับทั้งหมด-->
 										<?php if($tDisabledInput != 'disabled'){ ?>
 										<div class='form-group'>
-											<label> ปรับส่วนลดต้นทุนทั้งหมด</label>
+											<label> ปรับส่วนลดราคาตั้งทั้งหมด</label>
 											<div class="input-group md-form form-sm form-2 pl-0 form-group">
 												<input <?=$tDisabledInput?> type="text" style="text-align: right;" class="form-control xCNNumberandPercent" maxlength="255" id="oetADJCostALL" name="oetADJCostALL" placeholder="0,10,20%" autocomplete="off" value="">
 

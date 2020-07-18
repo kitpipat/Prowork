@@ -131,6 +131,11 @@ input.form-control {
 	display: inline-block;
 }
 
+.xCNTextClassStatus_wait{
+	color : #d3bd18;
+	display: inline-block;
+}
+
 .xCNImageEdit{
     width: 15px;
     display: block;

@@ -117,10 +117,10 @@ jQuery(document).ready(function($) {
 				
 				JSxModalProgress('open');
 				
-      				var nWidth = $('#left-panel').width();
-      				if(nWidth > 70){
-      					$('#menuToggle').click();
-      				}
+      				// var nWidth = $('#left-panel').width();
+      				// if(nWidth > 70){
+      				// 	$('#menuToggle').click();
+      				// }
 
       				$('.content').html(tResult);
 

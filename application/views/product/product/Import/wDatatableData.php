@@ -22,8 +22,8 @@
 							<th style="text-align: left;">ชื่อกลุ่มสินค้า</th>
 							<th style="text-align: left;">ชื่อประเภทสินค้า</th>
 							<th style="text-align: left;">ชื่อผู้จำหน่าย</th>
-							<th style="width:80px; text-align: left;">ต้นทุน</th>
-							<th style="width:100px; text-align: left;">ส่วนลดต้นทุน</th>
+							<th style="width:80px; text-align: left;">ราคาตั้ง</th>
+							<th style="width:120px; text-align: left;">ส่วนลดราคาตั้ง</th>
 							<th style="width:300px; text-align: left;">สถานะ</th>
 							<th style="width:50px; text-align: center;">ลบ</th>
 						</tr>
@@ -90,7 +90,7 @@
 									if(strripos($aValue['FTPdtCostDis'],"%%") >= 1 || preg_replace('/[^ก-ฮA-Za-z]/u','',$aValue['FTPdtCostDis'])){
 										$tIconClassStatus 		= 'xCNIconStatus_close';
 										$tTextClassStatus 		= 'xCNTextClassStatus_close';
-										$tTextStatus 			= 'ข้อมูลส่วนลดต้นทุนไม่ถูกต้อง';
+										$tTextStatus 			= 'ข้อมูลส่วนลดราคาตั้งไม่ถูกต้อง';
 										$tStatusAprove			= 'fail';
 										$tCostDisClassStatus 	= 'xCNTextClassStatus_close';
 									}else{

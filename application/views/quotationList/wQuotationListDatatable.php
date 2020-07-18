@@ -17,7 +17,7 @@
 		<th style="text-align: left;">เลขที่เอกสาร</th>
 		<th style="width:130px; text-align: left;">วันที่</th>
 		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
-		<th style="width:150px; text-align: left;">สถานะอนุมัติ</th>
+		<!-- <th style="width:150px; text-align: left;">สถานะอนุมัติ</th> -->
 		<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;" class="<?=$tPer_delete?>">ลบ</th>
@@ -43,19 +43,32 @@
 
 					<!--สถานะเอกสาร-->
 					<?php 
-						if($aValue['FTXqhStaDoc'] == 1){
-							$tTextStaDoc 			= "สมบูรณ์";
-							$tClassStaDoc 			= 'xCNTextClassStatus_open';
-						}else{
-							$tTextStaDoc 			= "เอกสารยกเลิก";
+						if($aValue['FTXqhStaDoc'] != 1){
+							$tTextStaDoc 			= "ยกเลิกสั้งซื้อ";
 							$tClassStaDoc 			= 'xCNTextClassStatus_close';
+						}else{
+							if($aValue['FTXqhStaApv'] == 1){
+								$tTextStaDoc 			= "อนุมัติสั้งซื้อ";
+								$tClassStaDoc 			= 'xCNTextClassStatus_open';
+								$tIconClassStaApv 		= 'xCNIconStatus_open';
+							}else{
+								if($aValue['FTXqhStaDoc'] == 2){
+									$tTextStaDoc 			= "-";
+									$tClassStaDoc 			= '';
+									$tIconClassStaApv 		= '';
+								}else{
+									$tTextStaDoc 			= "รออนุมัติสั้งซื้อ";
+									$tClassStaDoc 			= 'xCNTextClassStatus_wait';
+									$tIconClassStaApv 		= 'xCNIconStatus_close';
+								}
+							}
 						}
 					?>
 					<td><span class="<?=$tClassStaDoc?>"><?=$tTextStaDoc?></span></td>
 
 					<!--สถานะอนุมัติ-->
 					<?php 
-						if($aValue['FTXqhStaApv'] == 1){
+						/*if($aValue['FTXqhStaApv'] == 1){
 							$tTextStaApv 			= "อนุมัติแล้ว";
 							$tClassStaApv 			= 'xCNTextClassStatus_open';
 							$tIconClassStaApv 		= 'xCNIconStatus_open';
@@ -69,9 +82,9 @@
 								$tClassStaApv 			= 'xCNTextClassStatus_close';
 								$tIconClassStaApv 		= 'xCNIconStatus_close';
 							}
-						}
+						}*/
 					?>
-					<td><div class="<?=$tIconClassStaApv?>"></div><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td>
+					<!-- <td><div class="<?//=$tIconClassStaApv?>"></div><span class="<?//=$tClassStaApv?>"><?//=$tTextStaApv?></span></td> -->
 					<td><?=($aValue['FTUsrFName'] == '') ? '-' : $aValue['FTUsrFName'];?></td>
 
 					<!--ถ้าอนุมัติแล้วจะลบไม่ได้-->
