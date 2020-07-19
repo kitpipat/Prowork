@@ -133,11 +133,13 @@ class cQuotation extends CI_Controller
 
 		$aItem = json_decode($oItem, true);
 
-		$nQTY = $this->mQuotation->FCnMQUExitingItem(array(
-			'tQuoDocNo' => $tQuoDocNo,
-			'tWorkerID' => $tWorkerID,
-			'tPdtCode'  => $aItem['tPdtCode']
-		));
+		// $nQTY = $this->mQuotation->FCnMQUExitingItem(array(
+		// 	'tQuoDocNo' => $tQuoDocNo,
+		// 	'tWorkerID' => $tWorkerID,
+		// 	'tPdtCode'  => $aItem['tPdtCode']
+		// ));
+
+		$nQTY = 1;
 
 		$nXqdSeq = $this->mQuotation->FCaMQUOGetItemLastSeq(array(
 			"tDocNo" => $tQuoDocNo,
