@@ -17,16 +17,26 @@
 
 		.hard_left_Top_Right1{
 			position	: absolute;
-			width		: 20%;
-			right		: 25.65%;
+			width		: 24%;
+			right		: 38%;
+		}
+
+		.hard_left_Top_Right4{
+			position		: absolute;
+			width			: 10%;
+			right			: 28%;
+			text-align		: left;
+			vertical-align	: middle !important;
+			text-align		: center;
+			padding-top		: 26px !important;
+    		padding-bottom	: 26px !important;
 		}
 
 		.hard_left_Top_Right2{
 			position	: absolute;
-			width		: 17.65%;
+			width		: 17%;
 			right		: 10%;
 		}
-
 
 		.hard_left_Top_Right3{
 			position		: absolute;
@@ -41,38 +51,53 @@
 
 		.xCNFreezeSection1{
 			position	: absolute;
-			width		: 10%;
+			width		: 8%;
 			text-align	: center;
-			right		: 35.65%;
+			right		: 54%;
 			text-align: left;
 			padding-top: 4px !important;
+			/* background-color :green; */
 		}
 
 		.xCNFreezeSection2{
 			position	: absolute;
-			width		: 10%;
+			width		: 8%;
 			text-align	: center;
-			right		: 28%;
+			right		: 46%;
 			text-align: right;
 			padding-top: 4px !important;
+			/* background-color :black; */
 		}
 
 		.xCNFreezeSection3{
 			position	: absolute;
-			width		: 10%;
+			width		: 8%;
 			text-align	: center;
-			right		: 17.65%;
+			right		: 38%;
 			text-align: left;
 			padding-top: 4px !important;
+			/* background-color :pink; */
 		}
 
 		.xCNFreezeSection4{
 			position	: absolute;
-			width		: 10%;
+			width		: 8%;
 			text-align	: center;
-			right		: 9.95%;
+			right		: 19%;
 			text-align: right;
 			padding-top: 4px !important;
+			/* background-color :yellow; */
+
+		}
+
+		.xCNFreezeSection5{
+			position	: absolute;
+			width		: 9%;
+			text-align	: center;
+			right		: 10%;
+			text-align: right;
+			padding-top: 4px !important;
+			/* background-color :red; */
 		}
 
 
@@ -82,8 +107,14 @@
 			right			: 0px;
 		}
 
+		.xCNFreezeGiveBuyer{
+			position		: absolute;
+			width			: 11%;
+			right			: 27%;
+		}
+
 		.hard_left_Sub_Right{
-			width		: 35.65%;
+			width		: 52%;
 			top			: 34px;
 			position	: absolute;
 			right		: 10%;
@@ -94,7 +125,7 @@
 		.inner {
 			overflow-x:scroll;
 			overflow-y:visible;
-			width:54.5%;
+			width:38%;
 		}
 
 		.datepicker{
@@ -104,6 +135,10 @@
 		.xCNEditInline{
 			height: 25px;
 			margin-top: 2.5px;
+		}
+
+		.xCNClassDisabledInput{
+			background : #e6e6e6;
 		}
 </style>
 
@@ -133,14 +168,17 @@
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">หน่วยสินค้า</th>
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">สถานะเอกสาร</th>
 					<th class="xCNBorderleft hard_left_Top_Right1" colspan="2" style="text-align:center;">จัดซื้อสินค้า</th>
+					<th class="xCNBorderleft hard_left_Top_Right4" rowspan="2">ผู้สั้งซื้อ</th>
 					<th class="xCNBorderleft hard_left_Top_Right2" colspan="2" style="text-align:center;">รับสินค้า</th>
-					<th class="xCNBorderleft hard_left_Top_Right3" rowspan="2">ผู้รับ</th>
+					<th class="xCNBorderleft hard_left_Top_Right3" rowspan="2">ผู้รับสินค้า</th>
 				</tr>
 				<tr class="hard_left_Sub_Right">
-					<th class="xCNBorderleft" style="text-align:center; width:25.5%;">วันสั่งสินค้า</th>
-					<th style="text-align:center; width:25%;">วันส่งของ</th>
-					<th class="xCNBorderleft" style="text-align:center; width:25.1%;">วันรับสินค้า</th>
-					<th style="text-align:center; width:25%;">เลขที่บิล</th>
+					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันสั่งสินค้า</th>
+					<th style="text-align:center; width:15.50%;">วันส่งของ</th>
+					<th style="text-align:center; width:15.50%;">อ้างอิง</th>
+					<th style="text-align:center; width:21.10%;"></th>
+					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันรับสินค้า</th>
+					<th style="text-align:center;">เลขที่บิล</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -183,9 +221,20 @@
 										}
 									?>
 
+									<?php 
+										//ถ้ามีชื่อผู้สั้งซื้อสินค้าเเล้วไม่สามารถเเก้ไขวันที่ได้
+										if($aValue['namebuy'] != '' || $aValue['namebuy'] != null){
+											$tDisabled 				= 'disabled';
+											$tClassDisabledInput 	= 'xCNClassDisabledInput';
+										}else{
+											$tDisabled 				= '';
+											$tClassDisabledInput 	= '';
+										}
+									?>
+
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PUCDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width: 90%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPucDate?>">
+										<input <?=$tDisabled?> data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PUCDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNPUCDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" style="text-align: left; width:100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPucDate?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FDXqdPucDate == null) ? '-' : $FDXqdPucDate?></label>
 									<?php } ?>
@@ -199,16 +248,46 @@
 											$FDXqdDliDate = null;
 										}
 									?>
+
+									<?php 
+										//ถ้ามีชื่อผู้สั้งซื้อสินค้าเเล้วไม่สามารถเเก้ไขวันที่ได้
+										if($aValue['namebuy'] != '' || $aValue['namebuy'] != null){
+											$tDisabled 				= 'disabled';
+											$tClassDisabledInput 	= 'xCNClassDisabledInput';
+										}else{
+											$tDisabled 				= '';
+											$tClassDisabledInput 	= '';
+										}
+									?>
+
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'DLIDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width:90%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdDliDate?>">
+										<input <?=$tDisabled?> data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'DLIDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNDLIDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" style="text-align: left; width:100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdDliDate?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FDXqdDliDate == null) ? '-' : $FDXqdDliDate?></label>
 									<?php } ?>
 								</td>
 
+								<!--อ้างอิง-->
+								<td class="xCNFreezeSection3">
+									<?php $FTXqdRefBuyer = $aValue['FTXqdRefBuyer']; ?>
+									<!--มีสิทธิแก้ไข-->
+									<?php if($tPer_edit == ''){ ?>
+										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'REFBUY');" type="text" <?=$tDisabledKey?> maxlength="20" class="xCNEditInline xCNREFBUY<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" style="text-align: left; width: 100%;" value="<?=@$FTXqdRefBuyer?>">
+									<?php }else{ ?>
+										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FTXqdRefBuyer == null) ? '-' : $FTXqdRefBuyer?></label>
+									<?php } ?>
+								</td>
+
+								<!--ผูสั้ง-->
+								<td class="xCNBorderleft xCNFreezeGiveBuyer xCNFreezeGiveBuyer<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>">
+									<?=($aValue['namebuy'] == '' ) ? '-' : $aValue['namebuy'];?>
+								</td>
+
+								<!---------------------------------------------------------->
+
 								<!--วันที่รับสินค้า-->
-								<td class="xCNBorderleft xCNFreezeSection3">
+								<td class="xCNBorderleft xCNFreezeSection4">
 									<?php
 										if($aValue['FDXqdPikDate'] != '' || $aValue['FDXqdPikDate'] != null){
 											$FDXqdPikDate = date('d/m/Y',strtotime($aValue['FDXqdPikDate']));
@@ -216,27 +295,28 @@
 											$FDXqdPikDate = null;
 										}
 									?>
+
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PIKDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker" style="text-align: left; width:90%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPikDate?>">
+										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PIKDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker xCNPIKDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" style="text-align: left; width:100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPikDate?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FDXqdPikDate == null) ? '-' : $FDXqdDliDate?></label>
 									<?php } ?>
 								</td>
-								<td class="xCNBorderright xCNFreezeSection4">
+								<td class="xCNBorderright xCNFreezeSection5">
 									<?php $FTXqdRefInv = $aValue['FTXqdRefInv']; ?>
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'REF');" type="text" <?=$tDisabledKey?> maxlength="20" class="xCNEditInline" style="text-align: left; width: 90%;" value="<?=@$FTXqdRefInv?>">
+										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'REFCON');" type="text" <?=$tDisabledKey?> maxlength="20" class="xCNEditInline" style="text-align: left; width: 100%;" value="<?=@$FTXqdRefInv?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FTXqdRefInv == null) ? '-' : $FTXqdRefInv?></label>
 									<?php } ?>
-
 								</td>
 
 								<!--ผู้รับ-->
-								<td class="xCNFreezeGiveUser xCNFreezeGiveUser<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>"><?=($aValue['FTUsrFName'] == '' ) ? '-' : $aValue['FTUsrFName'];?></td>
-
+								<td class="xCNFreezeGiveUser xCNFreezeGiveUser<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>">
+									<?=($aValue['namecon'] == '' ) ? '-' : $aValue['namecon'];?>
+								</td>
 							</tr>
 						<?php } ?>
 					<?php }else{ ?>
@@ -301,6 +381,21 @@
 			todayHighlight  : true,
 			orientation		: "top right"
 		});
+
+		
+
+		//ฝ่ายจัดซื้อ = 1 จะใช้งานช่อง รับสินค้า ไม่ได้
+		if('<?=$this->session->userdata("tSesUserGroup")?>' == 1){
+			$('.xCNFreezeSection4').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+			$('.xCNFreezeSection5').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+		}	
+
+		//ฝ่ายขาย = 1 จะใช้งานช่อง จัดซื้อ ไม่ได้
+		if('<?=$this->session->userdata("tSesUserGroup")?>' == 2){
+			$('.xCNFreezeSection1').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+			$('.xCNFreezeSection2').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+			$('.xCNFreezeSection3').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+		}	
 	});
 
 	//เปลี่ยนหน้า
@@ -337,6 +432,18 @@
 		var tPdtcode 		= $(elem).attr('data-pdtcode');
 		var tValue			= $(elem).val();
 
+		if(ptType == 'REFBUY'){
+			var dDLIDATE = $('.xCNDLIDATE'+tDocumentNubmer+tSeq).val();
+			var dPUCDATE = $('.xCNPUCDATE'+tDocumentNubmer+tSeq).val();
+
+			if((dDLIDATE == '' || dDLIDATE == null) && (dPUCDATE == '' || dPUCDATE == null)){
+				alert('กรุณากรอกวันสั่งสินค้า และวันส่งของให้เรียบร้อยก่อน !');
+				$(elem).val('');
+				return;
+			}
+		}
+
+
 		$.ajax({
 			type	: "POST",
 			url		: 'r_quotationcheckUpdate',
@@ -363,8 +470,13 @@
 
 
 				//ถ้ากรอกเลขที่บิล จะเอาต้อง อัพเดท ผู้รับให้เห็น
-				if(ptType == 'REF'){
+				if(ptType == 'REFCON'){
 					$('.xCNFreezeGiveUser'+tDocumentNubmer+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
+					//$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
+				}else if(ptType == 'REFBUY'){
+					$('.xCNFreezeGiveBuyer'+tDocumentNubmer+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
+					$('.xCNDLIDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
+					$('.xCNPUCDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

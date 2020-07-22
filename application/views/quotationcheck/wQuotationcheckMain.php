@@ -39,7 +39,7 @@
 				</div>
 
 				<!--เลขที่เอกสาร-->
-				<div class="col-lg-2">
+				<div class="col-lg-4">
 					<div class="form-group">
 						<label>เลขที่เอกสาร</label>
 						<input type="text" class="form-control xCNInputWithoutSingleQuote" id="oetDocNumber" name="oetDocNumber" placeholder="กรอกเลขที่เอกสาร" autocomplete="off">
@@ -47,7 +47,7 @@
 				</div>
 
 				<!--สถานะเอกสาร-->
-				<div class="col-lg-2">
+				<!-- <div class="col-lg-2">
 					<div class="form-group">
 					<label>สถานะอนุมัติ</label>
 						<select class="form-control" id="oetstaDoc" name="oetstaDoc">
@@ -56,7 +56,7 @@
 							<option value="0">ยังไม่อนุมัติ</option>
 						</select>
 					</div>
-				</div>
+				</div> -->
 
 				<!--สถานะจัดซื้อ-->
 				<div class="col-lg-2">

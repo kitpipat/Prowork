@@ -63,8 +63,12 @@ class cQuotationcheck extends CI_Controller {
 				$tUpdateFiled = 'FDXqdPikDate';
 				$tValue 	  = date('Y-m-d',strtotime(str_replace('/', '-', $tValue))) . ' ' . date('H:i:s');
 				break;
-			case "REF":
+			case "REFCON":
 				$tUpdateFiled = 'FTXqdRefInv';
+				$tValue 	  = trim($tValue);
+				break;
+			case "REFBUY":
+				$tUpdateFiled = 'FTXqdRefBuyer';
 				$tValue 	  = trim($tValue);
 				break;
 			default:
@@ -72,15 +76,14 @@ class cQuotationcheck extends CI_Controller {
 		}
 
 		$aSet = array(
-			$tUpdateFiled 		=> $tValue,
-			'FTXqdBuyer'		=> $this->session->userdata('tSesUsercode'),
-			'FTXqdConsignee' 	=> $this->session->userdata('tSesUsercode')
+			$tUpdateFiled 		=> $tValue
 		);
 
 		$aWhere = array(
 			'FTXqhDocNo'	=> $tDocumentNubmer,
 			'FNXqdSeq'		=> $tSeq,
-			'FTPdtCode'		=> $tPdtcode
+			'FTPdtCode'		=> $tPdtcode,
+			'tType'			=> $tType
 		);
 
 		$tReturn = $this->mQuotationcheck->FSaMQTCUpdate($aSet,$aWhere);

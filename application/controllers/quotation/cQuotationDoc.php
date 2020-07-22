@@ -414,7 +414,7 @@ class cQuotationDoc extends CI_Controller
 	}
 
   //พิมพ์ใบเสนอราคา
-	public function FSaCQUODocPrintForm($ptDocNo)
+	public function FSaCQUODocPrintForm($ptDocNo,$ptContact)
 	{
 
 			// สร้าง object สำหรับใช้สร้าง pdf
@@ -423,7 +423,7 @@ class cQuotationDoc extends CI_Controller
 			// กำหนดรายละเอียดของ pdf
 			// $pdf->SetCreator(PDF_CREATOR);
 			// $pdf->SetAuthor('Nicola Asuni');
-			// $pdf->SetTitle('TCPDF Example 001');
+			$pdf->SetTitle('ใบเสนอราคา : ' . $ptDocNo);
 			// $pdf->SetSubject('TCPDF Tutorial');
 			// $pdf->SetKeywords('TCPDF, PDF, example, test, guide');
 
@@ -447,7 +447,7 @@ class cQuotationDoc extends CI_Controller
 			$pdf->SetMargins(5, 5, 5);
 			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-      $pdf->setCellHeightRatio(1.2);
+      		$pdf->setCellHeightRatio(1.2);
 			// กำหนดการแบ่งหน้าอัตโนมัติ
 			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
@@ -473,13 +473,15 @@ class cQuotationDoc extends CI_Controller
 			// กำหนดเงาของข้อความ
 			//$pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
 
-      $aDocHeader 	= $this->mQuotation->FCaMQUODocPrintHD($ptDocNo);
+      		$aDocHeader 	= $this->mQuotation->FCaMQUODocPrintHD($ptDocNo);
 			$aDocCustomer 	= $this->mQuotation->FCaMQUODocPrintHDCst($ptDocNo);
 			$aDocDT	= $this->mQuotation->FCaMQUODocPrintDT($ptDocNo);
 
-			$aSQData = array("aDocHeader"=>$aDocHeader,
-		                   "aDocCustomer"=>$aDocCustomer,
-										   "aDocDT" =>$aDocDT);
+			$aSQData = array(	"aDocHeader"	=>$aDocHeader,
+		                   		"aDocCustomer"	=>$aDocCustomer,
+								"aDocDT" 		=>$aDocDT,
+								"aContact"		=>$ptContact 
+							);
 
 			$html = $this->load->view('quotation/wQuotationForm',$aSQData,true);
 

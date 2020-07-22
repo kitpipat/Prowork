@@ -1,3 +1,19 @@
+
+<?php 
+$aContactAddress = base64_decode($aContact); 
+$aContactAddress = explode("/n",$aContactAddress);
+
+$tCstName 		= $aContactAddress[0];
+$tAddress 		= $aContactAddress[1];
+$tTexNo				= $aContactAddress[2];
+$tContact  		= $aContactAddress[3];
+$tEmail 			= $aContactAddress[4];
+$tTel 				= $aContactAddress[5];
+$tFax 				= $aContactAddress[6];
+$tPrjName 		= $aContactAddress[7];
+$tCodeRef 		= $aContactAddress[8];
+?>
+
 <table cellpadding="0" cellspacing="3">
   <tbody>
     <tr>
@@ -9,7 +25,10 @@
           </tr>
           <tr>
             <td>ลูกค้า
-              <?php echo ($aDocCustomer['raItems'][0]['FTXqcCstName'] != "" ? $aDocCustomer['raItems'][0]['FTXqcCstName'] : "ไม่ระบุลูกค้า");?><br><span><?php echo ($aDocCustomer['raItems'][0]['FTXqcAddress'] != "" ? $aDocCustomer['raItems'][0]['FTXqcAddress'] : "-")?></span><br>โทร <?php echo ($aDocCustomer['raItems'][0]['FTXqhTel'] != "" ? $aDocCustomer['raItems'][0]['FTXqhTel'] : "-");?> <br>เลขประจำตัวผู้เสียภาษี <?php echo ($aDocCustomer['raItems'][0]['FTXqhTaxNo'] != "" ? $aDocCustomer['raItems'][0]['FTXqhTaxNo'] : "-");?>
+							<?php echo ($tCstName != "" ? $tCstName : "ไม่ระบุลูกค้า");?><br>
+							<span><?php echo ($tAddress != "" ? $tAddress : "-")?></span><br>
+							โทร <?php echo ($tTel != "" ? $tTel : "-");?><br>
+							เลขประจำตัวผู้เสียภาษี <?php echo ($tTexNo != "" ? $tTexNo : "-");?>
             </td>
           </tr>
         </table>

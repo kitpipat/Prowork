@@ -42,7 +42,8 @@ class mQuotationcheck extends CI_Model{
 						HD.FDCreateOn,
 						HD.FTUpdateBy,
 						HD.FDUpdateOn,
-						USR.FTUsrFName,
+						USRBUYER.FTUsrFName AS namebuy,
+						USRCONSIG.FTUsrFName AS namecon,
 						DT.FTPdtName,
 						DT.FTPdtCode,
 						DT.FNXqdSeq,
@@ -54,10 +55,12 @@ class mQuotationcheck extends CI_Model{
 						DT.FDXqdPikDate,
 						DT.FTXqdRefInv,
 						DT.FTXqdConsignee,
+						DT.FTXqdRefBuyer,
 						UNIT.FTPunName
 					 FROM TARTSqHD HD
 					 LEFT JOIN TARTSqDT DT ON HD.FTXqhDocNo = DT.FTXqhDocNo
-					 LEFT JOIN TCNMUsr USR ON DT.FTXqdBuyer = USR.FTUsrCode
+					 LEFT JOIN TCNMUsr USRBUYER ON DT.FTXqdBuyer = USRBUYER.FTUsrCode
+					 LEFT JOIN TCNMUsr USRCONSIG ON DT.FTXqdConsignee = USRCONSIG.FTUsrCode
 					 LEFT JOIN TCNMPdtUnit UNIT ON UNIT.FTPunCode = DT.FTPunCode ";
 		$tSQL .= " WHERE 1=1 ";
 
@@ -74,14 +77,15 @@ class mQuotationcheck extends CI_Model{
 		}
 
 		//ค้นหาสถานะเอกสาร
-		if(trim($paData['tStaDoc']) != ''){
-			$tStaDoc = $paData['tStaDoc'];
-			if($tStaDoc == 0){
-				$tSQL .= " AND ( ISNULL(HD.FTXqhStaApv,'') = '' )";
-			}else{
-				$tSQL .= " AND ( HD.FTXqhStaApv = '$tStaDoc' )";
-			}
-		}
+		// if(trim($paData['tStaDoc']) != ''){
+		// 	$tStaDoc = $paData['tStaDoc'];
+		// 	if($tStaDoc == 0){
+		// 		$tSQL .= " AND ( ISNULL(HD.FTXqhStaApv,'') = '' )";
+		// 	}else{
+		// 		$tSQL .= " AND ( HD.FTXqhStaApv = '1' )";
+		// 	}
+		// }
+		$tSQL .= " AND ( HD.FTXqhStaApv = '1' )";
 
 		//ค้นหาสถานะจัดซื้อ
 		if(trim($paData['tStaSale']) != ''){
@@ -104,6 +108,7 @@ class mQuotationcheck extends CI_Model{
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
+
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMCPIGetData_PageAll($paData);
@@ -151,14 +156,15 @@ class mQuotationcheck extends CI_Model{
 			}
 
 			//ค้นหาสถานะเอกสาร
-			if(trim($paData['tStaDoc']) != ''){
-				$tStaDoc = $paData['tStaDoc'];
-				if($tStaDoc == 0){
-					$tSQL .= " AND ( ISNULL(HD.FTXqhStaApv,'') = '' )";
-				}else{
-					$tSQL .= " AND ( HD.FTXqhStaApv = '$tStaDoc' )";
-				}
-			}
+			// if(trim($paData['tStaDoc']) != ''){
+			// 	$tStaDoc = $paData['tStaDoc'];
+			// 	if($tStaDoc == 0){
+			// 		$tSQL .= " AND ( ISNULL(HD.FTXqhStaApv,'') = '' )";
+			// 	}else{
+			// 		$tSQL .= " AND ( HD.FTXqhStaApv = '$tStaDoc' )";
+			// 	}
+			// }
+			$tSQL .= " AND ( HD.FTXqhStaApv = '1' )";
 
 			//ค้นหาสถานะจัดซื้อ
 			if(trim($paData['tStaSale']) != ''){
@@ -218,6 +224,21 @@ class mQuotationcheck extends CI_Model{
 			$this->db->where('FNXqdSeq', $ptWhere['FNXqdSeq']);
 			$this->db->where('FTPdtCode', $ptWhere['FTPdtCode']);
 			$this->db->update('TARTSqDT', $ptSet);
+
+			if($ptWhere['tType'] == 'REFCON'){ //ผู้รับ
+				$this->db->set('FTXqdConsignee', $this->session->userdata('tSesUsercode'));
+				$this->db->where('FTXqhDocNo', $ptWhere['FTXqhDocNo']);
+				$this->db->where('FNXqdSeq', $ptWhere['FNXqdSeq']);
+				$this->db->where('FTPdtCode', $ptWhere['FTPdtCode']);
+				$this->db->update('TARTSqDT');
+			}else if($ptWhere['tType'] == 'REFBUY'){ //ผู้สั้งซื้อ
+				$this->db->set('FTXqdBuyer', $this->session->userdata('tSesUsercode'));
+				$this->db->where('FTXqhDocNo', $ptWhere['FTXqhDocNo']);
+				$this->db->where('FNXqdSeq', $ptWhere['FNXqdSeq']);
+				$this->db->where('FTPdtCode', $ptWhere['FTPdtCode']);
+				$this->db->update('TARTSqDT');
+			}
+
 		}catch(Exception $Error){
 			echo $Error;
 		}
