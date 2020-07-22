@@ -65,7 +65,7 @@
 						<select class="form-control" id="oetstaSale" name="oetstaSale">
 							<option value="">ทั้งหมด</option>
 							<option value="1">จัดซื้อแล้ว</option>
-							<option value="">ยังไม่จัดซื้อ</option>
+							<option value="0">ยังไม่จัดซื้อ</option>
 						</select>
 					</div>
 				</div>
