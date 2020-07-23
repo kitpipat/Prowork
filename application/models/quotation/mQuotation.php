@@ -1040,6 +1040,8 @@ class mQuotation extends CI_Model
 		$nItemQTY 	= $paItem['nItemQTY'];
 		$tPdtCode  = $paItem['tPdtCode'];
 		$nDiscount  = $paItem['nDiscount'];
+		$nDiscountText  = $paItem['tDisText'];
+
 		if($nDiscount ==''){
 			$nDiscount = 0;
 		}else{

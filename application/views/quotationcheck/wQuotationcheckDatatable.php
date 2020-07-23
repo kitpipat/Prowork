@@ -175,7 +175,7 @@
 				<tr class="hard_left_Sub_Right">
 					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันสั่งสินค้า</th>
 					<th style="text-align:center; width:15.50%;">วันส่งของ</th>
-					<th style="text-align:center; width:15.50%;">อ้างอิง</th>
+					<th style="text-align:center; width:15.50%;">เลขที่ใบสั่งซื้อ</th>
 					<th style="text-align:center; width:21.10%;"></th>
 					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันรับสินค้า</th>
 					<th style="text-align:center;">เลขที่บิล</th>
@@ -221,7 +221,7 @@
 										}
 									?>
 
-									<?php 
+									<?php
 										//ถ้ามีชื่อผู้สั้งซื้อสินค้าเเล้วไม่สามารถเเก้ไขวันที่ได้
 										if($aValue['namebuy'] != '' || $aValue['namebuy'] != null){
 											$tDisabled 				= 'disabled';
@@ -249,7 +249,7 @@
 										}
 									?>
 
-									<?php 
+									<?php
 										//ถ้ามีชื่อผู้สั้งซื้อสินค้าเเล้วไม่สามารถเเก้ไขวันที่ได้
 										if($aValue['namebuy'] != '' || $aValue['namebuy'] != null){
 											$tDisabled 				= 'disabled';
@@ -382,20 +382,20 @@
 			orientation		: "top right"
 		});
 
-		
+
 
 		//ฝ่ายจัดซื้อ = 1 จะใช้งานช่อง รับสินค้า ไม่ได้
 		if('<?=$this->session->userdata("tSesUserGroup")?>' == 1){
 			$('.xCNFreezeSection4').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
 			$('.xCNFreezeSection5').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
-		}	
+		}
 
 		//ฝ่ายขาย = 1 จะใช้งานช่อง จัดซื้อ ไม่ได้
 		if('<?=$this->session->userdata("tSesUserGroup")?>' == 2){
 			$('.xCNFreezeSection1').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
 			$('.xCNFreezeSection2').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
 			$('.xCNFreezeSection3').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
-		}	
+		}
 	});
 
 	//เปลี่ยนหน้า

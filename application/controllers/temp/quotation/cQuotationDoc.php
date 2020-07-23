@@ -77,11 +77,6 @@ class cQuotationDoc extends CI_Controller
 		return $convert;
 	}
 
-	public function FCNtReadNumberToCurrency(){
-		      $nNumber = $this->input->get('nNumber');
-		      echo $this->FCNtReadNumber($nNumber);
-	}
-
 	//Get ข้อมูลส่วนหัว
 	public function FSaCQUODocHeader()
 	{
@@ -229,48 +224,26 @@ class cQuotationDoc extends CI_Controller
 
 		$nItemNet = number_format($nItemQTY, 0) * $nPdtUnitPrice;
 
-		$aDiscount = explode(",",$nItemDiscount);
-		//print_r($aDiscount);
+		$nStrCountDisTxt = strlen($nItemDiscount) - 1;
+
+		$tDisType = substr($nItemDiscount, $nStrCountDisTxt);
 		$nDiscountCal = 0;
-		$nDisLen = count($aDiscount);
-    $nTotalDisCount = 0;
-		$nItemNetLast = $nItemNet;
-		for($d = 0;$d<$nDisLen;$d++){
+		$nDiscount = 0;
+		//echo $nItemDiscount;
+		if ($tDisType == '%') {
+			$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
+			$nDiscount = ($nItemNet * $nDiscountCal) / 100;
+		} else {
 
-					$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1);//ประเภทส่วนลด
-			    if($tDisType == '%'){
-						$nDiscountCal = substr($aDiscount[$d], 0, strlen($aDiscount[$d]) - 1);
-					  $nTotalDisCount = $nTotalDisCount + ($nItemNetLast * $nDiscountCal) / 100;
-						$nItemNetLast = $nItemNetLast - ($nItemNetLast * $nDiscountCal) / 100;
-					}else{
-						$nDiscountCal = $aDiscount[$d];
-						$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
-						$nItemNetLast = $nItemNetLast - $nTotalDisCount;
-					}
+			$nDiscount = $nItemDiscount;
 		}
-
-
-		// $nStrCountDisTxt = strlen($nItemDiscount) - 1;
-		//
-		// $tDisType = substr($nItemDiscount, $nStrCountDisTxt);
-		// $nDiscountCal = 0;
-		// $nDiscount = 0;
-		// //echo $nItemDiscount;
-		// if ($tDisType == '%') {
-		// 	$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
-		// 	$nDiscount = ($nItemNet * $nDiscountCal) / 100;
-		// } else {
-		//
-		// 	$nDiscount = $nItemDiscount;
-		// }
 
 		$aDataUpdate = array(
 			"tQuoDocNo" => $tQuoDocNo,
 			"nItemSeq" => $nItemSeq,
 			"nItemQTY" => $nItemQTY,
 			"tPdtCode" => $tPdtCode,
-			"nDiscount" => $nTotalDisCount,
-			'tDisText'  => $nItemDiscount
+			"nDiscount" => $nDiscount
 		);
 
 		$this->mQuotation->FCxMQUEditItemInTemp($aDataUpdate);
@@ -290,47 +263,26 @@ class cQuotationDoc extends CI_Controller
 
 		$nItemNet = number_format($nItemQTY, 0) * $nPdtUnitPrice;
 
-		$aDiscount = explode(",",$nItemDiscount);
-		//print_r($aDiscount);
+		$nStrCountDisTxt = strlen($nItemDiscount) - 1;
+
+		$tDisType = substr($nItemDiscount, $nStrCountDisTxt);
 		$nDiscountCal = 0;
-		$nDisLen = count($aDiscount);
-    $nTotalDisCount = 0;
-		$nItemNetLast = $nItemNet;
-		for($d = 0;$d<$nDisLen;$d++){
+		$nDiscount = 0;
+		//echo $nItemDiscount;
+		if ($tDisType == '%') {
+			$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
+			$nDiscount = ($nItemNet * $nDiscountCal) / 100;
+		} else {
 
-					$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1);//ประเภทส่วนลด
-			    if($tDisType == '%'){
-						$nDiscountCal = substr($aDiscount[$d], 0, strlen($aDiscount[$d]) - 1);
-					  $nTotalDisCount = $nTotalDisCount + ($nItemNetLast * $nDiscountCal) / 100;
-						$nItemNetLast = $nItemNetLast - ($nItemNetLast * $nDiscountCal) / 100;
-
-					}else{
-						$nDiscountCal = $aDiscount[$d];
-						$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
-            $nItemNetLast = $nItemNetLast - $nTotalDisCount;
-					}
+			$nDiscount = $nItemDiscount;
 		}
-
-		// $nStrCountDisTxt = strlen($nItemDiscount) - 1;
-		//
-		// $tDisType = substr($nItemDiscount, $nStrCountDisTxt);
-		// $nDiscountCal = 0;
-		// $nDiscount = 0;
-		// //echo $nItemDiscount;
-		// if ($tDisType == '%') {
-		// 	$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
-		// 	$nDiscount = ($nItemNet * $nDiscountCal) / 100;
-		// } else {
-		//
-		// 	$nDiscount = $nItemDiscount;
-		// }
 
 		$aDataUpdate = array(
 			"tQuoDocNo" => $tQuoDocNo,
 			"nItemSeq" => $nItemSeq,
 			"nPdtUnitPrice" => $nPdtUnitPrice,
 			"tPdtCode" => $tPdtCode,
-			"nDiscount" => $nTotalDisCount
+			"nDiscount" => $nDiscount
 		);
 
 		$this->mQuotation->FCxMQUEditUnitPriInTemp($aDataUpdate);
@@ -346,48 +298,25 @@ class cQuotationDoc extends CI_Controller
 		$tPdtCode = $this->input->post('tPdtCode');
 		$nItemNet = str_replace(",", "", $this->input->post('nItemNet'));
 
-
-
-		$aDiscount = explode(",",$nItemDiscount);
-		//print_r($aDiscount);
+		$nStrCountDisTxt = strlen($nItemDiscount) - 1;
+		$tDisType = substr($nItemDiscount, $nStrCountDisTxt);
 		$nDiscountCal = 0;
-		$nDisLen = count($aDiscount);
-    $nTotalDisCount = 0;
-		$nItemNetLast = $nItemNet;
-		for($d = 0;$d<$nDisLen;$d++){
+		$nItemNetAFDis = 0;
+		$nDiscount = 0;
+		//echo $nItemDiscount;
+		if ($tDisType == '%') {
+			$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
+			$nDiscount = ($nItemNet * $nDiscountCal) / 100;
+		} else {
 
-					$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1);//ประเภทส่วนลด
-			    if($tDisType == '%'){
-						$nDiscountCal = substr($aDiscount[$d], 0, strlen($aDiscount[$d]) - 1);
-					  $nTotalDisCount = $nTotalDisCount + ($nItemNetLast * $nDiscountCal) / 100;
-						$nItemNetLast = $nItemNetLast - ($nItemNetLast * $nDiscountCal) / 100;
-					}else{
-						$nDiscountCal = $aDiscount[$d];
-						$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
-						$nItemNetLast = $nItemNetLast - $nTotalDisCount;
-					}
+			$nDiscount = $nItemDiscount;
 		}
-
-
-		// $nStrCountDisTxt = strlen($nItemDiscount) - 1;
-		// $tDisType = substr($nItemDiscount, $nStrCountDisTxt);
-		// $nDiscountCal = 0;
-		// $nItemNetAFDis = 0;
-		// $nDiscount = 0;
-		// //echo $nItemDiscount;
-		// if ($tDisType == '%') {
-		// 	$nDiscountCal = substr($nItemDiscount, 0, $nStrCountDisTxt);
-		// 	$nDiscount = ($nItemNet * $nDiscountCal) / 100;
-		// } else {
-		//
-		// 	$nDiscount = $nItemDiscount;
-		// }
 
 		$aItemDisData = array(
 			"tQuoDocNo" => $tQuoDocNo,
 			"nItemSeq" => $nItemSeq,
 			"tPdtCode" => $tPdtCode,
-			"nDiscount" => $nTotalDisCount,
+			"nDiscount" => $nDiscount,
 			"tDisText" => $nItemDiscount
 		);
 		$this->mQuotation->FCxMQUEditItemIDisCount($aItemDisData);
@@ -414,60 +343,33 @@ class cQuotationDoc extends CI_Controller
 
 		$tQuoDocNo 	  = $this->input->post('tQuoDocNo');
 		$nDiscount 		= $this->input->post('nDiscount');
+		$nDiscountTxt  = str_replace(",", "", $nDiscount);
 		$nNetB4HD 	= str_replace(",", "", $this->input->post('nNetB4HD'));
 
-		// discount to array modifi 23/07/2020 p'run
-		$aDiscount = explode(",",$nDiscount);
-		//print_r($aDiscount);
+		$nStrCountDisTxt = strlen($nDiscount) - 1;
+		$tDisType = substr($nDiscount, $nStrCountDisTxt);
 		$nDiscountCal = 0;
-		$nDisLen = count($aDiscount);
-    $nTotalDisCount = 0;
-		$nB4DisLast = $nNetB4HD;
-		for($d = 0;$d<$nDisLen;$d++){
-					$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1);//ประเภทส่วนลด
-			    if($tDisType == '%'){
-						$nDiscountCal = substr($aDiscount[$d], 0, strlen($aDiscount[$d]) - 1);
-					  $nTotalDisCount = $nTotalDisCount + ($nB4DisLast * $nDiscountCal) / 100;
-						$nB4DisLast = $nB4DisLast - ($nB4DisLast * $nDiscountCal) / 100;
-						//echo $nB4DisLast.'-';
-					}else{
-						$nDiscountCal = $aDiscount[$d];
-						$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
-            $nB4DisLast = $nB4DisLast - $nTotalDisCount;
-						//echo $nB4DisLast.'-';
-					}
-		}
+		$nItemNetAFDis = 0;
+		//echo $nItemDiscount;
+		if ($tDisType == '%') {
+			$nDiscountCal = substr($nDiscount, 0, $nStrCountDisTxt);
+			$nDiscount = ($nNetB4HD * $nDiscountCal) / 100;
+		} else {
 
-		//
-		// exit();
-		//
-		// $nDiscountTxt  = str_replace(",", "", $nDiscount);
-		// $nNetB4HD 	= str_replace(",", "", $this->input->post('nNetB4HD'));
-		//
-		// $nStrCountDisTxt = strlen($nDiscount) - 1;
-		// $tDisType = substr($nDiscount, $nStrCountDisTxt);
-		// $nDiscountCal = 0;
-		// $nItemNetAFDis = 0;
-		// //echo $nItemDiscount;
-		// if ($tDisType == '%') {
-		// 	$nDiscountCal = substr($nDiscount, 0, $nStrCountDisTxt);
-		// 	$nDiscount = ($nNetB4HD * $nDiscountCal) / 100;
-		// } else {
-		//
-		// 	$nDiscount = $nDiscount;
-		// }
+			$nDiscount = $nDiscount;
+		}
 		$tWorkerID	= $this->session->userdata('tSesLogID');
 
 		$aDisInfo = array(
 			"tQuoDocNo" => $tQuoDocNo,
-			"nDiscount" => $nTotalDisCount,
-			"tDisTxt" 	=> $nDiscount,
+			"nDiscount" => str_replace(",", "", $nDiscount),
+			"tDisTxt" 	=> $nDiscountTxt,
 			"tWorkerID" => $tWorkerID
 		);
 
 		if ($tWorkerID != "") {
 			$this->mQuotation->FCxMQUEditDocDisCount($aDisInfo);
-			echo $nTotalDisCount;
+			echo $nDiscount;
 		} else {
 			echo 'expired';
 		}
@@ -578,7 +480,7 @@ class cQuotationDoc extends CI_Controller
 			$aSQData = array(	"aDocHeader"	=>$aDocHeader,
 		                   		"aDocCustomer"	=>$aDocCustomer,
 								"aDocDT" 		=>$aDocDT,
-								"aContact"		=>$ptContact
+								"aContact"		=>$ptContact 
 							);
 
 			$html = $this->load->view('quotation/wQuotationForm',$aSQData,true);

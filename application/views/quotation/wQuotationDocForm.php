@@ -42,7 +42,7 @@
 	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
 	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
-?> 
+?>
 
 <div class="container-fulid">
 
@@ -52,7 +52,7 @@
 
 		<div class="col-lg-6 col-md-6 text-right">
 
-			<?php 
+			<?php
 				if($tEvent == 'Edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
 					if($tPer_edit == ''){
 						$tAlwSave = '';
@@ -68,16 +68,16 @@
 				}
 			?>
 			<button type="button" class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="FSxQUOSaveDoc()">บันทึก</button>
-		
-			<?php if($tPer_approved == ''){ ?> 
+
+			<?php if($tPer_approved == ''){ ?>
 				<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px; margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติสั่งสินค้า</button>
 			<?php } ?>
 
-			<?php if($tPer_print == ''){ ?> 
+			<?php if($tPer_print == ''){ ?>
 				<button type="button" class="<?=$tEventHidePrint?> xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right" onclick="FSxQUOPrintForm()">พิมพ์</button>
 			<?php } ?>
-				
-			<?php if($tPer_cancle == ''){ ?> 
+
+			<?php if($tPer_cancle == ''){ ?>
 				<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิก</button>
 			<?php } ?>
 		</div>
@@ -104,7 +104,7 @@
 									<input type="hidden" id="ohdCustomerCode" name="ohdCustomerCode" >
 
 									<!--ลูกค้า-->
-									<?php 
+									<?php
 										if($tEvent == 'Edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
 											if($tPer_edit == ''){
 												$tAlwCustomer = '';
@@ -400,13 +400,13 @@
 						</div>
 
 						<!--ส่วนลด-->
-						<div class="col-lg-6">
+						<div class="col-lg-5">
 							<label>ส่วนลด</label>
 						</div>
 
-						<div class="col-lg-6 text-right">
+						<div class="col-lg-7 text-right">
 							<div class="row">
-								<div class="col-lg-6">
+								<div class="col-lg-7">
 									<div class="input-container" style="margin-bottom:0px;">
 										<i class="xWBnticon fa fa-info-circle fa-xs"
 										   style="font-size: 0.5rem;"
@@ -416,10 +416,11 @@
 										       autocomplete="off"
 												id="oetXqhDisText"
 												class="text-right form-control xCNNumberandPercent"
-												onkeypress="return FSxQUODocFootDis(event,this)">
+												onkeypress="return FSxQUODocFootDis(event,this)"
+												maxlength="20">
 									</div>
 								</div>
-								<div class="col-lg-6">
+								<div class="col-lg-5">
 									<label class="text-right xCNTotal" id="ospXqhDis">0.00</label>
 								</div>
 							</div>

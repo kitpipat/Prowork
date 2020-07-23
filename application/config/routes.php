@@ -77,7 +77,7 @@ $route['r_quoCancleDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventCancle
 $route['r_quoApproveDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventApproveDocument';
 $route['r_selectCustomer'] 						= 'quotation/cQuotationDoc/FSxCQUOSelectCustomer';
 $route['r_quoPrintForm/(:any)/(:any)'] 			= 'quotation/cQuotationDoc/FSaCQUODocPrintForm/$1/$2';
-
+$route['r_NumberToCurrency']           =   'quotation/cQuotationDoc/FCNtReadNumberToCurrency';
 
 //หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
 $route['r_groupproduct'] 						= 'product/groupproduct/cGroupproduct/index';
@@ -204,4 +204,3 @@ $route['r_reportListLoad'] 						= 'report/cReport/FSwCREPLoadDatatable';
 $route['r_reportPageDetail'] 					= 'report/cReport/FSwCREPPageDetail';
 $route['r_reportTable'] 						= 'report/cReport/FSwCREPLoadDetailDatatable';
 $route['r_reportExcel'] 						= 'report/cReport/FSwCREPExportExcel';
-
