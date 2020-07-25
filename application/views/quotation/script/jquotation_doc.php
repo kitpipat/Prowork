@@ -1,6 +1,20 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		FSvQUODocHeader();
+
+		var nLogComma;
+		$('.xCNCheckCommaDuplicate').keypress(function(event) {
+			if(nLogComma == 44 && event.keyCode == 44){
+				nLogComma = '';
+				var tInputVal = $(this).val();
+				$(this).val(tInputVal.slice(0, -1));
+            	event.preventDefault();
+			}else{
+				nLogComma = '';
+			}
+
+			nLogComma = event.which;
+		});
 	});
 
 	//โหลดรายละเอียดเอกสาร
@@ -597,38 +611,45 @@
 	function FSxQUODocItemDiscount(e, poElm) {
 		//See notes about 'which' and 'key'
 		if (e.keyCode == 13) {
+			nItemDiscount 	= $(poElm).val();
+			tQuoDocNo 		= $("#ospDocNo").attr("data-docno");
+			nItemSeq 		= $(poElm).attr("data-seq");
+			tPdtCode 		= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+			nItemNet 		= $("#olbItemNet"+nItemSeq).text();
+			
+			if($(poElm).val() != ''){
 
-					nItemDiscount = $(poElm).val();
-					tQuoDocNo = $("#ospDocNo").attr("data-docno");
-					nItemSeq = $(poElm).attr("data-seq");
-					tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
-          nItemNet = $("#olbItemNet"+nItemSeq).text()
-					//console.log(nItemDiscount+'+'+tQuoDocNo+'+'+nItemSeq+'+'+nUnitPrice);
-          if($(poElm).val() != ''){
-								$.ajax({
-										url: 'r_quoItemDiscount',
-										timeout: 0,
-										type: 'POST',
-										data: {
-											tQuoDocNo: tQuoDocNo,
-											nItemSeq: nItemSeq,
-											nItemDiscount: nItemDiscount,
-											tPdtCode : tPdtCode,
-											nItemNet : nItemNet
-										},
-										datatype: 'json'
-									})
-									.done(function(data) {
-										 //console.log(data)
-										 FSvQUODocItems();
-
-									})
-									.fail(function(jqXHR, textStatus, errorThrown) {
-										//serrorFunction();
-									});
-
-								return false;
-					}
+				var nCount 		= nItemDiscount.length;
+				if(nItemDiscount.charAt(0) == ','){
+					var nNewDiscount = nItemDiscount.replace(/,/g,'');
+					$(poElm).val(nNewDiscount);
+					nItemDiscount = nNewDiscount;
+				}else if(nItemDiscount.charAt(nCount-1) == ','){
+					$(poElm).val(nItemDiscount.slice(0, -1));
+					nItemDiscount = nItemDiscount.slice(0, -1);
+				}
+				
+				$.ajax({
+					url		: 'r_quoItemDiscount',
+					timeout	: 0,
+					type	: 'POST',
+					data	:	 {
+						tQuoDocNo		: tQuoDocNo,
+						nItemSeq		: nItemSeq,
+						nItemDiscount	: nItemDiscount,
+						tPdtCode 		: tPdtCode,
+						nItemNet 		: nItemNet
+					},
+					datatype: 'json'
+				})
+				.done(function(data) {
+					FSvQUODocItems();
+				})
+				.fail(function(jqXHR, textStatus, errorThrown) {
+					//serrorFunction();
+				});
+				return false;
+			}
 		}
 	}
 
@@ -647,6 +668,17 @@
 			nNetB4HD = $("#otdDocNetTotal").text()
 
       if(nDiscount != ''){
+
+			var nCount 		= nDiscount.length;
+			if(nDiscount.charAt(0) == ','){
+				var nNewDiscount = nDiscount.replace(/,/g,'');
+				$(poElm).val(nNewDiscount);
+				nDiscount = nNewDiscount;
+			}else if(nDiscount.charAt(nCount-1) == ','){
+				$(poElm).val(nDiscount.slice(0, -1));
+				nDiscount = nDiscount.slice(0, -1);
+			}
+
 				$.ajax({
 					url: 'r_quoDocFootDiscount',
 					timeout: 0,
