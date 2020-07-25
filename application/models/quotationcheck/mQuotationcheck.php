@@ -226,13 +226,23 @@ class mQuotationcheck extends CI_Model{
 			$this->db->update('TARTSqDT', $ptSet);
 
 			if($ptWhere['tType'] == 'REFCON'){ //ผู้รับ
-				$this->db->set('FTXqdConsignee', $this->session->userdata('tSesUsercode'));
+				if($ptWhere['tValue'] == '' || $ptWhere['tValue'] == null){
+					$this->db->set('FTXqdConsignee', '');
+				}else{
+					$this->db->set('FTXqdConsignee', $this->session->userdata('tSesUsercode'));
+				}
+
 				$this->db->where('FTXqhDocNo', $ptWhere['FTXqhDocNo']);
 				$this->db->where('FNXqdSeq', $ptWhere['FNXqdSeq']);
 				$this->db->where('FTPdtCode', $ptWhere['FTPdtCode']);
 				$this->db->update('TARTSqDT');
 			}else if($ptWhere['tType'] == 'REFBUY'){ //ผู้สั้งซื้อ
-				$this->db->set('FTXqdBuyer', $this->session->userdata('tSesUsercode'));
+				if($ptWhere['tValue'] == '' || $ptWhere['tValue'] == null){
+					$this->db->set('FTXqdBuyer', '');
+				}else{
+					$this->db->set('FTXqdBuyer', $this->session->userdata('tSesUsercode'));
+				}
+				
 				$this->db->where('FTXqhDocNo', $ptWhere['FTXqhDocNo']);
 				$this->db->where('FNXqdSeq', $ptWhere['FNXqdSeq']);
 				$this->db->where('FTPdtCode', $ptWhere['FTPdtCode']);

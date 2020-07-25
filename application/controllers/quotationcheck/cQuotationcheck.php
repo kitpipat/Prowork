@@ -83,7 +83,8 @@ class cQuotationcheck extends CI_Controller {
 			'FTXqhDocNo'	=> $tDocumentNubmer,
 			'FNXqdSeq'		=> $tSeq,
 			'FTPdtCode'		=> $tPdtcode,
-			'tType'			=> $tType
+			'tType'			=> $tType,
+			'tValue'		=> $tValue
 		);
 
 		$tReturn = $this->mQuotationcheck->FSaMQTCUpdate($aSet,$aWhere);

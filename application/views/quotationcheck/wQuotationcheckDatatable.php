@@ -268,7 +268,7 @@
 									<?php } ?>
 								</td>
 
-								<!--อ้างอิง-->
+								<!--เลขที่ใบสั้งซื้อ-->
 								<td class="xCNFreezeSection3">
 									<?php $FTXqdRefBuyer = $aValue['FTXqdRefBuyer']; ?>
 									<!--มีสิทธิแก้ไข-->
@@ -296,18 +296,62 @@
 										}
 									?>
 
+									<?php
+										//ถ้ามีเลชที่ใบสั้งซื้อ เเล้วไม่สามารถ รับสินค้า
+										if($aValue['namebuy'] == '' || $aValue['namebuy'] == null){
+											$tDisabled 				= 'disabled';
+											$tClassDisabledInput 	= 'xCNClassDisabledInput';
+										}else{
+											$tDisabled 				= '';
+											$tClassDisabledInput 	= '';
+										}
+									?>
+
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PIKDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="xCNEditInline xCNDatePicker xCNPIKDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" style="text-align: left; width:100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPikDate?>">
+										<input <?=$tDisabled?> 
+											data-docnumber="<?=$aValue['FTXqhDocNo']?>" 
+											data-seq='<?=$aValue['FNXqdSeq']?>' 
+											data-pdtcode='<?=$aValue['FTPdtCode']?>' 
+											onchange="JSxUpdateInline(this,'PIKDATE');" 
+											type="text" <?=$tDisabledKey?> 
+											maxlength="10" 
+											class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNPIKDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" 
+											style="text-align: left; width:100%;" 
+											placeholder="<?=$tPlaceholder?>" 
+											value="<?=@$FDXqdPikDate?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FDXqdPikDate == null) ? '-' : $FDXqdDliDate?></label>
 									<?php } ?>
 								</td>
+
+								<!--เลขที่บิล-->
 								<td class="xCNBorderright xCNFreezeSection5">
 									<?php $FTXqdRefInv = $aValue['FTXqdRefInv']; ?>
+
+									<?php
+										//ถ้ามีเลชที่ใบสั้งซื้อ เเล้วไม่สามารถ รับสินค้า
+										if($aValue['namebuy'] == '' || $aValue['namebuy'] == null){
+											$tDisabled 				= 'disabled';
+											$tClassDisabledInput 	= 'xCNClassDisabledInput';
+										}else{
+											$tDisabled 				= '';
+											$tClassDisabledInput 	= '';
+										}
+									?>
+
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'REFCON');" type="text" <?=$tDisabledKey?> maxlength="20" class="xCNEditInline" style="text-align: left; width: 100%;" value="<?=@$FTXqdRefInv?>">
+										<input <?=$tDisabled?> 
+										data-docnumber="<?=$aValue['FTXqhDocNo']?>" 
+										data-seq='<?=$aValue['FNXqdSeq']?>' 
+										data-pdtcode='<?=$aValue['FTPdtCode']?>' 
+										onchange="JSxUpdateInline(this,'REFCON');" 
+										type="text" <?=$tDisabledKey?> 
+										maxlength="20" 
+										class="<?=$tClassDisabledInput?> xCNEditInline xCNGetBill<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" 
+										style="text-align: left; width: 100%;" 
+										value="<?=@$FTXqdRefInv?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FTXqdRefInv == null) ? '-' : $FTXqdRefInv?></label>
 									<?php } ?>
@@ -437,8 +481,8 @@
 			var dPUCDATE = $('.xCNPUCDATE'+tDocumentNubmer+tSeq).val();
 
 			if((dDLIDATE == '' || dDLIDATE == null) && (dPUCDATE == '' || dPUCDATE == null)){
-				alert('กรุณากรอกวันสั่งสินค้า และวันส่งของให้เรียบร้อยก่อน !');
-				$(elem).val('');
+				alert('กรุณาระบุวันสั่งสินค้า และระบุวันส่งของให้เรียบร้อยก่อน !');
+				// $(elem).val('');
 				return;
 			}
 		}
@@ -468,15 +512,30 @@
 					$('.xCNDialog_Footer').css('display','none');
 				}, 3000);
 
-
 				//ถ้ากรอกเลขที่บิล จะเอาต้อง อัพเดท ผู้รับให้เห็น
 				if(ptType == 'REFCON'){
 					$('.xCNFreezeGiveUser'+tDocumentNubmer+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
-					//$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
 				}else if(ptType == 'REFBUY'){
-					$('.xCNFreezeGiveBuyer'+tDocumentNubmer+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
-					$('.xCNDLIDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
-					$('.xCNPUCDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
+					//กรณีถ้าเป็นค่าว่าง
+					if(tValue == '' || tValue == null){
+						//จัดซื้อสินค้า : วันที่สั้งสินค้า - วันส่งของ - เลขที่ใบสั้งซื้อ
+						$('.xCNFreezeGiveBuyer'+tDocumentNubmer+tSeq).html('-');
+						$('.xCNDLIDATE'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
+						$('.xCNPUCDATE'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
+
+						//รับสินค้า : วันรับสินค้า - เลขที่บิล
+						$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
+						$('.xCNGetBill'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
+					}else{
+						//จัดซื้อสินค้า : วันที่สั้งสินค้า - วันส่งของ - เลขที่ใบสั้งซื้อ
+						$('.xCNFreezeGiveBuyer'+tDocumentNubmer+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
+						$('.xCNDLIDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
+						$('.xCNPUCDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
+
+						//รับสินค้า : วันรับสินค้า - เลขที่บิล 
+						$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
+						$('.xCNGetBill'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
+					}
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
