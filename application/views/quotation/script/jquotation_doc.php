@@ -750,7 +750,7 @@
 		tDocNo = $("#ospDocNo").attr('data-docno')
 
 		var tCstName 	= $('#oetCstName').val();
-		var tAddress 	= $('#oetAddress').text();
+		var tAddress 	= $('#oetAddress').val();
 		var tTexNo		= $('#oetTaxNo').val();
 		var tContact  	= $('#oetContact').val();
 		var tEmail 		= $('#oetEmail').val();
