@@ -415,7 +415,7 @@
 										<input type="text"
 										       autocomplete="off"
 												id="oetXqhDisText"
-												class="text-right form-control xCNNumberandPercent xCNCheckCommaDuplicate"
+												class="text-right form-control xCNNumberandPercent"
 												onkeypress="return FSxQUODocFootDis(event,this)"
 												maxlength="20">
 									</div>

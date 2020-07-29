@@ -2,26 +2,26 @@
 	$(document).ready(function() {
 		FSvQUODocHeader();
 
-		var nLogComma;
-		$('.xCNCheckCommaDuplicate').keypress(function(event) {
-			if(nLogComma == 44 && event.keyCode == 44){
-				nLogComma = '';
-				var tInputVal = $(this).val();
-				$(this).val(tInputVal.slice(0, -1));
-            	event.preventDefault();
-			}else{
-				nLogComma = '';
-			}
+		// var nLogComma;
+		// $('.xCNCheckCommaDuplicate').keypress(function(event) {
+		// 	if(nLogComma == 44 && event.keyCode == 44){
+		// 		nLogComma = '';
+		// 		var tInputVal = $(this).val();
+		// 		$(this).val(tInputVal.slice(0, -1));
+        //     	event.preventDefault();
+		// 	}else{
+		// 		nLogComma = '';
+		// 	}
 
-			nLogComma = event.which;
-		});
+		// 	nLogComma = event.which;
+		// });
 	});
 
 	//โหลดรายละเอียดเอกสาร
 	function FSvQUODocHeader() {
 
 		tDocNo = $("#ospDocNo").attr("data-docno");
-		$.ajax({
+			$.ajax({
 				url	: 'r_quodocgetdocheader',
 				timeout: 0,
 				type: 'GET',
@@ -169,7 +169,7 @@
 				FSvQUODocItems();
 
 				//เอกสารถูกยกเลิก หรือ อนุมัติแล้วจะทำงานไม่ได้
-           tDocNo = $("#ospDocNo").attr("data-docno")
+           		tDocNo = $("#ospDocNo").attr("data-docno")
 
 				if(tDocNo == ''){
 					//เปิด
@@ -182,15 +182,13 @@
 					$('.xCNAprove').addClass('xCNHide');
 					$('.xCNCancel').addClass('xCNHide');
 					$('.xCNPrint').addClass('xCNHide');
-
 				}else{
-
-					  if(FTXqhStaApv =='' || FTXqhStaApv == null){
-                 $('.xCNAprove').removeClass('xCNHide');
-								 $('.xCNCancel').removeClass('xCNHide');
-						}
+					if(FTXqhStaApv =='' || FTXqhStaApv == null){
+                 		$('.xCNAprove').removeClass('xCNHide');
+						$('.xCNCancel').removeClass('xCNHide');
+					}
 				}
-
+				
 				//ถ้าเอกสารที่อนุมัติแล้วถึงจะพิมพ์ได้
 				if(FTXqhStaApv == 1){
 
@@ -213,7 +211,7 @@
 
 				if(tXqhStaDoc == 1){
 					$('.xCNPrint').removeClass('xCNHide');
-				}
+				}	
 
 				if(tXqhStaDoc == 2){
 					$('.xCNButtonSave').addClass('xCNHide');
@@ -619,15 +617,15 @@
 			
 			if($(poElm).val() != ''){
 
-				var nCount 		= nItemDiscount.length;
-				if(nItemDiscount.charAt(0) == ','){
-					var nNewDiscount = nItemDiscount.replace(/,/g,'');
-					$(poElm).val(nNewDiscount);
-					nItemDiscount = nNewDiscount;
-				}else if(nItemDiscount.charAt(nCount-1) == ','){
-					$(poElm).val(nItemDiscount.slice(0, -1));
-					nItemDiscount = nItemDiscount.slice(0, -1);
-				}
+				// var nCount 		= nItemDiscount.length;
+				// if(nItemDiscount.charAt(0) == ','){
+				// 	var nNewDiscount = nItemDiscount.replace(/,/g,'');
+				// 	$(poElm).val(nNewDiscount);
+				// 	nItemDiscount = nNewDiscount;
+				// }else if(nItemDiscount.charAt(nCount-1) == ','){
+				// 	$(poElm).val(nItemDiscount.slice(0, -1));
+				// 	nItemDiscount = nItemDiscount.slice(0, -1);
+				// }
 				
 				$.ajax({
 					url		: 'r_quoItemDiscount',
@@ -665,19 +663,19 @@
 			}
 
 			tQuoDocNo = $("#ospDocNo").attr("data-docno");
-			nNetB4HD = $("#otdDocNetTotal").text()
+			nNetB4HD = $("#otdDocNetTotal").text();
 
-      if(nDiscount != ''){
+      		if(nDiscount != ''){
 
-			var nCount 		= nDiscount.length;
-			if(nDiscount.charAt(0) == ','){
-				var nNewDiscount = nDiscount.replace(/,/g,'');
-				$(poElm).val(nNewDiscount);
-				nDiscount = nNewDiscount;
-			}else if(nDiscount.charAt(nCount-1) == ','){
-				$(poElm).val(nDiscount.slice(0, -1));
-				nDiscount = nDiscount.slice(0, -1);
-			}
+				// var nCount 		= nDiscount.length;
+				// if(nDiscount.charAt(0) == ','){
+				// 	var nNewDiscount = nDiscount.replace(/,/g,'');
+				// 	$(poElm).val(nNewDiscount);
+				// 	nDiscount = nNewDiscount;
+				// }else if(nDiscount.charAt(nCount-1) == ','){
+				// 	$(poElm).val(nDiscount.slice(0, -1));
+				// 	nDiscount = nDiscount.slice(0, -1);
+				// }
 
 				$.ajax({
 					url: 'r_quoDocFootDiscount',

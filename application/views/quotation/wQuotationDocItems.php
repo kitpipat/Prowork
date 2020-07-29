@@ -145,7 +145,7 @@
 									   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
 							    <input type="text"
 									       id="oetItemDiscount<?=$nSeq?>"
-									       class="text-right xCNEditInline xCNNumberandPercent xCNCheckCommaDuplicate"
+									       class="text-right xCNEditInline xCNNumberandPercent"
 												 value="<?=$nXqdDisText?>"
 												 data-seq="<?=$nSeq?>"
 												 style="width:80px;"
@@ -191,19 +191,19 @@
 <script type="text/javascript" src="<?=base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 
-	var nLogComma;
-	$('.xCNCheckCommaDuplicate').keypress(function(event) {
-		if(nLogComma == 44 && event.keyCode == 44){
-			nLogComma = '';
-			var tInputVal = $(this).val();
-			$(this).val(tInputVal.slice(0, -1));
-			event.preventDefault();
-		}else{
-			nLogComma = '';
-		}
+	// var nLogComma;
+	// $('.xCNCheckCommaDuplicate').keypress(function(event) {
+	// 	if(nLogComma == 44 && event.keyCode == 44){
+	// 		nLogComma = '';
+	// 		var tInputVal = $(this).val();
+	// 		$(this).val(tInputVal.slice(0, -1));
+	// 		event.preventDefault();
+	// 	}else{
+	// 		nLogComma = '';
+	// 	}
 
-		nLogComma = event.which;
-	});
+	// 	nLogComma = event.which;
+	// });
 
 	//Delete Item
 	function JSxDeleteItemInTempQuotation(pnSeq,pnPDTCode){
