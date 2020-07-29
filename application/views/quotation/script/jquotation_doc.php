@@ -170,7 +170,6 @@
 
 				//เอกสารถูกยกเลิก หรือ อนุมัติแล้วจะทำงานไม่ได้
            		tDocNo = $("#ospDocNo").attr("data-docno")
-
 				if(tDocNo == ''){
 					//เปิด
 					$('.xCNButtonSave').removeClass('xCNHide');
@@ -183,6 +182,7 @@
 					$('.xCNCancel').addClass('xCNHide');
 					$('.xCNPrint').addClass('xCNHide');
 				}else{
+					$('.xCNPrint').removeClass('xCNHide');
 					if(FTXqhStaApv =='' || FTXqhStaApv == null){
                  		$('.xCNAprove').removeClass('xCNHide');
 						$('.xCNCancel').removeClass('xCNHide');
