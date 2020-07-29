@@ -5,6 +5,7 @@ class cSizeproduct extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('product/sizeproduct/mSizeproduct');
+		$this->load->model('product/product/mProduct');
 	}
 
 	public function index(){
@@ -47,7 +48,7 @@ class cSizeproduct extends CI_Controller {
 
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCSIZEventInsert(){
-		$aLastCode 	= $this->mSizeproduct->FSaMSIZGetLastSizePDTcode();
+		/*$aLastCode 	= $this->mSizeproduct->FSaMSIZGetLastSizePDTcode();
 		if($aLastCode['rtCode'] == 800){
 			$tFormatCode = '00001';
 		}else{
@@ -65,16 +66,22 @@ class cSizeproduct extends CI_Controller {
 			}
 
 			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
-		}
+		}*/
 
-		$aInsertSizePDT = array(
-			'FTPzeCode'			=> $tFormatCode,
-			'FTPzeName'			=> $this->input->post('oetSIZName'),
-			'FDCreateOn'		=> date('Y-m-d H:i:s'),
-			'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
-		);
-		$this->mSizeproduct->FSxMSIZInsert($aInsertSizePDT);
-		echo 'pass_insert';
+		$tFormatCode 		= $this->input->post('oetCodeSIZName');
+		$aStatusCheckCode 	= $this->mProduct->FSaMPDTCheckCode('FTPzeCode','TCNMPdtSize',$tFormatCode);
+		if($aStatusCheckCode['rtCode'] == 800){
+			$aInsertSizePDT = array(
+				'FTPzeCode'			=> $tFormatCode,
+				'FTPzeName'			=> $this->input->post('oetSIZName'),
+				'FDCreateOn'		=> date('Y-m-d H:i:s'),
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mSizeproduct->FSxMSIZInsert($aInsertSizePDT);
+			echo 'pass_insert';
+		}else{
+			echo 'duplicate';
+		}
 	}
 
 	//ลบ

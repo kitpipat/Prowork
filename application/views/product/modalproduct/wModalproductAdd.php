@@ -58,6 +58,14 @@
 				<div class="row">
 					<!--รายละเอียด-->
 					<div class="col-lg-4 col-md-4">
+
+						<!--รหัส-->
+						<div class="form-group">
+							<label><span style="color:red;">*</span> รหัสรุ่นสินค้า</label>
+							<input <?=($tTypePage == 'edit') ? 'disabled' : '' ?> type="text" class="form-control" maxlength="5" id="oetCodeMOLName" name="oetCodeMOLName" placeholder="กรุณาระบุรหัสรุ่นสินค้า" autocomplete="off" value="<?=@$FTMolCode;?>">
+							<span id="oetCodeMOLName_Dup" style="color:red; text-align: right; display: none;"><em>พบรหัสรุ่นสินค้า กรุณาลองใหม่อีกครั้ง</em></span>
+						</div>
+
 						<!--ชื่อรุ่นสินค้า-->
 						<div class="form-group">
 							<label>ชื่อรุ่นสินค้า</label>
@@ -73,6 +81,11 @@
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 
+	//เมื่อกด ข้อความ dup ต้องหาย
+	$('#oetCodeMOLName').click(function() {
+		$('#oetCodeMOLName_Dup').css('display','none');
+	});
+
 	//ถ้าเข้ามาแบบแก้ไข แต่ ไม่มีสิทธิ์ในการแก้ไข
 	if('<?=$tTypePage?>' == 'edit' && '<?=$tPer_edit?>' != ''){
 		$('.form-control').attr('disabled',true);
@@ -80,6 +93,11 @@
 	
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
+
+		if($('#oetCodeMOLName').val() == ''){
+			$('#oetCodeMOLName').focus();
+			return;
+		}
 
 		if($('#oetMOLName').val() == ''){
 			$('#oetMOLName').focus();
@@ -110,6 +128,8 @@
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
+				}else if(tResult == 'duplicate'){
+					$('#oetCodeMOLName_Dup').css('display','block');
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

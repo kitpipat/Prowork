@@ -5,6 +5,7 @@ class cTypeproduct extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('product/typeproduct/mTypeproduct');
+		$this->load->model('product/product/mProduct');
 	}
 
 	public function index(){
@@ -47,7 +48,7 @@ class cTypeproduct extends CI_Controller {
 
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCTYPEventInsert(){
-		$aLastCode 	= $this->mTypeproduct->FSaMTYPGetLastTypePDTcode();
+		/*$aLastCode 	= $this->mTypeproduct->FSaMTYPGetLastTypePDTcode();
 		if($aLastCode['rtCode'] == 800){
 			$tFormatCode = '00001';
 		}else{
@@ -65,16 +66,23 @@ class cTypeproduct extends CI_Controller {
 			}
 
 			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
-		}
+		}*/
 
-		$aInsertTYPPDT = array(
-			'FTPtyCode'			=> $tFormatCode,
-			'FTPtyName'			=> $this->input->post('oetTYPName'),
-			'FDCreateOn'		=> date('Y-m-d H:i:s'),
-			'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
-		);
-		$this->mTypeproduct->FSxMTYPInsert($aInsertTYPPDT);
-		echo 'pass_insert';
+		//เช็ครหัสซ้ำก่อน
+		$tFormatCode 		= $this->input->post('oetCodeTYPName');
+		$aStatusCheckCode 	= $this->mProduct->FSaMPDTCheckCode('FTPtyCode','TCNMPdtType',$tFormatCode);
+		if($aStatusCheckCode['rtCode'] == 800){
+			$aInsertTYPPDT = array(
+				'FTPtyCode'			=> $tFormatCode,
+				'FTPtyName'			=> $this->input->post('oetTYPName'),
+				'FDCreateOn'		=> date('Y-m-d H:i:s'),
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mTypeproduct->FSxMTYPInsert($aInsertTYPPDT);
+			echo 'pass_insert';
+		}else{
+			echo 'duplicate';
+		}
 	}
 
 	//ลบประเภทสินค้า

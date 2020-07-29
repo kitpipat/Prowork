@@ -175,7 +175,7 @@
 				<tr class="hard_left_Sub_Right">
 					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันสั่งสินค้า</th>
 					<th style="text-align:center; width:15.50%;">วันส่งของ</th>
-					<th style="text-align:center; width:15.50%;">เลขที่ใบสั่งซื้อ</th>
+					<th style="text-align:center; width:15.50%; font-size: 0.95rem;">เลขที่ใบสั่งซื้อ</th>
 					<th style="text-align:center; width:21.10%;"></th>
 					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันรับสินค้า</th>
 					<th style="text-align:center;">เลขที่บิล</th>
@@ -340,8 +340,13 @@
 											$tDisabled 				= 'disabled';
 											$tClassDisabledInput 	= 'xCNClassDisabledInput';
 										}else{
-											$tDisabled 				= '';
-											$tClassDisabledInput 	= '';
+											if($aValue['namecon'] == '' || $aValue['namecon'] == null){
+												$tDisabled 				= '';
+												$tClassDisabledInput 	= '';
+											}else{
+												$tDisabled 				= 'disabled';
+												$tClassDisabledInput 	= 'xCNClassDisabledInput';
+											}
 										}
 									?>
 
@@ -525,6 +530,8 @@
 					}else{
 						$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
 					}
+
+					$('.xCNGetBill'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
 				}else if(ptType == 'REFBUY'){
 					//กรณีถ้าเป็นค่าว่าง
 					if(tValue == '' || tValue == null){
@@ -546,6 +553,20 @@
 						$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
 						$('.xCNGetBill'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
 					}
+				}
+
+
+				//ฝ่ายจัดซื้อ = 1 จะใช้งานช่อง รับสินค้า ไม่ได้
+				if('<?=$this->session->userdata("tSesUserGroup")?>' == 1){
+					$('.xCNFreezeSection4').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+					$('.xCNFreezeSection5').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+				}
+
+				//ฝ่ายขาย = 1 จะใช้งานช่อง จัดซื้อ ไม่ได้
+				if('<?=$this->session->userdata("tSesUserGroup")?>' == 2){
+					$('.xCNFreezeSection1').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+					$('.xCNFreezeSection2').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
+					$('.xCNFreezeSection3').find('.xCNEditInline').attr('disabled',true).css('background','#e6e6e6');
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

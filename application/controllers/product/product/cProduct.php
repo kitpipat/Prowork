@@ -109,7 +109,7 @@ class cProduct extends CI_Controller {
 		}else{
 			$aInsertPDT = array(
 				'FTPdtCode'			=> $this->input->post('oetPDTCode'),
-				'FTBchCode'			=> '',
+				'FTBchCode'			=> '-',
 				'FTPdtName'			=> $this->input->post('oetPDTName'),
 				'FTPdtNameOth'		=> $this->input->post('oetPDTNameOther'),
 				'FTPdtDesc'			=> $this->input->post('oetPDTDetail'),
@@ -123,7 +123,7 @@ class cProduct extends CI_Controller {
 				'FTMolCode'			=> $this->input->post('oetPDTModal'),
 				'FCPdtCostStd'		=> $this->input->post('oetPDTCost'),
 				'FTPdtCostDis'		=> ($this->input->post('oetPDTCostPercent') == '' ) ? 0 : $this->input->post('oetPDTCostPercent'),
-				'FCPdtSalPrice'		=> ($this->input->post('oetPDTPriceSellPercent') == '' ) ? 0 : $this->input->post('oetPDTPriceSellPercent'),
+				'FCPdtSalPrice'		=> 0,
 				'FTPdtImage'		=> $this->input->post('oetImgInsertorEditproducts'),
 				'FTPdtReason'		=> $this->input->post('oetPDTReason'),
 				'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
@@ -174,7 +174,6 @@ class cProduct extends CI_Controller {
 					'FTMolCode'			=> $this->input->post('oetPDTModal'),
 					'FCPdtCostStd'		=> $this->input->post('oetPDTCost'),
 					'FTPdtCostDis'		=> ($this->input->post('oetPDTCostPercent') == '' ) ? 0 : $this->input->post('oetPDTCostPercent'),
-					// 'FCPdtSalPrice'		=> ($this->input->post('oetPDTPriceSellPercent') == '' ) ? 0 : $this->input->post('oetPDTPriceSellPercent'),
 					'FTPdtImage'		=> $this->input->post('oetImgInsertorEditproducts'),
 					'FTPdtReason'		=> $this->input->post('oetPDTReason'),
 					'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
@@ -304,9 +303,12 @@ class cProduct extends CI_Controller {
 							'FTSplCode' 	=> (isset($aResult[$i][4])) ? $aResult[$i][4] : '',
 							'FCPdtCostStd' 	=> (isset($aResult[$i][5])) ? $aResult[$i][5] : '',
 							'FTPdtCostDis' 	=> (isset($aResult[$i][6])) ? $aResult[$i][6] : '',
+							'FTPunCode'		=> (isset($aResult[$i][7])) ? $aResult[$i][7] : '',
+							'FTPbnCode'		=> (isset($aResult[$i][8])) ? $aResult[$i][8] : '',
 							'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
 							'FCCostAfDis'	=> $nCost
 						);
+
 					}
 	
 					//Insert ข้อมูล
@@ -348,5 +350,28 @@ class cProduct extends CI_Controller {
 		//ลบข้อมูลในฐานข้อมูล
 		$this->mProduct->FSxMPDTImportExcelDeleteTmp();
 	
+	}
+
+	//เลือก option 
+	public function FSwCPDTHTMLAttribute(){
+		$nPage				= $this->input->post('nPage');
+		$tName				= $this->input->post('tName');
+		$tSearchAttribute	= $this->input->post('tSearchAttribute');
+
+		$aCondition = array(
+			'tName'				=> strtolower($tName),
+			'nPage'         	=> $nPage,
+			'nRow'          	=> 10,
+			'tSearch'   		=> $tSearchAttribute
+		);
+
+		$aListItem 	= $this->mProduct->FSaMPDTAttrGetItem($aCondition);
+		$aPackData 	= array(
+			'tName'				=> strtolower($tName),
+			'aListItem'			=> $aListItem,
+			'nPage'				=> $nPage
+		);
+
+		$this->load->view('product/product/attribute/wAttribute',$aPackData);
 	}
 }

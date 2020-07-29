@@ -22,6 +22,8 @@
 							<th style="text-align: left;">ชื่อกลุ่มสินค้า</th>
 							<th style="text-align: left;">ชื่อประเภทสินค้า</th>
 							<th style="text-align: left;">ชื่อผู้จำหน่าย</th>
+							<th style="text-align: left;">ชื่อยี่ห้อ</th>
+							<th style="text-align: left;">ชื่อหน่วยสินค้า</th>
 							<th style="width:80px; text-align: left;">ราคาตั้ง</th>
 							<th style="width:120px; text-align: left;">ส่วนลดราคาตั้ง</th>
 							<th style="width:300px; text-align: left;">สถานะ</th>
@@ -58,6 +60,18 @@
 											$tIconClassStatus 	= 'xCNIconStatus_close';
 											$tTextClassStatus 	= 'xCNTextClassStatus_close';
 											$tTextStatus 		= 'ไม่พบประเภทสินค้า';
+											$tStatusAprove		= 'fail';
+											break;
+										case $aValue['FTPbnName'] == null:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'ไม่พบยี่ห้อสินค้า';
+											$tStatusAprove		= 'fail';
+											break;
+										case $aValue['FTPunName'] == null:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'ไม่พบหน่วยสินค้า';
 											$tStatusAprove		= 'fail';
 											break;
 										case $aValue['FTSplName'] == null:
@@ -133,6 +147,30 @@
 										$tSplClassStatus	= '';
 									}
 
+									//รหัสยี่ห้อ
+									if($aValue['FTPbnName'] == '' || $aValue['FTPbnName'] == null){
+										$tPbnName 			= $aValue['FTPbnCode'];
+										if($tPbnName == '' || $tPbnName == null){
+											$tPbnName 		= '-';
+										}
+										$tPbnClassStatus 	= 'xCNTextClassStatus_close';
+									}else{
+										$tPbnName 			= $aValue['FTPbnName'];
+										$tPbnClassStatus	= '';
+									}
+
+									//รหัสหน่วย
+									if($aValue['FTPunName'] == '' || $aValue['FTPunName'] == null){
+										$tPunName 			= $aValue['FTPunCode'];
+										if($tPunName == '' || $tPunName == null){
+											$tPunName 		= '-';
+										}
+										$tPunClassStatus 	= 'xCNTextClassStatus_close';
+									}else{
+										$tPunName 			= $aValue['FTPunName'];
+										$tPunClassStatus	= '';
+									}
+
 								?>
 
 								<tr data-pdtcode="<?=$aValue['FTPdtCode'];?>" data-staapv='<?=$tStatusAprove;?>' class="<?=$tStatusAprove;?>">
@@ -142,6 +180,8 @@
 									<td><label class="xCNLineHeightInTable <?=$tPgpClassStatus;?>"><?=$tPgpName;?></label></td>
 									<td><label class="xCNLineHeightInTable <?=$tPtyClassStatus;?>"><?=$tPtyName;?></label></td>
 									<td><label class="xCNLineHeightInTable <?=$tSplClassStatus;?>"><?=$tSplName;?></label></td>
+									<td><label class="xCNLineHeightInTable <?=$tPbnClassStatus;?>"><?=$tPbnName;?></label></td>
+									<td><label class="xCNLineHeightInTable <?=$tPunClassStatus;?>"><?=$tPunName;?></label></td>
 									<td style="text-align: right;"><label class="xCNLineHeightInTable <?=$tCostSTDDisClassStatus;?>"><?=($aValue['FCPdtCostStd'] == '') ? '-' : $aValue['FCPdtCostStd'];?></label></td>
 									<td style="text-align: right;"><label class="xCNLineHeightInTable <?=$tCostDisClassStatus;?>"><?=($aValue['FTPdtCostDis'] == '') ? '-' : $aValue['FTPdtCostDis'];?></label></td>
 									<td stlye="padding-top: 15px;"><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>

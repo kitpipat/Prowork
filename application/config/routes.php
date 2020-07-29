@@ -127,6 +127,14 @@ $route['r_colorproducteventinsert'] 			= 'product/colorproduct/cColorproduct/FSw
 $route['r_colorproducteventdelete'] 			= 'product/colorproduct/cColorproduct/FSxCCOPEventDelete';
 $route['r_colorproducteventedit'] 				= 'product/colorproduct/cColorproduct/FSxCCOPEventEdit';
 
+//หน้าจอ : หน่วย ( start : 15-08-2020 / done : 15-08-2020 )
+$route['r_unit'] 								= 'product/unitproduct/cUnitproduct/index';
+$route['r_unitproductload'] 					= 'product/unitproduct/cUnitproduct/FSwCUNILoadDatatable';
+$route['r_unitproductcallpageInsertorEdit'] 	= 'product/unitproduct/cUnitproduct/FSwCUNICallPageInsertorEdit';
+$route['r_unitproducteventinsert'] 				= 'product/unitproduct/cUnitproduct/FSwCUNIEventInsert';
+$route['r_unitproducteventdelete'] 				= 'product/unitproduct/cUnitproduct/FSxCUNIEventDelete';
+$route['r_unitproducteventedit'] 				= 'product/unitproduct/cUnitproduct/FSxCUNIEventEdit';
+
 //หน้าจอ : ลูกค้า ( start : 11-04-2020 / done : 11-04-2020 )
 $route['r_customer'] 							= 'customer/cCustomer/index';
 $route['r_customerload'] 						= 'customer/cCustomer/FSwCCUSLoadDatatable';
@@ -204,3 +212,5 @@ $route['r_reportListLoad'] 						= 'report/cReport/FSwCREPLoadDatatable';
 $route['r_reportPageDetail'] 					= 'report/cReport/FSwCREPPageDetail';
 $route['r_reportTable'] 						= 'report/cReport/FSwCREPLoadDetailDatatable';
 $route['r_reportExcel'] 						= 'report/cReport/FSwCREPExportExcel';
+
+$route['r_selectAttribute'] 					= 'product/product/cProduct/FSwCPDTHTMLAttribute';

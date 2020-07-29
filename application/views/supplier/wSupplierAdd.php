@@ -91,6 +91,13 @@
 					<!--รายละเอียด-->
 					<div class="col-lg-5 col-md-5">
 
+						<!--รหัส-->
+						<div class="form-group">
+							<label><span style="color:red;">*</span> รหัสผู้จำหน่าย</label>
+							<input <?=($tTypePage == 'edit') ? 'disabled' : '' ?> type="text" class="form-control" maxlength="5" id="oetCodeSupplier" name="oetCodeSupplier" placeholder="กรุณาระบุรหัสผู้จำหน่าย" autocomplete="off" value="<?=@$FTSplCode;?>">
+							<span id="oetCodeSupplier_Dup" style="color:red; text-align: right; display: none;"><em>พบรหัสผู้จำหน่ายซ้ำ กรุณาลองใหม่อีกครั้ง</em></span>
+						</div>
+							
 						<!--ชื่อผู้จำหน่าย-->
 						<div class="form-group">
 							<label><span style="color:red;">*</span> ชื่อผู้จำหน่าย</label>
@@ -165,6 +172,12 @@
 <script>
 
 	$( document ).ready(function() {
+
+		//เมื่อกด ข้อความ dup ต้องหาย
+		$('#oetCodeSupplier').click(function() {
+			$('#oetCodeSupplier_Dup').css('display','none');
+		});
+
 		//ห้ามคีย์เกิน 100
 		$('#oetSupplierVat').change(function(e) {
 			var tSUPVat = $(this).val();
@@ -187,6 +200,11 @@
 
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
+
+		if($('#oetCodeSupplier').val() == ''){
+			$('#oetCodeSupplier').focus();
+			return;
+		}
 
 		if($('#oetSupplierName').val() == ''){
 			$('#oetSupplierName').focus();
@@ -221,6 +239,8 @@
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
+				}else if(tResult == 'duplicate'){
+					$('#oetCodeSupplier_Dup').css('display','block');
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {

@@ -334,7 +334,20 @@ class mProduct extends CI_Model {
 
 	//หาข้อมูลจาก ไอดี
 	public function FSaMPDTGetDataBYID($ptCode){
-		$tSQL = " SELECT * FROM TCNMPdt PDT";
+		$tSQL = " SELECT 	PDT.* , 
+							BAP.FTPbnName , COP.FTPClrName , 
+							GRP.FTPgpName , MOL.FTMolName , 
+							SIZ.FTPzeName , TYP.FTPtyName ,
+							UNIT.FTPunName ,  SPL.FTSplName 
+					FROM TCNMPdt PDT";
+		$tSQL .= " 	LEFT JOIN TCNMPdtBrand BAP 		ON PDT.FTPbnCode 	= BAP.FTPbnCode 
+					LEFT JOIN TCNMPdtColor COP 		ON PDT.FTPClrCode 	= COP.FTPClrCode 
+					LEFT JOIN TCNMPdtGrp 	GRP 	ON PDT.FTPgpCode 	= GRP.FTPgpCode 
+					LEFT JOIN TCNMPdtModal MOL 		ON PDT.FTMolCode 	= MOL.FTMolCode 
+					LEFT JOIN TCNMPdtSize 	SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode 
+					LEFT JOIN TCNMPdtType 	TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
+					LEFT JOIN TCNMPdtUnit 	UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
+					LEFT JOIN TCNMSpl 		SPL 	ON PDT.FTSplCode 	= SPL.FTSplCode ";
 		$tSQL .= " WHERE PDT.FTPdtCode = '$ptCode' ";
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->result_array();
@@ -472,12 +485,18 @@ class mProduct extends CI_Model {
 					PDT.FTPdtCode as RealPDT,
 					PDTGRP.FTPgpName,
 					PDTTYP.FTPtyName,
-					SPL.FTSplName
+					SPL.FTSplName,
+					PDTTmp.FTPunCode,
+					PDTTmp.FTPbnCode,
+					BRAND.FTPbnName,
+					UNIT.FTPunName
 			FROM TCNMPdt_DataTmp PDTTmp 
 			LEFT JOIN TCNMPdt PDT			ON PDTTmp.FTPdtCode = PDT.FTPdtCode
-			LEFT JOIN TCNMPdtGrp PDTGRP	ON PDTTmp.FTPgpCode = PDTGRP.FTPgpCode
+			LEFT JOIN TCNMPdtGrp PDTGRP		ON PDTTmp.FTPgpCode = PDTGRP.FTPgpCode
 			LEFT JOIN TCNMPdtType PDTTYP	ON PDTTmp.FTPtyCode = PDTTYP.FTPtyCode
-			LEFT JOIN TCNMSpl SPL			ON PDTTmp.FTSplCode = SPL.FTSplCode";
+			LEFT JOIN TCNMSpl SPL			ON PDTTmp.FTSplCode = SPL.FTSplCode
+			LEFT JOIN TCNMPdtUnit UNIT		ON PDTTmp.FTPunCode = UNIT.FTPunCode
+			LEFT JOIN TCNMPdtBrand BRAND	ON PDTTmp.FTPbnCode = BRAND.FTPbnCode ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND FTWorkerID = '$tSession' ";
 		$oQuery = $this->db->query($tSQL);
@@ -534,10 +553,10 @@ class mProduct extends CI_Model {
 					,FTPdtName
 					,'' AS FTPdtNameOth
 					,'' AS FTPdtDesc
-					,'' AS FTPunCode
+					,FTPunCode
 					,FTPgpCode
 					,FTPtyCode
-					,'' AS FTPbnCode
+					,FTPbnCode
 					,'' AS FTPzeCode
 					,'' AS FTPClrCode
 					,FTSplCode
@@ -696,5 +715,213 @@ class mProduct extends CI_Model {
 			);
 		}
 		return $aResult;
+	}
+
+	//เช็ครหัสซ้ำ ในส่วนประกอบของสินค้า
+	public function FSaMPDTCheckCode($pnFiled,$ptTableName,$ptValue){
+		$tSQL = " SELECT TOP 1 $pnFiled FROM $ptTableName WHERE $pnFiled = '$ptValue' ";
+		$tSQL .= " ORDER BY $pnFiled DESC";
+
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'rtCode'   => '1',
+				'tResult'  => $oQuery->result_array()
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'not Found'
+			);
+		}
+		return $aResult;
+	}
+
+	//เลือก พวก option ต่างๆ 
+	public function FSaMPDTAttrGetItem($paData){
+		$aRowLen  		= FCNaHCallLenData($paData['nRow'], $paData['nPage']);
+		$tTextSearch 	= trim($paData['tSearch']);
+
+		switch ($paData['tName']) {
+			case "brand":
+				$tTable 	= "TCNMPdtBrand";
+				$tOrderBy 	= "FTPbnCode";
+				$tActive 	= "";
+				$tSearch 	= " AND ( ATTR.FTPbnCode LIKE '%$tTextSearch%' OR ATTR.FTPbnName LIKE '%$tTextSearch%' ) ";
+				break;
+			case "color":
+				$tTable 	= "TCNMPdtColor";
+				$tOrderBy 	= "FTPClrCode";
+				$tActive 	= "";
+				$tSearch 	= " AND ( ATTR.FTPClrCode LIKE '%$tTextSearch%' OR ATTR.FTPClrName LIKE '%$tTextSearch%' ) ";
+				break;
+			case "group":
+				$tTable 	= "TCNMPdtGrp";
+				$tOrderBy 	= "FTPgpCode";
+				$tActive 	= "";
+				$tSearch 	= " AND ( ATTR.FTPgpCode LIKE '%$tTextSearch%' OR ATTR.FTPgpName LIKE '%$tTextSearch%' ) ";
+				break;
+			case "modal":
+				$tTable 	= "TCNMPdtModal";
+				$tOrderBy 	= "FTMolCode";
+				$tActive 	= "";
+				$tSearch 	= " AND ( ATTR.FTMolCode LIKE '%$tTextSearch%' OR ATTR.FTMolName LIKE '%$tTextSearch%' ) ";
+				break;
+			case "size":
+				$tTable 	= "TCNMPdtSize";
+				$tOrderBy 	= "FTPzeCode";
+				$tActive 	= "";
+				$tSearch 	= " AND ( ATTR.FTPzeCode LIKE '%$tTextSearch%' OR ATTR.FTPzeName LIKE '%$tTextSearch%' ) ";
+				break;
+			case "unit":
+				$tTable 	= "TCNMPdtUnit";
+				$tOrderBy 	= "FTPunCode";
+				$tActive 	= "";
+				$tSearch 	= " AND ( ATTR.FTPunCode LIKE '%$tTextSearch%' OR ATTR.FTPunName LIKE '%$tTextSearch%' ) ";
+				break;
+			case "type":
+				$tTable 	= "TCNMPdtType";
+				$tOrderBy 	= "FTPtyCode";
+				$tActive 	= "";
+				$tSearch 	= " AND ( ATTR.FTPtyCode LIKE '%$tTextSearch%' OR ATTR.FTPtyName LIKE '%$tTextSearch%' ) ";
+				break;
+			case "spl":
+				$tTable 	= "TCNMSpl";
+				$tOrderBy 	= "FTSplCode";
+				$tActive 	= " AND ATTR.FTSplStaActive = 1 ";
+				$tSearch 	= " AND ( ATTR.FTSplCode LIKE '%$tTextSearch%' OR ATTR.FTSplName LIKE '%$tTextSearch%' OR ATTR.FTSplTel LIKE '%$tTextSearch%' OR ATTR.FTSplContact LIKE '%$tTextSearch%' ) ";
+				break;
+			default:
+				$tTable 	= "";
+				$tOrderBy 	= "";
+				$tActive 	= "";
+				$tSearch 	= "";
+		}
+
+		$tSQL  = "SELECT c.* FROM(";
+		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY $tOrderBy ASC) AS rtRowID,* FROM (";
+		$tSQL .= " SELECT * FROM $tTable ATTR ";
+		$tSQL .= " WHERE 1=1 ";
+
+		//สถานะใช้งาน
+		if($tActive == ''){
+			$tSQL .= "";
+		}else{
+			$tSQL .= $tActive;
+		}
+
+		//ค้นหาธรรมดา
+		if ($tTextSearch != '' || $tTextSearch != null) {
+			$tSQL .= $tSearch;
+		}
+
+		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
+		$oQuery = $this->db->query($tSQL);
+		if ($oQuery->num_rows() > 0) {
+			$oFoundRow 	= $this->FCxPDTAttrGetItem_PageAll($paData);
+			$nFoundRow 	= $oFoundRow[0]->counts;
+			$nPageAll 	= ceil($nFoundRow / $paData['nRow']);
+			$aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+				'rnAllRow'      => $nFoundRow,
+				'rnCurrentPage' => $paData['nPage'],
+				'rnAllPage'     => $nPageAll,
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
+		} else {
+			$aResult = array(
+				'rnAllRow' 		=> 0,
+				'rnCurrentPage' => $paData['nPage'],
+				"rnAllPage"		=> 0,
+				'rtCode' 		=> '800',
+				'rtDesc' 		=> 'data not found',
+			);
+		}
+		return $aResult;
+	}
+
+	public function FCxPDTAttrGetItem_PageAll($paData){
+		try {
+			$tTextSearch 	= trim($paData['tSearch']);
+
+			switch ($paData['tName']) {
+				case "brand":
+					$tTable 	= "TCNMPdtBrand";
+					$tOrderBy 	= "FTPbnCode";
+					$tActive 	= "";
+					$tSearch 	= " AND ( ATTR.FTPbnCode LIKE '%$tTextSearch%' OR ATTR.FTPbnName LIKE '%$tTextSearch%' ) ";
+					break;
+				case "color":
+					$tTable 	= "TCNMPdtColor";
+					$tOrderBy 	= "FTPClrCode";
+					$tActive 	= "";
+					$tSearch 	= " AND ( ATTR.FTPClrCode LIKE '%$tTextSearch%' OR ATTR.FTPClrName LIKE '%$tTextSearch%' ) ";
+					break;
+				case "group":
+					$tTable 	= "TCNMPdtGrp";
+					$tOrderBy 	= "FTPgpCode";
+					$tActive 	= "";
+					$tSearch 	= " AND ( ATTR.FTPgpCode LIKE '%$tTextSearch%' OR ATTR.FTPgpName LIKE '%$tTextSearch%' ) ";
+					break;
+				case "modal":
+					$tTable 	= "TCNMPdtModal";
+					$tOrderBy 	= "FTMolCode";
+					$tActive 	= "";
+					$tSearch 	= " AND ( ATTR.FTMolCode LIKE '%$tTextSearch%' OR ATTR.FTMolName LIKE '%$tTextSearch%' ) ";
+					break;
+				case "size":
+					$tTable 	= "TCNMPdtSize";
+					$tOrderBy 	= "FTPzeCode";
+					$tActive 	= "";
+					$tSearch 	= " AND ( ATTR.FTPzeCode LIKE '%$tTextSearch%' OR ATTR.FTPzeName LIKE '%$tTextSearch%' ) ";
+					break;
+				case "unit":
+					$tTable 	= "TCNMPdtUnit";
+					$tOrderBy 	= "FTPunCode";
+					$tActive 	= "";
+					$tSearch 	= " AND ( ATTR.FTPunCode LIKE '%$tTextSearch%' OR ATTR.FTPunName LIKE '%$tTextSearch%' ) ";
+					break;
+				case "type":
+					$tTable 	= "TCNMPdtType";
+					$tOrderBy 	= "FTPtyCode";
+					$tActive 	= "";
+					$tSearch 	= " AND ( ATTR.FTPtyCode LIKE '%$tTextSearch%' OR ATTR.FTPtyName LIKE '%$tTextSearch%' ) ";
+					break;
+				case "spl":
+					$tTable 	= "TCNMSpl";
+					$tOrderBy 	= "FTSplCode";
+					$tActive 	= " AND ATTR.FTSplStaActive = 1 ";
+					$tSearch 	= " AND ( ATTR.FTSplCode LIKE '%$tTextSearch%' OR ATTR.FTSplName LIKE '%$tTextSearch%' OR ATTR.FTSplTel LIKE '%$tTextSearch%' OR ATTR.FTSplContact LIKE '%$tTextSearch%' ) ";
+					break;
+				default:
+					$tTable 	= "";
+					$tOrderBy 	= "";
+			}
+
+			$tSQL 			= "SELECT COUNT (ATTR.$tOrderBy) AS counts FROM $tTable ATTR  ";
+			$tSQL 			.= " WHERE 1=1 ";
+
+			//สถานะใช้งาน
+			if($tActive == ''){
+				$tSQL .= "";
+			}else{
+				$tSQL .= $tActive;
+			}
+
+			//ค้นหาธรรมดา
+			if ($tTextSearch != '' || $tTextSearch != null) {
+				$tSQL .= $tSearch;
+			}
+
+			$oQuery = $this->db->query($tSQL);
+			if ($oQuery->num_rows() > 0) {
+				return $oQuery->result();
+			} else {
+				return false;
+			}
+		} catch (Exception $Error) {
+			echo $Error;
+		}
 	}
 }

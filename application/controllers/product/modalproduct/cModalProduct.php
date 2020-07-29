@@ -5,6 +5,7 @@ class cModalProduct extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('product/modalproduct/mModalproduct');
+		$this->load->model('product/product/mProduct');
 	}
 
 	public function index(){
@@ -47,7 +48,7 @@ class cModalProduct extends CI_Controller {
 
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCMOPEventInsert(){
-		$aLastCode 	= $this->mModalproduct->FSaMMOPGetLastModalPDTcode();
+		/*$aLastCode 	= $this->mModalproduct->FSaMMOPGetLastModalPDTcode();
 		if($aLastCode['rtCode'] == 800){
 			$tFormatCode = '00001';
 		}else{
@@ -65,16 +66,22 @@ class cModalProduct extends CI_Controller {
 			}
 
 			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
-		}
+		}*/
 
-		$aInsertGroupPDT = array(
-			'FTMolCode'			=> $tFormatCode,
-			'FTMolName'			=> $this->input->post('oetMOLName'),
-			'FDCreateOn'		=> date('Y-m-d H:i:s'),
-			'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
-		);
-		$this->mModalproduct->FSxMMOPInsert($aInsertGroupPDT);
-		echo 'pass_insert';
+		$tFormatCode 		= $this->input->post('oetCodeMOLName');
+		$aStatusCheckCode 	= $this->mProduct->FSaMPDTCheckCode('FTMolCode','TCNMPdtModal',$tFormatCode);
+		if($aStatusCheckCode['rtCode'] == 800){
+			$aInsertGroupPDT = array(
+				'FTMolCode'			=> $tFormatCode,
+				'FTMolName'			=> $this->input->post('oetMOLName'),
+				'FDCreateOn'		=> date('Y-m-d H:i:s'),
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mModalproduct->FSxMMOPInsert($aInsertGroupPDT);
+			echo 'pass_insert';
+		}else{
+			echo 'duplicate';
+		}
 	}
 
 	//ลบ

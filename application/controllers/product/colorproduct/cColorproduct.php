@@ -5,6 +5,7 @@ class cColorproduct extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('product/colorproduct/mColorproduct');
+		$this->load->model('product/product/mProduct');
 	}
 
 	public function index(){
@@ -47,7 +48,7 @@ class cColorproduct extends CI_Controller {
 
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCCOPEventInsert(){
-		$aLastCode 	= $this->mColorproduct->FSaMCOPGetLastColorPDTcode();
+		/*$aLastCode 	= $this->mColorproduct->FSaMCOPGetLastColorPDTcode();
 		if($aLastCode['rtCode'] == 800){
 			$tFormatCode = '00001';
 		}else{
@@ -65,16 +66,21 @@ class cColorproduct extends CI_Controller {
 			}
 
 			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
+		}*/
+		$tFormatCode 		= $this->input->post('oetCodeCOPName');
+		$aStatusCheckCode 	= $this->mProduct->FSaMPDTCheckCode('FTPClrCode','TCNMPdtColor',$tFormatCode);
+		if($aStatusCheckCode['rtCode'] == 800){
+			$aInsertColorPDT = array(
+				'FTPClrCode'	=> $tFormatCode,
+				'FTPClrName'	=> $this->input->post('oetCOPName'),
+				'FDCreateOn'	=> date('Y-m-d H:i:s'),
+				'FTCreateBy'	=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mColorproduct->FSxMCOPInsert($aInsertColorPDT);
+			echo 'pass_insert';
+		}else{
+			echo 'duplicate';
 		}
-
-		$aInsertColorPDT = array(
-			'FTPClrCode'	=> $tFormatCode,
-			'FTPClrName'	=> $this->input->post('oetCOPName'),
-			'FDCreateOn'	=> date('Y-m-d H:i:s'),
-			'FTCreateBy'	=> $this->session->userdata('tSesUsercode')
-		);
-		$this->mColorproduct->FSxMCOPInsert($aInsertColorPDT);
-		echo 'pass_insert';
 	}
 
 	//ลบ

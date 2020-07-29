@@ -5,6 +5,7 @@ class cGroupproduct extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('product/groupproduct/mGroupproduct');
+		$this->load->model('product/product/mProduct');
 	}
 
 	public function index(){
@@ -47,34 +48,41 @@ class cGroupproduct extends CI_Controller {
 
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCGRPEventInsert(){
-		$aLastCode 	= $this->mGroupproduct->FSaMGRPGetLastGroupPDTcode();
-		if($aLastCode['rtCode'] == 800){
-			$tFormatCode = '00001';
+		// $aLastCode 	= $this->mGroupproduct->FSaMGRPGetLastGroupPDTcode();
+		// if($aLastCode['rtCode'] == 800){
+		// 	$tFormatCode = '00001';
+		// }else{
+		// 	$nLastCode 		= $aLastCode['raItems'][0]['FTPgpCode'];
+		// 	$nNumber		= $nLastCode + 1;
+		// 	$nCountNumber	= count($nNumber);
+		// 	if($nCountNumber == 1){
+		// 		$tFormat 		= '0000';
+		// 	}else if($nCountNumber == 2){
+		// 		$tFormat 		= '000';
+		// 	}else if($nCountNumber == 3){
+		// 		$tFormat 		= '00';
+		// 	}else{
+		// 		$tFormat 		= '0';
+		// 	}
+
+		// 	$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
+		// }
+
+		//เช็ครหัสซ้ำก่อน
+		$tFormatCode 		= $this->input->post('oetCodeGRPName');
+		$aStatusCheckCode 	= $this->mProduct->FSaMPDTCheckCode('FTPgpCode','TCNMPdtGrp',$tFormatCode);
+		if($aStatusCheckCode['rtCode'] == 800){
+			$aInsertGroupPDT = array(
+				'FTPgpCode'			=> $tFormatCode,
+				'FTPgpName'			=> $this->input->post('oetGRPName'),
+				'FDCreateOn'		=> date('Y-m-d H:i:s'),
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mGroupproduct->FSxMGRPInsert($aInsertGroupPDT);
+			echo 'pass_insert';
 		}else{
-			$nLastCode 		= $aLastCode['raItems'][0]['FTPgpCode'];
-			$nNumber		= $nLastCode + 1;
-			$nCountNumber	= count($nNumber);
-			if($nCountNumber == 1){
-				$tFormat 		= '0000';
-			}else if($nCountNumber == 2){
-				$tFormat 		= '000';
-			}else if($nCountNumber == 3){
-				$tFormat 		= '00';
-			}else{
-				$tFormat 		= '0';
-			}
-
-			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
+			echo 'duplicate';
 		}
-
-		$aInsertGroupPDT = array(
-			'FTPgpCode'			=> $tFormatCode,
-			'FTPgpName'			=> $this->input->post('oetGRPName'),
-			'FDCreateOn'		=> date('Y-m-d H:i:s'),
-			'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
-		);
-		$this->mGroupproduct->FSxMGRPInsert($aInsertGroupPDT);
-		echo 'pass_insert';
 	}
 
 	//ลบกลุ่มสินค้า

@@ -5,6 +5,8 @@ class cBrandProduct extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('product/brandproduct/mBrandproduct');
+		$this->load->model('product/product/mProduct');
+
 	}
 
 	public function index(){
@@ -47,7 +49,7 @@ class cBrandProduct extends CI_Controller {
 
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCBAPEventInsert(){
-		$aLastCode 	= $this->mBrandproduct->FSaMBAPGetLastBrandPDTcode();
+		/*$aLastCode 	= $this->mBrandproduct->FSaMBAPGetLastBrandPDTcode();
 		if($aLastCode['rtCode'] == 800){
 			$tFormatCode = '00001';
 		}else{
@@ -65,16 +67,22 @@ class cBrandProduct extends CI_Controller {
 			}
 
 			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
-		}
+		}*/
 
-		$aInsertBrandPDT = array(
-			'FTPbnCode'			=> $tFormatCode,
-			'FTPbnName'			=> $this->input->post('oetBANName'),
-			'FDCreateOn'		=> date('Y-m-d H:i:s'),
-			'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
-		);
-		$this->mBrandproduct->FSxMBAPInsert($aInsertBrandPDT);
-		echo 'pass_insert';
+		$tFormatCode 		= $this->input->post('oetCodeBANName');
+		$aStatusCheckCode 	= $this->mProduct->FSaMPDTCheckCode('FTPbnCode','TCNMPdtBrand',$tFormatCode);
+		if($aStatusCheckCode['rtCode'] == 800){
+			$aInsertBrandPDT = array(
+				'FTPbnCode'			=> $tFormatCode,
+				'FTPbnName'			=> $this->input->post('oetBANName'),
+				'FDCreateOn'		=> date('Y-m-d H:i:s'),
+				'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mBrandproduct->FSxMBAPInsert($aInsertBrandPDT);
+			echo 'pass_insert';
+		}else{
+			echo 'duplicate';
+		}
 	}
 
 	//ลบ

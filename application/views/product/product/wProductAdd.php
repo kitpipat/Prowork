@@ -27,6 +27,14 @@
 		$FTPdtImage 		= $aResult[0]['FTPdtImage'];
 		$FTPdtStatus		= $aResult[0]['FTPdtStatus'];
 		$FTPdtReason		= $aResult[0]['FTPdtReason'];
+		$FTPbnName 			= $aResult[0]['FTPbnName'];
+		$FTPClrName 		= $aResult[0]['FTPClrName'];
+		$FTPgpName 			= $aResult[0]['FTPgpName'];
+		$FTMolName 			= $aResult[0]['FTMolName'];
+		$FTPzeName 			= $aResult[0]['FTPzeName'];
+		$FTPtyName 			= $aResult[0]['FTPtyName'];
+		$FTPunName 			= $aResult[0]['FTPunName']; 
+		$FTSplName 			= $aResult[0]['FTSplName'];
 		$FDCreateOn			= date('d/m/Y',strtotime($aResult[0]['FDCreateOn']));
 		$FDUpdateOn			= date('d/m/Y',strtotime($aResult[0]['FDUpdateOn']));
 		$tRoute 			= 'r_producteventedit';
@@ -157,58 +165,50 @@
 							</div>
 
 							<div class="col-lg-6">
-
 								<!--ยี่ห้อ-->
 								<div class="form-group">
 									<label>ยี่ห้อ</label>
-									<select class="form-control" id="oetPDTBrand" name="oetPDTBrand">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Brand['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>	
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>	
-											<?php foreach($aFilter_Brand['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTPbnCode == $aValue['FTPbnCode'])? "selected" : "";?> value="<?=$aValue['FTPbnCode'];?>"><?=$aValue['FTPbnName'];?></option>
-											<?php } ?>
-										<?php } ?>
-									</select>
+									<input type="hidden" id="oetPDTBrand" name="oetPDTBrand" value="<?=@$FTPbnCode?>">
+									<div class="input-group md-form form-sm form-2 pl-0 form-group">
+										<input type="text" readonly class="form-control" maxlength="255" id="oetPDTBrand_Name" name="oetPDTBrand_Name" placeholder="กรุณาเลือกข้อมูล" autocomplete="off" value="<?=@$FTPbnName?>">
+										<div class="input-group-append xCNIconFindCustomer">
+											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseAttribute('Brand');">
+												<img class="xCNIconFind">
+											</span>
+										</div>
+									</div>
 								</div>
-
 							</div>
 
 							<div class="col-lg-6">
 								<!--สี-->
 								<div class="form-group">
 									<label>สี</label>
-									<select class="form-control" id="oetPDTColor" name="oetPDTColor">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Color['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>
-											<?php foreach($aFilter_Color['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTPClrCode == $aValue['FTPClrCode'])? "selected" : "";?> value="<?=$aValue['FTPClrCode'];?>"><?=$aValue['FTPClrName'];?></option>
-											<?php } ?>
-										<?php } ?>
-									</select>
+									<input type="hidden" id="oetPDTColor" name="oetPDTColor" value="<?=@$FTPClrCode?>">
+									<div class="input-group md-form form-sm form-2 pl-0 form-group">
+										<input type="text" readonly class="form-control" maxlength="255" id="oetPDTColor_Name" name="oetPDTColor_Name" placeholder="กรุณาเลือกข้อมูล" autocomplete="off" value="<?=@$FTPClrName?>">
+										<div class="input-group-append xCNIconFindCustomer">
+											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseAttribute('color');">
+												<img class="xCNIconFind">
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 											
 							<div class="col-lg-6">
 								<!--กลุ่ม-->
 								<div class="form-group">
-									<label>กลุ่มสินค้า</label>
-									<select class="form-control" id="oetPDTGroup" name="oetPDTGroup">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Group['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>
-											<?php foreach($aFilter_Group['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTPgpCode == $aValue['FTPgpCode'])? "selected" : "";?> value="<?=$aValue['FTPgpCode'];?>"><?=$aValue['FTPgpName'];?></option>
-											<?php } ?>
-										<?php } ?>
-									</select>
+									<label>กลุ่ม</label>
+									<input type="hidden" id="oetPDTGroup" name="oetPDTGroup" value="<?=@$FTPgpCode?>">
+									<div class="input-group md-form form-sm form-2 pl-0 form-group">
+										<input type="text" readonly class="form-control" maxlength="255" id="oetPDTGroup_Name" name="oetPDTGroup_Name" placeholder="กรุณาเลือกข้อมูล" autocomplete="off" value="<?=@$FTPgpName?>">
+										<div class="input-group-append xCNIconFindCustomer">
+											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseAttribute('group');">
+												<img class="xCNIconFind">
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -216,17 +216,15 @@
 								<!--รุ่น-->
 								<div class="form-group">
 									<label>รุ่น</label>
-									<select class="form-control" id="oetPDTModal" name="oetPDTModal">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Modal['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>
-											<?php foreach($aFilter_Modal['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTMolCode == $aValue['FTMolCode'])? "selected" : "";?> value="<?=$aValue['FTMolCode'];?>"><?=$aValue['FTMolName'];?></option>
-											<?php } ?>
-										<?php } ?>
-									</select>
+									<input type="hidden" id="oetPDTModal" name="oetPDTModal" value="<?=@$FTMolCode?>">
+									<div class="input-group md-form form-sm form-2 pl-0 form-group">
+										<input type="text" readonly class="form-control" maxlength="255" id="oetPDTModal_Name" name="oetPDTModal_Name" placeholder="กรุณาเลือกข้อมูล" autocomplete="off" value="<?=@$FTMolName?>">
+										<div class="input-group-append xCNIconFindCustomer">
+											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseAttribute('modal');">
+												<img class="xCNIconFind">
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -234,17 +232,15 @@
 								<!--ขนาด-->
 								<div class="form-group">
 									<label>ขนาด</label>
-									<select class="form-control" id="oetPDTSize" name="oetPDTSize">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Size['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>
-											<?php foreach($aFilter_Size['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTPzeCode == $aValue['FTPzeCode'])? "selected" : "";?> value="<?=$aValue['FTPzeCode'];?>"><?=$aValue['FTPzeName'];?></option>
-											<?php } ?>
-										<?php } ?>
-									</select>
+									<input type="hidden" id="oetPDTSize" name="oetPDTSize" value="<?=@$FTPzeCode?>">
+									<div class="input-group md-form form-sm form-2 pl-0 form-group">
+										<input type="text" readonly class="form-control" maxlength="255" id="oetPDTSize_Name" name="oetPDTSize_Name" placeholder="กรุณาเลือกข้อมูล" autocomplete="off" value="<?=@$FTPzeName?>">
+										<div class="input-group-append xCNIconFindCustomer">
+											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseAttribute('size');">
+												<img class="xCNIconFind">
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -252,17 +248,15 @@
 								<!--หน่วย-->
 								<div class="form-group">
 									<label>หน่วย</label>
-									<select class="form-control" id="oetPDTPunCode" name="oetPDTPunCode">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Unit['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>
-											<?php foreach($aFilter_Unit['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTPunCode == $aValue['FTPunCode'])? "selected" : "";?> value="<?=$aValue['FTPunCode'];?>"><?=$aValue['FTPunName'];?></option>
-											<?php } ?>
-										<?php } ?>
-									</select>
+									<input type="hidden" id="oetPDTPunCode" name="oetPDTPunCode" value="<?=@$FTPunCode?>">
+									<div class="input-group md-form form-sm form-2 pl-0 form-group">
+										<input type="text" readonly class="form-control" maxlength="255" id="oetPDTPunCode_Name" name="oetPDTPunCode_Name" placeholder="กรุณาเลือกข้อมูล" autocomplete="off" value="<?=@$FTPunName?>">
+										<div class="input-group-append xCNIconFindCustomer">
+											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseAttribute('unit');">
+												<img class="xCNIconFind">
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -270,17 +264,15 @@
 								<!--ประเภท-->
 								<div class="form-group">
 									<label>ประเภท</label>
-									<select class="form-control" id="oetPDTType" name="oetPDTType">
-										<option selected disabled>กรุณาเลือกข้อมูล</option>
-										<?php if($aFilter_Type['rtCode'] == 800){ ?>
-											<option value="0">ไม่ระบุข้อมูล</option>
-										<?php }else{ ?> 
-											<option value="0">ไม่ระบุข้อมูล</option>
-											<?php foreach($aFilter_Type['raItems'] AS $nKey => $aValue){ ?>
-												<option <?=(@$FTPtyCode == $aValue['FTPtyCode'])? "selected" : "";?> value="<?=$aValue['FTPtyCode'];?>"><?=$aValue['FTPtyName'];?></option>
-											<?php } ?>
-										<?php } ?>
-									</select>
+									<input type="hidden" id="oetPDTType" name="oetPDTType" value="<?=@$FTPunCode?>">
+									<div class="input-group md-form form-sm form-2 pl-0 form-group">
+										<input type="text" readonly class="form-control" maxlength="255" id="oetPDTType_Name" name="oetPDTType_Name" placeholder="กรุณาเลือกข้อมูล" autocomplete="off" value="<?=@$FTPtyName?>">
+										<div class="input-group-append xCNIconFindCustomer">
+											<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseAttribute('type');">
+												<img class="xCNIconFind">
+											</span>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -288,28 +280,27 @@
 					</div>
 				</div>
 					
-						<div class="row">
-
-							<!--หมายเหตุ-->
-							<div class="col-lg-12">
-								<div class="card">
-									<div class="card-body">
-										<div class="row">
-											<div class="col-lg-12">
-												<div class="xCNHeadFooterINPDT"><span> หมายเหตุ </span></div>
-											</div>
-											<div class="col-lg-12">
-												<!--หมายเหตุ-->
-												<div class="form-group" style="margin-bottom: 0.75rem;">
-													<label>หมายเหตุ</label>
-													<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="2"><?=@$FTPdtReason;?></textarea>
-												</div>
-											</div>
+				<div class="row">
+					<!--หมายเหตุ-->
+					<div class="col-lg-12">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="xCNHeadFooterINPDT"><span> หมายเหตุ </span></div>
+									</div>
+									<div class="col-lg-12">
+										<!--หมายเหตุ-->
+										<div class="form-group" style="margin-bottom: 0.75rem;">
+											<label>หมายเหตุ</label>
+											<textarea type="text" class="form-control" id="oetPDTReason" name="oetPDTReason" placeholder="หมายเหตุ" rows="2"><?=@$FTPdtReason;?></textarea>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
 			</div>
 
 			<div class="col-lg-4">
@@ -327,26 +318,24 @@
 										<!--ผู้จำหน่าย-->
 										<div class="form-group">
 											<label>ผู้จำหน่าย</label>
-											<select class="form-control" id="oetPDTSPL" name="oetPDTSPL">
-												<option selected disabled>กรุณาเลือกข้อมูล</option>
-												<?php if($aFilter_Spl['rtCode'] == 800){ ?>
-													<option value="0">ไม่ระบุข้อมูล</option>
-												<?php }else{ ?> 
-													<option value="0">ไม่ระบุข้อมูล</option>
-													<?php foreach($aFilter_Spl['raItems'] AS $nKey => $aValue){ ?>
-														<option <?=(@$FTSplCode == $aValue['FTSplCode'])? "selected" : "";?> value="<?=$aValue['FTSplCode'];?>"><?=$aValue['FTSplName'];?></option>
-													<?php } ?>
-												<?php } ?>
-											</select>
-										</div>			
+											<input type="hidden" id="oetPDTSPL" name="oetPDTSPL" value="<?=@$FTSplCode?>">
+											<div class="input-group md-form form-sm form-2 pl-0 form-group">
+												<input type="text" readonly class="form-control" maxlength="255" id="oetPDTSPL_Name" name="oetPDTSPL_Name" placeholder="กรุณาเลือกข้อมูล" autocomplete="off" value="<?=@$FTSplName?>">
+												<div class="input-group-append xCNIconFindCustomer">
+													<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseAttribute('spl');">
+														<img class="xCNIconFind">
+													</span>
+												</div>
+											</div>
+										</div>	
 														
 										<div class="row">
 											<div class="col-lg-12"> 
 												<!--ต้นทุนมาตราฐาน-->
 												<div class="form-group">
 													<label><span style="color:red;">*</span> ราคาตั้ง</label>
-													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="50" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off" value="<?=@$FCPdtCostStd?>">
-													<input type="hidden" name="ohdPDTCostOld" id="ohdPDTCostOld"  value="<?=@$FCPdtCostStd?>">
+													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="13" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off" value="<?=@substr($FCPdtCostStd,0,15)?>">
+													<input type="hidden" name="ohdPDTCostOld" id="ohdPDTCostOld"  value="<?=@substr($FCPdtCostStd,0,15)?>">
 												</div>
 											</div>
 
@@ -398,7 +387,51 @@
 	</form>
 <div>
 
+<!-- Modal ให้เลือกลูกค้า -->
+<button id="obtModalSelectAttribute" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSelectAttribute"></button>
+<input type="hidden" id="ohdNameAttribute" name="ohdNameAttribute">
+<div class="modal fade" id="odvModalSelectAttribute" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<h5 class="modal-title" id="ospNameSelectAttribute" ></h5>
+					</div>
+					<div class="col-lg-6 col-md-6"></div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="input-group md-form form-sm form-2 pl-0">
+							<input class="form-control my-0 py-1 red-border xCNFormSerach" autocomplete="off" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchAttribute" onkeypress="Javascript:if(event.keyCode==13) JSxSelectAttribute(1)">
+							<div class="input-group-append">
+								<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxSelectAttribute(1);">
+									<?php $tMenuBar = base_url().'application/assets/images/icon/search.png'; ?>
+									<img class="menu-icon xCNMenuSearch" src="<?=$tMenuBar?>">
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<button type="button" class="btn  btn-success xCNConfirmCustomer" onclick="JSxConfirmAttribute();" style="float: right;">ยืนยัน</button>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div id="odvContentAttribute" style="margin-top:10px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
+<?php include 'jProductAdd.php' ?>
+
 <script>
 
 	$( document ).ready(function() {

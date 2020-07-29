@@ -6,6 +6,7 @@ class cSupplier extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('supplier/mSupplier');
+		$this->load->model('product/product/mProduct');
 	}
 
 	public function index(){
@@ -48,7 +49,7 @@ class cSupplier extends CI_Controller {
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCSUPEventInsert(){
 
-		$aLastSUPCode 	= $this->mSupplier->FSaMSUPGetLastSuppliercode();
+		/*$aLastSUPCode 	= $this->mSupplier->FSaMSUPGetLastSuppliercode();
 		if($aLastSUPCode['rtCode'] == 800){
 			$nSUPCode = '00001';
 		}else{
@@ -66,27 +67,32 @@ class cSupplier extends CI_Controller {
 			}
 
 			$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
+		}*/
+
+		$tFormatCode 		= $this->input->post('oetCodeSupplier');
+		$aStatusCheckCode 	= $this->mProduct->FSaMPDTCheckCode('FTSplCode','TCNMSpl',$tFormatCode);
+		if($aStatusCheckCode['rtCode'] == 800){
+			$aInsertSupplier = array(
+				'FTSplCode'				=> $tFormatCode,
+				'FTSplName'				=> $this->input->post('oetSupplierName'),
+				'FTSplAddress'			=> $this->input->post('oetSupplierAddress'),
+				'FTSplContact'			=> $this->input->post('oetSupplierContact'),
+				'FTSplTel'				=> $this->input->post('oetSupplierTel'),
+				'FTSplFax'				=> $this->input->post('oetSupplierTelNumber'),
+				'FTSplEmail'			=> $this->input->post('oetSupplierEmail'),
+				'FTSplPathImg'			=> $this->input->post('oetImgInsertorEditsupplier'),
+				'FNSplVat'				=> $this->input->post('oetSupplierVat'),
+				'FTSplVatType'			=> $this->input->post('oetSupplierVatType'),
+				'FTSplStaActive'		=> ($this->input->post('ocmSupplierStaUse') == 'on') ? 1 : 0,
+				'FTSplReason'			=> $this->input->post('oetSupplierReason'),
+				'FDCreateOn'			=> date('Y-m-d H:i:s'),
+				'FTCreateBy'			=> $this->session->userdata('tSesUsercode')
+			);
+			$this->mSupplier->FSxMSUPInsert($aInsertSupplier);
+			echo 'pass_insert';
+		}else{
+			echo 'duplicate';
 		}
-
-		$aInsertSupplier = array(
-			'FTSplCode'				=> $tFormatCode,
-			'FTSplName'				=> $this->input->post('oetSupplierName'),
-			'FTSplAddress'			=> $this->input->post('oetSupplierAddress'),
-			'FTSplContact'			=> $this->input->post('oetSupplierContact'),
-			'FTSplTel'				=> $this->input->post('oetSupplierTel'),
-			'FTSplFax'				=> $this->input->post('oetSupplierTelNumber'),
-			'FTSplEmail'			=> $this->input->post('oetSupplierEmail'),
-			'FTSplPathImg'			=> $this->input->post('oetImgInsertorEditsupplier'),
-			'FNSplVat'				=> $this->input->post('oetSupplierVat'),
-			'FTSplVatType'			=> $this->input->post('oetSupplierVatType'),
-			'FTSplStaActive'		=> ($this->input->post('ocmSupplierStaUse') == 'on') ? 1 : 0,
-			'FTSplReason'			=> $this->input->post('oetSupplierReason'),
-			'FDCreateOn'			=> date('Y-m-d H:i:s'),
-			'FTCreateBy'			=> $this->session->userdata('tSesUsercode')
-		);
-
-		$this->mSupplier->FSxMSUPInsert($aInsertSupplier);
-		echo 'pass_insert';
 	}
 
 	//ลบผู้ใช้
