@@ -302,8 +302,13 @@
 											$tDisabled 				= 'disabled';
 											$tClassDisabledInput 	= 'xCNClassDisabledInput';
 										}else{
-											$tDisabled 				= '';
-											$tClassDisabledInput 	= '';
+											if($aValue['namecon'] == '' || $aValue['namecon'] == null){
+												$tDisabled 				= '';
+												$tClassDisabledInput 	= '';
+											}else{
+												$tDisabled 				= 'disabled';
+												$tClassDisabledInput 	= 'xCNClassDisabledInput';
+											}
 										}
 									?>
 
@@ -515,6 +520,11 @@
 				//ถ้ากรอกเลขที่บิล จะเอาต้อง อัพเดท ผู้รับให้เห็น
 				if(ptType == 'REFCON'){
 					$('.xCNFreezeGiveUser'+tDocumentNubmer+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
+					if(tValue == '' || tValue == null){
+						$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
+					}else{
+						$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
+					}
 				}else if(ptType == 'REFBUY'){
 					//กรณีถ้าเป็นค่าว่าง
 					if(tValue == '' || tValue == null){
