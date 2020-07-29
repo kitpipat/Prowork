@@ -417,7 +417,7 @@
 												id="oetXqhDisText"
 												class="text-right form-control xCNNumberandPercent"
 												onkeypress="return FSxQUODocFootDis(event,this)"
-												maxlength="20">
+												maxlength="20" onkeyup="FSXQUOCheckInputDis(this)">
 									</div>
 								</div>
 								<div class="col-lg-5">

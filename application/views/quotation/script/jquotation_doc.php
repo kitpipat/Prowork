@@ -188,7 +188,7 @@
 						$('.xCNCancel').removeClass('xCNHide');
 					}
 				}
-				
+
 				//ถ้าเอกสารที่อนุมัติแล้วถึงจะพิมพ์ได้
 				if(FTXqhStaApv == 1){
 
@@ -211,7 +211,7 @@
 
 				if(tXqhStaDoc == 1){
 					$('.xCNPrint').removeClass('xCNHide');
-				}	
+				}
 
 				if(tXqhStaDoc == 2){
 					$('.xCNButtonSave').addClass('xCNHide');
@@ -614,7 +614,7 @@
 			nItemSeq 		= $(poElm).attr("data-seq");
 			tPdtCode 		= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
 			nItemNet 		= $("#olbItemNet"+nItemSeq).text();
-			
+
 			if($(poElm).val() != ''){
 
 				// var nCount 		= nItemDiscount.length;
@@ -626,7 +626,7 @@
 				// 	$(poElm).val(nItemDiscount.slice(0, -1));
 				// 	nItemDiscount = nItemDiscount.slice(0, -1);
 				// }
-				
+
 				$.ajax({
 					url		: 'r_quoItemDiscount',
 					timeout	: 0,
@@ -785,12 +785,19 @@
 				datatype: 'json'
 			})
 			.done(function(data) {
-			
+
 				$('#ospTotalText').text(data);
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
 				//serrorFunction();
 			});
+	}
+
+	function FSXQUOCheckInputDis(elm){
+
+		 var tFootDisText = $(elm).val().replace(/,,/gi, ",");
+		 $(elm).val(tFootDisText);
+
 	}
 
 </script>
