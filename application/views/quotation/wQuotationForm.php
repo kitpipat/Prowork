@@ -66,7 +66,7 @@ $tCodeRef 		= $aContactAddress[8];
             </tr>
             <tr>
               <td>วันกำหนดส่งของ : <?php echo $aDocHeader['raItems'][0]['FDDeliveryDate'];?></td>
-              <td>ผู้ติดต่อ : <?php echo ($aDocCustomer['raItems'][0]['FTXqhContact'] != "" ? $aDocCustomer['raItems'][0]['FTXqhContact'] : "-");?> <br><br></td>
+              <td>ผู้ติดต่อ : <?php echo ($tContact != "" ? $tContact : "-");?> <br><br></td>
             </tr>
           </table>
 
