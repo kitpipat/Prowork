@@ -22,7 +22,7 @@
 
 					<div id="odvContentLogin">
 						<img id="oimLogin" src="<?=base_url('application/assets/')?>images/logo.jpg">
-            			<p style="text-align:center;color:green">Version 0.6.0-15082020</p>
+            			<p style="text-align:center;color:green">Version 0.6.1-19092020</p>
 						<form id="ofmLogin" class="form-signin" method="post">
 							<div class="input">
 								<label class="olbLabelLogin">ชื่อผู้ใช้</label>

@@ -334,7 +334,7 @@
 												<!--ต้นทุนมาตราฐาน-->
 												<div class="form-group">
 													<label><span style="color:red;">*</span> ราคาตั้ง</label>
-													<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="13" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off" value="<?=@substr($FCPdtCostStd,0,15)?>">
+													<input type="text" class="xCNKeyPDTCost form-control xCNInputNumericWithDecimal text-right" maxlength="13" id="oetPDTCost" name="oetPDTCost" placeholder="0.00" autocomplete="off" value="<?=@substr($FCPdtCostStd,0,15)?>">
 													<input type="hidden" name="ohdPDTCostOld" id="ohdPDTCostOld"  value="<?=@substr($FCPdtCostStd,0,15)?>">
 												</div>
 											</div>
@@ -433,6 +433,58 @@
 <?php include 'jProductAdd.php' ?>
 
 <script>
+
+	//ถ้าคีย์ราคาตั้งตัวเลขต้องคำนวณเลย
+	$('.xCNKeyPDTCost').bind("keyup blur", function (e) {
+		if (e.which == 13) {
+			$(this).blur();
+		}
+
+		if (e.type == 'blur') {
+			JSxCalculateclient();
+		}
+	});
+
+	//ถ้าคีย์ราคาตั้งตัวเลขต้องคำนวณเลย
+	function JSxCalculateclient(){
+		var nCost 			= $('#oetPDTCost').val();
+		var nDisCost 		= $('#oetPDTCostPercent').val();
+		var aCalDisCoist 	= nDisCost.split(",");
+		for(i=0; i<aCalDisCoist.length; i++){
+			if(aCalDisCoist[i].indexOf("%") == -1){ //ไม่พบ %
+				nCost = nCost - aCalDisCoist[i];
+			}else{ //พบ %
+				var nCal = aCalDisCoist[i].replace("%", "");
+				nCost = (nCost * nCal) / 100;
+			}
+		}
+
+		//ต้นทุนหลังหักส่วนลด
+		$('#oetPDTCostAFDiscount').val(addCommas(nCost.toFixed(2)));
+
+		/*******************************************************/
+
+		var nTotalAFDis = $('#oetPDTCostAFDiscount').val();
+		var nTotal		= nTotalAFDis.replace(/,/g,"");
+		var nSell		= $('#oetPDTPriceSellPercent').val();
+		var nCalSell 	= nSell.replace("%", "");
+		var nResult		= parseFloat((nTotal * nCalSell)) / 100 + parseFloat(nTotal);
+
+		//ราคาขาย
+		$('#oetPDTPriceSell').val(addCommas(nResult.toFixed(2)));
+	}
+
+	function addCommas(nStr) {
+		nStr += '';
+		var x = nStr.split('.');
+		var x1 = x[0];
+		var x2 = x.length > 1 ? '.' + x[1] : '';
+		var rgx = /(\d+)(\d{3})/;
+		while (rgx.test(x1)) {
+				x1 = x1.replace(rgx, '$1' + ',' + '$2');
+		}
+		return x1 + x2;
+	}
 
 	$( document ).ready(function() {
 		//ถ้าเข้ามาแบบแก้ไข แต่ ไม่มีสิทธิ์ในการแก้ไข
