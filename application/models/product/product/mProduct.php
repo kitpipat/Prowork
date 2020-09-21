@@ -489,14 +489,20 @@ class mProduct extends CI_Model {
 					PDTTmp.FTPunCode,
 					PDTTmp.FTPbnCode,
 					BRAND.FTPbnName,
-					UNIT.FTPunName
+					UNIT.FTPunName,
+					COLOR.FTPClrCode,
+					COLOR.FTPClrName,
+					MOL.FTMolCode,
+					MOL.FTMolName
 			FROM TCNMPdt_DataTmp PDTTmp 
 			LEFT JOIN TCNMPdt PDT			ON PDTTmp.FTPdtCode = PDT.FTPdtCode
 			LEFT JOIN TCNMPdtGrp PDTGRP		ON PDTTmp.FTPgpCode = PDTGRP.FTPgpCode
 			LEFT JOIN TCNMPdtType PDTTYP	ON PDTTmp.FTPtyCode = PDTTYP.FTPtyCode
 			LEFT JOIN TCNMSpl SPL			ON PDTTmp.FTSplCode = SPL.FTSplCode
 			LEFT JOIN TCNMPdtUnit UNIT		ON PDTTmp.FTPunCode = UNIT.FTPunCode
-			LEFT JOIN TCNMPdtBrand BRAND	ON PDTTmp.FTPbnCode = BRAND.FTPbnCode ";
+			LEFT JOIN TCNMPdtBrand BRAND	ON PDTTmp.FTPbnCode = BRAND.FTPbnCode
+			LEFT JOIN TCNMPdtColor COLOR	ON PDTTmp.FTPClrCode= COLOR.FTPClrCode
+			LEFT JOIN TCNMPdtModal MOL		ON PDTTmp.FTMolCode = MOL.FTMolCode ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND FTWorkerID = '$tSession' ";
 		$oQuery = $this->db->query($tSQL);
@@ -558,9 +564,9 @@ class mProduct extends CI_Model {
 					,FTPtyCode
 					,FTPbnCode
 					,'' AS FTPzeCode
-					,'' AS FTPClrCode
+					,FTPClrCode 
 					,FTSplCode
-					,'' AS FTMolCode
+					,FTMolCode
 					,FCPdtCostStd
 					,FTPdtCostDis
 					,0 AS FCPdtSalPrice
