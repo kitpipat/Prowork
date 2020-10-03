@@ -493,7 +493,9 @@ class mProduct extends CI_Model {
 					COLOR.FTPClrCode,
 					COLOR.FTPClrName,
 					MOL.FTMolCode,
-					MOL.FTMolName
+					MOL.FTMolName,
+					SIZ.FTPzeCode,
+					SIZ.FTPzeName
 			FROM TCNMPdt_DataTmp PDTTmp 
 			LEFT JOIN TCNMPdt PDT			ON PDTTmp.FTPdtCode = PDT.FTPdtCode
 			LEFT JOIN TCNMPdtGrp PDTGRP		ON PDTTmp.FTPgpCode = PDTGRP.FTPgpCode
@@ -502,7 +504,8 @@ class mProduct extends CI_Model {
 			LEFT JOIN TCNMPdtUnit UNIT		ON PDTTmp.FTPunCode = UNIT.FTPunCode
 			LEFT JOIN TCNMPdtBrand BRAND	ON PDTTmp.FTPbnCode = BRAND.FTPbnCode
 			LEFT JOIN TCNMPdtColor COLOR	ON PDTTmp.FTPClrCode= COLOR.FTPClrCode
-			LEFT JOIN TCNMPdtModal MOL		ON PDTTmp.FTMolCode = MOL.FTMolCode ";
+			LEFT JOIN TCNMPdtModal MOL		ON PDTTmp.FTMolCode = MOL.FTMolCode
+			LEFT JOIN TCNMPdtSize SIZ		ON PDTTmp.FTPzeCode = SIZ.FTPzeCode ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND FTWorkerID = '$tSession' ";
 		$oQuery = $this->db->query($tSQL);
@@ -563,7 +566,7 @@ class mProduct extends CI_Model {
 					,FTPgpCode
 					,FTPtyCode
 					,FTPbnCode
-					,'' AS FTPzeCode
+					,FTPzeCode
 					,FTPClrCode 
 					,FTSplCode
 					,FTMolCode

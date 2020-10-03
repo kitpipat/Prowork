@@ -26,6 +26,7 @@
 							<th style="text-align: left;">ชื่อหน่วยสินค้า</th>
 							<th style="text-align: left;">ชื่อสี</th>
 							<th style="text-align: left;">ชื่อรุ่น</th>
+							<th style="text-align: left;">ชื่อขนาด</th>
 							<th style="width:80px; text-align: left;">ราคาตั้ง</th>
 							<th style="width:120px; text-align: left;">ส่วนลดราคาตั้ง</th>
 							<th style="width:200px; text-align: left;">สถานะ</th>
@@ -86,6 +87,12 @@
 											$tIconClassStatus 	= 'xCNIconStatus_close';
 											$tTextClassStatus 	= 'xCNTextClassStatus_close';
 											$tTextStatus 		= 'ไม่พบรุ่น';
+											$tStatusAprove		= 'fail';
+											break;
+										case $aValue['FTPzeCode'] == null:
+											$tIconClassStatus 	= 'xCNIconStatus_close';
+											$tTextClassStatus 	= 'xCNTextClassStatus_close';
+											$tTextStatus 		= 'ไม่พบขนาด';
 											$tStatusAprove		= 'fail';
 											break;
 										case $aValue['FTSplName'] == null:
@@ -197,6 +204,18 @@
 										$tMolClassStatus	= '';
 									}
 
+									//รหัสขนาด
+									if($aValue['FTPzeName'] == '' || $aValue['FTPzeName'] == null){
+										$tPzeName 			= $aValue['FTPzeCode'];
+										if($tPzeName == '' || $tPzeName == null){
+											$tPzeName 		= '-';
+										}
+										$tPzeClassStatus 	= 'xCNTextClassStatus_close';
+									}else{
+										$tPzeName 			= $aValue['FTPzeName'];
+										$tPzeClassStatus	= '';
+									}
+
 									//รหัสหน่วย
 									if($aValue['FTPunName'] == '' || $aValue['FTPunName'] == null){
 										$tPunName 			= $aValue['FTPunCode'];
@@ -222,6 +241,7 @@
 									<td><label class="xCNLineHeightInTable <?=$tPunClassStatus;?>"><?=$tPunName;?></label></td>
 									<td><label class="xCNLineHeightInTable <?=$tClrClassStatus;?>"><?=$tClrName;?></label></td>
 									<td><label class="xCNLineHeightInTable <?=$tMolClassStatus;?>"><?=$tMolName;?></label></td>
+									<td><label class="xCNLineHeightInTable <?=$tPzeClassStatus;?>"><?=$tPzeName;?></label></td>
 									<td style="text-align: right;"><label class="xCNLineHeightInTable <?=$tCostSTDDisClassStatus;?>"><?=($aValue['FCPdtCostStd'] == '') ? '-' : $aValue['FCPdtCostStd'];?></label></td>
 									<td style="text-align: right;"><label class="xCNLineHeightInTable <?=$tCostDisClassStatus;?>"><?=($aValue['FTPdtCostDis'] == '') ? '-' : $aValue['FTPdtCostDis'];?></label></td>
 									<td stlye="padding-top: 15px;"><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>

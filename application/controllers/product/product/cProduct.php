@@ -307,6 +307,7 @@ class cProduct extends CI_Controller {
 							'FTPbnCode'		=> (isset($aResult[$i][8])) ? $aResult[$i][8] : '',
 							'FTPClrCode'	=> (isset($aResult[$i][9])) ? $aResult[$i][9] : '',
 							'FTMolCode'		=> (isset($aResult[$i][10])) ? $aResult[$i][10] : '',
+							'FTPzeCode'		=> (isset($aResult[$i][11])) ? $aResult[$i][11] : '',
 							'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
 							'FCCostAfDis'	=> $nCost
 						);
