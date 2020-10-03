@@ -41,7 +41,7 @@
 			$tPunName 		= $aDocItems["raItems"][$p]["FTPunName"];
 			$nXqdUnitPrice 	= $aDocItems["raItems"][$p]["FCXqdUnitPrice"];
 			$nXqdQty 		= number_format($aDocItems["raItems"][$p]["FCXqdQty"],0);
-			$nTotal 		= $nXqdQty * $nXqdUnitPrice;
+			$nTotal 		= str_replace(",","",$nXqdQty) * $nXqdUnitPrice;
 			$nXqdDis 		= $aDocItems["raItems"][$p]["FCXqdDis"];
 			$nXqdDisText 		= $aDocItems["raItems"][$p]["FTXqdDisTxt"];
 			$nXqdCost 		= $aDocItems["raItems"][$p]["FTXqdCost"];
@@ -109,6 +109,7 @@
 											       value="<?=number_format($nXqdUnitPrice, 2);?>"
 														 data-seq="<?=$nSeq?>"
 														 style="width:90px;"
+														 onblur="return FSxQUOEditDocItemPri(event,this)"
 														 onkeypress="return FSxQUOEditDocItemPri(event,this)">
 									</div>
           </label>
@@ -133,6 +134,7 @@
 															 value="<?=$nXqdQty ?>"
 															 data-seq="<?=$nSeq?>"
 															 style="width:80px;"
+															 onblur="return FSxQUOEditDocItemQty(event,this)"
 															 onkeypress="return FSxQUOEditDocItemQty(event,this)" >
 									  </div>
 				</td>
@@ -149,6 +151,7 @@
 												 value="<?=$nXqdDisText?>"
 												 data-seq="<?=$nSeq?>"
 												 style="width:80px;"
+												 onblur="return FSxQUODocItemDiscount(event,this)"
 												 onkeypress="return FSxQUODocItemDiscount(event,this)">
 						  </div>
 				</td>

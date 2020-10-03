@@ -45,7 +45,7 @@
 						<div class="col-lg-6">จำนวน</div>
 						<div class="col-lg-6">
 							<div class="form-group">
-								<input class="text-right form-control xCNNumberandPercent xCNFormSerach" type="text" style="width:100%" value="<?= $nQty ?>" data-seq="<?= $nItemSeq ?>" data-unitpri="<?= $nPdtUnitPri ?>" onkeypress="return FSxQUOEditItemQty(event,this)">
+								<input class="text-right form-control xCNNumberandPercent xCNFormSerach" type="text" style="width:100%" value="<?= $nQty ?>" data-seq="<?= $nItemSeq ?>" data-unitpri="<?= $nPdtUnitPri ?>" onblur="return FSxQUOEditItemQty(event,this)" onkeypress="return FSxQUOEditItemQty(event,this)">
 							</div>
 						</div>
 					</div>

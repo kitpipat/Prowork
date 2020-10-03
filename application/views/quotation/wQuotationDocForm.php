@@ -416,6 +416,7 @@
 										       autocomplete="off"
 												id="oetXqhDisText"
 												class="text-right form-control xCNNumberandPercent"
+												onblur="return FSxQUODocFootDis(event,this)"
 												onkeypress="return FSxQUODocFootDis(event,this)"
 												maxlength="20" onkeyup="FSXQUOCheckInputDis(this)">
 									</div>

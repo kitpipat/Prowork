@@ -515,138 +515,156 @@
 	//แก้ไขจำนวนสินค้าในหน้าเอกสาร
 	function FSxQUOEditDocItemQty(e, poElm) {
 		//See notes about 'which' and 'key'
-		if (e.keyCode == 13) {
+		if(e.type == 'keypress' || e.type == 'blur'){
+			if(e.type == 'blur'){
+				e.keyCode = 13;
+			}
 
-					nItemQTY = $(poElm).val();
-					tQuoDocNo = $("#ospDocNo").attr("data-docno");
-					nItemSeq = $(poElm).attr("data-seq");
-					tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
-					nPdtUnitPrice = $("#oetPdtUnitPrice"+nItemSeq).val()
-					nItemDiscount = $("#oetItemDiscount"+nItemSeq).val()
+			if (e.keyCode == 13) {
 
-					//console.log(nItemQTY+'+'+tQuoDocNo+'+'+nItemSeq+'+'+nUnitPrice);
+						nItemQTY = $(poElm).val();
+						tQuoDocNo = $("#ospDocNo").attr("data-docno");
+						nItemSeq = $(poElm).attr("data-seq");
+						tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+						nPdtUnitPrice = $("#oetPdtUnitPrice"+nItemSeq).val()
+						nItemDiscount = $("#oetItemDiscount"+nItemSeq).val()
+
+						//console.log(nItemQTY+'+'+tQuoDocNo+'+'+nItemSeq+'+'+nUnitPrice);
 
 
-					$.ajax({
-							url: 'r_quoEditItemQty',
-							timeout: 0,
-							type: 'POST',
-							data: {
-								tQuoDocNo: tQuoDocNo,
-								nItemSeq: nItemSeq,
-								nItemQTY: nItemQTY,
-								tPdtCode : tPdtCode,
-								nPdtUnitPrice : nPdtUnitPrice,
-								nItemDiscount : nItemDiscount
-							},
-							datatype: 'json'
-						})
-						.done(function(data) {
-               //console.log(data)
-						   FSvQUODocItems();
+						$.ajax({
+								url: 'r_quoEditItemQty',
+								timeout: 0,
+								type: 'POST',
+								data: {
+									tQuoDocNo: tQuoDocNo,
+									nItemSeq: nItemSeq,
+									nItemQTY: nItemQTY,
+									tPdtCode : tPdtCode,
+									nPdtUnitPrice : nPdtUnitPrice,
+									nItemDiscount : nItemDiscount
+								},
+								datatype: 'json'
+							})
+							.done(function(data) {
+				//console.log(data)
+							FSvQUODocItems();
 
-						})
-						.fail(function(jqXHR, textStatus, errorThrown) {
-							//serrorFunction();
-						});
+							})
+							.fail(function(jqXHR, textStatus, errorThrown) {
+								//serrorFunction();
+							});
 
-					return false;
+						return false;
+			}
 		}
 	}
 
 	//แก้ไขราคาขายต่อหน่วยในหน้าเอกสาร
 	function FSxQUOEditDocItemPri(e, poElm) {
 		//See notes about 'which' and 'key'
-		if (e.keyCode == 13) {
+		if(e.type == 'keypress' || e.type == 'blur'){
+			if(e.type == 'blur'){
+				e.keyCode = 13;
+			}
 
-					nPdtUnitPrice = $(poElm).val();
-					tQuoDocNo = $("#ospDocNo").attr("data-docno");
-					nItemSeq = $(poElm).attr("data-seq");
-					tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
-					nItemDiscount = $("#oetItemDiscount"+nItemSeq).val()
-          nItemQTY = $("#oetDocItemQty"+nItemSeq).val()
-					//console.log(nPdtUnitPrice+'+'+tQuoDocNo+'+'+nItemSeq+'+'+tPdtCode+'+'+nItemDiscount);
+			if (e.keyCode == 13) {
 
-          nPdtCost = $("#oblPdtCost"+nItemSeq).text()
-					nPdtUnitPriceCng = nPdtUnitPrice.replace(/,/g, "");
-          nPdtCost = nPdtCost.replace(/,/g, "");
+						nPdtUnitPrice = $(poElm).val();
+						tQuoDocNo = $("#ospDocNo").attr("data-docno");
+						nItemSeq = $(poElm).attr("data-seq");
+						tPdtCode = $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+						nItemDiscount = $("#oetItemDiscount"+nItemSeq).val()
+			nItemQTY = $("#oetDocItemQty"+nItemSeq).val()
+						//console.log(nPdtUnitPrice+'+'+tQuoDocNo+'+'+nItemSeq+'+'+tPdtCode+'+'+nItemDiscount);
 
-					if(parseFloat(nPdtUnitPriceCng) < parseFloat(nPdtCost) && parseFloat(nPdtUnitPriceCng) !=0){
+			nPdtCost = $("#oblPdtCost"+nItemSeq).text()
+						nPdtUnitPriceCng = nPdtUnitPrice.replace(/,/g, "");
+			nPdtCost = nPdtCost.replace(/,/g, "");
 
-									alert("ไม่อนุญาติขายต่ำกว่าราคาต้นทุน");
+						if(parseFloat(nPdtUnitPriceCng) < parseFloat(nPdtCost) && parseFloat(nPdtUnitPriceCng) !=0){
 
-									FSvQUODocItems();
+										alert("ไม่อนุญาติขายต่ำกว่าราคาต้นทุน");
 
-					}else{
-							$.ajax({
-								 url: 'r_quoEditItemPrice',
-								 timeout: 0,
-								 type: 'POST',
-								 data: {
-									 tQuoDocNo: tQuoDocNo,
-									 nItemSeq: nItemSeq,
-									 nItemQTY: nItemQTY,
-									 tPdtCode : tPdtCode,
-									 nPdtUnitPrice : nPdtUnitPrice,
-									 nItemDiscount : nItemDiscount
-								 },
-								 datatype: 'json'
-							 })
-							 .done(function(data) {
-									 //console.log(data)
-									FSvQUODocItems();
+										FSvQUODocItems();
 
-							 })
-							 .fail(function(jqXHR, textStatus, errorThrown) {
-								 //serrorFunction();
-							 });
-					}
-					return false;
+						}else{
+								$.ajax({
+									url: 'r_quoEditItemPrice',
+									timeout: 0,
+									type: 'POST',
+									data: {
+										tQuoDocNo: tQuoDocNo,
+										nItemSeq: nItemSeq,
+										nItemQTY: nItemQTY,
+										tPdtCode : tPdtCode,
+										nPdtUnitPrice : nPdtUnitPrice,
+										nItemDiscount : nItemDiscount
+									},
+									datatype: 'json'
+								})
+								.done(function(data) {
+										//console.log(data)
+										FSvQUODocItems();
+
+								})
+								.fail(function(jqXHR, textStatus, errorThrown) {
+									//serrorFunction();
+								});
+						}
+						return false;
+			}
 		}
 	}
 
   	//ส่วนลดรายการ
 	function FSxQUODocItemDiscount(e, poElm) {
 		//See notes about 'which' and 'key'
-		if (e.keyCode == 13) {
-			nItemDiscount 	= $(poElm).val();
-			tQuoDocNo 		= $("#ospDocNo").attr("data-docno");
-			nItemSeq 		= $(poElm).attr("data-seq");
-			tPdtCode 		= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
-			nItemNet 		= $("#olbItemNet"+nItemSeq).text();
+		if(e.type == 'keypress' || e.type == 'blur'){
+			if(e.type == 'blur'){
+				e.keyCode = 13;
+			}
 
-			if($(poElm).val() != ''){
+			if (e.keyCode == 13) {
+				nItemDiscount 	= $(poElm).val();
+				tQuoDocNo 		= $("#ospDocNo").attr("data-docno");
+				nItemSeq 		= $(poElm).attr("data-seq");
+				tPdtCode 		= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+				nItemNet 		= $("#olbItemNet"+nItemSeq).text();
 
-				// var nCount 		= nItemDiscount.length;
-				// if(nItemDiscount.charAt(0) == ','){
-				// 	var nNewDiscount = nItemDiscount.replace(/,/g,'');
-				// 	$(poElm).val(nNewDiscount);
-				// 	nItemDiscount = nNewDiscount;
-				// }else if(nItemDiscount.charAt(nCount-1) == ','){
-				// 	$(poElm).val(nItemDiscount.slice(0, -1));
-				// 	nItemDiscount = nItemDiscount.slice(0, -1);
-				// }
+				if($(poElm).val() != ''){
 
-				$.ajax({
-					url		: 'r_quoItemDiscount',
-					timeout	: 0,
-					type	: 'POST',
-					data	:	 {
-						tQuoDocNo		: tQuoDocNo,
-						nItemSeq		: nItemSeq,
-						nItemDiscount	: nItemDiscount,
-						tPdtCode 		: tPdtCode,
-						nItemNet 		: nItemNet
-					},
-					datatype: 'json'
-				})
-				.done(function(data) {
-					FSvQUODocItems();
-				})
-				.fail(function(jqXHR, textStatus, errorThrown) {
-					//serrorFunction();
-				});
-				return false;
+					// var nCount 		= nItemDiscount.length;
+					// if(nItemDiscount.charAt(0) == ','){
+					// 	var nNewDiscount = nItemDiscount.replace(/,/g,'');
+					// 	$(poElm).val(nNewDiscount);
+					// 	nItemDiscount = nNewDiscount;
+					// }else if(nItemDiscount.charAt(nCount-1) == ','){
+					// 	$(poElm).val(nItemDiscount.slice(0, -1));
+					// 	nItemDiscount = nItemDiscount.slice(0, -1);
+					// }
+
+					$.ajax({
+						url		: 'r_quoItemDiscount',
+						timeout	: 0,
+						type	: 'POST',
+						data	:	 {
+							tQuoDocNo		: tQuoDocNo,
+							nItemSeq		: nItemSeq,
+							nItemDiscount	: nItemDiscount,
+							tPdtCode 		: tPdtCode,
+							nItemNet 		: nItemNet
+						},
+						datatype: 'json'
+					})
+					.done(function(data) {
+						FSvQUODocItems();
+					})
+					.fail(function(jqXHR, textStatus, errorThrown) {
+						//serrorFunction();
+					});
+					return false;
+				}
 			}
 		}
 	}
@@ -654,76 +672,82 @@
 	//ส่วนท้ายบิล
 	function FSxQUODocFootDis(e, poElm) {
 		//See notes about 'which' and 'key'
-		if (e.keyCode == 13 || e == 13) {
-
-			if(poElm == '#oetXqhDisText'){
-				nDiscount = $('#oetXqhDisText').val();
-			}else{
-				nDiscount = $(poElm).val();
+		if(e.type == 'keypress' || e.type == 'blur'){
+			if(e.type == 'blur'){
+				e.keyCode = 13;
 			}
+			
+			if (e.keyCode == 13 || e == 13) {
 
-			tQuoDocNo = $("#ospDocNo").attr("data-docno");
-			nNetB4HD = $("#otdDocNetTotal").text();
+				if(poElm == '#oetXqhDisText'){
+					nDiscount = $('#oetXqhDisText').val();
+				}else{
+					nDiscount = $(poElm).val();
+				}
 
-      		if(nDiscount != ''){
+				tQuoDocNo = $("#ospDocNo").attr("data-docno");
+				nNetB4HD = $("#otdDocNetTotal").text();
 
-				// var nCount 		= nDiscount.length;
-				// if(nDiscount.charAt(0) == ','){
-				// 	var nNewDiscount = nDiscount.replace(/,/g,'');
-				// 	$(poElm).val(nNewDiscount);
-				// 	nDiscount = nNewDiscount;
-				// }else if(nDiscount.charAt(nCount-1) == ','){
-				// 	$(poElm).val(nDiscount.slice(0, -1));
-				// 	nDiscount = nDiscount.slice(0, -1);
-				// }
+				if(nDiscount != ''){
 
-				$.ajax({
-					url: 'r_quoDocFootDiscount',
-					timeout: 0,
-					type: 'POST',
-					data: {
-						tQuoDocNo: tQuoDocNo,
-						nDiscount: nDiscount,
-						nNetB4HD : nNetB4HD
-					},
-					datatype: 'json'
-				})
-				.done(function(data) {
-					console.log(data)
-					$("#ospXqhDis").text(data)
+					// var nCount 		= nDiscount.length;
+					// if(nDiscount.charAt(0) == ','){
+					// 	var nNewDiscount = nDiscount.replace(/,/g,'');
+					// 	$(poElm).val(nNewDiscount);
+					// 	nDiscount = nNewDiscount;
+					// }else if(nDiscount.charAt(nCount-1) == ','){
+					// 	$(poElm).val(nDiscount.slice(0, -1));
+					// 	nDiscount = nDiscount.slice(0, -1);
+					// }
 
-					nFootDiscount = parseFloat(data)
-					nNetB4HD = nNetB4HD.replace(/,/g, "");
-					nNetAFHD = parseFloat(nNetB4HD) - parseFloat(nFootDiscount)
+					$.ajax({
+						url: 'r_quoDocFootDiscount',
+						timeout: 0,
+						type: 'POST',
+						data: {
+							tQuoDocNo: tQuoDocNo,
+							nDiscount: nDiscount,
+							nNetB4HD : nNetB4HD
+						},
+						datatype: 'json'
+					})
+					.done(function(data) {
+						console.log(data)
+						$("#ospXqhDis").text(data)
 
-					$("#ospXqhDis").text(accounting.formatMoney(nFootDiscount.toFixed(2), ""))
-					$("#otdNetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
+						nFootDiscount = parseFloat(data)
+						nNetB4HD = nNetB4HD.replace(/,/g, "");
+						nNetAFHD = parseFloat(nNetB4HD) - parseFloat(nFootDiscount)
 
-					nVatType = $("#ocmVatType").val()
-					nVatRate = $("#oetVatRate").val()
-					nVat 		= 0
-					nGrandTotal = 0
+						$("#ospXqhDis").text(accounting.formatMoney(nFootDiscount.toFixed(2), ""))
+						$("#otdNetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
 
-					if (nVatType == "1") {
+						nVatType = $("#ocmVatType").val()
+						nVatRate = $("#oetVatRate").val()
+						nVat 		= 0
+						nGrandTotal = 0
 
-						nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
-						nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
+						if (nVatType == "1") {
 
-					} else {
-						nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
-						nGrandTotal = parseFloat(nNetAFHD)
-					}
+							nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
+							nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
 
-					$("#otdVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
-					$("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
+						} else {
+							nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
+							nGrandTotal = parseFloat(nNetAFHD)
+						}
 
-					JCNQUONumberToCurrency(nGrandTotal.toFixed(2));
+						$("#otdVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
+						$("#otdGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
 
-				})
-				.fail(function(jqXHR, textStatus, errorThrown) {
-					//serrorFunction();
-				});
-				return false;
+						JCNQUONumberToCurrency(nGrandTotal.toFixed(2));
+
+					})
+					.fail(function(jqXHR, textStatus, errorThrown) {
+						//serrorFunction();
+					});
+					return false;
+				}
 			}
 		}
 	}

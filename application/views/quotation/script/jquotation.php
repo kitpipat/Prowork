@@ -168,42 +168,48 @@
 
 	function FSxQUOEditItemQty(e, poElm) {
 		//See notes about 'which' and 'key'
-		if (e.keyCode == 13) {
+		if(e.type == 'keypress' || e.type == 'blur'){
 
-			var nItemQTY = $(poElm).val();
-			tQuoDocNo = $("#odvQuoDocNo").text();
-			if(tQuoDocNo == 'SQ-##########'){
-				tQuoDocNo = '';
-			}else{
-				tQuoDocNo = tQuoDocNo;
+			if(e.type == 'blur'){
+				e.keyCode = 13;
 			}
-			
-			nItemSeq = $(poElm).attr("data-seq");
-			nUnitPrice = $(poElm).attr("data-unitpri");
+
+			if (e.keyCode == 13) {
+
+				var nItemQTY = $(poElm).val();
+				tQuoDocNo = $("#odvQuoDocNo").text();
+				if(tQuoDocNo == 'SQ-##########'){
+					tQuoDocNo = '';
+				}else{
+					tQuoDocNo = tQuoDocNo;
+				}
+				
+				nItemSeq = $(poElm).attr("data-seq");
+				nUnitPrice = $(poElm).attr("data-unitpri");
 
 
-			$.ajax({
-					url: 'r_quotationeventEditItemsQty',
-					timeout: 0,
-					type: 'POST',
-					data: {
-						tQuoDocNo: tQuoDocNo,
-						nItemSeq: nItemSeq,
-						nItemQTY: nItemQTY,
-						nUnitPrice: nUnitPrice
-					},
-					datatype: 'json'
-				})
-				.done(function(data) {
+				$.ajax({
+						url: 'r_quotationeventEditItemsQty',
+						timeout: 0,
+						type: 'POST',
+						data: {
+							tQuoDocNo: tQuoDocNo,
+							nItemSeq: nItemSeq,
+							nItemQTY: nItemQTY,
+							nUnitPrice: nUnitPrice
+						},
+						datatype: 'json'
+					})
+					.done(function(data) {
 
-					FSvQUOCallItemList()
+						FSvQUOCallItemList()
 
-				})
-				.fail(function(jqXHR, textStatus, errorThrown) {
-					//serrorFunction();
-				});
-			return false;
-
+					})
+					.fail(function(jqXHR, textStatus, errorThrown) {
+						//serrorFunction();
+					});
+				return false;
+			}
 		}
 	}
 
