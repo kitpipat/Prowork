@@ -41,7 +41,7 @@
 							<?php if($aFilter_Brand['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
 									<label class="xCNFindClick FontColorClick" data-find="Brand"><b>ยี่ห้อ</b></label>
-									<div class="xCNFindBrand" style="display:none;">
+									<div class="xCNFindBrand xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Brand['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
 												<input class="xCNFilterAdv" type="checkbox" data-filter="PBN" value="<?=$aValue['FTPbnCode']?>"><?=$aValue['FTPbnName']?>
@@ -56,7 +56,7 @@
 							<?php if($aFilter_Color['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
 									<label class="xCNFindClick FontColorClick" data-find="Color"><b>สี</b></label>
-									<div class="xCNFindColor" style="display:none;">
+									<div class="xCNFindColor xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Color['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
 												<input class="xCNFilterAdv" type="checkbox" data-filter="CLR" value="<?=$aValue['FTPClrCode']?>"><?=$aValue['FTPClrName']?>
@@ -71,7 +71,7 @@
 							<?php if($aFilter_Group['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
 									<label class="xCNFindClick FontColorClick" data-find="Group"><b>กลุ่ม</b></label>
-									<div class="xCNFindGroup" style="display:none;">
+									<div class="xCNFindGroup xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Group['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
 												<input class="xCNFilterAdv" type="checkbox" data-filter="PGP" value="<?=$aValue['FTPgpCode']?>"><?=$aValue['FTPgpName']?>
@@ -86,7 +86,7 @@
 							<?php if($aFilter_Modal['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
 									<label class="xCNFindClick FontColorClick" data-find="Modal"><b>รุ่น</b></label>
-									<div class="xCNFindModal" style="display:none;">
+									<div class="xCNFindModal xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Modal['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
 												<input class="xCNFilterAdv" type="checkbox" data-filter="MOL" value="<?=$aValue['FTMolCode']?>"><?=$aValue['FTMolName']?>
@@ -101,7 +101,7 @@
 							<?php if($aFilter_Size['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
 									<label class="xCNFindClick FontColorClick" data-find="Size"><b>ขนาด</b></label>
-									<div class="xCNFindSize" style="display:none;">
+									<div class="xCNFindSize xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Size['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
 												<input class="xCNFilterAdv" type="checkbox" data-filter="PZE" value="<?=$aValue['FTPzeCode']?>"><?=$aValue['FTPzeName']?>
@@ -116,7 +116,7 @@
 							<?php if($aFilter_Type['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
 									<label class="xCNFindClick FontColorClick" data-find="Type"><b>ประเภท</b></label>
-									<div class="xCNFindType" style="display:none;">
+									<div class="xCNFindType xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Type['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
 												<input class="xCNFilterAdv" type="checkbox" data-filter="PTY" value="<?=$aValue['FTPtyCode']?>"><?=$aValue['FTPtyName']?>
@@ -131,7 +131,7 @@
 							<?php if($aFilter_Unit['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
 									<label class="xCNFindClick FontColorClick" data-find="Unit"><b>หน่วย</b></label>
-									<div class="xCNFindUnit" style="display:none;">
+									<div class="xCNFindUnit xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Unit['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
 												<input class="xCNFilterAdv" type="checkbox"  data-filter="PUN" value="<?=$aValue['FTPunCode']?>"><?=$aValue['FTPunName']?>
@@ -318,6 +318,7 @@
 
 	//กดให้โชว์ช่องค้นหา
 	$('.xCNFindClick').click(function(e) {
+		$('.xCNFindFilter').hide();
 		var tTextFind = $(this).data('find');
 		$('.xCNFind' + tTextFind).toggle('fast');
 	});
