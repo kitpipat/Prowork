@@ -416,6 +416,25 @@
 	</div>
 </div>
 
+<!--Modal รูปแบบส่วนลดผิดพลาด-->
+<button id="obtModalFormatFail" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalFormatFail"></button>
+<div class="modal fade" id="odvModalFormatFail" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">กรุณาตรวจสอบข้อมูลอีกครั้ง</h5>
+			</div>
+			<div class="modal-body">
+				<label style="text-align: left; display: block;">ส่วนลดราคาตั้งต้องคั่นด้วย เครื่องหมาย "," (comma) กรณีถ้าต้องการลดซ้อน</label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete xCNConfirmFormat" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 
 <!--อัพโหลดไฟล์ excel-->
@@ -556,6 +575,10 @@
 
 	//กดปรับต้นทุนทั้งหมด
 	function JSxCahngeCostALL(){
+
+		var tResultNumber = JSxCheckFormatComma($('#oetADJCostALL').val());
+		$('#oetADJCostALL').val(tResultNumber);
+
 		$.ajax({
 			type	: "POST",
 			url		: "r_adjcostAll",
@@ -566,7 +589,6 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				console.log(tResult);
 				JSxModalProgress('close');
 				JSvLoadTableDTTmp(1);
 			},
@@ -574,6 +596,35 @@
 				alert(jqXHR, textStatus, errorThrown);
 			}
 		});
+	}
+
+	//เช็คว่า เค้าได้กรอกลูกน้ำ คั่นกันไหม
+	function JSxCheckFormatComma(ptNumber){
+		var nADJCost 	= ptNumber;
+		var aCheck 		= [];
+		for(var i=0; i<nADJCost.length;i++) {
+			if (nADJCost[i] === "%"){
+				var tNextString = nADJCost[i+1];
+				if(tNextString == undefined){
+					//ตัวสุดท้ายไม่ต้องเช็ค
+				}else if(tNextString != ','){
+					console.log('FMT ผิด');
+					$('#obtModalFormatFail').click();
+					return;
+				}else{
+					console.log('FMT ถูก');
+				}
+			}
+		}
+
+		var tTextAllChcekCommaLast = ptNumber.substr(-1);
+		if(tTextAllChcekCommaLast == ','){
+			var tResultNumber = ptNumber.slice(0, -1)
+		}else{
+			var tResultNumber = ptNumber;
+		}
+		
+		return tResultNumber;
 	}
 
 	//อีเวนท์บันทึกข้อมูล

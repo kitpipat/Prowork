@@ -553,9 +553,11 @@
 	function JSxCahngePriceALL(){
 
 		var tValueUpdate = $('#oetADJPriceALL').val();
-		if(tValueUpdate > 100){
-			$('#oetADJPriceALL').val(100);
-		}
+
+		//สามารถลดเกิน 100 ได้ : 26/12/2020
+		// if(tValueUpdate > 100){
+		// 	$('#oetADJPriceALL').val(100);
+		// }
 
 		$.ajax({
 			type	: "POST",

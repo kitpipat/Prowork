@@ -189,6 +189,9 @@
 		var tValueUpdate 	= $(e).val();
 		var tPDTCode 		= $(e).data('pdtcode');
 
+		var tValueUpdate = JSxCheckFormatComma(tValueUpdate);
+		$(e).val(tValueUpdate);
+		
 		$.ajax({
 			type	: "POST",
 			url		: 'r_adjcostPDTUpdateInlineInTmp',

@@ -180,10 +180,11 @@
 		var tValueUpdate 	= $(e).val();
 		var tPDTCode 		= $(e).data('pdtcode');
 
-		if(tValueUpdate > 100){
-			$(e).val(100);
-			tValueUpdate = 100;
-		}
+		//สามารถลดเกิน 100 ได้ : 26/12/2020
+		// if(tValueUpdate > 100){
+		// 	$(e).val(100);
+		// 	tValueUpdate = 100;
+		// }
 
 		$.ajax({
 			type	: "POST",
