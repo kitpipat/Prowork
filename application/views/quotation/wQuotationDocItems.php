@@ -9,7 +9,7 @@
 			$tStaSwhSplCost 	= "display:none";
 		}
 ?>
-<table class="table table-striped xCNTableCenter">
+<table class="table table-striped xCNTableCenter" style="margin-bottom: 0rem;">
 	<thead>
 		<tr>
 			<th style="width:10px;">ลำดับ</th>
@@ -17,13 +17,13 @@
 			<th style="text-align: center;">รูปภาพ</th>
 			<th>รายการ</th>
 			<th>หน่วย</th>
-			<th style="<?=$tStaSwhSpl?>">ผู้จำหน่าย</th>
-			<th style="text-align: right;<?=$tStaSwhSplCost?>">ต้นทุน</th>
-			<th style="text-align: right;">ราคา/หน่วย</th>
-			<th style="text-align: right; width:100px;">จำนวน</th>
-			<th style="text-align: right;">จำนวนเงิน</th>
-			<th style="text-align: right; width:80px;">ส่วนลด</th>
-			<th style="text-align: right;">จำนวนเงินรวม</th>
+			<th class="text-nowrap" style="<?=$tStaSwhSpl?>">ผู้จำหน่าย</th>
+			<th class="text-nowrap" style="text-align: right;<?=$tStaSwhSplCost?>">ต้นทุน</th>
+			<th class="text-nowrap" style="text-align: right;">ราคา/หน่วย</th>
+			<th class="text-nowrap" style="text-align: right; width:100px;">จำนวน</th>
+			<th class="text-nowrap" style="text-align: right;">จำนวนเงิน</th>
+			<th class="text-nowrap" style="text-align: right; width:80px;">ส่วนลด</th>
+			<th class="text-nowrap" style="text-align: right;">จำนวนเงินรวม</th>
 		</tr>
 	</thead>
 	<?php if ($aDocItems["nTotalRes"] > 0) { ?>
@@ -83,76 +83,68 @@
 			}
 		?>
 			<tr>
-				<th><label class="xCNLineHeightInTable"><?=$nNum?></label></th>
+				<th class="text-nowrap"><label class="xCNLineHeightInTable"><?=$nNum?></label></th>
 				<td class="xCNCellDeleteItem"><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxDeleteItemInTempQuotation('<?=$nSeq?>','<?=$tPdtCode?>');"></td>
 				<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
-				<td><label class="xCNLineHeightInTable" data-pdtcode="<?=$tPdtCode?>" id="olbPdtCode<?=$nSeq?>">
+				<td class="text-nowrap"><label class="xCNLineHeightInTable" data-pdtcode="<?=$tPdtCode?>" id="olbPdtCode<?=$nSeq?>">
 					  <?=$tPdtCode . " - " . $tPdtName; ?> </label>
 				</td>
-				<td><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
-				<td style="<?=$tStaSwhSpl?>">
+				<td class="text-nowrap"><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
+				<td class="text-nowrap" style="<?=$tStaSwhSpl?>">
 					<label class="xCNLineHeightInTable"><?=($tSplName == '') ? '-' : $tSplName;?></label>
 				</td>
-				<td class="text-right" style="<?=$tStaSwhSplCost?>">
+				<td class="text-right text-nowrap" style="<?=$tStaSwhSplCost?>">
 					<label class="xCNLineHeightInTable" id="oblPdtCost<?=$nSeq?>"><?=number_format($nXqdCost, 2); ?></label>
 				</td>
-				<td class="text-right">
-					<label class="xCNLineHeightInTable">
-						      <div class="input-container">
-											<i class="xWBnticon fa fa-info-circle fa-xs"
-												 style="font-size: 0.5rem;"
-												 title="กรอกราคาที่ต้องการไม่ต้องกรอกเครื่องหมาย , แล้วกด Enter"
-												 onclick="alert('กรอกราคาที่ต้องการไม่ต้องกรอกเครื่องหมาย , แล้วกด Enter')"></i>
-								      <input type="text"
-											       id="oetPdtUnitPrice<?=$nSeq?>"
-											       class="text-right xCNEditInline xCNInputNumericWithDecimal <?=$tRowUnitPrice?> xCNPdtUnitPrice"
-											       value="<?=number_format($nXqdUnitPrice, 2);?>"
-														 data-seq="<?=$nSeq?>"
-														 style="width:90px;">
-									</div>
-          </label>
+				<td class="text-right text-nowrap">
+					<label class="">
+						<div class="input-container">
+							<i class="xWBnticon fa fa-info-circle fa-xs"
+								style="font-size: 0.5rem;"
+								title="กรอกราคาที่ต้องการไม่ต้องกรอกเครื่องหมาย , แล้วกด Enter"
+								onclick="alert('กรอกราคาที่ต้องการไม่ต้องกรอกเครื่องหมาย , แล้วกด Enter')"></i>
+							<input type="text"
+								id="oetPdtUnitPrice<?=$nSeq?>"
+								class="text-right xCNEditInline xCNInputNumericWithDecimal <?=$tRowUnitPrice?> xCNPdtUnitPrice"
+								value="<?=number_format($nXqdUnitPrice, 2);?>"
+								data-seq="<?=$nSeq?>"
+								style="width:90px;">
+						</div>
+          			</label>
 				</td>
-				<td>
-					  <!-- <input type="text"
-						       class="text-right xCNEditInline xCNInputNumericWithDecimal"
-									 value="<?= $nXqdQty ?>"
-									 data-seq="<?=$nSeq?>"
-									 style="width:80px;"
-									 onkeypress="return FSxQUOEditDocItemQty(event,this)">
-									 <img src="<?=base_url('application/assets/images/icon/info-16.png')?>" > -->
-
-									 <div class="input-container">
-										    <i class="xWBnticon fa fa-info-circle fa-xs"
-												   style="font-size: 0.5rem;"
-													 title="กรอกจำนวนที่ต้องการแล้วกด Enter"
-													 onclick="alert('กรอกจำนวนที่ต้องการแล้วกด Enter')"></i>
-										    <input type="text"
-												       class="text-right xCNEditInline xCNInputNumericWithDecimal xCNDocItemQty"
-															 id="oetDocItemQty<?=$nSeq?>"
-															 value="<?=$nXqdQty ?>"
-															 data-seq="<?=$nSeq?>"
-															 style="width:80px;">
-									  </div>
+				<td class="text-nowrap">
+					<div class="input-container">
+						<i class="xWBnticon fa fa-info-circle fa-xs"
+							style="font-size: 0.5rem;"
+							title="กรอกจำนวนที่ต้องการแล้วกด Enter"
+							onclick="alert('กรอกจำนวนที่ต้องการแล้วกด Enter')"></i>
+						<input type="text"
+							class="text-right xCNEditInline xCNInputNumericWithDecimal xCNDocItemQty"
+							id="oetDocItemQty<?=$nSeq?>"
+							value="<?=$nXqdQty ?>"
+							data-seq="<?=$nSeq?>"
+							style="width:80px;">
+					</div>
 				</td>
-				<td class="text-right"><label class="xCNLineHeightInTable" id="olbItemNet<?=$nSeq?>"><?=number_format($nTotal, 2); ?></label></td>
-				<td>
-					    <div class="input-container">
-								  <i class="xWBnticon fa fa-info-circle"
-									   style="font-size: 0.5rem;"
-									   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
-									   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
-							    <input type="text"
-									       id="oetItemDiscount<?=$nSeq?>"
-									       class="text-right xCNEditInline xCNNumberandPercent xCNItemDiscount"
-												 value="<?=$nXqdDisText?>"
-												 data-seq="<?=$nSeq?>"
-												 style="width:80px;" >
-						  </div>
+				<td class="text-right text-nowrap">
+					<label class="xCNLineHeightInTable" id="olbItemNet<?=$nSeq?>"><?=number_format($nTotal, 2); ?></label>
 				</td>
-				<td class="text-right">
-					  <label class="xCNLineHeightInTable">
-							     <?=number_format($nPdtNetTotal, 2);?>
-						</label>
+				<td class="text-nowrap">
+					<div class="input-container">
+						<i class="xWBnticon fa fa-info-circle"
+							style="font-size: 0.5rem;"
+							title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
+							onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
+						<input type="text"
+							id="oetItemDiscount<?=$nSeq?>"
+							class="text-right xCNEditInline xCNNumberandPercent xCNItemDiscount"
+							value="<?=$nXqdDisText?>"
+							data-seq="<?=$nSeq?>"
+							style="width:80px;" >
+					</div>
+				</td>
+				<td class="text-right text-nowrap">
+					<label class="xCNLineHeightInTable"><?=number_format($nPdtNetTotal, 2);?></label>
 				</td>
 			</tr>
 			<?php $nNum++; ?>

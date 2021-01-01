@@ -353,7 +353,7 @@
 	<div class="card">
 		<div class="card-body" style="height:auto">
 			<div class="row">
-				<div class="col-lg-12" id="odvQuoDocItems"></div>
+				<div class="col-lg-12" id="odvQuoDocItems" style="overflow: auto; width: 900px; margin-bottom: 1rem;"></div>
 				<div class="col-lg-12" id="odvMoreItem">
 					<button class="xCNButtonInsert pull-left" onclick="FSxQUOBackToCart()">+</button><span id="ospmorePDT">เพิ่มเติมรายการสินค้า</span>
 				</div>
@@ -552,6 +552,26 @@
 		</div>
 	</div>
 </div>
+
+<!-- Modal แจ้งเตือนต่างๆ -->
+<button id="obtModalTextWarning" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalTextWarning"></button>
+<div class="modal fade" id="odvModalTextWarning" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">แจ้งเตือน</h5>
+			</div>
+			<div class="modal-body">
+				<label id="olbModalTextWarning" style="text-align: left; display: block;"></label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger xCNConfirmDelete" data-dismiss="modal" >ปิด</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 
 <link rel="stylesheet" href="<?= base_url('application/assets/css/quotation.css') ?>">
 <script type="text/javascript" src="<?= base_url('application/assets/js/jFormValidate.js') ?>"></script>

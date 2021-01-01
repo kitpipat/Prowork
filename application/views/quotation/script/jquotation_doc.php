@@ -571,7 +571,9 @@
 			nPdtCost = nPdtCost.replace(/,/g, "");
 
 			if(parseFloat(nPdtUnitPriceCng) < parseFloat(nPdtCost) && parseFloat(nPdtUnitPriceCng) !=0){
-				alert("ไม่อนุญาตขายต่ำกว่าราคาต้นทุน");
+				$('#obtModalTextWarning').click();
+				$('#olbModalTextWarning').text('ไม่อนุญาตขายต่ำกว่าราคาต้นทุน');
+				// alert("ไม่อนุญาตขายต่ำกว่าราคาต้นทุน");
 				FSvQUODocItems();
 			}else{
 					$.ajax({
@@ -602,43 +604,44 @@
 
   	//ส่วนลดรายการ
 	function FSxQUODocItemDiscount(poElm) {
-				nItemDiscount 	= $(poElm).val();
-				tQuoDocNo 			= $("#ospDocNo").attr("data-docno");
-				nItemSeq 				= $(poElm).attr("data-seq");
-				tPdtCode 				= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
-				nItemNet 				= $("#olbItemNet"+nItemSeq).text();
-				nItemCost 			= $("#oblPdtCost"+nItemSeq).text();
-				//cal net after discount line item
-				nItemNetB4DisLine = nItemNet.replace(/,/g, "");
-				nItemCost = nItemCost.replace(/,/g, "");
-				if($(poElm).val() != ''){
+		nItemDiscount 		= $(poElm).val();
+		tQuoDocNo 			= $("#ospDocNo").attr("data-docno");
+		nItemSeq 			= $(poElm).attr("data-seq");
+		tPdtCode 			= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+		nItemNet 			= $("#olbItemNet"+nItemSeq).text();
+		nItemCost 			= $("#oblPdtCost"+nItemSeq).text();
+		//cal net after discount line item
+		nItemNetB4DisLine = nItemNet.replace(/,/g, "");
+		nItemCost = nItemCost.replace(/,/g, "");
+		if($(poElm).val() != ''){
 
-					$.ajax({
-						url		: 'r_quoItemDiscount',
-						timeout	: 0,
-						type	: 'POST',
-						data	:	 {
-							tQuoDocNo		: tQuoDocNo,
-							nItemSeq		: nItemSeq,
-							nItemDiscount	: nItemDiscount,
-							tPdtCode 		: tPdtCode,
-							nItemNet 		: nItemNet,
-							nItemNetB4DisLine : nItemNetB4DisLine,
-							nItemCost : nItemCost
-						},
-						datatype: 'json'
-					})
-					.done(function(data) {
-						console.log(data);
-							  if(data == 'error'){
-								   alert('ไม่สามารถทำรายการได้เนื่องจาก การให้ส่วนลดแล้วมีผลทำให้ราคาขายต่ำกว่าต้นทุน กรุณาตรวจสอบ');
-								}
-								FSvQUODocItems();
-					})
-					.fail(function(jqXHR, textStatus, errorThrown) {
-						//serrorFunction();
-					});
+			$.ajax({
+				url		: 'r_quoItemDiscount',
+				timeout	: 0,
+				type	: 'POST',
+				data	:	 {
+					tQuoDocNo		: tQuoDocNo,
+					nItemSeq		: nItemSeq,
+					nItemDiscount	: nItemDiscount,
+					tPdtCode 		: tPdtCode,
+					nItemNet 		: nItemNet,
+					nItemNetB4DisLine : nItemNetB4DisLine,
+					nItemCost : nItemCost
+				},
+				datatype: 'json'
+			})
+			.done(function(data) {
+				if(data == 'error'){
+					$('#obtModalTextWarning').click();
+					$('#olbModalTextWarning').text('ไม่สามารถทำรายการได้เนื่องจาก การให้ส่วนลดแล้วมีผลทำให้ราคาขายต่ำกว่าต้นทุน กรุณาตรวจสอบ');
+					// alert('ไม่สามารถทำรายการได้เนื่องจาก การให้ส่วนลดแล้วมีผลทำให้ราคาขายต่ำกว่าต้นทุน กรุณาตรวจสอบ');
 				}
+				FSvQUODocItems();
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				//serrorFunction();
+			});
+		}
 	}
 
 	//ส่วนท้ายบิล
@@ -764,7 +767,6 @@
 		window.open("r_quoPrintForm/"+tDocNo+"/"+tEncodeText,"_blank")
 	}
 
-
 	function JCNQUONumberToCurrency(nNumber){
 
 		$.ajax({
@@ -784,10 +786,8 @@
 	}
 
 	function FSXQUOCheckInputDis(elm){
-
-		 var tFootDisText = $(elm).val().replace(/,,/gi, ",");
-		 $(elm).val(tFootDisText);
-
+		var tFootDisText = $(elm).val().replace(/,,/gi, ",");
+		$(elm).val(tFootDisText);
 	}
 
 </script>
