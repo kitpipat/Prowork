@@ -529,6 +529,11 @@
 						nPdtUnitPrice = $("#oetPdtUnitPrice"+nItemSeq).val()
 						nItemDiscount = $("#oetItemDiscount"+nItemSeq).val()
 
+            nItemCost = $("#oblPdtCost"+nItemSeq).text();
+						nItemCost = nItemCost.replace(/,/g, "");
+
+						$('#oetItemDiscount'+nItemSeq).val('')
+
 						//console.log(nItemQTY+'+'+tQuoDocNo+'+'+nItemSeq+'+'+nUnitPrice);
 
 
@@ -542,13 +547,15 @@
 									nItemQTY: nItemQTY,
 									tPdtCode : tPdtCode,
 									nPdtUnitPrice : nPdtUnitPrice,
-									nItemDiscount : nItemDiscount
+									nItemDiscount : nItemDiscount,
+									nItemCost : nItemCost
 								},
 								datatype: 'json'
 							})
 							.done(function(data) {
-				//console.log(data)
-							FSvQUODocItems();
+				          //alert(data);
+									console.log(data);
+							    FSvQUODocItems();
 
 							})
 							.fail(function(jqXHR, textStatus, errorThrown) {
@@ -619,18 +626,28 @@
 
   	//ส่วนลดรายการ
 	function FSxQUODocItemDiscount(e, poElm) {
+
 		//See notes about 'which' and 'key'
 		if(e.type == 'keypress' || e.type == 'blur'){
 			if(e.type == 'blur'){
-				e.keyCode = 13;
+				 e.keyCode = 13;
 			}
 
 			if (e.keyCode == 13) {
+
 				nItemDiscount 	= $(poElm).val();
 				tQuoDocNo 		= $("#ospDocNo").attr("data-docno");
 				nItemSeq 		= $(poElm).attr("data-seq");
 				tPdtCode 		= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
 				nItemNet 		= $("#olbItemNet"+nItemSeq).text();
+				nItemCost 		= $("#oblPdtCost"+nItemSeq).text();
+
+
+
+				//cal net after discount line item
+				nItemNetB4DisLine = nItemNet.replace(/,/g, "");
+				nItemCost = nItemCost.replace(/,/g, "");
+
 
 				if($(poElm).val() != ''){
 
@@ -643,7 +660,7 @@
 					// 	$(poElm).val(nItemDiscount.slice(0, -1));
 					// 	nItemDiscount = nItemDiscount.slice(0, -1);
 					// }
-
+         if($("#ospStaWarnning").text() == '' ){}
 					$.ajax({
 						url		: 'r_quoItemDiscount',
 						timeout	: 0,
@@ -653,17 +670,27 @@
 							nItemSeq		: nItemSeq,
 							nItemDiscount	: nItemDiscount,
 							tPdtCode 		: tPdtCode,
-							nItemNet 		: nItemNet
+							nItemNet 		: nItemNet,
+							nItemNetB4DisLine : nItemNetB4DisLine,
+							nItemCost : nItemCost
 						},
 						datatype: 'json'
 					})
 					.done(function(data) {
+					  // if(data == 'error'){
+						//
+						//    //alert('ไม่สามารถขายหรือให้ส่วนลดแล้วทำให้ราคาขายต่ำกว่าทุนได้');
+						// 	 //$("#oetItemDiscount"+nItemSeq).addClass("Wranning")
+						// }
+
 						FSvQUODocItems();
+
+
 					})
 					.fail(function(jqXHR, textStatus, errorThrown) {
 						//serrorFunction();
 					});
-					return false;
+
 				}
 			}
 		}
@@ -676,7 +703,7 @@
 			if(e.type == 'blur'){
 				e.keyCode = 13;
 			}
-			
+
 			if (e.keyCode == 13 || e == 13) {
 
 				if(poElm == '#oetXqhDisText'){

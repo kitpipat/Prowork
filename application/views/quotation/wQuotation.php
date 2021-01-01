@@ -1,7 +1,7 @@
 <style>
 	.FontColorClick{
-		text-decoration	: underline; 
-		cursor			: pointer; 
+		text-decoration	: underline;
+		cursor			: pointer;
 		color			: #43ac3a;
 	}
 </style>
@@ -15,7 +15,7 @@
 	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
 	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
-?> 
+?>
 
 <div class="container-fulid">
 	<div class="row">
@@ -28,7 +28,7 @@
 
 					<div class="xCNFilterAdvSub">
 						<div class="xCNHeadFilter xCNLineBarFilter" style="width:80%;"> ตัวกรองค้นหา </div>
-						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;"> 
+						<div class="xCNHeadFilter xCNLineBarFilter xCNCloseAdv" style="width:20%;">
 							<?php $tIconClose = base_url().'application/assets/images/icon/close.png'; ?>
 							<img class="menu-icon xCNMenuSearch" src="<?=$tIconClose?>">
 						</div>
@@ -243,9 +243,9 @@
 
 									<!--สรุปบิล-->
 									<div class="row">
-										<?php 
+										<?php
 											//ไม่อนุญาติให้สร้าง
-											if($tPer_create == ''){ 
+											if($tPer_create == ''){
 												$tClassRow = "col-lg-6 col-md-6 col-sm-6 col-xs-6";
 											}else{
 												$tClassRow = "col-lg-12 col-md-12 col-sm-12 col-xs-12";

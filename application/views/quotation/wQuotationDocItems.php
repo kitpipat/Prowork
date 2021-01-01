@@ -152,7 +152,8 @@
 												 data-seq="<?=$nSeq?>"
 												 style="width:80px;"
 												 onblur="return FSxQUODocItemDiscount(event,this)"
-												 onkeypress="return FSxQUODocItemDiscount(event,this)">
+												 onkeypress="return FSxQUODocItemDiscount(event,this)"
+												 >
 						  </div>
 				</td>
 				<td class="text-right">
@@ -238,3 +239,4 @@
 		});
 	}
 </script>
+<label id="ospStaWarnning"></label>

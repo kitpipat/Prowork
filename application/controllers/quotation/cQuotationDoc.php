@@ -227,6 +227,8 @@ class cQuotationDoc extends CI_Controller
 		$nPdtUnitPrice = str_replace(",", "", $this->input->post('nPdtUnitPrice'));
 		$nItemDiscount = $this->input->post('nItemDiscount');
 
+		$nItemCost = $this->input->post('nItemCost');
+
 		$nItemNet = number_format($nItemQTY, 0) * $nPdtUnitPrice;
 
 		$aDiscount = explode(",",$nItemDiscount);
@@ -235,6 +237,7 @@ class cQuotationDoc extends CI_Controller
 		$nDisLen = count($aDiscount);
     $nTotalDisCount = 0;
 		$nItemNetLast = $nItemNet;
+
 		for($d = 0;$d<$nDisLen;$d++){
 
 					$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1);//ประเภทส่วนลด
@@ -244,7 +247,12 @@ class cQuotationDoc extends CI_Controller
 						$nItemNetLast = $nItemNetLast - ($nItemNetLast * $nDiscountCal) / 100;
 					}else{
 						$nDiscountCal = $aDiscount[$d];
-						$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
+						if(is_numeric($nTotalDisCount) && is_numeric($nDiscountCal)){
+							 $nTotalDisCount = $nTotalDisCount+$nDiscountCal;
+						}else{
+							 $nTotalDisCount = $nTotalDisCount+0;
+						}
+
 						$nItemNetLast = $nItemNetLast - $nTotalDisCount;
 					}
 		}
@@ -264,6 +272,9 @@ class cQuotationDoc extends CI_Controller
 		// 	$nDiscount = $nItemDiscount;
 		// }
 
+		//get After discount
+		$nItemNetAfDisLine = $nItemNet - $nTotalDisCount;
+
 		$aDataUpdate = array(
 			"tQuoDocNo" => $tQuoDocNo,
 			"nItemSeq" => $nItemSeq,
@@ -273,7 +284,10 @@ class cQuotationDoc extends CI_Controller
 			'tDisText'  => $nItemDiscount
 		);
 
+
 		$this->mQuotation->FCxMQUEditItemInTemp($aDataUpdate);
+
+		echo "NetAfDis :".$nItemNetAfDisLine." Cost : ".$nItemCost;
 	}
 
 
@@ -346,8 +360,6 @@ class cQuotationDoc extends CI_Controller
 		$tPdtCode = $this->input->post('tPdtCode');
 		$nItemNet = str_replace(",", "", $this->input->post('nItemNet'));
 
-
-
 		$aDiscount = explode(",",$nItemDiscount);
 		//print_r($aDiscount);
 		$nDiscountCal = 0;
@@ -368,6 +380,12 @@ class cQuotationDoc extends CI_Controller
 					}
 		}
 
+		//cal total after discount
+
+		$nItemNetB4DisLine = $this->input->post('nItemNetB4DisLine');
+ 	  $nItemCost = $this->input->post('nItemCost');
+
+		$nTotalAfDis = $nItemNetB4DisLine - $nTotalDisCount;
 
 		// $nStrCountDisTxt = strlen($nItemDiscount) - 1;
 		// $tDisType = substr($nItemDiscount, $nStrCountDisTxt);
@@ -390,7 +408,16 @@ class cQuotationDoc extends CI_Controller
 			"nDiscount" => $nTotalDisCount,
 			"tDisText" => $nItemDiscount
 		);
-		$this->mQuotation->FCxMQUEditItemIDisCount($aItemDisData);
+		if($nTotalAfDis >= $nItemCost){
+		 	 $this->mQuotation->FCxMQUEditItemIDisCount($aItemDisData);
+			 echo 'success';
+		}else{
+			 echo 'error';
+		}
+
+		//echo "AFDis: ".$nTotalAfDis."Cost:".$nItemCost;
+
+
 	}
 
 	//ลบข้อมูลใน Temp - รายการ

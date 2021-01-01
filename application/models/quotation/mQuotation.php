@@ -1049,7 +1049,7 @@ class mQuotation extends CI_Model
 		}
 		$tWorkerID	= $this->session->userdata('tSesLogID');
 		$tSQL = "UPDATE TARTSqDTTmp
-					         SET    FCXqdQty = '" . $nItemQTY . "',FCXqdDis='" . $nDiscount . "'
+					         SET    FCXqdQty = '" . $nItemQTY . "',FCXqdDis='" . $nDiscount . "', FTXqdDisTxt = '".$nDiscountText." '
 									 WHERE  FTWorkerID = '" . $tWorkerID . "'
 									 AND    FNXqdSeq = '" . $nItemSeq . "' ";
 
