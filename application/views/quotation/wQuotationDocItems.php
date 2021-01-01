@@ -105,12 +105,10 @@
 												 onclick="alert('กรอกราคาที่ต้องการไม่ต้องกรอกเครื่องหมาย , แล้วกด Enter')"></i>
 								      <input type="text"
 											       id="oetPdtUnitPrice<?=$nSeq?>"
-											       class="text-right xCNEditInline xCNInputNumericWithDecimal <?=$tRowUnitPrice?>"
+											       class="text-right xCNEditInline xCNInputNumericWithDecimal <?=$tRowUnitPrice?> xCNPdtUnitPrice"
 											       value="<?=number_format($nXqdUnitPrice, 2);?>"
 														 data-seq="<?=$nSeq?>"
-														 style="width:90px;"
-														 onblur="return FSxQUOEditDocItemPri(event,this)"
-														 onkeypress="return FSxQUOEditDocItemPri(event,this)">
+														 style="width:90px;">
 									</div>
           </label>
 				</td>
@@ -129,13 +127,11 @@
 													 title="กรอกจำนวนที่ต้องการแล้วกด Enter"
 													 onclick="alert('กรอกจำนวนที่ต้องการแล้วกด Enter')"></i>
 										    <input type="text"
-												       class="text-right xCNEditInline xCNInputNumericWithDecimal"
+												       class="text-right xCNEditInline xCNInputNumericWithDecimal xCNDocItemQty"
 															 id="oetDocItemQty<?=$nSeq?>"
 															 value="<?=$nXqdQty ?>"
 															 data-seq="<?=$nSeq?>"
-															 style="width:80px;"
-															 onblur="return FSxQUOEditDocItemQty(event,this)"
-															 onkeypress="return FSxQUOEditDocItemQty(event,this)" >
+															 style="width:80px;">
 									  </div>
 				</td>
 				<td class="text-right"><label class="xCNLineHeightInTable" id="olbItemNet<?=$nSeq?>"><?=number_format($nTotal, 2); ?></label></td>
@@ -147,13 +143,10 @@
 									   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
 							    <input type="text"
 									       id="oetItemDiscount<?=$nSeq?>"
-									       class="text-right xCNEditInline xCNNumberandPercent"
+									       class="text-right xCNEditInline xCNNumberandPercent xCNItemDiscount"
 												 value="<?=$nXqdDisText?>"
 												 data-seq="<?=$nSeq?>"
-												 style="width:80px;"
-												 onblur="return FSxQUODocItemDiscount(event,this)"
-												 onkeypress="return FSxQUODocItemDiscount(event,this)"
-												 >
+												 style="width:80px;" >
 						  </div>
 				</td>
 				<td class="text-right">
@@ -195,19 +188,35 @@
 <script type="text/javascript" src="<?=base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 
-	// var nLogComma;
-	// $('.xCNCheckCommaDuplicate').keypress(function(event) {
-	// 	if(nLogComma == 44 && event.keyCode == 44){
-	// 		nLogComma = '';
-	// 		var tInputVal = $(this).val();
-	// 		$(this).val(tInputVal.slice(0, -1));
-	// 		event.preventDefault();
-	// 	}else{
-	// 		nLogComma = '';
-	// 	}
+	//ส่วนลด
+	$('.xCNItemDiscount').on('change keyup', function(event){
+			if(event.type == "change"){
+			    FSxQUODocItemDiscount(this)
+			}
+			if(event.keyCode == 13) {
+			    FSxQUODocItemDiscount(this)
+			}
+	});
 
-	// 	nLogComma = event.which;
-	// });
+	//เปลี่ยนราคา
+	$('.xCNPdtUnitPrice').on('change keyup', function(event){
+			if(event.type == "change"){
+			    FSxQUOEditDocItemPri(this)
+			}
+			if(event.keyCode == 13) {
+			    FSxQUOEditDocItemPri(this)
+			}
+	});
+
+	//เปลี่ยนจำนวน
+	$('.xCNDocItemQty').on('change keyup', function(event){
+			if(event.type == "change"){
+					FSxQUOEditDocItemQty(this)
+			}
+			if(event.keyCode == 13) {
+					FSxQUOEditDocItemQty(this)
+			}
+	});
 
 	//Delete Item
 	function JSxDeleteItemInTempQuotation(pnSeq,pnPDTCode){

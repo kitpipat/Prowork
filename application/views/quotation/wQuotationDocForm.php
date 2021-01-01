@@ -414,11 +414,9 @@
 										   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
 										<input type="text"
 										       autocomplete="off"
-												id="oetXqhDisText"
-												class="text-right form-control xCNNumberandPercent"
-												onblur="return FSxQUODocFootDis(event,this)"
-												onkeypress="return FSxQUODocFootDis(event,this)"
-												maxlength="20" onkeyup="FSXQUOCheckInputDis(this)">
+													id="oetXqhDisText"
+													class="text-right form-control xCNNumberandPercent xCNXqhDisText"
+													maxlength="20" onkeyup="FSXQUOCheckInputDis(this)">
 									</div>
 								</div>
 								<div class="col-lg-5">
@@ -570,6 +568,16 @@
 			autoclose: true,
 			todayHighlight: true,
 			orientation: "bottom right"
+		});
+
+		//ใส่ส่วนลดท้ายบิล
+		$('.xCNXqhDisText').on('change keyup', function(event){
+				if(event.type == "change"){
+						FSxQUODocFootDis(this)
+				}
+				if(event.keyCode == 13) {
+						FSxQUODocFootDis(this)
+				}
 		});
 
 	});

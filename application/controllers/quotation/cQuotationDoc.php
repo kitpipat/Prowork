@@ -368,14 +368,18 @@ class cQuotationDoc extends CI_Controller
 		$nItemNetLast = $nItemNet;
 		for($d = 0;$d<$nDisLen;$d++){
 
-					$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1);//ประเภทส่วนลด
+					$tDisType = substr(trim($aDiscount[$d]), strlen(trim($aDiscount[$d])) - 1);//ประเภทส่วนลด
 			    if($tDisType == '%'){
-						$nDiscountCal = substr($aDiscount[$d], 0, strlen($aDiscount[$d]) - 1);
-					  $nTotalDisCount = $nTotalDisCount + ($nItemNetLast * $nDiscountCal) / 100;
-						$nItemNetLast = $nItemNetLast - ($nItemNetLast * $nDiscountCal) / 100;
+						$nDiscountCal = substr(trim($aDiscount[$d]), 0, strlen(trim($aDiscount[$d])) - 1);
+					  $nTotalDisCount = $nTotalDisCount + ($nItemNetLast * trim($nDiscountCal)) / 100;
+						$nItemNetLast = $nItemNetLast - ($nItemNetLast * trim($nDiscountCal)) / 100;
 					}else{
-						$nDiscountCal = $aDiscount[$d];
-						$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
+						$nDiscountCal = trim($aDiscount[$d]);
+						if(is_numeric($nTotalDisCount) && is_numeric($nDiscountCal)){
+							 $nTotalDisCount = $nTotalDisCount+$nDiscountCal;
+						}else{
+							 $nTotalDisCount = $nTotalDisCount+0;
+						}
 						$nItemNetLast = $nItemNetLast - $nTotalDisCount;
 					}
 		}
