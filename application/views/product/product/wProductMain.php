@@ -388,9 +388,19 @@
 
 	//กดให้โชว์ช่องค้นหา
 	$('.xCNFindClick').click(function(e) {
-		$('.xCNFindFilter').hide();
+
+		$('.xCNFindFilter').hide("fast");
+
 		var tTextFind = $(this).data('find');
-		$('.xCNFind' + tTextFind).toggle('fast');
+		var tTextOpenFilter = $(this).hasClass('openFilter');
+		if(tTextOpenFilter == true){
+			$('.xCNFind' + tTextFind).parent().find('.xCNFindClick').removeClass('openFilter');
+			$('.xCNFind' + tTextFind).hide("fast");
+		}else{
+			$('.xCNFindFilter').parent().find('.xCNFindClick').removeClass('openFilter');
+			$('.xCNFind' + tTextFind).parent().find('.xCNFindClick').addClass('openFilter');
+			$('.xCNFind' + tTextFind).toggle('fast');
+		}
 	});
 
 	/************************************************************************************/ /*UPLOAD IMG*/
