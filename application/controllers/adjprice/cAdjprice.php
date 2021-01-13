@@ -177,15 +177,11 @@ class cAdjprice extends CI_Controller {
 				}else{
 
 					if((isset($aResult[$i][1]))){
-						if($aResult[$i][1] > 100){
-							$nAddPri = 100;
+						$nAddPri = $aResult[$i][1];
+						if(preg_replace('/[^ก-ฮA-Za-z]/u','',$nAddPri)){
+							$nAddPri = 0.00;
 						}else{
 							$nAddPri = $aResult[$i][1];
-							if(preg_replace('/[^ก-ฮA-Za-z]/u','',$nAddPri)){
-								$nAddPri = 0.00;
-							}else{
-								$nAddPri = $aResult[$i][1];
-							}
 						}
 					}else{
 						$nAddPri = 0.00;
