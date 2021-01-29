@@ -181,7 +181,7 @@
 				nPageCurrent = ptPage
 		}
 		JSxModalProgress('open');
-		JSwLoadTableList(nPageCurrent);
+		JSxPDTFilterAdv(nPageCurrent);
 	}
 
 	//ลบข้อมูล

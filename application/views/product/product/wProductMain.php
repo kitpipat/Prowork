@@ -157,7 +157,8 @@
 							<?php } ?>
 
 						</div>
-						<button class="btn btn-outline-success xCNUseFilterAdv" type="button" onclick="JSxPDTFilterAdv();">นำไปใช้</button>
+						<button class="btn btn-outline-success xCNUseFilterAdv" type="button" onclick="JSxPDTFilterAdv(1);">นำไปใช้</button>
+						<button class="btn btn-outline-danger xCNUseFilterAdv" type="button" onclick="JSxPDTRemoveFilterAdv(1);">ล้างตัวกรองขั้นสูง</button>
 					</div>
 				</div>
 			</div>
@@ -184,9 +185,9 @@
 										<!--ค้นหา-->
 										<div class="col-lg-4">
 											<div class="input-group md-form form-sm form-2 pl-0">
-												<input class="form-control my-0 py-1 red-border xCNFormSerach xCNInputWithoutSingleQuote" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearch" onkeypress="Javascript:if(event.keyCode==13) JSwLoadTableList(1)">
+												<input class="form-control my-0 py-1 red-border xCNFormSerach xCNInputWithoutSingleQuote" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearch" onkeypress="Javascript:if(event.keyCode==13) JSxPDTFilterAdv(1)">
 												<div class="input-group-append">
-													<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSwLoadTableList(1);">
+													<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxPDTFilterAdv(1);">
 														<?php $tMenuBar = base_url().'application/assets/images/icon/search.png'; ?>
 														<img class="menu-icon xCNMenuSearch" src="<?=$tMenuBar?>">
 													</span>
@@ -361,7 +362,7 @@
 		});
 
 		//กำหนดขนาดของตารางค้นหา
-		var tHeightContent = $(window).height() - 160;
+		var tHeightContent = $(window).height() - 210;
 		$('.xCNSubFilter').css('height',tHeightContent+'px');
 	}
 
@@ -444,17 +445,22 @@
 
 	//กดนำไปใช้ หรือ ค้นหาขั้นสูง
 	var aFilter 		= [];
-	function JSxPDTFilterAdv(){
+	function JSxPDTFilterAdv(nPage){
 		$('.xCNFilterAdv:checked').each(function() {
 			var tFilter 	= $(this).data('filter');
 			var tValue 		= $(this).val();
 			aFilter.push({'tFilter' : tFilter , 'tValue' : tValue});
 		});
 
-		var nPage = 1;
 		var aFilterAdv = aFilter;
 		JSwLoadTableList(nPage,aFilterAdv)
 		aFilter = [];
+	}
+
+	//กดล้างตัวกรองขั้นสูง
+	function JSxPDTRemoveFilterAdv(nPage){
+		$(".xCNFilterAdv").prop("checked", false);
+		JSwLoadTableList(nPage,'')
 	}
 
 	//หน้าตาราง

@@ -195,7 +195,7 @@
 				nPageCurrent = ptPage
 		}
 		JSxModalProgress('open');
-		FSvQUOGetPdtList(nPageCurrent);
+		JSxPDTFilterAdv(nPageCurrent);
 	}
 
 	//เลือกสินค้า css
