@@ -178,7 +178,7 @@
 					<th style="text-align:center; width:15.50%; font-size: 0.95rem;">เลขที่ใบสั่งซื้อ</th>
 					<th style="text-align:center; width:21.10%;"></th>
 					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันรับสินค้า</th>
-					<th style="text-align:center;">เลขที่บิล</th>
+					<th style="text-align:center;">เลขที่บิลขนส่ง</th>
 				</tr>
 			</thead>
 			<tbody>

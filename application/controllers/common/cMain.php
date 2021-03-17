@@ -127,7 +127,7 @@ class cMain extends CI_Controller {
 					$tStatus = 'success';
 
 					//เพิ่มข้อมูลลง TCNMPdt_ImgTmp
-					$tFiles = glob($tFolderUser."/*.{jpg,gif,png}",GLOB_BRACE);
+					$tFiles = glob($tFolderUser."/*.{jpg,gif,png,JPG,PNG}",GLOB_BRACE);
 					if(empty($tFiles)){
 						$tStatus = 'File no Format.';
 						echo 1;

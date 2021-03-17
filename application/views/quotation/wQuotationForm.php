@@ -80,12 +80,12 @@ $tCodeRef 		= $aContactAddress[8];
     <tr>
       <th class="XCNItemTitle" style="width:40px;">ลำดับ</th>
       <th class="XCNItemTitle" style="width:55px;">รูปสินค้า</th>
-      <th class="XCNItemTitle" style="width:160px;">รายการ</th>
+      <th class="XCNItemTitle" style="width:170px;">รายการ</th>
       <th class="XCNItemTitle" style="width:80px; text-align:right;">ราคา/หน่วย</th>
       <th class="XCNItemTitle" style="width:50px;text-align:right;">จำนวน</th>
       <th class="XCNItemTitle" style="width:50px;">หน่วย</th>
       <th class="XCNItemTitle" style="width:80px;text-align:right;">ราคา</th>
-      <th class="XCNItemTitle" style="width:80px;text-align:right;">ส่วนลด</th>
+      <th class="XCNItemTitle" style="width:70px;text-align:right;">ส่วนลด</th>
       <th class="XCNItemTitle" style="width:100px;text-align:right;">ราคารวม</th>
     </tr>
     <?php $nTotal = $aDocDT['rnTotal'];?>
@@ -106,7 +106,7 @@ $tCodeRef 		= $aContactAddress[8];
 				}
 			?>
 			<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>" style="width:25px;"></td>
-      <td><?php echo mb_substr($aDocDT['raItems'][$i]['FTPdtCode']."-".$aDocDT['raItems'][$i]['FTPdtName'],0,27,"utf-8");?></td>
+      <td><?php echo mb_substr($aDocDT['raItems'][$i]['FTPdtCode']."-".$aDocDT['raItems'][$i]['FTPdtName'],0,900,"utf-8");?></td>
       <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXqdUnitPrice'],2);?></td>
       <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXqdQty'],0);?></td>
       <td><?php echo $aDocDT['raItems'][$i]['FTPunName'];?></td>
