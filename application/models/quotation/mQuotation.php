@@ -1387,7 +1387,7 @@ class mQuotation extends CI_Model
 						FROM TARTSqDT DT
 						LEFT JOIN TCNMPdt PDT ON DT.FTPdtCode = PDT.FTPdtCode
 						WHERE FTXqhDocNo = '".$ptDocNo."'";
-		$tSQL.=" ORDER BY FTPdtCode ";
+		$tSQL.=" ORDER BY FNXqdSeq ";
 		$oQuery = $this->db->query($tSQL);
 		if ($oQuery->num_rows() > 0) {
 
