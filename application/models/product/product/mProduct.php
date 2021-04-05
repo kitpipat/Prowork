@@ -532,8 +532,80 @@ class mProduct extends CI_Model {
 		$tUserData  = $this->session->userdata('tSesUsercode');
 		$dCurrent	= date('Y-m-d H:i:s');
 
-		//Move สินค้า
-		$tSQL = "INSERT INTO TCNMPdt (
+		//Update ข้อมูลสินค้า ถ้าเป็นสินค้าตัวเดิม
+		$tSQLUpdPDT = "	UPDATE
+							TCNMPdt
+						SET
+							TCNMPdt.FTPdtCode 		= TCNMPdt_DataTmp.FTPdtCode,
+							TCNMPdt.FTPdtName		= TCNMPdt_DataTmp.FTPdtName,
+							TCNMPdt.FTPunCode		= TCNMPdt_DataTmp.FTPunCode,
+							TCNMPdt.FTPgpCode		= TCNMPdt_DataTmp.FTPgpCode,
+							TCNMPdt.FTPtyCode		= TCNMPdt_DataTmp.FTPtyCode,
+							TCNMPdt.FTPbnCode		= TCNMPdt_DataTmp.FTPbnCode,
+							TCNMPdt.FTPzeCode		= TCNMPdt_DataTmp.FTPzeCode,
+							TCNMPdt.FTPClrCode		= TCNMPdt_DataTmp.FTPClrCode,
+							TCNMPdt.FTSplCode		= TCNMPdt_DataTmp.FTSplCode,
+							TCNMPdt.FTMolCode		= TCNMPdt_DataTmp.FTMolCode,
+							TCNMPdt.FCPdtCostStd	= TCNMPdt_DataTmp.FCPdtCostStd,
+							TCNMPdt.FTPdtCostDis	= TCNMPdt_DataTmp.FTPdtCostDis,
+							TCNMPdt.FTUpdateBy		= '$tUserData',
+							TCNMPdt.FDUpdateOn		= '$dCurrent'
+						FROM
+							TCNMPdt AS TCNMPdt
+							INNER JOIN TCNMPdt_DataTmp AS TCNMPdt_DataTmp ON TCNMPdt.FTPdtCode = TCNMPdt_DataTmp.FTPdtCode
+						WHERE
+						FTWorkerID = '$FTWorkerID' ";
+		if($ptNotIn != ''){
+			$tNotInPDT 		= ' AND TCNMPdt_DataTmp.FTPdtCode NOT IN ('.$ptNotIn.')';
+			$tSQLUpdPDT    .= $tNotInPDT;
+		}
+		$this->db->query($tSQLUpdPDT);
+
+		//Update ต้นทุน ถ้าเป็นสินค้าตัวเดิม
+		// $tBCH = $this->session->userdata('tSesBCHCode');
+		// $tSQLUpdCost = "UPDATE
+		// 					A
+		// 				SET 
+		// 					A.FCPdtCost			= B.FCCostAfDis,	
+		// 					A.FCPdtCostStd		= B.FCPdtCostStd,
+		// 					A.FTPdtCostDis		= B.FTPdtCostDis
+		// 				FROM
+		// 					TCNTPdtCost AS A
+		// 					INNER JOIN TCNMPdt_DataTmp AS B ON A.FTPdtCode = B.FTPdtCode
+		// 				WHERE
+		// 					B.FTWorkerID = '$FTWorkerID' AND ISNULL(A.FDCosActive,'') = '' ";
+		// if($ptNotIn != ''){
+		// 	$tNotInCost     = ' AND B.FTPdtCode NOT IN ('.$ptNotIn.')';
+		// 	$tSQLUpdCost   .= $tNotInCost;
+		// }
+		// $this->db->query($tSQLUpdCost);
+
+		//Insert ต้นทุน ถ้าเป็นสินค้าตัวเดิม
+		$tSQLInsertCost = "INSERT INTO TCNTPdtCost (
+								FTPdtCode ,
+								FCPdtCost ,
+								FDCosActive ,
+								FCPdtCostStd ,
+								FTPdtCostDis 
+							)
+							SELECT 
+								DISTINCT
+									A.FTPdtCode ,
+									A.FCCostAfDis ,
+									'$dCurrent',
+									A.FCPdtCostStd ,
+									A.FTPdtCostDis
+							FROM 
+								TCNMPdt_DataTmp A 
+								LEFT JOIN TCNTPdtCost B ON A.FTPdtCode = B.FTPdtCode
+							WHERE 
+								A.FTWorkerID = '$FTWorkerID' AND ISNULL(B.FTPdtCode,'') != '' ";
+		$this->db->query($tSQLInsertCost);
+
+		//############################################################//
+			
+		//Move (Insert) ข้อมูลสินค้า ถ้าไป left join แล้วไม่เจอ จะถือว่าเป็นการ insert
+		$tSQLMove = "INSERT INTO TCNMPdt (
 					FTPdtCode
 					,FTBchCode
 					,FTPdtName
@@ -557,58 +629,59 @@ class mProduct extends CI_Model {
 					,FTPdtReason 
 				)
 				SELECT 
-					FTPdtCode
+					A.FTPdtCode
 					,'' AS FTBchCode
-					,FTPdtName
+					,A.FTPdtName
 					,'' AS FTPdtNameOth
 					,'' AS FTPdtDesc
-					,FTPunCode
-					,FTPgpCode
-					,FTPtyCode
-					,FTPbnCode
-					,FTPzeCode
-					,FTPClrCode 
-					,FTSplCode
-					,FTMolCode
-					,FCPdtCostStd
-					,FTPdtCostDis
+					,A.FTPunCode
+					,A.FTPgpCode
+					,A.FTPtyCode
+					,A.FTPbnCode
+					,A.FTPzeCode
+					,A.FTPClrCode 
+					,A.FTSplCode
+					,A.FTMolCode
+					,A.FCPdtCostStd
+					,A.FTPdtCostDis
 					,0 AS FCPdtSalPrice
 					,'' AS FTPdtImage
 					,1 AS FTPdtStatus
 					,$tUserData
 					,'$dCurrent'
 					,'' AS FTPdtReason
-				FROM TCNMPdt_DataTmp
-				WHERE FTWorkerID = '$FTWorkerID' ";
+				FROM TCNMPdt_DataTmp A
+				LEFT JOIN TCNMPdt B ON A.FTPdtCode = B.FTPdtCode
+				WHERE A.FTWorkerID = '$FTWorkerID' AND ISNULL(B.FTPdtCode,'') = '' ";
 
 		if($ptNotIn != ''){
-			$tNotIn = ' AND TCNMPdt_DataTmp.FTPdtCode NOT IN ('.$ptNotIn.')';
-			$tSQL .= $tNotIn;
+			$tNotIn 	= ' AND A.FTPdtCode NOT IN ('.$ptNotIn.')';
+			$tSQLMove  .= $tNotIn;
 		}
+		$this->db->query($tSQLMove);
 
-		$this->db->query($tSQL);
-
-		//Move ต้นทุน
+		//Move (Insert) ต้นทุน ข้อมูลสินค้า
 		$tBCH = $this->session->userdata('tSesBCHCode');
 		$tSQLCost = "INSERT INTO TCNTPdtCost (
-					FTBchCode
-					,FTPdtCode
-					,FCPdtCost
-					,FDCosActive
-					,FCPdtCostStd
-					,FTPdtCostDis
-				)
-				SELECT 
-					'$tBCH' AS FTBchCode
-					,FTPdtCode
-					,FCCostAfDis AS FCPdtCost
-					,NULL AS FDCosActive
-					,TCNMPdt_DataTmp.FCPdtCostStd AS FCPdtCostStd
-					,TCNMPdt_DataTmp.FTPdtCostDis AS FTPdtCostDis
-				FROM TCNMPdt_DataTmp
-				WHERE FTWorkerID = '$FTWorkerID' ";
+						FTBchCode
+						,FTPdtCode
+						,FCPdtCost
+						,FDCosActive
+						,FCPdtCostStd
+						,FTPdtCostDis
+					)
+					SELECT 
+						'$tBCH' AS FTBchCode
+						,A.FTPdtCode
+						,A.FCCostAfDis AS FCPdtCost
+						,NULL AS FDCosActive
+						,A.FCPdtCostStd AS FCPdtCostStd
+						,A.FTPdtCostDis AS FTPdtCostDis
+					FROM TCNMPdt_DataTmp A
+					LEFT JOIN TCNTPdtCost B ON A.FTPdtCode = B.FTPdtCode
+					WHERE A.FTWorkerID = '$FTWorkerID' AND ISNULL(B.FTPdtCode,'') = '' ";
 		if($ptNotIn != ''){
-			$tNotIn = ' AND TCNMPdt_DataTmp.FTPdtCode NOT IN ('.$ptNotIn.')';
+			$tNotIn = ' AND A.FTPdtCode NOT IN ('.$ptNotIn.')';
 			$tSQLCost .= $tNotIn;
 		}
 		$this->db->query($tSQLCost);
@@ -932,5 +1005,17 @@ class mProduct extends CI_Model {
 		} catch (Exception $Error) {
 			echo $Error;
 		}
+	}
+
+	//ลบข้อมูลในตาราง temp
+	public function FSxMPDTDeleteDataInTemp($paData){
+		try{
+			$FTWorkerID = $this->session->userdata('tSesLogID');
+			$this->db->where_in('FTPdtCode', trim($paData['FTPdtCode']));
+			$this->db->where_in('FTWorkerID', $FTWorkerID);
+            $this->db->delete('TCNMPdt_DataTmp');
+		}catch(Exception $Error){
+            echo $Error;
+        }
 	}
 }

@@ -12,7 +12,11 @@
 	<div class="card" style="margin-top: 10px;">
 		<div class="card-body">
 			<div class="row">
-
+				<span style="color: red;
+						text-align: right;
+						width: 100%;
+						margin-bottom: 15px;
+						margin-right: 10px;"> * การนำเข้าสินค้าตัวเดิม (สถานะสินค้ารออัพเดท) จะส่งผลต่อต้นทุนทีมีผลปัจจุบัน </span>
 				<table class="table table-striped xCNTableCenter" id="otbConfirmDataPDT">
 					<thead>
 						<tr>
@@ -48,10 +52,10 @@
 											$tPDTClassStatus 	= 'xCNTextClassStatus_close';
 											break;
 										case $aValue['RealPDT'] != null:
-											$tIconClassStatus 	= 'xCNIconStatus_close';
-											$tTextClassStatus 	= 'xCNTextClassStatus_close';
-											$tTextStatus 		= 'สินค้ามีอยู่แล้วในระบบ';
-											$tStatusAprove		= 'fail';
+											$tIconClassStatus 	= 'xCNIconStatus_open';
+											$tTextClassStatus 	= 'xCNTextClassStatus_open';
+											$tTextStatus 		= 'สินค้ารออัพเดท';
+											$tStatusAprove		= 'pass';
 											break;
 										case $aValue['FTPgpName'] == null:
 											$tIconClassStatus 	= 'xCNIconStatus_close';
@@ -302,6 +306,20 @@
 		for(var i=0; i<nLen; i++){
 			$("#otbConfirmDataPDT tbody tr:eq("+i+") th:eq(0)").text(i + 1);
 		}
+
+		var tPDTCode = $(elem).parent().parent().attr('data-pdtcode');
+		$.ajax({
+			type	: "POST",
+			url		: 'r_producteventDeleteInTmp',
+			cache	: false,
+			async	: false,
+			data 	: {'tPDTCode' : tPDTCode},
+			timeout	: 0,
+			success	: function (tResult) {},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
 	}
 
 	//ยืนยันการนำเข้า
@@ -325,7 +343,6 @@
 		tConfirmToInsert = false;
 		for(var j=0; j<ntbody; j++){
 			var tCheckStatus = $("#otbConfirmDataPDT > tbody  > tr").hasClass('pass').toString();
-			console.log(tCheckStatus);
 			if(tCheckStatus == 'true'){
 				tConfirmToInsert = true;
 			}

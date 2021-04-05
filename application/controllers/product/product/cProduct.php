@@ -195,8 +195,8 @@ class cProduct extends CI_Controller {
 				FCNaHPDCAdjPdtCost($paData);
 
 				$paDataUpdate = array(
-						"tPdtCode"	=> $this->input->post('ohdProductCode'),
-						"nCostStd"	=> $this->input->post('oetPDTCost')
+					"tPdtCode"	=> $this->input->post('ohdProductCode'),
+					"nCostStd"	=> $this->input->post('oetPDTCost')
 				);
 				FSSetPdtCostStdChang($paDataUpdate);
 
@@ -311,7 +311,6 @@ class cProduct extends CI_Controller {
 							'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
 							'FCCostAfDis'	=> $nCost
 						);
-
 					}
 	
 					//Insert ข้อมูล
@@ -350,9 +349,8 @@ class cProduct extends CI_Controller {
 		);
 		$this->mProduct->FSxMPDTImportExcelMoveTmpToHD($aIns,$tNotInItem);
 
-		//ลบข้อมูลในฐานข้อมูล
+		//ลบข้อมูลในฐานข้อมูล Temp
 		$this->mProduct->FSxMPDTImportExcelDeleteTmp();
-	
 	}
 
 	//เลือก option 
@@ -376,5 +374,14 @@ class cProduct extends CI_Controller {
 		);
 
 		$this->load->view('product/product/attribute/wAttribute',$aPackData);
+	}
+
+	//ลบข้อมูลใน Temp ตอนนำเข้าสินค้า
+	public function FSxCPDTEventDeleteDataInTmp(){
+		$tPDTCode 		= $this->input->post('tPDTCode');
+		$aDeleteItem 	= array(
+			'FTPdtCode' =>  $tPDTCode
+		);
+		$this->mProduct->FSxMPDTDeleteDataInTemp($aDeleteItem);
 	}
 }
