@@ -84,7 +84,7 @@
 				//สถานะเอกสาร
 				switch (tXqhStaDoc) {
 					case '':
-						$("#ospStaDoc").text("รออนุมัติสั้งสินค้า")
+						$("#ospStaDoc").text("รออนุมัติสั่งสินค้า")
 						break;
 					case '1':
 						$("#ospStaDoc").text("สมบูรณ์")
@@ -93,20 +93,20 @@
 						$("#ospStaDoc").text("ยกเลิก")
 						break;
 					default:
-						$("#ospStaDoc").text("รออนุมัติสั้งสินค้า")
+						$("#ospStaDoc").text("รออนุมัติสั่งสินค้า")
 				}
 				$('#ohdStaDoc').val(tXqhStaDoc);
 
 				//สถานะอนุมัติ
 				switch (FTXqhStaApv) {
 					case '':
-						$("#ospStaDocApv").text("รออนุมัติสั้งสินค้า")
+						$("#ospStaDocApv").text("รออนุมัติสั่งสินค้า")
 						break;
 					case '1':
 						$("#ospStaDocApv").text("อนุมัติแล้ว")
 						break;
 					default:
-						$("#ospStaDocApv").text("รออนุมัติสั้งสินค้า")
+						$("#ospStaDocApv").text("รออนุมัติสั่งสินค้า")
 				}
 				$('#ohdStaApv').val(FTXqhStaApv);
 

@@ -161,24 +161,23 @@
 				<tr>
 					<th class="xCNThNormal" rowspan="2" style="width:200px; text-align: left; vertical-align: middle;">เลขที่เอกสาร</th>
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">วันที่เอกสาร</th>
-					<th class="xCNThNormal" rowspan="2" style="width:80px; text-align: left; vertical-align: middle;">ลำดับ</th>
+					<th class="xCNThNormal" rowspan="2" style="width:60px; text-align: left; vertical-align: middle;">ลำดับ</th>
 					<th class="xCNThNormal" rowspan="2" style="width:270px; text-align: left; vertical-align: middle;">รายการสินค้า</th>
-					<th class="xCNThNormal" rowspan="2" style="width:120px; text-align: right; vertical-align: middle;">ราคาขาย</th>
 					<th class="xCNThNormal" rowspan="2" style="width:120px; text-align: right; vertical-align: middle;">จำนวน</th>
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">หน่วยสินค้า</th>
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">สถานะเอกสาร</th>
 					<th class="xCNBorderleft hard_left_Top_Right1" colspan="2" style="text-align:center;">จัดซื้อสินค้า</th>
-					<th class="xCNBorderleft hard_left_Top_Right4" rowspan="2">ผู้สั้งซื้อ</th>
+					<th class="xCNBorderleft hard_left_Top_Right4" rowspan="2">ผู้สั่งซื้อ</th>
 					<th class="xCNBorderleft hard_left_Top_Right2" colspan="2" style="text-align:center;">รับสินค้า</th>
 					<th class="xCNBorderleft hard_left_Top_Right3" rowspan="2">ผู้รับสินค้า</th>
 				</tr>
 				<tr class="hard_left_Sub_Right">
 					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันสั่งสินค้า</th>
 					<th style="text-align:center; width:15.50%;">วันส่งของ</th>
-					<th style="text-align:center; width:15.50%; font-size: 0.95rem;">เลขที่ใบสั่งซื้อ</th>
+					<th style="text-align:center; width:15.50%; font-size: 0.95rem;">เลขที่บิลขนส่ง</th>
 					<th style="text-align:center; width:21.10%;"></th>
 					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันรับสินค้า</th>
-					<th style="text-align:center;">เลขที่บิลขนส่ง</th>
+					<th style="text-align:center;">เลขที่ใบสั่งซื้อ</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -189,7 +188,7 @@
 								<td><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
 								<td><?=($aValue['FNXqdSeq'] == '') ? 'x' : $aValue['FNXqdSeq']?></td>
 								<td><?=($aValue['FTPdtName'] == '')? 'ไม่พบสินค้า' : $aValue['FTPdtName'] ?></td>
-								<td class="text-right"><?=number_format($aValue['FCXqdUnitPrice'],2)?></td>
+								<!-- <td class="text-right"><?=number_format($aValue['FCXqdUnitPrice'],2)?></td> -->
 								<td class="text-right"><?=($aValue['FCXqdQty'] == '') ? '0.00' : $aValue['FCXqdQty']?></td>
 								<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
 								<!--สถานะอนุมัติ-->
@@ -211,7 +210,7 @@
 								<td><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td>
 
 
-								<!--วันที่สั้งสินค้า-->
+								<!--วันที่สั่งสินค้า-->
 								<td class="xCNBorderleft xCNFreezeSection1">
 									<?php
 										if($aValue['FDXqdPucDate'] != '' || $aValue['FDXqdPucDate'] != null){
@@ -222,7 +221,7 @@
 									?>
 
 									<?php
-										//ถ้ามีชื่อผู้สั้งซื้อสินค้าเเล้วไม่สามารถเเก้ไขวันที่ได้
+										//ถ้ามีชื่อผู้สั่งซื้อสินค้าเเล้วไม่สามารถเเก้ไขวันที่ได้
 										if($aValue['namebuy'] != '' || $aValue['namebuy'] != null){
 											$tDisabled 				= 'disabled';
 											$tClassDisabledInput 	= 'xCNClassDisabledInput';
@@ -250,7 +249,7 @@
 									?>
 
 									<?php
-										//ถ้ามีชื่อผู้สั้งซื้อสินค้าเเล้วไม่สามารถเเก้ไขวันที่ได้
+										//ถ้ามีชื่อผู้สั่งซื้อสินค้าเเล้วไม่สามารถเเก้ไขวันที่ได้
 										if($aValue['namebuy'] != '' || $aValue['namebuy'] != null){
 											$tDisabled 				= 'disabled';
 											$tClassDisabledInput 	= 'xCNClassDisabledInput';
@@ -268,7 +267,7 @@
 									<?php } ?>
 								</td>
 
-								<!--เลขที่ใบสั้งซื้อ-->
+								<!--เลขที่ใบสั่งซื้อ-->
 								<td class="xCNFreezeSection3">
 									<?php $FTXqdRefBuyer = $aValue['FTXqdRefBuyer']; ?>
 									<!--มีสิทธิแก้ไข-->
@@ -279,7 +278,7 @@
 									<?php } ?>
 								</td>
 
-								<!--ผูสั้ง-->
+								<!--ผูสั่ง-->
 								<td class="xCNBorderleft xCNFreezeGiveBuyer xCNFreezeGiveBuyer<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>">
 									<?=($aValue['namebuy'] == '' ) ? '-' : $aValue['namebuy'];?>
 								</td>
@@ -297,7 +296,7 @@
 									?>
 
 									<?php
-										//ถ้ามีเลชที่ใบสั้งซื้อ เเล้วไม่สามารถ รับสินค้า
+										//ถ้ามีเลชที่ใบสั่งซื้อ เเล้วไม่สามารถ รับสินค้า
 										if($aValue['namebuy'] == '' || $aValue['namebuy'] == null){
 											$tDisabled 				= 'disabled';
 											$tClassDisabledInput 	= 'xCNClassDisabledInput';
@@ -335,7 +334,7 @@
 									<?php $FTXqdRefInv = $aValue['FTXqdRefInv']; ?>
 
 									<?php
-										//ถ้ามีเลชที่ใบสั้งซื้อ เเล้วไม่สามารถ รับสินค้า
+										//ถ้ามีเลชที่ใบสั่งซื้อ เเล้วไม่สามารถ รับสินค้า
 										if($aValue['namebuy'] == '' || $aValue['namebuy'] == null){
 											$tDisabled 				= 'disabled';
 											$tClassDisabledInput 	= 'xCNClassDisabledInput';
@@ -429,6 +428,12 @@
 <script>
 
 	$('ducument').ready(function(){
+
+		var nHeight = $(window).height() - 310;
+		$('#odvContent_Check_PI').css('height', nHeight + "px");
+		$('#odvContent_Check_PI').css('overflow', 'auto'); 
+		$('#odvContent_Check_PI').css('overflow-x', 'hidden'); 
+
 		$('.xCNDatePicker').datepicker({
 			format          : 'dd/mm/yyyy',
 			autoclose       : true,
@@ -535,7 +540,7 @@
 				}else if(ptType == 'REFBUY'){
 					//กรณีถ้าเป็นค่าว่าง
 					if(tValue == '' || tValue == null){
-						//จัดซื้อสินค้า : วันที่สั้งสินค้า - วันส่งของ - เลขที่ใบสั้งซื้อ
+						//จัดซื้อสินค้า : วันที่สั่งสินค้า - วันส่งของ - เลขที่ใบสั่งซื้อ
 						$('.xCNFreezeGiveBuyer'+tDocumentNubmer+tSeq).html('-');
 						$('.xCNDLIDATE'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
 						$('.xCNPUCDATE'+tDocumentNubmer+tSeq).attr('disabled',false).css('background','#FFF');
@@ -544,7 +549,7 @@
 						$('.xCNPIKDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
 						$('.xCNGetBill'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
 					}else{
-						//จัดซื้อสินค้า : วันที่สั้งสินค้า - วันส่งของ - เลขที่ใบสั้งซื้อ
+						//จัดซื้อสินค้า : วันที่สั่งสินค้า - วันส่งของ - เลขที่ใบสั่งซื้อ
 						$('.xCNFreezeGiveBuyer'+tDocumentNubmer+tSeq).html('<?=$this->session->userdata('tSesFirstname')?>');
 						$('.xCNDLIDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');
 						$('.xCNPUCDATE'+tDocumentNubmer+tSeq).attr('disabled',true).css('background','#e6e6e6');

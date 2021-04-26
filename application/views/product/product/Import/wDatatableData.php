@@ -31,8 +31,9 @@
 							<th style="text-align: left;">ชื่อสี</th>
 							<th style="text-align: left;">ชื่อรุ่น</th>
 							<th style="text-align: left;">ชื่อขนาด</th>
-							<th style="width:80px; text-align: left;">ราคาตั้ง</th>
-							<th style="width:120px; text-align: left;">ส่วนลดราคาตั้ง</th>
+							<th style="width:80px; text-align: right;">ราคาตั้ง</th>
+							<th style="width:120px; text-align: right;">ส่วนลดราคาตั้ง</th>
+							<th style="width:100px; text-align: left;">สถานะขายดี</th>
 							<th style="width:200px; text-align: left;">สถานะ</th>
 							<th style="width:50px; text-align: center;">ลบ</th>
 						</tr>
@@ -232,6 +233,13 @@
 										$tPunClassStatus	= '';
 									}
 
+									//สินค้าขายดี
+									if($aValue['FTPdtBestsell'] == '1'){
+										$tTextBestSell 		= 'ขายดี'; 
+									}else{
+										$tTextBestSell 		= '-';
+									}
+
 								?>
 
 								<tr data-pdtcode="<?=$aValue['FTPdtCode'];?>" data-staapv='<?=$tStatusAprove;?>' class="<?=$tStatusAprove;?>">
@@ -248,6 +256,7 @@
 									<td><label class="xCNLineHeightInTable <?=$tPzeClassStatus;?>"><?=$tPzeName;?></label></td>
 									<td style="text-align: right;"><label class="xCNLineHeightInTable <?=$tCostSTDDisClassStatus;?>"><?=($aValue['FCPdtCostStd'] == '') ? '-' : $aValue['FCPdtCostStd'];?></label></td>
 									<td style="text-align: right;"><label class="xCNLineHeightInTable <?=$tCostDisClassStatus;?>"><?=($aValue['FTPdtCostDis'] == '') ? '-' : $aValue['FTPdtCostDis'];?></label></td>
+									<td><label class="xCNLineHeightInTable"><?=$tTextBestSell ;?></label></td>
 									<td stlye="padding-top: 15px;"><div class="<?=$tIconClassStatus?>"></div><span class="<?=$tTextClassStatus?>"><?=$tTextStatus?></span></td>
 									<td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxProductTmp_Delete(this);"></td>
 								</tr>

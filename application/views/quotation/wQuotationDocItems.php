@@ -49,7 +49,7 @@
 			$FTPdtImage		= $aDocItems["raItems"][$p]["FTPdtImage"];
 
 			$tRowUnitPrice = '';
-			if(number_format($nXqdUnitPrice,0) < number_format($nXqdCost,0)){
+			if($nXqdUnitPrice < $nXqdCost){
 				 $tRowUnitPrice = 'xWarnningPrice';
 			}else{
 				$tRowUnitPrice = '';

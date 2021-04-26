@@ -493,7 +493,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">อนุมัติสั้งสินค้า</h5>
+				<h5 class="modal-title">อนุมัติสั่งสินค้า</h5>
 			</div>
 			<div class="modal-body">
 				<label style="text-align: left; display: block;">คำเตือน : การอนุมัติจะมีผลดังนี้</label>

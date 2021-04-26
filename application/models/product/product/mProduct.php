@@ -495,7 +495,8 @@ class mProduct extends CI_Model {
 					MOL.FTMolCode,
 					MOL.FTMolName,
 					SIZ.FTPzeCode,
-					SIZ.FTPzeName
+					SIZ.FTPzeName,
+					PDTTmp.FTPdtBestsell 
 			FROM TCNMPdt_DataTmp PDTTmp 
 			LEFT JOIN TCNMPdt PDT			ON PDTTmp.FTPdtCode = PDT.FTPdtCode
 			LEFT JOIN TCNMPdtGrp PDTGRP		ON PDTTmp.FTPgpCode = PDTGRP.FTPgpCode
@@ -548,6 +549,7 @@ class mProduct extends CI_Model {
 							TCNMPdt.FTMolCode		= TCNMPdt_DataTmp.FTMolCode,
 							TCNMPdt.FCPdtCostStd	= TCNMPdt_DataTmp.FCPdtCostStd,
 							TCNMPdt.FTPdtCostDis	= TCNMPdt_DataTmp.FTPdtCostDis,
+							TCNMPdt.FTPdtBestsell 	= TCNMPdt_DataTmp.FTPdtBestsell,
 							TCNMPdt.FTUpdateBy		= '$tUserData',
 							TCNMPdt.FDUpdateOn		= '$dCurrent'
 						FROM
@@ -627,6 +629,7 @@ class mProduct extends CI_Model {
 					,FTCreateBy
 					,FDCreateOn
 					,FTPdtReason 
+					,FTPdtBestsell
 				)
 				SELECT 
 					A.FTPdtCode
@@ -650,6 +653,7 @@ class mProduct extends CI_Model {
 					,$tUserData
 					,'$dCurrent'
 					,'' AS FTPdtReason
+					,A.FTPdtBestsell
 				FROM TCNMPdt_DataTmp A
 				LEFT JOIN TCNMPdt B ON A.FTPdtCode = B.FTPdtCode
 				WHERE A.FTWorkerID = '$FTWorkerID' AND ISNULL(B.FTPdtCode,'') = '' ";

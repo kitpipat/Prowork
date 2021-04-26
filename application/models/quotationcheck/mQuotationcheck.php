@@ -236,7 +236,7 @@ class mQuotationcheck extends CI_Model{
 				$this->db->where('FNXqdSeq', $ptWhere['FNXqdSeq']);
 				$this->db->where('FTPdtCode', $ptWhere['FTPdtCode']);
 				$this->db->update('TARTSqDT');
-			}else if($ptWhere['tType'] == 'REFBUY'){ //ผู้สั้งซื้อ
+			}else if($ptWhere['tType'] == 'REFBUY'){ //ผู้สั่งซื้อ
 				if($ptWhere['tValue'] == '' || $ptWhere['tValue'] == null){
 					$this->db->set('FTXqdBuyer', '');
 				}else{

@@ -127,6 +127,7 @@ class cProduct extends CI_Controller {
 				'FTPdtImage'		=> $this->input->post('oetImgInsertorEditproducts'),
 				'FTPdtReason'		=> $this->input->post('oetPDTReason'),
 				'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
+				'FTPdtBestsell'		=> ($this->input->post('ocmPDTStaBestsell') == 'on') ? 1 : 0,
 				'FDCreateOn'		=> date('Y-m-d H:i:s'),
 				'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
 				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
@@ -177,6 +178,7 @@ class cProduct extends CI_Controller {
 					'FTPdtImage'		=> $this->input->post('oetImgInsertorEditproducts'),
 					'FTPdtReason'		=> $this->input->post('oetPDTReason'),
 					'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
+					'FTPdtBestsell'		=> ($this->input->post('ocmPDTStaBestsell') == 'on') ? 1 : 0,
 					'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
 					'FDUpdateOn'		=> date('Y-m-d H:i:s')
 				);
@@ -294,6 +296,13 @@ class cProduct extends CI_Controller {
 					);
 					$nCost = FCNnHCOSCalCost($aPdtInfo);
 	
+					//สินค้าขายดี
+					if(isset($aResult[$i][12]) && $aResult[$i][12] == 1){
+						$tBestSell = 1;
+					}else{
+						$tBestSell = 0;
+					}
+
 					if(isset($aResult[$i][0])){
 						$aIns = array(
 							'FTPdtCode' 	=> (isset($aResult[$i][0])) ? $aResult[$i][0] : '',
@@ -308,6 +317,7 @@ class cProduct extends CI_Controller {
 							'FTPClrCode'	=> (isset($aResult[$i][9])) ? $aResult[$i][9] : '',
 							'FTMolCode'		=> (isset($aResult[$i][10])) ? $aResult[$i][10] : '',
 							'FTPzeCode'		=> (isset($aResult[$i][11])) ? $aResult[$i][11] : '',
+							'FTPdtBestsell'	=> $tBestSell,
 							'FTWorkerID'	=> $this->session->userdata('tSesLogID'),
 							'FCCostAfDis'	=> $nCost
 						);

@@ -32,48 +32,48 @@ function FSGetPdtCostStdChang($ptPdtCode,$pnCostStd){
 
 function FSSetPdtCostStdChang($paData){
 
-
-  $ci = &get_instance();
+  $ci 			= &get_instance();
   $ci->load->database();
   $aProducts = FSGetPdtCostStdChang($paData['tPdtCode'],$paData['nCostStd']);
 
-  $nCountPdt = count($aProducts);
-  if($nCountPdt > 0){
+	if(isset($aProducts)){
 
-    $nPdtCostAFDis = 0;
-		$nPdtLastCost = 0;
-		$nIdx = 0;
-    $nPdtStdCost = $paData['nCostStd'];
-    for($i = 0; $i< $nCountPdt; $i++){
-        $tCosTxnNo = $aProducts[$i]['FTCosTxnNo'];
-        $nPdtCostDis = $aProducts[$i]['FTPdtCostDis'];
-        $tDisType =  substr($nPdtCostDis,strlen($nPdtCostDis)-1);
-        if($nPdtLastCost == 0){
-           $nPdtLastCost = $nPdtStdCost;
-        }
+	}else{
+		$nCountPdt = count($aProducts);
+		if($nCountPdt > 0){
+			$nPdtCostAFDis 	= 0;
+			$nPdtLastCost 	= 0;
+			$nIdx 					= 0;
+			$nPdtStdCost 		= $paData['nCostStd'];
+			for($i = 0; $i< $nCountPdt; $i++){
+					$tCosTxnNo 		= $aProducts[$i]['FTCosTxnNo'];
+					$nPdtCostDis 	= $aProducts[$i]['FTPdtCostDis'];
+					$tDisType 		=  substr($nPdtCostDis,strlen($nPdtCostDis)-1);
 
-        if($tDisType == '%'){
-              $nPdtCostAFDis = $nPdtLastCost - ($nPdtLastCost * substr($nPdtCostDis,0,strlen($nPdtCostDis)-1)) / 100;
-              $nPdtLastCost = $nPdtCostAFDis;
+					if($nPdtLastCost == 0){
+						$nPdtLastCost = $nPdtStdCost;
+					}
 
-        }else{
-              $nPdtCostAFDis = $nPdtLastCost - $nPdtCostDis;
-              $nPdtLastCost = $nPdtCostAFDis;
-				}
-				if($nIdx!=$tCosTxnNo){
+					if($tDisType == '%'){
+							$nPdtCostAFDis 	= $nPdtLastCost - ($nPdtLastCost * substr($nPdtCostDis,0,strlen($nPdtCostDis)-1)) / 100;
+							$nPdtLastCost 	= $nPdtCostAFDis;
+					}else{
+							$nPdtCostAFDis 	= $nPdtLastCost - $nPdtCostDis;
+							$nPdtLastCost 	= $nPdtCostAFDis;
+					}
 
-					$nIdx = $tCosTxnNo;
-					$nPdtLastCost = $nPdtStdCost;
+					if($nIdx!=$tCosTxnNo){
+						$nIdx 					= $tCosTxnNo;
+						$nPdtLastCost 	= $nPdtStdCost;
+					}
 
-				}
+					$tSQLUpdate = "UPDATE TCNTPdtCost SET FCPdtCostStd = '$nPdtStdCost',FCPdtCost='$nPdtLastCost' ";
+					$tSQLUpdate .= " WHERE FTCosTxnNo = '$tCosTxnNo' ";
+					$ci->db->query($tSQLUpdate);
+			}
 
-        $tSQLUpdate = "UPDATE TCNTPdtCost SET FCPdtCostStd = '$nPdtStdCost',FCPdtCost='$nPdtLastCost' ";
-        $tSQLUpdate .= " WHERE FTCosTxnNo = '$tCosTxnNo' ";
-        $oQuery = $ci->db->query($tSQLUpdate);
-
-    }
-
-   }
+		}
+	}
 }
 
 

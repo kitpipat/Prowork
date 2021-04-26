@@ -35,6 +35,7 @@
 		$FTPtyName 			= $aResult[0]['FTPtyName'];
 		$FTPunName 			= $aResult[0]['FTPunName']; 
 		$FTSplName 			= $aResult[0]['FTSplName'];
+		$FTPdtBestsell		= $aResult[0]['FTPdtBestsell'];
 		$FDCreateOn			= date('d/m/Y',strtotime($aResult[0]['FDCreateOn']));
 		$FDUpdateOn			= date('d/m/Y',strtotime($aResult[0]['FDUpdateOn']));
 		$tRoute 			= 'r_producteventedit';
@@ -141,11 +142,24 @@
 							<textarea type="text" class="form-control" id="oetPDTDetail" name="oetPDTDetail" placeholder="รายละเอียด" rows="3"><?=@$FTPdtDesc;?></textarea>
 						</div>
 
-						<!--สถานะการติดต่อ-->
-						<label class="container-checkbox">สถานะการใช้งาน
-							<input type="checkbox" id="ocmPDTStaUse" name="ocmPDTStaUse" <?=@$FTPdtStatus == '1' ? 'checked' : ''; ?>>
-							<span class="checkmark"></span>
-						</label>
+						<div class="row">
+							<div class="col-lg-6 col-md-6">
+								<!--สถานะการใช้งาน-->
+								<label class="container-checkbox">สถานะการใช้งาน
+									<input type="checkbox" id="ocmPDTStaUse" name="ocmPDTStaUse" <?=@$FTPdtStatus == '1' ? 'checked' : ''; ?>>
+									<span class="checkmark"></span>
+								</label>
+							</div>
+
+							<div class="col-lg-6 col-md-6">
+								<!--สถานะสินค้าขายดี-->
+								<label class="container-checkbox">สถานะสินค้าขายดี
+									<input type="checkbox" id="ocmPDTStaBestsell" name="ocmPDTStaBestsell" <?=@$FTPdtBestsell == '1' ? 'checked' : ''; ?>>
+									<span class="checkmark"></span>
+								</label>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -566,6 +580,7 @@
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR);
 				alert(jqXHR, textStatus, errorThrown);
 			}
 		});

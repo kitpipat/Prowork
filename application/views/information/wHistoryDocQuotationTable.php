@@ -32,11 +32,11 @@
 						<!--สถานะเอกสาร-->
 						<?php 
 							if($aValue['FTXqhStaDoc'] != 1){
-								$tTextStaDoc 			= "ยกเลิกสั้งซื้อ";
+								$tTextStaDoc 			= "ยกเลิกสั่งซื้อ";
 								$tClassStaDoc 			= 'xCNTextClassStatus_close';
 							}else{
 								if($aValue['FTXqhStaApv'] == 1){
-									$tTextStaDoc 			= "อนุมัติสั้งซื้อ";
+									$tTextStaDoc 			= "อนุมัติสั่งซื้อ";
 									$tClassStaDoc 			= 'xCNTextClassStatus_open';
 									$tIconClassStaApv 		= 'xCNIconStatus_open';
 								}else{
@@ -45,7 +45,7 @@
 										$tClassStaDoc 			= '';
 										$tIconClassStaApv 		= '';
 									}else{
-										$tTextStaDoc 			= "รออนุมัติสั้งซื้อ";
+										$tTextStaDoc 			= "รออนุมัติสั่งซื้อ";
 										$tClassStaDoc 			= 'xCNTextClassStatus_wait';
 										$tIconClassStaApv 		= 'xCNIconStatus_close';
 									}
