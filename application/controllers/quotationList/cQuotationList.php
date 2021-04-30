@@ -6,19 +6,29 @@ class cQuotationList extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('quotationList/mQuotationList');
+		$this->load->model('quotationcheck/mQuotationcheck');
 	}
 
 	public function index(){
-		$this->load->view('quotationList/wQuotationListMain');
+		$aPackData = array(
+			'aBCHList'	=> $this->mQuotationcheck->FSaMUSRGetBranch()
+		);
+		$this->load->view('quotationList/wQuotationListMain',$aPackData);
 	}
 
 	//หน้าจอตาราง
 	public function FSwCPILLoadDatatable(){
-		$nPage = $this->input->post('nPage');
+		$nPage 			= $this->input->post('nPage');
+		$BCH 			= $this->input->post('BCH');
+		$DocumentNumber = $this->input->post('DocumentNumber');
+		$tStaDoc 		= $this->input->post('tStaDoc');
+		
 		$aCondition = array(
-			'nPage'         => $nPage,
-			'nRow'          => 10,
-			'tSearchAll'    => $this->input->post('tSearchAll')
+			'nPage'         	=> $nPage,
+			'nRow'          	=> 10,
+			'BCH'    			=> $BCH,
+			'DocumentNumber'    => $DocumentNumber,
+			'tStaDoc'    		=> $tStaDoc
 		);
 
 		$aList = $this->mQuotationList->FSaMPILGetData($aCondition);

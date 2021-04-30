@@ -99,8 +99,8 @@ class mQuotation extends CI_Model
 
 		$tSQL = "
 				SELECT Q.* FROM(
-				 SELECT P.* , ROW_NUMBER() OVER(ORDER BY P.RowID) AS NewRowID FROM (
-                 SELECT ROW_NUMBER() OVER(ORDER BY PDT.FTPdtCode) AS RowID,
+				 SELECT P.* , ROW_NUMBER() OVER(ORDER BY P.RowID ASC) AS NewRowID FROM (
+                 SELECT ROW_NUMBER() OVER(ORDER BY PDT.FTPdtBestsell DESC , PDT.FTPdtCode ASC) AS RowID,
                          PDT.FTPdtCode,
                          PDT.FTPdtName,
                          PGP.FTPgpName,
@@ -116,6 +116,7 @@ class mQuotation extends CI_Model
 						 PUN.FTPunName,
 						 PDT.FTSplCode,
                          PDT.FCPdtCostAFDis,
+						 PDT.FTPdtBestsell,
                          PDT.FCPdtSalPrice AS FCPdtStdSalPri ,
                          SP.FCXpdAddPri AS FCPdtUsrSalPri,
                          CASE WHEN ISNULL(PDT.FCPdtSalPrice,0) = 0 AND  ISNULL(SP.FCXpdAddPri,0) = 0

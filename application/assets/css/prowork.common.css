@@ -678,6 +678,27 @@ table tbody .xCNTableGroupMenu{
 	margin-top: 20px;
   }
 
+  .xCNCssForBestSell{
+	width: 60px;
+    height: 60px;
+	-webkit-clip-path: polygon(100% 0%, 100% 100%, 0% 0%);
+    background-color: #51c448;
+    border-top-right-radius: 5px;
+    position: absolute;
+    float: right;
+    right: 15px;
+  }
+
+  .xCNSpanCssBestSell{
+	transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    display: inline-block;
+	color: #FFF;
+	margin-left: 22px;
+    margin-top: 5px;
+  }
+
 
 ::-webkit-scrollbar-track
 {
@@ -842,3 +863,7 @@ table tbody .xCNTableGroupMenu{
 	float : left;
 }
 
+.xCNTableCssBestSell{
+	display: inline;
+    margin-right: 10px;
+}

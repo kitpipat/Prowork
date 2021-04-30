@@ -29,7 +29,7 @@
 					<td><?=($aValue['FTPbnName'] == '') ? '-' : $aValue['FTPbnName']?></td>
 
 					<?php 
-						if( $aValue['PDT_use'] == '' || $aValue['PDT_use'] == null){
+						if( ($aValue['PDT_use'] == '' || $aValue['PDT_use'] == null) && ($aValue['GRP_use'] == '' || $aValue['GRP_use'] == null) ){
 							$oEventDelete 			= "JSxBrandProduct_Delete('".$aValue['FTPbnCode']."')";
 							$tClassDisabledDelete 	= '';
 						}else{

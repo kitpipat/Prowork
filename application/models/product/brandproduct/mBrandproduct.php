@@ -12,9 +12,11 @@ class mBrandproduct extends CI_Model {
 					DISTINCT
 						BAP.FTPbnCode , 
 						BAP.FTPbnName ,
-						PDT.FTPbnCode AS 'PDT_use'
+						PDT.FTPbnCode AS 'PDT_use',
+						GRP.FTPbnCode AS 'GRP_use'
 					FROM TCNMPdtBrand BAP 
-					LEFT JOIN TCNMPdt PDT ON PDT.FTPbnCode = BAP.FTPbnCode ";
+					LEFT JOIN TCNMPdt PDT ON PDT.FTPbnCode = BAP.FTPbnCode
+					LEFT JOIN TCNMPdtGrp GRP ON BAP.FTPbnCode = GRP.FTPbnCode  ";
 		$tSQL .= " WHERE 1=1 ";
 
 		if($tTextSearch != '' || $tTextSearch != null){
@@ -23,6 +25,7 @@ class mBrandproduct extends CI_Model {
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
+
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMBAPGetData_PageAll($paData);

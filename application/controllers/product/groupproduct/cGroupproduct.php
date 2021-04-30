@@ -48,26 +48,6 @@ class cGroupproduct extends CI_Controller {
 
 	//อีเว้นท์เพิ่มข้อมูล
 	public function FSwCGRPEventInsert(){
-		// $aLastCode 	= $this->mGroupproduct->FSaMGRPGetLastGroupPDTcode();
-		// if($aLastCode['rtCode'] == 800){
-		// 	$tFormatCode = '00001';
-		// }else{
-		// 	$nLastCode 		= $aLastCode['raItems'][0]['FTPgpCode'];
-		// 	$nNumber		= $nLastCode + 1;
-		// 	$nCountNumber	= count($nNumber);
-		// 	if($nCountNumber == 1){
-		// 		$tFormat 		= '0000';
-		// 	}else if($nCountNumber == 2){
-		// 		$tFormat 		= '000';
-		// 	}else if($nCountNumber == 3){
-		// 		$tFormat 		= '00';
-		// 	}else{
-		// 		$tFormat 		= '0';
-		// 	}
-
-		// 	$tFormatCode = str_pad($nNumber,strlen($tFormat)+1,$tFormat,STR_PAD_LEFT);
-		// }
-
 		//เช็ครหัสซ้ำก่อน
 		$tFormatCode 		= $this->input->post('oetCodeGRPName');
 		$aStatusCheckCode 	= $this->mProduct->FSaMPDTCheckCode('FTPgpCode','TCNMPdtGrp',$tFormatCode);
@@ -75,6 +55,7 @@ class cGroupproduct extends CI_Controller {
 			$aInsertGroupPDT = array(
 				'FTPgpCode'			=> $tFormatCode,
 				'FTPgpName'			=> $this->input->post('oetGRPName'),
+				'FTPbnCode'			=> $this->input->post('oetPDTBrandInGroup'),
 				'FDCreateOn'		=> date('Y-m-d H:i:s'),
 				'FTCreateBy'		=> $this->session->userdata('tSesUsercode')
 			);
@@ -97,6 +78,7 @@ class cGroupproduct extends CI_Controller {
 			$aSetUpdate = array(
 				'FTPgpName'			=> $this->input->post('oetGRPName'),
 				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+				'FTPbnCode'			=> $this->input->post('oetPDTBrandInGroup'),
 				'FDUpdateOn'		=> date('Y-m-d H:i:s')
 			);
 			$aWhereUpdate = array(

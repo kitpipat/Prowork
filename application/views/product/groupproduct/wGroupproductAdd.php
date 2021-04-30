@@ -7,6 +7,8 @@
 	}else if($tTypePage == 'edit'){
 		$FTPgpCode 			= $aResult[0]['FTPgpCode'];
 		$FTPgpName			= $aResult[0]['FTPgpName'];
+		$FTPbnCode			= $aResult[0]['FTPbnCode'];
+		$FTPbnName			= $aResult[0]['FTPbnName'];
 		$tRoute 			= 'r_groupproducteventedit';
 		$tRouteUrl			= 'แก้ไขกลุ่มสินค้า';
 	}
@@ -65,17 +67,73 @@
 							<span id="oetCodeGRPName_Dup" style="color:red; text-align: right; display: none;"><em>พบรหัสกลุ่มสินค้าซ้ำ กรุณาลองใหม่อีกครั้ง</em></span>
 						</div>
 
+						<!--ชื่อยี่ห้อ-->
+						<div class="form-group">
+							<label>ยี่ห้อ</label>
+							<input type="hidden" id="oetPDTBrandInGroup" name="oetPDTBrandInGroup" value="<?=@$FTPbnCode?>">
+							<div class="input-group md-form form-sm form-2 pl-0 form-group">
+								<input type="text" readonly class="form-control" maxlength="255" id="oetPDTBrandNameInGroup" name="oetPDTBrandNameInGroup" placeholder="กรุณาเลือกข้อมูลยี่ห้อ" autocomplete="off" value="<?=@$FTPbnName?>">
+								<div class="input-group-append xCNIconFindCustomer">
+									<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxSelectBrandInGroupClick(1);">
+										<img class="xCNIconFind">
+									</span>
+								</div>
+							</div>
+						</div>
+						
 						<!--ชื่อกลุ่มสินค้า-->
 						<div class="form-group">
 							<label>ชื่อกลุ่มสินค้า</label>
 							<input type="text" class="form-control" maxlength="100" id="oetGRPName" name="oetGRPName" placeholder="กรุณาระบุชื่อกลุ่มสินค้า" autocomplete="off" value="<?=@$FTPgpName;?>">
 						</div>
+
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
 <div>
+
+<!-- Modal ให้เลือกยี่ห้อ -->
+<button id="obtModalSelectAttribute" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalBrand"></button>
+<div class="modal fade" id="odvModalBrand" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<h5 class="modal-title">เลือกยี่ห้อสินค้า</h5>
+					</div>
+					<div class="col-lg-6 col-md-6"></div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-lg-6 col-md-6">
+						<div class="input-group md-form form-sm form-2 pl-0">
+							<input class="form-control my-0 py-1 red-border xCNFormSerach" autocomplete="off" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchAttribute" onkeypress="Javascript:if(event.keyCode==13) JSxSelectAttribute(1)">
+							<div class="input-group-append">
+								<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxSelectBrandInGroup(1);">
+									<?php $tMenuBar = base_url().'application/assets/images/icon/search.png'; ?>
+									<img class="menu-icon xCNMenuSearch" src="<?=$tMenuBar?>">
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6">
+						<button type="button" class="btn  btn-success xCNConfirmCustomer" onclick="JSxConfirmBrandInGroup();" style="float: right;">ยืนยัน</button>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div id="odvContentPopUpBrand" style="margin-top:10px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
@@ -134,5 +192,50 @@
 				alert(jqXHR, textStatus, errorThrown);
 			}
 		});
+	}
+
+	//กดปุ่ม brwose ยี่ห้อ
+	function JSxSelectBrandInGroupClick(){
+		$('#obtModalSelectAttribute').click();
+		JSxSelectAttribute(1);
+	}
+
+	//เลือกยี่ห้อ
+	function JSxSelectAttribute(pnPage){
+		$.ajax({
+			type	: "POST",
+			url		: "r_selectAttribute",
+			data 	: { 'nPage' : pnPage , 'tSearchAttribute' : $('#oetSearchAttribute').val() , 'tName' : 'Brand' },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('#odvContentPopUpBrand').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+
+	//กดยืนยันที่เลือก ยี่ห้อ
+	function JSxConfirmBrandInGroup(){
+		var LocalItemSelect = localStorage.getItem("LocalItemDataAttr");
+		if(LocalItemSelect !== null){
+			var aResult = LocalItemSelect.split("##");
+
+			var tvaluecode 		= aResult[0];
+			var tvaluename 		= aResult[1];
+			
+			$('#oetPDTBrandInGroup').val(tvaluecode);
+			$('#oetPDTBrandNameInGroup').val(tvaluename);
+
+			objAttr = [];
+			localStorage.clear();
+			$('#obtModalSelectAttribute').click();
+		}else{
+			$('#oetPDTBrandInGroup').val('');
+			$('#oetPDTBrandNameInGroup').val('');
+			$('#obtModalSelectAttribute').click();
+		}
 	}
 </script>

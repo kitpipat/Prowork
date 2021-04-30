@@ -36,6 +36,10 @@
 									}
 								?>
 
+								<?php if($aValue['FTPdtBestsell'] == '1'){ //สินค้าขายดี  ?>
+									<div class="xCNCssForBestSell"><span class="xCNSpanCssBestSell">ขายดี</span></div>
+								<?php } ?>
+
 								<div title="เลือกรายการนี้" class="xCNImageCardPDT <?=$tClassCSSMargin?>" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
 
 									<?php
@@ -100,7 +104,13 @@
 												$tItemInfo = json_encode($aItemsInfo); ?>
 										<tr>
 											<th ><?=$aValue['RowID']?></th>
-											<td ><?=$tPdtCode;?></td>
+
+											<?php if($aValue['FTPdtBestsell'] == '1'){ //สินค้าขายดี  ?>
+												<td > <div class="xCNTableCssBestSell"><img src="<?=base_url('application/assets/images/icon/star.png')?>" style="width:15px; margin-top: -5px;"></div> <?=$tPdtCode;?> </td>
+											<?php }else{ ?>
+												<td ><?=$tPdtCode;?> </td>
+											<?php } ?>
+											
 											<td style="text-align: left;"><?=$tPdtName;?></td>
 											<td style="text-align: right;"><?=number_format($nPdtUnitPri,2);?></td>
 											<td style="text-align: center;"><button class="sm-button xCNSelectPDTInPI" data-iteminfo='<?= $tItemInfo ?>' onclick="FSvQUOAddItemToTemp(this)">เลือกสินค้า</button></td>

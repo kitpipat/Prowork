@@ -14,8 +14,9 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="width:200px; text-align: left;">รหัสกลุ่มสินค้า</th>
-		<th style="text-align: left;">ชื่อกลุ่มสินค้า</th>
+		<th style="width:150px; text-align: left;">รหัสกลุ่มสินค้า</th>
+		<th style="width:250px; text-align: left;">ชื่อกลุ่มสินค้า</th>
+		<th style="text-align: left;">ชื่อยี่ห้อ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;" class="<?=$tPer_delete?>">ลบ</th>
     </tr>
@@ -27,6 +28,7 @@
 					<th><?=$aValue['rtRowID']?></th>
 					<td><?=$aValue['FTPgpCode']?></td>
 					<td><?=($aValue['FTPgpName'] == '') ? '-' : $aValue['FTPgpName']?></td>
+					<td><?=($aValue['FTPbnName'] == '') ? '-' : $aValue['FTPbnName']?></td>
 
 					<?php 
 						if( $aValue['PDT_use'] == '' || $aValue['PDT_use'] == null){

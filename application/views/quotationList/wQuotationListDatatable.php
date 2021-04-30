@@ -14,6 +14,7 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
+		<th style="width:160px; text-align: left;">สาขา</th>
 		<th style="text-align: left;">เลขที่เอกสาร</th>
 		<th style="width:130px; text-align: left;">วันที่</th>
 		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
@@ -28,6 +29,7 @@
 			<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
 					<th><?=$aValue['rtRowID']?></th>
+					<td><?=$aValue['FTBchName']?></td>
 					<td><?=$aValue['FTXqhDocNo']?></td>
 					<td><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
 					
@@ -122,11 +124,11 @@
 				<!--ปุ่มย้อนกลับ-->
 				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvPIList_ClickPage('Fisrt')"><span aria-hidden="true">&laquo;</span></a>
+					<a class="page-link" aria-label="Previous" <?php if($aList['rtCode'] != 800){ ?> onclick="JSvPIList_ClickPage('Fisrt')" <?php } ?>><span aria-hidden="true">&laquo;</span></a>
 				</li>
 
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvPIList_ClickPage('previous')"><span aria-hidden="true">&lsaquo;</span></a>
+					<a class="page-link" aria-label="Previous" <?php if($aList['rtCode'] != 800){ ?> onclick="JSvPIList_ClickPage('previous')" <?php } ?> ><span aria-hidden="true">&lsaquo;</span></a>
 				</li>
 
 				<!--ปุ่มจำนวนหน้า-->
@@ -146,11 +148,11 @@
 				<!--ปุ่มไปต่อ-->
 				<?php if($nPage >= $aList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvPIList_ClickPage('next')"><span aria-hidden="true">&rsaquo;</span></a>
+					<a class="page-link" aria-label="Next" <?php if($aList['rtCode'] != 800){ ?> onclick="JSvPIList_ClickPage('next')" <?php } ?> ><span aria-hidden="true">&rsaquo;</span></a>
 				</li>
 
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvPIList_ClickPage('Last')"><span aria-hidden="true">&raquo;</span></a>
+					<a class="page-link" aria-label="Next" <?php if($aList['rtCode'] != 800){ ?> onclick="JSvPIList_ClickPage('Last')" <?php } ?> ><span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</ul>
 		</nav>

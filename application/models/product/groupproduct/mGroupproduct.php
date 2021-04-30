@@ -12,9 +12,11 @@ class mGroupproduct extends CI_Model {
 					DISTINCT
 						GRP.FTPgpCode , 
 						GRP.FTPgpName ,
-						PDT.FTPgpCode AS 'PDT_use'
+						PDT.FTPgpCode AS 'PDT_use' ,
+						BAN.FTPbnName
 					FROM TCNMPdtGrp GRP 
-					LEFT JOIN TCNMPdt PDT ON PDT.FTPgpCode = GRP.FTPgpCode ";
+					LEFT JOIN TCNMPdt PDT ON PDT.FTPgpCode = GRP.FTPgpCode
+					LEFT JOIN TCNMPdtBrand BAN ON GRP.FTPbnCode = BAN.FTPbnCode  ";
 		$tSQL .= " WHERE 1=1 ";
 
 		if($tTextSearch != '' || $tTextSearch != null){
@@ -110,7 +112,7 @@ class mGroupproduct extends CI_Model {
 
 	//หาข้อมูลจาก ไอดี
 	public function FSaMGRPGetDataGroupProductBYID($ptCode){
-		$tSQL = " SELECT * FROM TCNMPdtGrp GRP";
+		$tSQL = " SELECT GRP.* , BAN.FTPbnName , BAN.FTPbnCode FROM TCNMPdtGrp GRP LEFT JOIN TCNMPdtBrand BAN ON GRP.FTPbnCode = BAN.FTPbnCode ";
 		$tSQL .= " WHERE GRP.FTPgpCode = '$ptCode' ";
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->result_array();

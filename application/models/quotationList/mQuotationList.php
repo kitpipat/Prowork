@@ -5,7 +5,6 @@ class mQuotationList extends CI_Model{
 
 	public function FSaMPILGetData($paData){
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
-		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTXqhDocNo DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT
@@ -43,13 +42,35 @@ class mQuotationList extends CI_Model{
 						HD.FTUpdateBy,
 						HD.FDUpdateOn,
 						HD.FTXqhStaApv,
-						USR.FTUsrFName
+						USR.FTUsrFName,
+						BCH.FTBchName
 					 FROM TARTSqHD HD
-					 LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode ";
+					 LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode 
+					 LEFT JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode ";
 		$tSQL .= " WHERE 1=1 ";
 
-		if($tTextSearch != '' || $tTextSearch != null){
-			$tSQL .= " AND ( HD.FTXqhDocNo LIKE '%$tTextSearch%' )";
+		//ค้นหาสาขา
+		if(trim($paData['BCH']) != ''){
+			$tBCH = $paData['BCH'];
+			$tSQL .= " AND ( HD.FTBchCode = '$tBCH' )";
+		}
+
+		//ค้นหาเลขที่เอกสาร
+		if(trim($paData['DocumentNumber']) != ''){
+			$tDocumentNumber = trim($paData['DocumentNumber']);
+			$tSQL .= " AND ( HD.FTXqhDocNo LIKE '%$tDocumentNumber%' )";
+		}
+
+		//ค้นหาสถานะเอกสาร
+		if(trim($paData['tStaDoc']) != ''){
+			$tStaDoc = $paData['tStaDoc'];
+			if($tStaDoc == 1){ //อนุมัติแล้ว
+				$tSQL .= " AND HD.FTXqhStaApv = 1 ";
+			}else if($tStaDoc == 3){ //รออนุมัติ
+				$tSQL .= " AND HD.FTXqhStaDoc = 1 AND ISNULL(HD.FTXqhStaApv,'') = '' ";
+			}else if($tStaDoc == 2){ //ยกเลิก
+				$tSQL .= " AND HD.FTXqhStaDoc != 1 ";
+			}
 		}
 
 		//รองรับการมองเห็นตามสาขา
@@ -87,11 +108,31 @@ class mQuotationList extends CI_Model{
 	//หาจำนวนทั้งหมด
 	public function FSaMPILGetData_PageAll($paData){
 		try{
-			$tTextSearch = trim($paData['tSearchAll']);
 			$tSQL 		= "SELECT COUNT (HD.FTXqhDocNo) AS counts FROM TARTSqHD HD ";
 			$tSQL 		.= " WHERE 1=1 ";
-			if($tTextSearch != '' || $tTextSearch != null){
-				$tSQL .= " AND ( HD.FTXqhDocNo LIKE '%$tTextSearch%' )";
+
+			//ค้นหาสาขา
+			if(trim($paData['BCH']) != ''){
+				$tBCH = $paData['BCH'];
+				$tSQL .= " AND ( HD.FTBchCode = '$tBCH' )";
+			}
+
+			//ค้นหาเลขที่เอกสาร
+			if(trim($paData['DocumentNumber']) != ''){
+				$tDocumentNumber = trim($paData['DocumentNumber']);
+				$tSQL .= " AND ( HD.FTXqhDocNo LIKE '%$tDocumentNumber%' )";
+			}
+
+			//ค้นหาสถานะเอกสาร
+			if(trim($paData['tStaDoc']) != ''){
+				$tStaDoc = $paData['tStaDoc'];
+				if($tStaDoc == 1){ //อนุมัติแล้ว
+					$tSQL .= " AND HD.FTXqhStaApv = 1 ";
+				}else if($tStaDoc == 3){ //รออนุมัติ
+					$tSQL .= " AND HD.FTXqhStaDoc = 1 AND ISNULL(HD.FTXqhStaApv,'') = '' ";
+				}else if($tStaDoc == 2){ //ยกเลิก
+					$tSQL .= " AND HD.FTXqhStaDoc != 1 ";
+				}
 			}
 
 			//รองรับการมองเห็นตามสาขา
