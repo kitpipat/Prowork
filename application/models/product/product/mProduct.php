@@ -391,6 +391,31 @@ class mProduct extends CI_Model {
 		return $aResult;
 	}	
 
+	//ตัวกรองค้นหา parameter คือตาราง
+	public function FSaMPDTGetData_Filter_GroupOnly($ptBrandCode){
+
+		if($ptBrandCode == '' || $ptBrandCode == null){
+			$tSQL 	= "SELECT * FROM TCNMPdtGrp";
+		}else{
+			$tSQL 	= "SELECT * FROM TCNMPdtGrp WHERE FTPbnCode IN ($ptBrandCode) ";
+		}
+		
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'raItems'  	=> $oQuery->result_array(),
+				'rtCode'   	=> '1',
+				'rtDesc'   	=> 'success',
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'data not found',
+			);
+		}
+		return $aResult;
+	}	
+
 	//////////////////////////////////////////////////////////////////////// นำเข้ารูปภาพ */
 
 	//นำเข้ารูปภาพ - เอาข้อมูลมาโชว์

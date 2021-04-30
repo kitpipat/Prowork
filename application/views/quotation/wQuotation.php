@@ -43,8 +43,8 @@
 									<label class="xCNFindClick FontColorClick" data-find="Brand"><b>ยี่ห้อ</b></label>
 									<div class="xCNFindBrand xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Brand['raItems'] AS $nKey => $aValue){ ?>
-											<label class="container-checkbox xCNCheckboxFilter">
-												<input class="xCNFilterAdv" type="checkbox" data-filter="PBN" value="<?=$aValue['FTPbnCode']?>"><?=$aValue['FTPbnName']?>
+											<label class="container-checkbox xCNCheckboxFilter" >
+												<input class="xCNFilterAdv xCNFilterAdvBrand" type="checkbox" data-filter="PBN" value="<?=$aValue['FTPbnCode']?>"><?=$aValue['FTPbnName']?>
 												<span class="checkmark"></span>
 											</label>
 										<?php } ?>
@@ -55,7 +55,7 @@
 							<!--กลุ่ม-->
 							<?php if($aFilter_Group['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
-									<label class="xCNFindClick FontColorClick" data-find="Group"><b>กลุ่ม</b></label>
+									<label class="xCNFindClick FontColorClick" data-find="Group" onclick="JSxClickGroupSearchspecial('<?=$aValue['FTPbnCode']?>')"><b>กลุ่ม</b></label>
 									<div class="xCNFindGroup xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Group['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
@@ -411,6 +411,46 @@
 					alert(jqXHR, textStatus, errorThrown);
 				}
 			});
+		});
+	}
+
+	//กดที่ยี่ห้อ
+	var aFilterBrand 		= [];
+	function JSxClickGroupSearchspecial(pnBrandCode){
+		aFilterBrand = [];
+		$('.xCNFilterAdvBrand:checked').each(function() {
+			var tValue 		= $(this).val();
+			aFilterBrand.push({'tFilter' : 'Brand' , 'tValue' : tValue});
+		});	
+
+		$.ajax({
+			type	: "POST",
+			url		: 'r_searchProductFromBrand',
+			data	: { 'data' : aFilterBrand},
+			cache	: false,
+			timeout	: 0,
+			success	: function(oResult) {
+				var jResult = JSON.parse(oResult);
+				if(jResult.rtCode == '800'){
+					$('.xCNFindGroup').html('');
+					$('.xCNFindGroup').append('- ไม่พบข้อมูล -');
+				}else{
+					var aItem	= jResult.raItems;
+					var tHTML	= '';
+					for(var i=0; i<aItem.length; i++){
+						tHTML += '<label class="container-checkbox xCNCheckboxFilter">';
+						tHTML += '<input class="xCNFilterAdv" type="checkbox" data-filter="PGP" value="'+aItem[i].FTPgpCode+'">'+aItem[i].FTPgpName+'';
+						tHTML += '<span class="checkmark"></span>';
+						tHTML += '</label>';
+					}
+
+					$('.xCNFindGroup').html('');
+					$('.xCNFindGroup').append(tHTML);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
 		});
 	}
 </script>

@@ -17,14 +17,14 @@
 
 		.hard_left_Top_Right1{
 			position	: absolute;
-			width		: 24%;
-			right		: 38%;
+			width		: 22%;
+			right		: 29%;
 		}
 
 		.hard_left_Top_Right4{
 			position		: absolute;
-			width			: 10%;
-			right			: 28%;
+			width			: 6.5%;
+			right			: 22.5%;
 			text-align		: left;
 			vertical-align	: middle !important;
 			text-align		: center;
@@ -34,13 +34,13 @@
 
 		.hard_left_Top_Right2{
 			position	: absolute;
-			width		: 17%;
-			right		: 10%;
+			width		: 16%;
+			right		: 6.5%;
 		}
 
 		.hard_left_Top_Right3{
 			position		: absolute;
-			width			: 10%;
+			width			: 6.5%;
 			right			: 0px;
 			text-align		: left;
 			vertical-align	: middle !important;
@@ -51,9 +51,9 @@
 
 		.xCNFreezeSection1{
 			position	: absolute;
-			width		: 8%;
+			width		: 7.5%;
 			text-align	: center;
-			right		: 54%;
+			right		: 43.5%;
 			text-align: left;
 			padding-top: 4px !important;
 			/* background-color :green; */
@@ -61,9 +61,9 @@
 
 		.xCNFreezeSection2{
 			position	: absolute;
-			width		: 8%;
+			width		: 7.5%;
 			text-align	: center;
-			right		: 46%;
+			right		: 36.5%;
 			text-align: right;
 			padding-top: 4px !important;
 			/* background-color :black; */
@@ -73,7 +73,7 @@
 			position	: absolute;
 			width		: 8%;
 			text-align	: center;
-			right		: 38%;
+			right		: 29%;
 			text-align: left;
 			padding-top: 4px !important;
 			/* background-color :pink; */
@@ -81,9 +81,9 @@
 
 		.xCNFreezeSection4{
 			position	: absolute;
-			width		: 8%;
+			width		: 7.5%;
 			text-align	: center;
-			right		: 19%;
+			right		: 15%;
 			text-align: right;
 			padding-top: 4px !important;
 			/* background-color :yellow; */
@@ -94,7 +94,7 @@
 			position	: absolute;
 			width		: 9%;
 			text-align	: center;
-			right		: 10%;
+			right		: 6.4%;
 			text-align: right;
 			padding-top: 4px !important;
 			/* background-color :red; */
@@ -103,21 +103,21 @@
 
 		.xCNFreezeGiveUser{
 			position		: absolute;
-			width			: 10%;
+			width			: 6.5%;
 			right			: 0px;
 		}
 
 		.xCNFreezeGiveBuyer{
 			position		: absolute;
-			width			: 11%;
-			right			: 27%;
+			width			: 6.5%;
+			right			: 22.5%;
 		}
 
 		.hard_left_Sub_Right{
-			width		: 52%;
+			width		: 44.5%;
 			top			: 34px;
 			position	: absolute;
-			right		: 10%;
+			right		: 6.5%;
 			display		: table;
 		}
 
@@ -125,7 +125,7 @@
 		.inner {
 			overflow-x:scroll;
 			overflow-y:visible;
-			width:38%;
+			width:49%;
 		}
 
 		.datepicker{
@@ -159,38 +159,46 @@
 		<table class="table table-striped xCNTableCenter">
 			<thead>
 				<tr>
+					<th class="xCNThNormal" rowspan="2" style="width:60px; text-align: left; vertical-align: middle;">ยกเลิก</th>
+					<th class="xCNThNormal" rowspan="2" style="width:60px; text-align: left; vertical-align: middle;">จำนวน</th>
+					<th class="xCNThNormal" rowspan="2" style="width:150px; text-align: left; vertical-align: middle;">หน่วย</th>
 					<th class="xCNThNormal" rowspan="2" style="width:200px; text-align: left; vertical-align: middle;">เลขที่เอกสาร</th>
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">วันที่เอกสาร</th>
-					<th class="xCNThNormal" rowspan="2" style="width:60px; text-align: left; vertical-align: middle;">ลำดับ</th>
+					<th class="xCNThNormal" rowspan="2" style="width:55px; text-align: left; vertical-align: middle;">ลำดับ</th>
 					<th class="xCNThNormal" rowspan="2" style="width:270px; text-align: left; vertical-align: middle;">รายการสินค้า</th>
-					<th class="xCNThNormal" rowspan="2" style="width:120px; text-align: right; vertical-align: middle;">จำนวน</th>
-					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">หน่วยสินค้า</th>
 					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">สถานะเอกสาร</th>
 					<th class="xCNBorderleft hard_left_Top_Right1" colspan="2" style="text-align:center;">จัดซื้อสินค้า</th>
-					<th class="xCNBorderleft hard_left_Top_Right4" rowspan="2">ผู้สั่งซื้อ</th>
+					<th class="xCNBorderleft hard_left_Top_Right4" rowspan="2" style="font-size: 1.15vw;">ผู้สั่งซื้อ</th>
 					<th class="xCNBorderleft hard_left_Top_Right2" colspan="2" style="text-align:center;">รับสินค้า</th>
-					<th class="xCNBorderleft hard_left_Top_Right3" rowspan="2">ผู้รับสินค้า</th>
+					<th class="xCNBorderleft hard_left_Top_Right3" rowspan="2" style="font-size: 1.15vw;">ผู้รับสินค้า</th>
 				</tr>
 				<tr class="hard_left_Sub_Right">
-					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันสั่งสินค้า</th>
-					<th style="text-align:center; width:15.50%;">วันส่งของ</th>
-					<th style="text-align:center; width:15.50%; font-size: 0.95rem;">เลขที่บิลขนส่ง</th>
-					<th style="text-align:center; width:21.10%;"></th>
-					<th class="xCNBorderleft" style="text-align:center; width:15.50%;">วันรับสินค้า</th>
-					<th style="text-align:center;">เลขที่ใบสั่งซื้อ</th>
+					<th class="xCNBorderleft" style="text-align:center; width:16.50%; font-size: 1vw;">วันสั่งสินค้า</th>
+					<th style="text-align:center; width:16.50%; font-size: 1vw;">วันส่งของ</th>
+					<th style="text-align:center; width:17%; font-size: 1vw;">เลขที่บิลขนส่ง</th>
+					<th style="text-align:center; width:14.50%;"></th>
+					<th class="xCNBorderleft" style="text-align:center; width:15.50%; font-size: 1vw;">วันรับสินค้า</th>
+					<th style="text-align:center; font-size: 1vw;">เลขที่ใบสั่งซื้อ</th>
 				</tr>
 			</thead>
 			<tbody>
 					<?php if($aList['rtCode'] != 800){ ?>
 						<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
 							<tr>
+								<td>
+									<label class="container-checkbox" style="display: block; margin: 0px auto;">
+										<input type="checkbox" id="ocmPDTStaUse" name="ocmPDTStaUse">
+										<span class="checkmark"></span>
+									</label>
+								</td>
+								<td class="text-right"><?=($aValue['FCXqdQty'] == '') ? '0' : number_format($aValue['FCXqdQty'])?></td>
+								<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
 								<td><?=$aValue['FTXqhDocNo']?></td>
 								<td><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
 								<td><?=($aValue['FNXqdSeq'] == '') ? 'x' : $aValue['FNXqdSeq']?></td>
 								<td><?=($aValue['FTPdtName'] == '')? 'ไม่พบสินค้า' : $aValue['FTPdtName'] ?></td>
 								<!-- <td class="text-right"><?=number_format($aValue['FCXqdUnitPrice'],2)?></td> -->
-								<td class="text-right"><?=($aValue['FCXqdQty'] == '') ? '0.00' : $aValue['FCXqdQty']?></td>
-								<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
+								
 								<!--สถานะอนุมัติ-->
 								<?php
 									if($aValue['FTXqhStaApv'] == 1){
@@ -429,10 +437,10 @@
 
 	$('ducument').ready(function(){
 
-		var nHeight = $(window).height() - 310;
-		$('#odvContent_Check_PI').css('height', nHeight + "px");
-		$('#odvContent_Check_PI').css('overflow', 'auto'); 
-		$('#odvContent_Check_PI').css('overflow-x', 'hidden'); 
+		// var nHeight = $(window).height() - 310;
+		// $('#odvContent_Check_PI').css('height', nHeight + "px");
+		// $('#odvContent_Check_PI').css('overflow', 'auto'); 
+		// $('#odvContent_Check_PI').css('overflow-x', 'hidden'); 
 
 		$('.xCNDatePicker').datepicker({
 			format          : 'dd/mm/yyyy',

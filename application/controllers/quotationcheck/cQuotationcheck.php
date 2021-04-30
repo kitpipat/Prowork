@@ -26,7 +26,7 @@ class cQuotationcheck extends CI_Controller {
 
 		$aCondition = array(
 			'nPage'         	=> $nPage,
-			'nRow'          	=> 30,
+			'nRow'          	=> 10,
 			'BCH'    			=> $BCH,
 			'DocumentNumber'    => $DocumentNumber,
 			'tStaDoc'    		=> $tStaDoc,

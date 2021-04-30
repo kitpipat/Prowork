@@ -394,4 +394,22 @@ class cProduct extends CI_Controller {
 		);
 		$this->mProduct->FSxMPDTDeleteDataInTemp($aDeleteItem);
 	}
+
+	//ค้นหากลุ่มสินค้า จากการเลือกยี่ห้อ
+	public function FSxCPDTEventSearchFromBrand(){
+		$aData = $this->input->post('data');
+		if(empty($aData)){
+			$aRetrunBrand 	= $this->mProduct->FSaMPDTGetData_Filter_GroupOnly('');
+		}else{
+			$tBrandCode = '';
+			for($i=0; $i<count($aData); $i++){
+				$tBrandCode .= "'" . $aData[$i]['tValue'] ."'" . ',';
+			}
+
+			$tBrandCode 	= substr($tBrandCode,0,-1);
+			$aRetrunBrand 	= $this->mProduct->FSaMPDTGetData_Filter_GroupOnly($tBrandCode);
+		}
+
+		echo json_encode($aRetrunBrand);
+	}
 }
