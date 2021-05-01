@@ -140,6 +140,40 @@
 		.xCNClassDisabledInput{
 			background : #e6e6e6;
 		}
+
+		.xCNDTCancelInput{
+			background: #e6e6e6 !important;
+		}
+
+		.checkmarkDTInQuotation{
+			margin-top: -3px;
+		}
+
+		.container-checkbox input:checked ~ .checkmark {
+			background-color: #dc3545;
+		}
+
+		.container-checkbox .checkmark:after {
+			left: 9px;
+			top: 4.5px;
+			width: 0px;
+			height: 10px;
+			border: solid white;
+			background: #FFF;
+			border-width: 1px;
+			-webkit-transform: rotate(90deg);
+			-ms-transform: rotate(90deg);
+			transform: rotate(90deg);
+		}
+
+		::-webkit-scrollbar {
+			height : 13px;
+		}
+
+		.xCNDTCancelStatus{
+			text-decoration:line-through;
+			color :red;
+		}
 </style>
 
 <?php
@@ -152,6 +186,8 @@
 	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
 	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
+
+	
 ?>
 
 <div class="outer">
@@ -159,7 +195,10 @@
 		<table class="table table-striped xCNTableCenter">
 			<thead>
 				<tr>
-					<th class="xCNThNormal" rowspan="2" style="width:60px; text-align: left; vertical-align: middle;">ยกเลิก</th>
+					<?php if($this->session->userdata("tSesUserGroup") == 1 || $this->session->userdata("tSesUserGroup") == 5){ ?>
+						<!--พนักงานจัดซื้อ || พนักงานบัญชี-->
+						<th class="xCNThNormal" rowspan="2" style="width:55px; text-align: left; vertical-align: middle;">ยกเลิก</th>
+					<?php } ?>
 					<th class="xCNThNormal" rowspan="2" style="width:60px; text-align: left; vertical-align: middle;">จำนวน</th>
 					<th class="xCNThNormal" rowspan="2" style="width:150px; text-align: left; vertical-align: middle;">หน่วย</th>
 					<th class="xCNThNormal" rowspan="2" style="width:200px; text-align: left; vertical-align: middle;">เลขที่เอกสาร</th>
@@ -184,13 +223,17 @@
 			<tbody>
 					<?php if($aList['rtCode'] != 800){ ?>
 						<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
-							<tr>
-								<td>
-									<label class="container-checkbox" style="display: block; margin: 0px auto;">
-										<input type="checkbox" id="ocmPDTStaUse" name="ocmPDTStaUse">
-										<span class="checkmark"></span>
-									</label>
-								</td>
+							<?php $FTPdtStaCancel = $aValue['FTPdtStaCancel'] ?>
+							<tr class="<?=@$FTPdtStaCancel == '1' ? 'xCNDTCancel' : ''; ?>" data-documentnumber='<?=$aValue['FTXqhDocNo']?>' data-seqitem='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>'>
+								<?php if($this->session->userdata("tSesUserGroup") == 1 || $this->session->userdata("tSesUserGroup") == 5){ ?>
+									<!--พนักงานจัดซื้อ || พนักงานบัญชี-->
+									<td>
+										<label class="container-checkbox" style="display: block; margin: 0px auto;">
+											<input type="checkbox" name="ocmDTInQuotationCancel" onclick="JSxDTInQuotationCancel(this)" <?=@$FTPdtStaCancel == '1' ? 'checked' : ''; ?>>
+											<span class="checkmark checkmarkDTInQuotation"></span>
+										</label>
+									</td>
+								<?php } ?>
 								<td class="text-right"><?=($aValue['FCXqdQty'] == '') ? '0' : number_format($aValue['FCXqdQty'])?></td>
 								<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
 								<td><?=$aValue['FTXqhDocNo']?></td>
@@ -215,7 +258,7 @@
 										$tPlaceholder			= '-';
 									}
 								?>
-								<td><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td>
+								<td><span class="<?=$tClassStaApv?> xCNStatusDT <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?> "><?=$tTextStaApv?></span></td>
 
 
 								<!--วันที่สั่งสินค้า-->
@@ -241,7 +284,15 @@
 
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input <?=$tDisabled?> data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'PUCDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNPUCDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" style="text-align: left; width:100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdPucDate?>">
+										<input <?=$tDisabled?> data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' 
+												onchange="JSxUpdateInline(this,'PUCDATE');" 
+												type="text" <?=$tDisabledKey?> 
+												<?=@$FTPdtStaCancel == '1' ? 'disabled' : ''; //สินค้ายกเลิก ?>
+												maxlength="10" 
+												class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNPUCDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?> <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelInput' : ''; ?>" 
+												style="text-align: left; width:100%;" 
+												placeholder="<?=$tPlaceholder?>" 
+												value="<?=@$FDXqdPucDate?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FDXqdPucDate == null) ? '-' : $FDXqdPucDate?></label>
 									<?php } ?>
@@ -269,7 +320,15 @@
 
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input <?=$tDisabled?> data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'DLIDATE');" type="text" <?=$tDisabledKey?> maxlength="10" class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNDLIDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" style="text-align: left; width:100%;" placeholder="<?=$tPlaceholder?>" value="<?=@$FDXqdDliDate?>">
+										<input <?=$tDisabled?> data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' 
+										onchange="JSxUpdateInline(this,'DLIDATE');" 
+										type="text" <?=$tDisabledKey?> 
+										<?=@$FTPdtStaCancel == '1' ? 'disabled' : ''; //สินค้ายกเลิก ?>
+										maxlength="10" 
+										class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNDLIDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?> <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelInput' : ''; ?>" 
+										style="text-align: left; width:100%;" 
+										placeholder="<?=$tPlaceholder?>" 
+										value="<?=@$FDXqdDliDate?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FDXqdDliDate == null) ? '-' : $FDXqdDliDate?></label>
 									<?php } ?>
@@ -280,7 +339,15 @@
 									<?php $FTXqdRefBuyer = $aValue['FTXqdRefBuyer']; ?>
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
-										<input data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' onchange="JSxUpdateInline(this,'REFBUY');" type="text" <?=$tDisabledKey?> maxlength="20" class="xCNEditInline xCNREFBUY<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" style="text-align: left; width: 100%;" value="<?=@$FTXqdRefBuyer?>">
+										<input 
+										data-docnumber="<?=$aValue['FTXqhDocNo']?>" data-seq='<?=$aValue['FNXqdSeq']?>' data-pdtcode='<?=$aValue['FTPdtCode']?>' 
+										onchange="JSxUpdateInline(this,'REFBUY');" 
+										type="text" <?=$tDisabledKey?> 
+										<?=@$FTPdtStaCancel == '1' ? 'disabled' : ''; //สินค้ายกเลิก ?>
+										maxlength="20" 
+										class="xCNEditInline xCNREFBUY<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?> <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelInput' : ''; ?>"
+										style="text-align: left; width: 100%;" 
+										value="<?=@$FTXqdRefBuyer?>">
 									<?php }else{ ?>
 										<label style="text-align: center; display: block; margin-top: 5px;"><?=($FTXqdRefBuyer == null) ? '-' : $FTXqdRefBuyer?></label>
 									<?php } ?>
@@ -322,13 +389,14 @@
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
 										<input <?=$tDisabled?> 
+											<?=@$FTPdtStaCancel == '1' ? 'disabled' : ''; //สินค้ายกเลิก ?>
 											data-docnumber="<?=$aValue['FTXqhDocNo']?>" 
 											data-seq='<?=$aValue['FNXqdSeq']?>' 
 											data-pdtcode='<?=$aValue['FTPdtCode']?>' 
 											onchange="JSxUpdateInline(this,'PIKDATE');" 
 											type="text" <?=$tDisabledKey?> 
 											maxlength="10" 
-											class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNPIKDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" 
+											class="<?=$tClassDisabledInput?> xCNEditInline xCNDatePicker xCNPIKDATE<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?> <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelInput' : ''; ?>"
 											style="text-align: left; width:100%;" 
 											placeholder="<?=$tPlaceholder?>" 
 											value="<?=@$FDXqdPikDate?>">
@@ -360,13 +428,14 @@
 									<!--มีสิทธิแก้ไข-->
 									<?php if($tPer_edit == ''){ ?>
 										<input <?=$tDisabled?> 
+										<?=@$FTPdtStaCancel == '1' ? 'disabled' : ''; //สินค้ายกเลิก ?>
 										data-docnumber="<?=$aValue['FTXqhDocNo']?>" 
 										data-seq='<?=$aValue['FNXqdSeq']?>' 
 										data-pdtcode='<?=$aValue['FTPdtCode']?>' 
 										onchange="JSxUpdateInline(this,'REFCON');" 
 										type="text" <?=$tDisabledKey?> 
 										maxlength="20" 
-										class="<?=$tClassDisabledInput?> xCNEditInline xCNGetBill<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?>" 
+										class="<?=$tClassDisabledInput?> xCNEditInline xCNGetBill<?=$aValue['FTXqhDocNo']?><?=$aValue['FNXqdSeq']?> <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelInput' : ''; ?>" 
 										style="text-align: left; width: 100%;" 
 										value="<?=@$FTXqdRefInv?>">
 									<?php }else{ ?>
@@ -587,5 +656,86 @@
 			}
 		});
 
+	}
+
+	//ยกเลิกสินค้าใน DT
+	function JSxDTInQuotationCancel(elem){
+		var bCheckCancel 	= $(elem).parent().parent().parent().hasClass('xCNDTCancel');
+		var oElem			= $(elem).parent().parent().parent();
+		if(bCheckCancel == true){ //เปลี่ยนใจ เอาสินค้าตัวนั้นกลับมาใช้งาน
+			var nUpdateCancel	= 0;
+			$(oElem).removeClass('xCNDTCancel');
+			$(oElem).find('td:eq(7) .xCNStatusDT').removeClass('xCNDTCancelStatus');
+
+			if(!$(oElem).find('.xCNFreezeSection1 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection1 .xCNEditInline').attr('disabled',false).removeClass('xCNDTCancelInput');
+			}
+
+			if(!$(oElem).find('.xCNFreezeSection2 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection2 .xCNEditInline').attr('disabled',false).removeClass('xCNDTCancelInput');
+			}
+
+			if(!$(oElem).find('.xCNFreezeSection3 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection3 .xCNEditInline').attr('disabled',false).removeClass('xCNDTCancelInput');
+			}
+
+			if(!$(oElem).find('.xCNFreezeSection4 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection4 .xCNEditInline').attr('disabled',false).removeClass('xCNDTCancelInput');
+			}
+		
+			if(!$(oElem).find('.xCNFreezeSection5 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection5 .xCNEditInline').attr('disabled',false).removeClass('xCNDTCancelInput');
+			}
+
+		}else{ //กดยกเลิกสินค้าตัวนั้น
+			var nUpdateCancel	= 1;
+			$(oElem).addClass('xCNDTCancel');
+			$(oElem).find('td:eq(7) .xCNStatusDT').addClass('xCNDTCancelStatus');
+
+			if(!$(oElem).find('.xCNFreezeSection1 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection1 .xCNEditInline').attr('disabled',true).addClass('xCNDTCancelInput');
+			}
+
+			if(!$(oElem).find('.xCNFreezeSection2 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection2 .xCNEditInline').attr('disabled',true).addClass('xCNDTCancelInput');
+			}
+
+			if(!$(oElem).find('.xCNFreezeSection3 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection3 .xCNEditInline').attr('disabled',true).addClass('xCNDTCancelInput');
+			}
+
+			if(!$(oElem).find('.xCNFreezeSection4 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection4 .xCNEditInline').attr('disabled',true).addClass('xCNDTCancelInput');
+			}
+		
+			if(!$(oElem).find('.xCNFreezeSection5 .xCNEditInline').hasClass('xCNClassDisabledInput')){
+				$(oElem).find('.xCNFreezeSection5 .xCNEditInline').attr('disabled',true).addClass('xCNDTCancelInput');
+			}
+
+		}
+
+		var tDocumentnumber = $(oElem).attr('data-documentnumber');
+		var nSeqitem 		= $(oElem).attr('data-seqitem');
+		var tPdtCode 		= $(oElem).attr('data-pdtcode');
+
+		//ส่งค่าไปอัพเดท flag ใน DT
+		$.ajax({
+			type	: "POST",
+			url		: 'r_quotationupdateDTCancel',
+			data 	: {
+				'tDocumentnumber'		: tDocumentnumber,
+				'nSeqitem' 				: nSeqitem,
+				'tPdtCode'				: tPdtCode,
+				'nUpdateCancel'			: nUpdateCancel
+			},
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
 	}
 </script>

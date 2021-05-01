@@ -1,27 +1,34 @@
+<style>
+	.custom-file-input ~ .custom-file-label::after {
+		content: "เลือกไฟล์";
+	}
+</style>
+
 <?php
 	$tLevelUser = $this->session->userdata('tSesUserLevel');
 	if($tTypePage == 'insert'){
-		$tRoute 		= 'r_usereventinsert';
-		$tRouteUrl		= 'สร้างผู้ใช้';
-		$FNStaUse       = 1;
+		$tRoute 			= 'r_usereventinsert';
+		$tRouteUrl			= 'สร้างผู้ใช้';
+		$FNStaUse       	= 1;
 	}else if($tTypePage == 'edit'){
-		$FTUsrCode 		= $aResult[0]['FTUsrCode'];
-		$FTBchCode		= $aResult[0]['FTBchCode'];
-		$FTUsrFName		= $aResult[0]['FTUsrFName'];
-		$FTUsrLName		= $aResult[0]['FTUsrLName'];
-		$FTUsrDep		= $aResult[0]['FTUsrDep'];
-		$FTUsrEmail		= $aResult[0]['FTUsrEmail'];
-		$FTUsrTel		= $aResult[0]['FTUsrTel'];
-		$FTUsrLogin		= $aResult[0]['FTUsrLogin'];
-		$FTUsrPwd		= $aResult[0]['FTUsrPwd'];
-		$FTUsrImgPath	= $aResult[0]['FTUsrImgPath'];
-		$FTUsrRmk		= $aResult[0]['FTUsrRmk'];
-		$FNRhdID		= $aResult[0]['FNRhdID'];
-		$FTPriGrpID		= $aResult[0]['FTPriGrpID'];
-		$FNStaUse		= $aResult[0]['FNStaUse'];
-		$FNUsrGrp		= $aResult[0]['FNUsrGrp'];
-		$tRoute 		= 'r_usereventedit';
-		$tRouteUrl		= 'แก้ไขผู้ใช้';
+		$FTUsrCode 			= $aResult[0]['FTUsrCode'];
+		$FTBchCode			= $aResult[0]['FTBchCode'];
+		$FTUsrFName			= $aResult[0]['FTUsrFName'];
+		$FTUsrLName			= $aResult[0]['FTUsrLName'];
+		$FTUsrDep			= $aResult[0]['FTUsrDep'];
+		$FTUsrEmail			= $aResult[0]['FTUsrEmail'];
+		$FTUsrTel			= $aResult[0]['FTUsrTel'];
+		$FTUsrLogin			= $aResult[0]['FTUsrLogin'];
+		$FTUsrPwd			= $aResult[0]['FTUsrPwd'];
+		$FTUsrImgPath		= $aResult[0]['FTUsrImgPath'];
+		$FTUsrRmk			= $aResult[0]['FTUsrRmk'];
+		$FNRhdID			= $aResult[0]['FNRhdID'];
+		$FTPriGrpID			= $aResult[0]['FTPriGrpID'];
+		$FNStaUse			= $aResult[0]['FNStaUse'];
+		$FNUsrGrp			= $aResult[0]['FNUsrGrp'];
+		$FTUsrPathSignature = $aResult[0]['FTUsrPathSignature'];
+		$tRoute 			= 'r_usereventedit';
+		$tRouteUrl			= 'แก้ไขผู้ใช้';
 	}
 ?>
 
@@ -138,6 +145,7 @@
 								<select class="form-control" id="oetUserGrp" name="oetUserGrp">
 									<option <?=(@$FNUsrGrp == 1)? "selected" : "";?> value="1">พนักงานจัดซื้อ</option>
 									<option <?=(@$FNUsrGrp == 2)? "selected" : "";?> value="2">พนักงานขาย</option>
+									<option <?=(@$FNUsrGrp == 5)? "selected" : "";?> value="5">พนักงานบัญชี</option>
 									<option <?=(@$FNUsrGrp == 3)? "selected" : "";?> value="3">ผู้จัดการ</option>
 									<option <?=(@$FNUsrGrp == 4)? "selected" : "";?> value="4">เจ้าของกิจการ</option>
 								</select>
@@ -202,6 +210,16 @@
 							</select>
 						</div>
 
+						<!--อัพโหลดรูปภาพ-->
+						<div class="form-group">
+							<label>รูปภาพลายเซ็นดิจิตอล</label>
+							<div id="odvModalCrop" class="form-group custom-file">
+								<input type="file" class="custom-file-input" onchange="JSoImagUplodeAndCrop(this, 16 / 9 , 'images/user')" id="inputfile" name="inputfile" accept="image/*">
+								<input type="hidden" class="form-control" id="hiddenvalue_signature" name="hiddenvalue_signature" value="<?=@$FTUsrPathSignature; ?>">
+								<label class="custom-file-label" for="inputfile" >เลือกไฟล์รูปภาพ</label>
+							</div>
+						</div>
+
 						<label class="container-checkbox">ใช้งาน
 							<input type="checkbox" id="ocmUserStaUse" name="ocmUserStaUse" <?=@$FNStaUse == '1' ? 'checked' : ''; ?>>
 							<span class="checkmark"></span>
@@ -221,6 +239,10 @@
 	if('<?=$tTypePage?>' == 'edit' && '<?=$tPer_edit?>' != ''){
 		$('.form-control').attr('disabled',true);
 		$('.xCNChooseImage').hide();
+	}
+
+	if('<?=$tTypePage?>' == 'edit'){
+		$('.custom-file-label').html('<?=@$FTUsrPathSignature?>');
 	}
 
 	//อัพโหลดรูปภาพ
@@ -302,5 +324,128 @@
 				alert(jqXHR, textStatus, errorThrown);
 			}
 		});
+	}
+
+	//image upload
+	function JSoImagUplodeAndCrop(poImg,ptRetio,ptPath,paOption = ''){
+		var oImgData = poImg.files[0];
+		var oImgFrom = new FormData();
+		oImgFrom.append('file',oImgData);
+		oImgFrom.append('path', ptPath);
+		
+		$.ajax({
+			type 		: "POST",
+			url 		: "ImageUpload_andcrop",
+			cache 		: false,
+			contentType	: false,
+			processData	: false,
+			data 		: oImgFrom,
+			datatype	: "JSON",
+			success: function (tResult){
+				if(tResult!=""){
+					JSxImagCroup(tResult,ptRetio,ptPath,paOption);
+
+					var fileName = poImg.files[0].name;
+        			$('.custom-file-label').html(fileName);
+				}
+			},
+			error: function (data){
+				console.log(data);
+			}
+		})
+	}
+
+	//image crop
+	function JSxImagCroup(poImgData,ptRetion,ptPath,paOption = ''){
+		var aImgData = JSON.parse(poImgData);
+		if(aImgData.tImgBase64 != ""){
+			$('#odvModalCrop')
+			.append('<div class="modal fade" id="oModalCropper" aria-labelledby="modalLabel" role="dialog" tabindex="-1">'
+					+ '<div class="modal-dialog" role="document" style="z-index:2000; margin-top: 60px;">'
+					+ '<div class="modal-content"> <div class="modal-header" style="padding-bottom:10px;"> '
+					+ '<h5 class="modal-title" id="modalLabel" style="margin:0px 0px 0px 0px; float:left;">ตัดรูปภาพ (ใช้ลูกลิ้งเมาส์ในการซูมเข้าซูมออก)</h5>'
+					+ '<button id="oModalCropperdelete" type="button" class="close" data-dismiss="modal" aria-label="Close" style="float:right; margin: 0px -10px 0px 0px;">'
+					+ '<span aria-hidden="true" style="color: #FFF;">&times;</span> </button> </div> <div class="modal-body"> <div> <img id="oImageCropper" style="max-width: 60%;" src="'
+					+ aImgData.tImgBase64 + '" alt="Picture"> </div> </div> <div class="modal-footer"> '
+					+ '<div class="row" style="margin: 0px; width: 100%;">'
+					+ '<div class="col-lg-9">'
+					+ '<span style="font-size: 18px;">คำแนะนำ : รูปภาพควรเป็น .png , พื้นหลังโปร่ง , transparent</span>'
+					+ '</div>'
+					+ '<div class="col-lg-3" style="padding-right: 0px;">'
+					+ '<button type="button" class="btn btn-outline-primary pull-right xWBtnCropImage" title="Crop"> <span> ครอบภาพ </span> </button> '
+					+ '</div> </div> </div> </div>');
+		}
+		setTimeout(function(){
+			$('#oModalCropper').modal({backdrop: 'static',keyboard: false});
+			$('#oModalCropper').modal("show");
+			var $image 	= $('#oImageCropper');
+			var $button = $('.xWBtnCropImage');
+			
+			var cropBoxData;
+			var canvasData;
+			$('#oModalCropper').on('shown.bs.modal', function() {
+				$image.cropper({
+					width 			: 215,
+					height 			: 130,
+					viewMode 		: 1,
+					dragMode 		: 'move',
+					autoCropArea 	: 0.7,
+					restore 		: false,
+					guides 			: false,
+					highlight 		: false,
+					cropBoxMovable 	: false,
+					cropBoxResizable : false,
+					aspectRatio : ptRetion,
+					ready : function(){
+						$image.cropper('setCanvasData', canvasData);
+						$image.cropper('setCropBoxData', cropBoxData);
+					}
+				});
+			}).on('hidden.bs.modal', function(){
+				cropBoxData = $image.cropper('getCropBoxData');
+				canvasData = $image.cropper('getCanvasData');
+				$image.cropper('destroy');
+				$('#oModalCropper').remove();
+			});
+
+			$button.on('click', function(){
+				var croppedCanvas;
+				var roundedCanvas;
+				croppedCanvas = $image.cropper('getCroppedCanvas');
+				roundedCanvas = croppedCanvas.toDataURL();
+				$.ajax({
+					type 	: "POST",
+					url		: "ImageCropper",
+					cache 	: false,
+					data	:	{
+						'tBase64'	: roundedCanvas,
+						'tImgName'	: aImgData.tImgName,
+						'tImgtype'	: aImgData.tImgType,
+						'tImgPath'	: aImgData.tImgFullPath
+					} ,
+					success: function(tResult){
+						if(tResult!=""){
+							var aResult		= JSON.parse(tResult);
+							var tBaseurl	= aResult.rtBaseurl;
+							var	tImgName	= aResult.rtImgName;
+
+							// $('#'+paOption[1]).attr("src",'<?=base_url();?>'+'application/assets/'+ptPath+'/'+tImgName);
+							$('#inputfile').val('');
+							$('#hiddenvalue_signature').val('/'+tImgName);
+							$('#oModalCropper').modal("hide");	
+						}
+					},
+					error: function(data){
+						console.log(data);
+					}
+				});
+			});
+
+			$('#oModalCropperdelete').click(function(){
+				$('.custom-file-label').html('เลือกไฟล์รูปภาพ');
+				$('#inputfile').val('');
+				$('#hiddenvalue_signature').val('');
+			});
+		},500);
 	}
 </script>

@@ -12,6 +12,7 @@
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.common.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/prowork.checkbox.css')?>">
 	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/bootstrap-datepicker.css')?>">
+	<link rel="stylesheet" 		href="<?=base_url('application/assets/css/cropper.min.css')?>">
 
 </head>
 <body style="background: #f1f2f7;">
@@ -164,4 +165,5 @@
 <script src="<?=base_url('application/assets/js/')?>main.js"></script>
 <script src="<?=base_url('application/assets/js/')?>bootstrap-datepicker.js"></script>
 <script src="<?=base_url('application/assets/js/')?>xlsx.full.min.js"></script>
-<!-- <script src="https://kit.fontawesome.com/a65b409245.js" crossorigin="anonymous"></script> -->
+<script src="<?=base_url('application/assets/js/')?>cropper.min.js"></script>
+

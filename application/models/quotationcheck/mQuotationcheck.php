@@ -56,6 +56,7 @@ class mQuotationcheck extends CI_Model{
 						DT.FTXqdRefInv,
 						DT.FTXqdConsignee,
 						DT.FTXqdRefBuyer,
+						DT.FTPdtStaCancel,
 						UNIT.FTPunName
 					 FROM TARTSqHD HD
 					 LEFT JOIN TARTSqDT DT ON HD.FTXqhDocNo = DT.FTXqhDocNo
@@ -249,6 +250,19 @@ class mQuotationcheck extends CI_Model{
 				$this->db->update('TARTSqDT');
 			}
 
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//อัพเดทข้อมูลในสินค้าให้ยกเลิก
+	public function FSaMCPIUpdateDTCancel($paItem){
+		try{
+			$this->db->set('FTPdtStaCancel', $paItem['nUpdateCancel']);
+			$this->db->where('FTXqhDocNo', $paItem['tDocumentnumber']);
+			$this->db->where('FNXqdSeq', $paItem['nSeqitem']);
+			$this->db->where('FTPdtCode', $paItem['tPdtCode']);
+			$this->db->update('TARTSqDT');
 		}catch(Exception $Error){
 			echo $Error;
 		}

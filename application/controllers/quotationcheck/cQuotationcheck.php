@@ -26,7 +26,7 @@ class cQuotationcheck extends CI_Controller {
 
 		$aCondition = array(
 			'nPage'         	=> $nPage,
-			'nRow'          	=> 10,
+			'nRow'          	=> 15,
 			'BCH'    			=> $BCH,
 			'DocumentNumber'    => $DocumentNumber,
 			'tStaDoc'    		=> $tStaDoc,
@@ -89,6 +89,17 @@ class cQuotationcheck extends CI_Controller {
 
 		$tReturn = $this->mQuotationcheck->FSaMQTCUpdate($aSet,$aWhere);
 		return $tReturn;
+	}
+
+	//อัพเดทข้อมูลสินค้าตัวนั้นให้ยกเลิก
+	public function FSwCCPIUpdateDTCancel(){
+		$aCondition = array(
+			'tDocumentnumber' 	=> $this->input->post('tDocumentnumber'),
+			'nSeqitem' 			=> $this->input->post('nSeqitem'),
+			'tPdtCode' 			=> $this->input->post('tPdtCode'),
+			'nUpdateCancel'	 	=> $this->input->post('nUpdateCancel')
+		);
+		$this->mQuotationcheck->FSaMCPIUpdateDTCancel($aCondition);
 	}
 
 }

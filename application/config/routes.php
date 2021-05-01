@@ -77,7 +77,7 @@ $route['r_quoCancleDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventCancle
 $route['r_quoApproveDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventApproveDocument';
 $route['r_selectCustomer'] 						= 'quotation/cQuotationDoc/FSxCQUOSelectCustomer';
 $route['r_quoPrintForm/(:any)/(:any)'] 			= 'quotation/cQuotationDoc/FSaCQUODocPrintForm/$1/$2';
-$route['r_NumberToCurrency']           =   'quotation/cQuotationDoc/FCNtReadNumberToCurrency';
+$route['r_NumberToCurrency']           			= 'quotation/cQuotationDoc/FCNtReadNumberToCurrency';
 
 //หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
 $route['r_groupproduct'] 						= 'product/groupproduct/cGroupproduct/index';
@@ -204,6 +204,7 @@ $route['r_quotationListDelete'] 				= 'quotationList/cQuotationList/FSwCPILEvent
 $route['r_quotationcheck'] 						= 'quotationcheck/cQuotationcheck/index';
 $route['r_quotationcheckload'] 					= 'quotationcheck/cQuotationcheck/FSwCCPILoadDatatable';
 $route['r_quotationcheckUpdate'] 				= 'quotationcheck/cQuotationcheck/FSwCCPIUpdateRecord';
+$route['r_quotationupdateDTCancel'] 			= 'quotationcheck/cQuotationcheck/FSwCCPIUpdateDTCancel';
 
 //หน้าบัญชีส่วนตัว ( start : 30-04-2020 / done : 30-04-2020 )
 $route['r_information'] 						= 'information/cInformation/index';
@@ -216,4 +217,9 @@ $route['r_reportPageDetail'] 					= 'report/cReport/FSwCREPPageDetail';
 $route['r_reportTable'] 						= 'report/cReport/FSwCREPLoadDetailDatatable';
 $route['r_reportExcel'] 						= 'report/cReport/FSwCREPExportExcel';
 
+//เลือกการค้นหาแบบพิเศษ
 $route['r_selectAttribute'] 					= 'product/product/cProduct/FSwCPDTHTMLAttribute';
+
+//อัพโหลดรูปภาพ + ครอบรูปภาพ
+$route['ImageUpload_andcrop'] 					= 'user/user/cUser/FSvCAdminUploadimage';
+$route['ImageCropper'] 							= 'user/user/cUser/FSvCAdminCropperimage';
