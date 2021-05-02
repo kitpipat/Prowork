@@ -223,6 +223,14 @@ class cUser extends CI_Controller {
 		}
 		echo json_encode($rtImg);
 	}
+	
+	//เอาไว้ทดสอบ จำนวน record ในการแสดงผลของ PDT ว่าแสดงถูกต้องไหม
+	public function FSxGenrecordfordemopdt(){
+		$t = $this->input->post('oetQtyReport');
+		for($i=0; $i<$t; $i++){
+			$this->mUser->Genrecordfordemopdt($i);
+		}
+	}
 
 
 }

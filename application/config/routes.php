@@ -28,6 +28,7 @@ $route['r_usercallpageInsertorEdit'] 			= 'user/user/cUser/FSwCUSRCallPageInsert
 $route['r_usereventinsert'] 					= 'user/user/cUser/FSwCUSREventInsert';
 $route['r_usereventdelete'] 					= 'user/user/cUser/FSxCUSREventDelete';
 $route['r_usereventedit'] 						= 'user/user/cUser/FSxCUSREventEdit';
+$route['r_genrecordfordemopdt'] 				= 'user/user/cUser/FSxGenrecordfordemopdt';
 
 //หน้าจอ : กลุ่มสิทธิ์ ( start : 06-04-2020 / done : 06-04-2020 )
 $route['r_permission'] 							= 'user/permission/cPermission/index';

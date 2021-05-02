@@ -23,6 +23,30 @@
 	if($aPermission['P_edit'] != 1){ $tPer_edit = 'xCNHide'; }else{ $tPer_edit = ''; }
 ?>
 
+<!--เอาไว้ทดสอบการแสดงผลของ PDT ว่าโชว์จำนวนถูกต้องครบถ้วนไหม-->
+<input type="number" id="oetQtyReport">
+<button type="button" id="oetClick" onclick="JSxGenrecordfordemopdt();">ทดสอบจำนวน (เดียวมาลบ)</button>
+<script>
+	function JSxGenrecordfordemopdt(){
+		$.ajax({
+			type	: "POST",
+			url		: "r_genrecordfordemopdt",
+			data 	: {
+						'oetQtyReport'  : $('#oetQtyReport').val()
+						},
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('#oetQtyReport').val('');
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				alert(jqXHR, textStatus, errorThrown);
+			}
+		});
+	}
+</script>
+<!--เดียวมาลบ-->
+
 <div class="container-fulid">
 	<!--Section ล่าง-->
 	<div class="row">

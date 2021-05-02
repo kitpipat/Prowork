@@ -241,4 +241,17 @@ class mUser extends CI_Model {
 		}
 		return $aResult;
 	}
+
+	//เอาไว้ทดสอบ จำนวน record ในการแสดงผลของ PDT ว่าแสดงถูกต้องไหม
+	public function Genrecordfordemopdt($i){
+		if($i == 0){
+			$tSQL = "DELETE TARTSqDT WHERE  FTXqhDocNo = 'SQ0000120210502-00012' ";
+			$this->db->query($tSQL);
+		}
+
+		$tSQL = "INSERT INTO TARTSqDT 
+			([FTXqhDocNo], [FNXqdSeq], [FTPdtCode], [FTPdtName]) 
+			VALUES ('SQ0000120210502-00012', '$i', 'DZ47LE-1P-50', 'เครื่องตัดไฟรั่ว');";
+		$oQuery = $this->db->query($tSQL);
+	}
 }
