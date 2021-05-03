@@ -191,7 +191,7 @@
 					}, 3000);
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					alert(jqXHR, textStatus, errorThrown);
+					JSxModalErrorCenter(jqXHR.responseText);
 				}
 			});
 		});

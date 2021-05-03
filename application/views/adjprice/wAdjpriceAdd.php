@@ -466,7 +466,7 @@
 							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
-							alert(jqXHR, textStatus, errorThrown);
+							JSxModalErrorCenter(jqXHR.responseText);
 						}
 					});
 
@@ -544,7 +544,7 @@
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -572,7 +572,7 @@
 				JSvLoadTableDTTmp(1);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -624,7 +624,7 @@
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -653,7 +653,7 @@
 				$('#odvContentSelectPDT').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -680,7 +680,7 @@
 					JSvLoadTableDTTmp(1);
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					alert(jqXHR, textStatus, errorThrown);
+					JSxModalErrorCenter(jqXHR.responseText);
 				}
 			});
 		}else{
@@ -715,7 +715,7 @@
 					}, 3000);
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					alert(jqXHR, textStatus, errorThrown);
+					JSxModalErrorCenter(jqXHR.responseText);
 				}
 			});
 		});
@@ -748,7 +748,7 @@
 					}, 3000);
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					alert(jqXHR, textStatus, errorThrown);
+					JSxModalErrorCenter(jqXHR.responseText);
 				}
 			});
 		});

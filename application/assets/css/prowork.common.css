@@ -867,3 +867,10 @@ table tbody .xCNTableGroupMenu{
 	display: inline;
     margin-right: 10px;
 }
+
+.xCNPanelErrorCenter{
+	border: 1px solid #e9ecef;
+	border-radius: 0px;
+	padding: 10px;
+	text-decoration: underline;
+}

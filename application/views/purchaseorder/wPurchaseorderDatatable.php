@@ -1,5 +1,5 @@
 <?php
-	$aPermission = FCNaPERGetPermissionByPage('r_adjprice');
+	$aPermission = FCNaPERGetPermissionByPage('r_purchaseorder');
 	$aPermission = $aPermission[0];
 	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
 	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
@@ -14,13 +14,11 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="min-width: 100px; text-align: left;">เลขที่เอกสาร</th>
+		<th style="text-align: left;">เลขที่เอกสาร</th>
 		<th style="width:200px; text-align: left;">วันที่-เวลาเอกสาร</th>
 		<th style="width:150px; text-align: left;">วันที่มีผล</th>
-		<th style="width:150px; text-align: left;">กลุ่มราคาที่มีผล</th>
 		<th style="width:120px; text-align: left;">สถานะเอกสาร</th>
-		<!-- <th style="width:120px; text-align: left;">สถานะอนุมัติ</th> -->
-		<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
+		<th style="width:120px; text-align: left;">ผู้อนุมัติ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
     </tr>
@@ -32,9 +30,7 @@
 					<th><?=$aValue['rtRowID']?></th>
 					<td><?=$aValue['FTXphDocNo']?></td>
 					<td><?=date('d/m/Y',strtotime($aValue['FDXphDocDate'])) . ' - ' . $aValue['FTXphDocTime'];?></td>
-					<td><?=date('d/m/Y',strtotime($aValue['FDXphDateAtv']))?></td>
-
-					<td><?=$aValue['FTPriGrpName']?></td>
+					<td><?=date('d/m/Y',strtotime($aValue['FDXphDStart']))?></td>
 
 					<!--สถานะเอกสาร-->
 					<?php 
@@ -61,25 +57,6 @@
 					?>
 					<td><span class="<?=$tClassStaDoc?>"><?=$tTextStaDoc?></span></td>
 
-					<!--สถานะอนุมัติ-->
-					<?php 
-						/*if($aValue['FTXphStaApv'] == 1){
-							$tTextStaApv 			= "อนุมัติแล้ว";
-							$tClassStaApv 			= 'xCNTextClassStatus_open';
-							$tIconClassStaApv 		= 'xCNIconStatus_open';
-						}else{
-							if($aValue['FTXphStaDoc'] == 2){
-								$tTextStaApv 			= "-";
-								$tClassStaApv 			= '';
-								$tIconClassStaApv 		= '';
-							}else{
-								$tTextStaApv 			= "รออนุมัติ";
-								$tClassStaApv 			= 'xCNTextClassStatus_close';
-								$tIconClassStaApv 		= 'xCNIconStatus_close';
-							}
-						}*/
-					?>
-					<!-- <td><div class="<?=$tIconClassStaApv?>"></div><span class="<?=$tClassStaApv?>"><?=$tTextStaApv?></span></td> -->
 					<td><?=($aValue['FTUsrFName'] == '') ? '-' : $aValue['FTUsrFName'];?></td>
 
 					<!--ถ้าอนุมัติแล้วจะลบไม่ได้-->
@@ -89,7 +66,7 @@
 								$oEventDelete 			= '';
 								$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
 							}else{
-								$oEventDelete 			= "JSxAJP_Delete('".$aValue['FTXphDocNo']."')";
+								$oEventDelete 			= "JSxPO_Delete('".$aValue['FTXphDocNo']."')";
 								$tClassDisabledDelete 	= '';
 							}
 						}else{
@@ -97,7 +74,7 @@
 							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
 						}
 					 ?>
-					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwAJPCallPageInsert('edit','<?=$aValue['FTXphDocNo']?>');"></td>
+					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPOCallPageInsert('edit','<?=$aValue['FTXphDocNo']?>');"></td>
 					<td class='<?=$tPer_delete?>'><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete;?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>
 			<?php } ?>
@@ -114,14 +91,15 @@
     <div class="col-md-6">
 		<nav>
 			<ul class="xCNPagenation pagination justify-content-end">
+
 				<!--ปุ่มย้อนกลับ-->
 				<?php if($nPage == 1){ $tDisabledLeft = 'disabled'; }else{ $tDisabledLeft = '-';} ?>
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvAJP_ClickPage('Fisrt')"><span aria-hidden="true">&laquo;</span></a>
+					<a class="page-link" aria-label="Previous" onclick="JSvPO_ClickPage('Fisrt')"><span aria-hidden="true">&laquo;</span></a>
 				</li>
 
 				<li class="page-item <?=$tDisabledLeft;?>">
-					<a class="page-link" aria-label="Previous" onclick="JSvAJP_ClickPage('previous')"><span aria-hidden="true">&lsaquo;</span></a>
+					<a class="page-link" aria-label="Previous" onclick="JSvPO_ClickPage('previous')"><span aria-hidden="true">&lsaquo;</span></a>
 				</li>
 
 				<!--ปุ่มจำนวนหน้า-->
@@ -135,17 +113,17 @@
 							$tDisPageNumber = '';
 						}
 					?>
-					<li class="page-item <?=$tActive;?> " onclick="JSvAJP_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
+					<li class="page-item <?=$tActive;?> " onclick="JSvPO_ClickPage('<?=$i?>')"><a class="page-link"><?=$i?></a></li>
 				<?php } ?>
 
 				<!--ปุ่มไปต่อ-->
 				<?php if($nPage >= $aList['rnAllPage']){ $tDisabledRight = 'disabled'; }else{ $tDisabledRight = '-'; } ?>
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvAJP_ClickPage('next')"><span aria-hidden="true">&rsaquo;</span></a>
+					<a class="page-link" aria-label="Next" onclick="JSvPO_ClickPage('next')"><span aria-hidden="true">&rsaquo;</span></a>
 				</li>
 
 				<li class="page-item <?=$tDisabledRight?>">
-					<a class="page-link" aria-label="Next" onclick="JSvAJP_ClickPage('Last')"><span aria-hidden="true">&raquo;</span></a>
+					<a class="page-link" aria-label="Next" onclick="JSvPO_ClickPage('Last')"><span aria-hidden="true">&raquo;</span></a>
 				</li>
 			</ul>
 		</nav>
@@ -174,7 +152,7 @@
 
 <script>
 	//เปลี่ยนหน้า
-	function JSvAJP_ClickPage(ptPage) {
+	function JSvPO_ClickPage(ptPage) {
 		var nPageCurrent = '';
 		switch (ptPage) {
 			case 'Fisrt': //กดหน้าแรก
@@ -201,14 +179,14 @@
 	}
 
 	//ลบข้อมูล
-	function JSxAJP_Delete(ptCode){
+	function JSxPO_Delete(ptCode){
 		$('#obtModalDelete').click();
 
 		$('.xCNConfirmDelete').off();
 		$('.xCNConfirmDelete').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: 'r_adjpriceeventdelete',
+				url		: 'r_purchaseordereventdelete',
 				data 	: { 'ptCode' : ptCode },
 				cache	: false,
 				timeout	: 0,
@@ -219,7 +197,7 @@
 					$('.alert-success').find('.xCNTextShow').text('ลบข้อมูลสำเร็จ');
 
 					setTimeout(function(){
-						JSxCallPageAJPMain();
+						JSxCallPagePOMain();
 					}, 500);
 
 					setTimeout(function(){

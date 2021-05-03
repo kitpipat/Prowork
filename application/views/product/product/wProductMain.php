@@ -313,7 +313,7 @@
 							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
-							alert(jqXHR, textStatus, errorThrown);
+							JSxModalErrorCenter(jqXHR.responseText);
 						}
 					});
 
@@ -427,7 +427,7 @@
 				}, 1000);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -487,7 +487,7 @@
 				$('#odvContent_Product').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -509,7 +509,7 @@
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -527,7 +527,7 @@
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -567,7 +567,7 @@
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}

@@ -159,7 +159,6 @@ $route['r_producteventAproveDataInTmp'] 		= 'product/product/cProduct/FSxCPDTEve
 $route['r_producteventDeleteInTmp'] 			= 'product/product/cProduct/FSxCPDTEventDeleteDataInTmp';
 $route['r_searchProductFromBrand'] 				= 'product/product/cProduct/FSxCPDTEventSearchFromBrand';
 
-
 //หน้าจอใบปรับราคา ( start : 18-04-2020 / done : 19-04-2020 )
 $route['r_adjprice'] 							= 'adjprice/cAdjprice/index';
 $route['r_adjpriceload'] 						= 'adjprice/cAdjprice/FSwCAJPLoadDatatable';
@@ -194,7 +193,6 @@ $route['r_adjcostCancleDocument'] 				= 'adjcost/cAdjcost/FSxCAJCCancleDocument'
 $route['r_adjcostAprove'] 						= 'adjcost/cAdjcost/FSxCAJCAproveDocument';
 $route['r_adjcostAll'] 							= 'adjcost/cAdjcost/FSxCAJCChangeAdjCostALL';
 
-
 //หน้าข้อมูลใบเสนอราคา ( start : 24-04-2020 / done : 25-04-2020 )
 $route['r_quotationList'] 						= 'quotationList/cQuotationList/index';
 $route['r_quotationListload'] 					= 'quotationList/cQuotationList/FSwCPILLoadDatatable';
@@ -224,3 +222,9 @@ $route['r_selectAttribute'] 					= 'product/product/cProduct/FSwCPDTHTMLAttribut
 //อัพโหลดรูปภาพ + ครอบรูปภาพ
 $route['ImageUpload_andcrop'] 					= 'user/user/cUser/FSvCAdminUploadimage';
 $route['ImageCropper'] 							= 'user/user/cUser/FSvCAdminCropperimage';
+
+//หน้าจอใบสั้งซื้อ
+$route['r_purchaseorder'] 						= 'purchaseorder/cPurchaseorder/index';
+$route['r_purchaseorderload'] 					= 'purchaseorder/cPurchaseorder/FSwCPOLoadDatatable';
+$route['r_purchaseordercallpageInsertorEdit'] 	= 'purchaseorder/cPurchaseorder/FSwCPOCallPageInsertorEdit';
+$route['r_purchaseordereventdelete'] 			= 'purchaseorder/cPurchaseorder/FSxCPOEventDelete';

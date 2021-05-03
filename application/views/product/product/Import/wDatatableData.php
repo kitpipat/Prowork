@@ -326,7 +326,7 @@
 			timeout	: 0,
 			success	: function (tResult) {},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -377,7 +377,7 @@
 					}, 3000);
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
-					alert(jqXHR, textStatus, errorThrown);
+					JSxModalErrorCenter(jqXHR.responseText);
 				}
 			});
 		}else{

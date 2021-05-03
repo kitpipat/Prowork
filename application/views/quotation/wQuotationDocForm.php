@@ -613,7 +613,7 @@
 				$('.content').html(tResult);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -636,7 +636,7 @@
 				$('#odvContentSelectCustomer').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}

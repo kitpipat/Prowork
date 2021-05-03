@@ -128,7 +128,7 @@ jQuery(document).ready(function($) {
 				$('.xCNDialog_Footer').css('display','block');
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                alert(jqXHR, textStatus, errorThrown);
+                JSxModalErrorCenter(jqXHR.responseText);
             }
         });
 	});

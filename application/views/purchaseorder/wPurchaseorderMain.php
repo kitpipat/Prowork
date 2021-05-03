@@ -1,5 +1,5 @@
 <?php
-	$aPermission = FCNaPERGetPermissionByPage('r_customer');
+	$aPermission = FCNaPERGetPermissionByPage('r_purchaseorder');
 	$aPermission = $aPermission[0];
 	if($aPermission['P_read'] != 1){ 		$tPer_read 		= 'xCNHide'; }else{ $tPer_read = ''; }
 	if($aPermission['P_create'] != 1){ 		$tPer_create 	= 'xCNHide'; }else{ $tPer_create = ''; }
@@ -14,8 +14,8 @@
 
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ลูกค้า</span></div>
-		<div class="col-lg-6 col-md-6 <?=$tPer_create?>"><button class="xCNButtonInsert pull-right" onClick="JSwCustomerCallPageInsert('insert','')">+</button></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ใบสั้งซื้อ</span></div>
+		<div class="col-lg-6 col-md-6 <?=$tPer_create?>"><button class="xCNButtonInsert pull-right" onClick="JSwPOCallPageInsert('insert','')">+</button></div>
 	</div>
 
 	<!--Section ล่าง-->
@@ -36,7 +36,7 @@
 				</div>
 
 				<div class="col-lg-12">
-					<div id="odvContent_Customer" class="xCNContent"></div>
+					<div id="odvContent_PO" class="xCNContent"></div>
 				</div>
 			</div>
 		</div>
@@ -51,7 +51,7 @@
 	function JSwLoadTableList(pnPage){
 		$.ajax({
 			type	: "POST",
-			url		: "r_customerload",
+			url		: "r_purchaseorderload",
 			data 	: {
 						'nPage' 		: pnPage,
 						'tSearchAll' 	: $('#oetSearch').val()
@@ -60,7 +60,7 @@
 			timeout	: 0,
 			success	: function (tResult) {
 				JSxModalProgress('close');
-				$('#odvContent_Customer').html(tResult);
+				$('#odvContent_PO').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				JSxModalErrorCenter(jqXHR.responseText);
@@ -69,11 +69,11 @@
 	}
 
 	//โหลดหน้า เพิ่มข้อมูล
-	function JSwCustomerCallPageInsert(ptType,ptCode){
+	function JSwPOCallPageInsert(ptType,ptCode){
 		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
-			url		: "r_customercallpageInsertorEdit",
+			url		: "r_adjcostcallpageInsertorEdit",
 			data 	: {
 						'tTypepage'  : ptType,
 						'tCode'	 	 : ptCode
@@ -81,7 +81,7 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				JSxModalProgress('close');
+				localStorage.clear();
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -91,11 +91,11 @@
 	}
 
 	//กด ย้อนกลับ(กลับหน้า main)
-	function JSxCallPageCustomerMain(){
+	function JSxCallPagePOMain(){
 		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
-			url		: "r_customer",
+			url		: "r_purchaseorder",
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {

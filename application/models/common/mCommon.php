@@ -29,7 +29,7 @@ class mCommon extends CI_Model {
 			LEFT JOIN TCNMRoleDT 	RODT ON ROHD.FNRhdID 	= RODT.FNRhdID
 			LEFT JOIN TSysMenu 		MENU ON MENU.FNMenID 	= RODT.FNMenID
 			LEFT JOIN TSysMenuGrp 	MGRP ON MENU.FNMegID 	= MGRP.FNMegID
-			WHERE USR.FTUsrCode = '$pnUserCode' AND FTMenStaUse = '1' AND RODT.FTRdtAlwRead = '1' ORDER BY MENU.FNMenSeq * 1 ASC ";
+			WHERE USR.FTUsrCode = '$pnUserCode' AND FTMenStaUse = '1' AND RODT.FTRdtAlwRead = '1' ORDER BY MENU.FTMenType , MENU.FNMenSeq * 1 ASC ";
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
             $aResult = array(

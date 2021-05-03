@@ -303,7 +303,7 @@
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -321,7 +321,7 @@
 				$('.content').html(tResult);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
@@ -369,7 +369,7 @@
 					+ aImgData.tImgBase64 + '" alt="Picture"> </div> </div> <div class="modal-footer"> '
 					+ '<div class="row" style="margin: 0px; width: 100%;">'
 					+ '<div class="col-lg-9">'
-					+ '<span style="font-size: 18px;">คำแนะนำ : รูปภาพควรเป็น .png , พื้นหลังโปร่ง , transparent</span>'
+					+ '<span style="font-size: 18px;">คำแนะนำ : รูปภาพควรเป็น พื้นหลังขาว , พื้นหลังโปร่ง , Transparent</span>'
 					+ '</div>'
 					+ '<div class="col-lg-3" style="padding-right: 0px;">'
 					+ '<button type="button" class="btn btn-outline-primary pull-right xWBtnCropImage" title="Crop"> <span> ครอบภาพ </span> </button> '

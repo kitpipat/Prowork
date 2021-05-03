@@ -581,7 +581,7 @@
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR);
-				alert(jqXHR, textStatus, errorThrown);
+				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}

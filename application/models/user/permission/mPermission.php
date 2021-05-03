@@ -73,7 +73,7 @@ class mPermission extends CI_Model {
 
 	//หาเมนูทั้งหมด
 	public function FSaMPERGetMenuAll(){
-		$tSQL = "SELECT * FROM TSysMenu MEN WHERE MEN.FTMenStaUse = 1 AND FNStaAlwSetPmi = 1";
+		$tSQL = "SELECT * FROM TSysMenu MEN WHERE MEN.FTMenStaUse = 1 AND FNStaAlwSetPmi = 1 ORDER BY MEN.FTMenType ASC";
 		$oQuery = $this->db->query($tSQL);
 		if($oQuery->num_rows() > 0){
 			$aResult = array(
@@ -152,7 +152,7 @@ class mPermission extends CI_Model {
 
 	//หาข้อมูลตาม ไอดี
 	public function FSaMPERGetDataPermissionBYID($ptCode){
-		$tSQL = " SELECT 
+		/*$tSQL = " SELECT 
 					RHD.FNRhdID,
 					RHD.FTRhdName,
 					RHD.FTRhdRmk, 
@@ -166,8 +166,38 @@ class mPermission extends CI_Model {
 					RDT.FTRdtAlwPrint
 					FROM TCNMRoleHD RHD";
 		$tSQL .= " LEFT JOIN TCNMRoleDT RDT ON RHD.FNRhdID = RDT.FNRhdID AND RDT.FNMenID != 1 ";
-		$tSQL .= " WHERE RHD.FNRhdID = '$ptCode' ";
+		$tSQL .= " WHERE RHD.FNRhdID = '$ptCode' ";*/
 
+		$tSQL = "SELECT MENU.FNMenID , MENU.FTMenType , MENU.FTMenName , A.FNRhdID , A.FTRhdRmk , A.FTRhdName , 
+				A.FTRdtAlwRead,
+				A.FTRdtAlwCreate,
+				A.FTRdtAlwDel,
+				A.FTRdtAlwEdit,
+				A.FTRdtAlwCancel,
+				A.FTRdtAlwApv,
+				A.FTRdtAlwPrint
+			FROM TSysMenu MENU 
+			LEFT JOIN (
+				SELECT
+					RHD.FNRhdID,
+					RHD.FTRhdName,
+					RHD.FTRhdRmk,
+					RDT.FNMenID,
+					RDT.FTRdtAlwRead,
+					RDT.FTRdtAlwCreate,
+					RDT.FTRdtAlwDel,
+					RDT.FTRdtAlwEdit,
+					RDT.FTRdtAlwCancel,
+					RDT.FTRdtAlwApv,
+					RDT.FTRdtAlwPrint
+				FROM
+					TCNMRoleHD RHD
+				LEFT JOIN TCNMRoleDT RDT ON RHD.FNRhdID = RDT.FNRhdID
+				AND RDT.FNMenID != 1
+				WHERE
+					RHD.FNRhdID = '$ptCode'
+			) A ON A.FNMenID = MENU.FNMenID
+			WHERE MENU.FTMenStaUse = 1 AND MENU.FNStaAlwSetPmi = 1 ORDER BY MENU.FTMenType ";
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->result_array();
 	}
