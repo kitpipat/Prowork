@@ -7,61 +7,62 @@
 			<?php if ($tPdtViewType == 1) { ?>
 					<?php if($aPdtList['rtCode'] != 800){ ?>
 						<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){
-									$tPdtCode 		= $aValue['FTPdtCode'];
-									$tPdtName 		= $aValue['FTPdtName'];
-									$tPunCode 		= $aValue['FTPunCode'];
-									$tSplCode 		= $aValue['FTSplCode'];
-									$nPdtCost 		= $aValue['FCPdtCostAFDis'];
-									$nPdtUnitPri 	= $aValue['FCPdtNetSalPri'];
-									$tPunName 		= $aValue['FTPunName'];
-									$FTPdtImage   = $aValue['FTPdtImage'];
-									$aItemsInfo = array(
-										"tPdtCode" 		=> $tPdtCode,
-										"tPdtName" 		=> $tPdtName,
-										"tPunCode" 		=> $tPunCode,
-										"tPunName" 		=> $tPunName,
-										"tSplCode" 		=> $tSplCode,
-										"nPdtCost" 		=> $nPdtCost,
-										"nPdtUnitPri" => $nPdtUnitPri
-									);
-									$tItemInfo = json_encode($aItemsInfo);
+							$tPdtCode 			= $aValue['FTPdtCode'];
+							$tPdtName 			= $aValue['FTPdtName'];
+							$tPunCode 			= $aValue['FTPunCode'];
+							$tSplCode 			= $aValue['FTSplCode'];
+							$nPdtCost 			= $aValue['FCPdtCostAFDis'];
+							$nPdtUnitPri 		= $aValue['FCPdtNetSalPri'];
+							$tPunName 			= $aValue['FTPunName'];
+							$FTPdtImage   		= $aValue['FTPdtImage'];
+							$FTPdtStaEditName	= $aValue['FTPdtStaEditName'];
+							$aItemsInfo = array(
+								"tPdtCode" 			=> $tPdtCode,
+								"tPdtName" 			=> $tPdtName,
+								"tPunCode" 			=> $tPunCode,
+								"tPunName" 			=> $tPunName,
+								"tSplCode" 			=> $tSplCode,
+								"nPdtCost" 			=> $nPdtCost,
+								"nPdtUnitPri" 		=> $nPdtUnitPri,
+								'FTPdtStaEditName' 	=> $FTPdtStaEditName
+							);
+							$tItemInfo = json_encode($aItemsInfo);
+						?>
+						<div class="col-sm-3 col-md-3 col-lg-3">
+							<?php
+								if($nKey >= 4){
+									$tClassCSSMargin = 'xCNClassPDTCardMargin';
+								}else{
+									$tClassCSSMargin = '';
+								}
 							?>
-							<div class="col-sm-3 col-md-3 col-lg-3">
+
+							<?php if($aValue['FTPdtBestsell'] == '1'){ //สินค้าขายดี  ?>
+								<div class="xCNCssForBestSell"><span class="xCNSpanCssBestSell">ขายดี</span></div>
+							<?php } ?>
+
+							<div title="เลือกรายการนี้" class="xCNImageCardPDT <?=$tClassCSSMargin?>" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
 
 								<?php
-									if($nKey >= 4){
-										$tClassCSSMargin = 'xCNClassPDTCardMargin';
+									if(@$FTPdtImage != '' || @$FTPdtImage != null){
+										$tPathImage = './application/assets/images/products/'.@$FTPdtImage;
+										if (file_exists($tPathImage)){
+											$tPathImage = base_url().'application/assets/images/products/'.@$FTPdtImage;
+										}else{
+											$tPathImage = base_url().'application/assets/images/products/NoImage.png';
+										}
 									}else{
-										$tClassCSSMargin = '';
+										$tPathImage = './application/assets/images/products/NoImage.png';
 									}
 								?>
-
-								<?php if($aValue['FTPdtBestsell'] == '1'){ //สินค้าขายดี  ?>
-									<div class="xCNCssForBestSell"><span class="xCNSpanCssBestSell">ขายดี</span></div>
-								<?php } ?>
-
-								<div title="เลือกรายการนี้" class="xCNImageCardPDT <?=$tClassCSSMargin?>" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">
-
-									<?php
-										if(@$FTPdtImage != '' || @$FTPdtImage != null){
-											$tPathImage = './application/assets/images/products/'.@$FTPdtImage;
-											if (file_exists($tPathImage)){
-												$tPathImage = base_url().'application/assets/images/products/'.@$FTPdtImage;
-											}else{
-												$tPathImage = base_url().'application/assets/images/products/NoImage.png';
-											}
-										}else{
-											$tPathImage = './application/assets/images/products/NoImage.png';
-										}
-									?>
-									<div class="xCNImageItem" style="background-image:url('<?=$tPathImage;?>')" ></div>
-									<div class="caption">
-										<span class="xCNPIPDTCode"><?=$tPdtCode;?></span>
-										<span class="xCNPIPDTName"><?=$tPdtName;?></span>
-										<span class="xCNPIPDTPrice">&#3647;<?php echo number_format($nPdtUnitPri, 2); ?></span>
-									</div>
+								<div class="xCNImageItem" style="background-image:url('<?=$tPathImage;?>')" ></div>
+								<div class="caption">
+									<span class="xCNPIPDTCode"><?=$tPdtCode;?></span>
+									<span class="xCNPIPDTName"><?=$tPdtName;?></span>
+									<span class="xCNPIPDTPrice">&#3647;<?php echo number_format($nPdtUnitPri, 2); ?></span>
 								</div>
 							</div>
+						</div>
 						<?php } ?>
 					<?php } else{ ?>
 						<div class="col-lg-12">
@@ -85,26 +86,27 @@
 							<tbody>
 								<?php if($aPdtList['rtCode'] != 800){ ?>
 									<?php foreach($aPdtList['raItems'] AS $nKey => $aValue){
-												$tPdtCode 		= $aValue['FTPdtCode'];
-												$tPdtName 		= $aValue['FTPdtName'];
-												$tPunCode 		= $aValue['FTPunCode'];
-												$tSplCode 		= $aValue['FTSplCode'];
-												$nPdtCost 		= $aValue['FCPdtCostAFDis'];
-												$nPdtUnitPri 	= $aValue['FCPdtNetSalPri'];
-												$tPunName 		= $aValue['FTPunName'];
-												$aItemsInfo 	= array(
-													"tPdtCode" 		=> $tPdtCode,
-													"tPdtName" 		=> $tPdtName,
-													"tPunCode" 		=> $tPunCode,
-													"tPunName" 		=> $tPunName,
-													"tSplCode" 		=> $tSplCode,
-													"nPdtCost" 		=> $nPdtCost,
-													"nPdtUnitPri" => $nPdtUnitPri
-												);
-												$tItemInfo = json_encode($aItemsInfo); ?>
+										$tPdtCode 			= $aValue['FTPdtCode'];
+										$tPdtName 			= $aValue['FTPdtName'];
+										$tPunCode 			= $aValue['FTPunCode'];
+										$tSplCode 			= $aValue['FTSplCode'];
+										$nPdtCost 			= $aValue['FCPdtCostAFDis'];
+										$nPdtUnitPri 		= $aValue['FCPdtNetSalPri'];
+										$tPunName 			= $aValue['FTPunName'];
+										$FTPdtStaEditName	= $aValue['FTPdtStaEditName'];
+										$aItemsInfo 	= array(
+											"tPdtCode" 			=> $tPdtCode,
+											"tPdtName" 			=> $tPdtName,
+											"tPunCode" 			=> $tPunCode,
+											"tPunName" 			=> $tPunName,
+											"tSplCode" 			=> $tSplCode,
+											"nPdtCost" 			=> $nPdtCost,
+											"nPdtUnitPri" 		=> $nPdtUnitPri,
+											'FTPdtStaEditName' 	=> $FTPdtStaEditName
+										);
+										$tItemInfo = json_encode($aItemsInfo); ?>
 										<tr>
 											<th ><?=$aValue['RowID']?></th>
-
 											<?php if($aValue['FTPdtBestsell'] == '1'){ //สินค้าขายดี  ?>
 												<td > <div class="xCNTableCssBestSell"><img src="<?=base_url('application/assets/images/icon/star.png')?>" style="width:15px; margin-top: -5px;"></div> <?=$tPdtCode;?> </td>
 											<?php }else{ ?>

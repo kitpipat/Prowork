@@ -78,19 +78,19 @@
 
 	function FSvQUOCallItemList() {
 		$.ajax({
-				url: 'r_quotationeventcallitemslist',
-				type: 'GET',
-				timeout: 0,
-				data: {},
-				datatype: 'json'
-			})
-			.done(function(data) {
-				JSxModalProgress('close');
-				$("#odvQuoItemsList").html(data);
-			})
-			.fail(function(jqXHR, textStatus, errorThrown) {
-				//serrorFunction();
-			});
+			url: 'r_quotationeventcallitemslist',
+			type: 'GET',
+			timeout: 0,
+			data: {},
+			datatype: 'json'
+		})
+		.done(function(data) {
+			JSxModalProgress('close');
+			$("#odvQuoItemsList").html(data);
+		})
+		.fail(function(jqXHR, textStatus, errorThrown) {
+			//serrorFunction();
+		});
 	}
 
 	//เลือกสินค้า เข้าตะกร้า

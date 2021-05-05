@@ -133,33 +133,28 @@ class cQuotation extends CI_Controller
 
 		$aItem = json_decode($oItem, true);
 
-		// $nQTY = $this->mQuotation->FCnMQUExitingItem(array(
-		// 	'tQuoDocNo' => $tQuoDocNo,
-		// 	'tWorkerID' => $tWorkerID,
-		// 	'tPdtCode'  => $aItem['tPdtCode']
-		// ));
-
 		$nQTY = 1;
 
 		$nXqdSeq = $this->mQuotation->FCaMQUOGetItemLastSeq(array(
-			"tDocNo" => $tQuoDocNo,
+			"tDocNo" 	=> $tQuoDocNo,
 			"tWorkerID" => $tWorkerID
 		));
 
 		$aItemData = array(
-			"FTXqhDocNo" => $tQuoDocNo,
-			"FNXqdSeq" => $nXqdSeq,
-			"FTPdtCode" => $aItem['tPdtCode'],
-			"FTPdtName" => $aItem['tPdtName'],
-			"FTPunCode" => $aItem['tPunCode'],
-			"FTPunName" => $aItem['tPunName'],
-			"FTSplCode" => $aItem['tSplCode'],
-			"FTXqdCost" => $aItem['nPdtCost'],
-			"FCXqdUnitPrice" => $nQTY * $aItem['nPdtUnitPri'],
-			"FCXqdQty" => $nQTY,
-			"FCXqdDis" => 0,
-			"FCXqdFootAvg" => 0,
-			"FTWorkerID" => $tWorkerID
+			"FTXqhDocNo" 		=> $tQuoDocNo,
+			"FNXqdSeq" 			=> $nXqdSeq,
+			"FTPdtCode" 		=> $aItem['tPdtCode'],
+			"FTPdtName" 		=> $aItem['tPdtName'],
+			"FTPunCode" 		=> $aItem['tPunCode'],
+			"FTPunName" 		=> $aItem['tPunName'],
+			"FTSplCode" 		=> $aItem['tSplCode'],
+			"FTXqdCost" 		=> $aItem['nPdtCost'],
+			"FCXqdUnitPrice" 	=> $nQTY * $aItem['nPdtUnitPri'],
+			"FCXqdQty" 			=> $nQTY,
+			"FCXqdDis" 			=> 0,
+			"FCXqdFootAvg" 		=> 0,
+			"FTWorkerID" 		=> $tWorkerID,
+			"FTPdtStaEditName"	=> $aItem['FTPdtStaEditName']
 		);
 
 		if ($nQTY == 1) {

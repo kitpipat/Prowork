@@ -15,67 +15,63 @@ class mQuotation extends CI_Model
 	{
 
 		$tSQL = "SELECT F.* FROM (
-                                       SELECT 'FGSPL' AS FTFilGrpCode,
-                                               'ผู้จำหน่าย'  AS FTFilGrpName ,
-                                               FTSplCode  AS FTFilCode ,
-                                               FTSplName  AS FTFilName
-                                        FROM TCNMSpl WITH (NOLOCK)
+				SELECT 'FGSPL' AS FTFilGrpCode,
+						'ผู้จำหน่าย'  AS FTFilGrpName ,
+						FTSplCode  AS FTFilCode ,
+						FTSplName  AS FTFilName
+				FROM TCNMSpl WITH (NOLOCK)
 
-                                        UNION ALL
+				UNION ALL
 
-                                        SELECT 'FGPBN' AS FTFilGrpCode,
-                                               'ยี่ห้อ' AS FTFilGrpName ,
-                                               FTPbnCode AS FTFilCode ,
-                                               FTPbnName AS FTFilName
-                                        FROM TCNMPdtBrand WITH (NOLOCK)
+				SELECT 'FGPBN' AS FTFilGrpCode,
+						'ยี่ห้อ' AS FTFilGrpName ,
+						FTPbnCode AS FTFilCode ,
+						FTPbnName AS FTFilName
+				FROM TCNMPdtBrand WITH (NOLOCK)
 
-                                        UNION ALL
+				UNION ALL
 
-                                        SELECT 'FGPGP' AS FTFilGrpCode,
-                                               'กลุ่มสินค้า' AS FTFilGrpName ,
-                                               FTPgpCode AS FTFilCode,
-                                               FTPgpName AS FTFilName
-                                        FROM TCNMPdtGrp WITH (NOLOCK)
+				SELECT 'FGPGP' AS FTFilGrpCode,
+						'กลุ่มสินค้า' AS FTFilGrpName ,
+						FTPgpCode AS FTFilCode,
+						FTPgpName AS FTFilName
+				FROM TCNMPdtGrp WITH (NOLOCK)
 
-                                        UNION ALL
+				UNION ALL
 
-                                        SELECT 'FGPTY' AS FTFilGrpCode,
-                                               'ประเภทสินค้า' AS FTFilGrpName ,
-                                               FTPtyCode AS FTFilCode,
-                                               FTPtyName  AS FTFilName
-                                        FROM TCNMPdtType WITH (NOLOCK)
-                                        UNION ALL
+				SELECT 'FGPTY' AS FTFilGrpCode,
+						'ประเภทสินค้า' AS FTFilGrpName ,
+						FTPtyCode AS FTFilCode,
+						FTPtyName  AS FTFilName
+				FROM TCNMPdtType WITH (NOLOCK)
+				UNION ALL
 
-                                        SELECT 'FGPZE' AS FTFilGrpCode,
-                                              'ขนาด' AS FTFilGrpName ,
-                                              FTPzeCode AS FTFilCode,
-                                              FTPzeName  AS FTFilName
-                                        FROM TCNMPdtSize WITH (NOLOCK)
+				SELECT 'FGPZE' AS FTFilGrpCode,
+						'ขนาด' AS FTFilGrpName ,
+						FTPzeCode AS FTFilCode,
+						FTPzeName  AS FTFilName
+				FROM TCNMPdtSize WITH (NOLOCK)
 
-                                        UNION ALL
+				UNION ALL
 
-                                        SELECT 'FGCLR' AS FTFilGrpCode,
-                                               'สี' AS FTFilGrpName ,
-                                               FTPClrCode AS FTFilCode,
-                                               FTPClrName  AS FTFilName
-                                        FROM TCNMPdtColor WITH (NOLOCK)
-
-                  ) F
-                  --WHERE FTFilCode = 'xxx'";
-
+				SELECT 'FGCLR' AS FTFilGrpCode,
+						'สี' AS FTFilGrpName ,
+						FTPClrCode AS FTFilCode,
+						FTPClrName  AS FTFilName
+				FROM TCNMPdtColor WITH (NOLOCK) ) F ";
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
 		if ($nCountRows > 0) {
 			$aResult = array(
-				'raItems'  => $oQuery->result_array(),
+				'raItems'  	=> $oQuery->result_array(),
 				'nTotalRes' => $nCountRows,
-				'rtCode'   => '1',
-				'rtDesc'   => 'success',
+				'rtCode'   	=> '1',
+				'rtDesc'   	=> 'success',
 			);
 		} else {
 			$aResult = array(
-				'rtCode' => '800',
-				'rtDesc' => 'data not found',
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'data not found',
 			);
 		}
 		return $aResult;
@@ -117,6 +113,7 @@ class mQuotation extends CI_Model
 						 PDT.FTSplCode,
                          PDT.FCPdtCostAFDis,
 						 PDT.FTPdtBestsell,
+						 PDT.FTPdtStaEditName,
                          PDT.FCPdtSalPrice AS FCPdtStdSalPri ,
                          SP.FCXpdAddPri AS FCPdtUsrSalPri,
                          CASE WHEN ISNULL(PDT.FCPdtSalPrice,0) = 0 AND  ISNULL(SP.FCXpdAddPri,0) = 0
@@ -130,13 +127,10 @@ class mQuotation extends CI_Model
 
 							  WHEN ISNULL(PDT.FCPdtSalPrice, 0) <> 0 AND ISNULL(SP.FCXpdAddPri, 0) <> 0
 							  THEN ISNULL(PDT.FCPdtCostAFDis, 0) + (ISNULL(PDT.FCPdtCostAFDis, 0) * ISNULL(SP.FCXpdAddPri, 0)) / 100
-
 						ELSE 0
 						END AS FCPdtNetSalPri
                   	FROM VCN_Products PDT WITH (NOLOCK)
-                  	LEFT JOIN ( SELECT *
-											          FROM VCN_AdjSalePriActive WITH (NOLOCK)
-											          WHERE FTPriGrpID = '" . $tPriceGrp . "' )SP ON PDT.FTPdtCode = SP.FTPdtCode
+                  	LEFT JOIN ( SELECT * FROM VCN_AdjSalePriActive WITH (NOLOCK) WHERE FTPriGrpID = '" . $tPriceGrp . "' ) SP ON PDT.FTPdtCode = SP.FTPdtCode
                 	LEFT JOIN TCNMPdtGrp PGP WITH (NOLOCK) 	ON PDT.FTPgpCode 	= PGP.FTPgpCode
 					LEFT JOIN TCNMPdtUnit PUN WITH (NOLOCK) 	ON PDT.FTPunCode 	= PUN.FTPunCode
 					LEFT JOIN TCNMPdtBrand BAP WITH (NOLOCK) 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
@@ -243,8 +237,6 @@ class mQuotation extends CI_Model
 			$tSQL .= " AND P.FTPdtName LIKE '%" . $tSearchAll . "%'";
 			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tSearchAll . "%'";
 		}
-
-
 
 		$tSQL .= " ) AS Q WHERE Q.NewRowID > $aRowLen[0] AND Q.NewRowID <=$aRowLen[1] ";
 
@@ -414,29 +406,19 @@ class mQuotation extends CI_Model
 	*/
 	public function FSxMQUOClearTemp()
 	{
-
-		$tSQL = "DELETE
-				          FROM TARTSqDTTmp
-				          WHERE CONVERT(VARCHAR(10) , FDTmpTnsDate , 121) < CONVERT(VARCHAR(10) , GETDATE() , 121) ";
+		$tSQL = "DELETE FROM TARTSqDTTmp WHERE CONVERT(VARCHAR(10) , FDTmpTnsDate , 121) < CONVERT(VARCHAR(10) , GETDATE() , 121) ";
 		$this->db->query($tSQL);
 	}
 
 	public function FSxMQUOClearTempByWorkID($ptWorkerID)
 	{
-
-		$tSQL1 = "DELETE
-								 FROM TARTSqHDTmp
-								 WHERE FTWorkerID = '" . $ptWorkerID . "'";
+		$tSQL1 = "DELETE FROM TARTSqHDTmp WHERE FTWorkerID = '" . $ptWorkerID . "'";
 		$this->db->query($tSQL1);
 
-		$tSQL2 = "DELETE
-								 FROM TARTSqHDCstTmp
-								 WHERE FTWorkerID = '" . $ptWorkerID . "'";
+		$tSQL2 = "DELETE FROM TARTSqHDCstTmp WHERE FTWorkerID = '" . $ptWorkerID . "'";
 		$this->db->query($tSQL2);
 
-		$tSQL3 = "DELETE
-									FROM TARTSqDTTmp
-									WHERE FTWorkerID = '" . $ptWorkerID . "'";
+		$tSQL3 = "DELETE FROM TARTSqDTTmp WHERE FTWorkerID = '" . $ptWorkerID . "'";
 		$this->db->query($tSQL3);
 	}
 
@@ -591,6 +573,7 @@ class mQuotation extends CI_Model
 						,D.FCXqdFootAvg
 						,P.FTPdtImage
 						,SPL.FTSplName
+						,D.FTPdtStaEditName
 				FROM TARTSqDTTmp D WITH (NOLOCK)
 				LEFT JOIN TCNMPdt P WITH (NOLOCK) ON D.FTPdtCode = P.FTPdtCode
 				LEFT JOIN TCNMSpl SPL WITH (NOLOCK) ON D.FTSplCode = SPL.FTSplCode
@@ -634,9 +617,9 @@ class mQuotation extends CI_Model
 		$tPdtCode = $paFilter['tPdtCode'];
 
 		$tSQL = "SELECT FCXqdQty
-				         FROM   TARTSqDTTmp WITH (NOLOCK)
-								 WHERE  FTPdtCode  = '$tPdtCode'
-								 AND    FTWorkerID = '$tWorkerID' ";
+				 FROM TARTSqDTTmp WITH (NOLOCK)
+				 WHERE FTPdtCode  = '$tPdtCode'
+				 AND FTWorkerID = '$tWorkerID' ";
 
 		if ($tDocNo != "") {
 			$tSQL .= " AND FTXqhDocNo = '$tDocNo' ";
@@ -659,9 +642,7 @@ class mQuotation extends CI_Model
 		$tDocNo = $paFilter['tDocNo'];
 		$tWorkerID = $paFilter['tWorkerID'];
 
-		$tSQL = "SELECT TOP 1 FNXqdSeq
-									FROM TARTSqDTTmp WITH (NOLOCK)
-									WHERE 1=1 ";
+		$tSQL = "SELECT TOP 1 FNXqdSeq FROM TARTSqDTTmp WITH (NOLOCK) WHERE 1=1 ";
 
 		if ($tDocNo != "") {
 			$tSQL .= " AND FTXqhDocNo = '" . $tDocNo . "'";
@@ -876,8 +857,6 @@ class mQuotation extends CI_Model
 				FROM TARTSqHDTmp
 				WHERE FTWorkerID = '" . $tWorkerID . "'
 				AND FTXqhDocNo = '" . $tDocNo . "'";
-
-
 		$this->db->query($tSQL);
 	}
 
@@ -889,23 +868,22 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQLDel);
 
 		$tSQL = "INSERT INTO TARTSqHDCst
-									SELECT   FTXqhDocNo
-										      ,ISNULL(FTXqcCstCode,'')
-										      ,FTXqcCstName
-										      ,FTXqcAddress
-										      ,FTXqhTaxNo
-										      ,FTXqhContact
-										      ,FTXqhEmail
-										      ,FTXqhTel
-										      ,FTXqhFax
-										      ,ISNULL(FTCreateBy,'$tCreateBy')
-										      ,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121))
-										      ,$tCreateBy
-										      ,CONVERT(VARCHAR(16),GETDATE(),121)
-									  FROM TARTSqHDCstTmp
-										WHERE FTWorkerID = '" . $tWorkerID . "'
-										AND FTXqhDocNo = '" . $tDocNo . "'";
-		//echo $tSQL;
+				 SELECT FTXqhDocNo
+						,ISNULL(FTXqcCstCode,'')
+						,FTXqcCstName
+						,FTXqcAddress
+						,FTXqhTaxNo
+						,FTXqhContact
+						,FTXqhEmail
+						,FTXqhTel
+						,FTXqhFax
+						,ISNULL(FTCreateBy,'$tCreateBy')
+						,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121))
+						,$tCreateBy
+						,CONVERT(VARCHAR(16),GETDATE(),121)
+					FROM TARTSqHDCstTmp
+					WHERE FTWorkerID = '" . $tWorkerID . "'
+					AND FTXqhDocNo = '" . $tDocNo . "'";
 		$this->db->query($tSQL);
 	}
 
@@ -917,51 +895,51 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQLDel);
 
 		$tSQL = "  INSERT INTO TARTSqDT(
-													 FTXqhDocNo
-													,FNXqdSeq
-													,FTPdtCode
-													,FTPdtName
-													,FTPunCode
-													,FTPunName
-													,FCXqdUnitPrice
-													,FTXqdCost
-													,FTSplCode
-													,FCXqdQty
-													,FCXqdB4Dis
-													,FCXqdDis
-													,FTXqdDisTxt
-													,FCXqdAfDT
-													,FCXqdFootAvg
-													,FCXqdNetAfHD
-													,FTCreateBy
-													,FDCreateOn
-													,FTUpdateBy
-													,FDUpdateOn
+								FTXqhDocNo
+								,FNXqdSeq
+								,FTPdtCode
+								,FTPdtName
+								,FTPunCode
+								,FTPunName
+								,FCXqdUnitPrice
+								,FTXqdCost
+								,FTSplCode
+								,FCXqdQty
+								,FCXqdB4Dis
+								,FCXqdDis
+								,FTXqdDisTxt
+								,FCXqdAfDT
+								,FCXqdFootAvg
+								,FCXqdNetAfHD
+								,FTCreateBy
+								,FDCreateOn
+								,FTUpdateBy
+								,FDUpdateOn
 				            )
 				            SELECT
-										FTXqhDocNo,
-										FNXqdSeq,
-										FTPdtCode,
-										FTPdtName,
-										FTPunCode,
-										FTPunName,
-										FCXqdUnitPrice,
-										FTXqdCost,
-										FTSplCode,
-										FCXqdQty,
-										ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0),
-										FCXqdDis,
-										FTXqdDisTxt,
-										(ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0))-ISNULL(FCXqdDis,0),
-										FCXqdFootAvg,
-										((ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0))-ISNULL(FCXqdDis,0)+ISNULL(FCXqdFootAvg,0)),
-										ISNULL(FTCreateBy,'$tCreateBy'),
-										ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),
-										$tCreateBy,
-										CONVERT(VARCHAR(16),GETDATE(),121)
-										FROM TARTSqDTTmp
-										WHERE FTWorkerID = '" . $tWorkerID . "'
-										AND FTXqhDocNo = '" . $tDocNo . "'";
+								FTXqhDocNo,
+								FNXqdSeq,
+								FTPdtCode,
+								FTPdtName,
+								FTPunCode,
+								FTPunName,
+								FCXqdUnitPrice,
+								FTXqdCost,
+								FTSplCode,
+								FCXqdQty,
+								ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0),
+								FCXqdDis,
+								FTXqdDisTxt,
+								(ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0))-ISNULL(FCXqdDis,0),
+								FCXqdFootAvg,
+								((ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0))-ISNULL(FCXqdDis,0)+ISNULL(FCXqdFootAvg,0)),
+								ISNULL(FTCreateBy,'$tCreateBy'),
+								ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),
+								$tCreateBy,
+								CONVERT(VARCHAR(16),GETDATE(),121)
+								FROM TARTSqDTTmp
+								WHERE FTWorkerID = '" . $tWorkerID . "'
+								AND FTXqhDocNo = '" . $tDocNo . "' ";
 
 		$this->db->query($tSQL);
 	}
@@ -1264,153 +1242,140 @@ class mQuotation extends CI_Model
 
 	public function FCaMQUODocPrintHD($ptDocNo){
 
-				 $tSQL = "SELECT HD.FTBchCode
-									      ,HD.FTXqhDocNo
-									      ,CONVERT(VARCHAR(16),HD.FDXqhDocDate,121) AS FDXqhDocDate
-									      ,CASE WHEN HD.FTXqhCshOrCrd = 1 THEN 'เงินสด' WHEN HD.FTXqhCshOrCrd = 2 THEN 'เครดิต' ELSE '-' END AS  FTXqhCshOrCrd
-									      ,HD.FNXqhCredit
-									      ,HD.FTXqhVATInOrEx
-									      ,HD.FNXqhSmpDay
-									      ,CONVERT(VARCHAR(10),HD.FDXqhEftTo,121) AS FDXqhEftTo
-									      ,CONVERT(VARCHAR(10),HD.FDDeliveryDate,121) AS FDDeliveryDate
-									      ,HD.FTXqhStaExpress
-									      ,HD.FTXqhStaDoc
-									      ,HD.FTXqhStaActive
-									      ,HD.FTXqhStaDeli
-									      ,HD.FTXqhPrjName
-									      ,HD.FTXqhPrjCodeRef
-									      ,HD.FCXqhB4Dis
-									      ,HD.FCXqhDis
-									      ,HD.FTXqhDisTxt
-									      ,HD.FCXqhAFDis
-									      ,HD.FCXqhVatRate
-									      ,HD.FCXqhAmtVat
-									      ,HD.FCXqhVatable
-									      ,HD.FCXqhGrand
-									      ,HD.FCXqhRnd
-									      ,HD.FTXqhGndText
-									      ,HD.FTXqhRmk
-									      ,HD.FTUsrDep
-												,CMP.FTCmpName
-												,BCH.FTBchName
-												,BCH.FTAdrName
-												,BCH.FTAdrRoad
-												,BCH.FTAdrSubDistric
-												,BCH.FTAdrDistric
-												,BCH.FTAdrProvince
-												,BCH.FTAdrPosCode
-												,BCH.FTAdrTel
-												,BCH.FTAdrFax
-												,BCH.FTAdrEmail
-									  FROM TARTSqHD HD
-										INNER JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode
-										INNER JOIN TCNMCompany CMP ON BCH.FTCmpCode = CMP.FTCmpCode
-										WHERE HD.FTXqhDocNo = '".$ptDocNo."'";
+		$tSQL = "SELECT HD.FTBchCode
+			,HD.FTXqhDocNo
+			,CONVERT(VARCHAR(16),HD.FDXqhDocDate,121) AS FDXqhDocDate
+			,CASE WHEN HD.FTXqhCshOrCrd = 1 THEN 'เงินสด' WHEN HD.FTXqhCshOrCrd = 2 THEN 'เครดิต' ELSE '-' END AS  FTXqhCshOrCrd
+			,HD.FNXqhCredit
+			,HD.FTXqhVATInOrEx
+			,HD.FNXqhSmpDay
+			,CONVERT(VARCHAR(10),HD.FDXqhEftTo,121) AS FDXqhEftTo
+			,CONVERT(VARCHAR(10),HD.FDDeliveryDate,121) AS FDDeliveryDate
+			,HD.FTXqhStaExpress
+			,HD.FTXqhStaDoc
+			,HD.FTXqhStaActive
+			,HD.FTXqhStaDeli
+			,HD.FTXqhPrjName
+			,HD.FTXqhPrjCodeRef
+			,HD.FCXqhB4Dis
+			,HD.FCXqhDis
+			,HD.FTXqhDisTxt
+			,HD.FCXqhAFDis
+			,HD.FCXqhVatRate
+			,HD.FCXqhAmtVat
+			,HD.FCXqhVatable
+			,HD.FCXqhGrand
+			,HD.FCXqhRnd
+			,HD.FTXqhGndText
+			,HD.FTXqhRmk
+			,HD.FTUsrDep
+			,CMP.FTCmpName
+			,BCH.FTBchName
+			,BCH.FTAdrName
+			,BCH.FTAdrRoad
+			,BCH.FTAdrSubDistric
+			,BCH.FTAdrDistric
+			,BCH.FTAdrProvince
+			,BCH.FTAdrPosCode
+			,BCH.FTAdrTel
+			,BCH.FTAdrFax
+			,BCH.FTAdrEmail
+			FROM TARTSqHD HD
+			INNER JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode
+			INNER JOIN TCNMCompany CMP ON BCH.FTCmpCode = CMP.FTCmpCode
+			WHERE HD.FTXqhDocNo = '".$ptDocNo."'";
 
-				 $oQuery = $this->db->query($tSQL);
-	 		 	 if ($oQuery->num_rows() > 0) {
+		$oQuery = $this->db->query($tSQL);
+		if ($oQuery->num_rows() > 0) {
+			$aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
+		} else {
+			$aResult = array(
+				'raItems'  		=> '',
+				'rtCode'   		=> '0',
+				'rtDesc'   		=> 'Empty',
+			);
+		}
 
-		 		 			$aResult 	= array(
-		 		 				'raItems'  		=> $oQuery->result_array(),
-		 		 				'rtCode'   		=> '1',
-		 		 				'rtDesc'   		=> 'success',
-		 		 			);
-
-	 		 	 } else {
-
-		 		 			$aResult = array(
-									'raItems'  		=> '',
-									'rtCode'   		=> '0',
-									'rtDesc'   		=> 'Empty',
-		 		 			);
-
-	 		 		}
-
-					return $aResult;
+		return $aResult;
 	}
 
 	public function FCaMQUODocPrintHDCst($ptDocNo){
 
-				 $tSQL = "SELECT FTXqhDocNo
-									      ,FTXqcCstCode
-									      ,ISNULL(FTXqcCstName,'ไม่ระบุชื่อ') AS FTXqcCstName
-									      ,ISNULL(FTXqcAddress,'-') AS FTXqcAddress
-									      ,ISNULL(FTXqhTaxNo,'-') AS FTXqhTaxNo
-									      ,ISNULL(FTXqhContact,'-') AS FTXqhContact
-									      ,ISNULL(FTXqhEmail,'-') AS FTXqhEmail
-									      ,ISNULL(FTXqhTel,'-') AS FTXqhTel
-									      ,ISNULL(FTXqhFax,'-') AS FTXqhFax
-									  FROM TARTSqHDCst
-										WHERE FTXqhDocNo = '".$ptDocNo."'";
+		$tSQL = "SELECT FTXqhDocNo
+				,FTXqcCstCode
+				,ISNULL(FTXqcCstName,'ไม่ระบุชื่อ') AS FTXqcCstName
+				,ISNULL(FTXqcAddress,'-') AS FTXqcAddress
+				,ISNULL(FTXqhTaxNo,'-') AS FTXqhTaxNo
+				,ISNULL(FTXqhContact,'-') AS FTXqhContact
+				,ISNULL(FTXqhEmail,'-') AS FTXqhEmail
+				,ISNULL(FTXqhTel,'-') AS FTXqhTel
+				,ISNULL(FTXqhFax,'-') AS FTXqhFax
+			FROM TARTSqHDCst
+			WHERE FTXqhDocNo = '".$ptDocNo."'";
 
-				 $oQuery = $this->db->query($tSQL);
-	 		 	 if ($oQuery->num_rows() > 0) {
+		$oQuery = $this->db->query($tSQL);
+		if ($oQuery->num_rows() > 0) {
+			$aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
+		}else{
+			$aResult = array(
+					'raItems'  		=> '',
+					'rtCode'   		=> '0',
+					'rtDesc'   		=> 'Empty',
+			);
+		}
 
-		 		 			$aResult 	= array(
-		 		 				'raItems'  		=> $oQuery->result_array(),
-		 		 				'rtCode'   		=> '1',
-		 		 				'rtDesc'   		=> 'success',
-		 		 			);
-
-	 		 	 } else {
-
-		 		 			$aResult = array(
-									'raItems'  		=> '',
-									'rtCode'   		=> '0',
-									'rtDesc'   		=> 'Empty',
-		 		 			);
-
-	 		 		}
-
-					return $aResult;
+		return $aResult;
 	}
 
 	public function FCaMQUODocPrintDT($ptDocNo){
-
-				 $tSQL = "SELECT
-				 			DT.FTXqhDocNo
-							,DT.FNXqdSeq
-							,DT.FTPdtCode
-							,ISNULL(DT.FTPdtName,'-') AS FTPdtName
-							,DT.FTPunCode
-							,ISNULL(DT.FTPunName,'-') AS FTPunName
-							,DT.FCXqdUnitPrice
-							,DT.FTXqdCost
-							,DT.FTSplCode
-							,DT.FCXqdQty
-							,DT.FCXqdB4Dis
-							,DT.FCXqdDis
-							,DT.FTXqdDisTxt
-							,DT.FCXqdAfDT
-							,DT.FCXqdFootAvg
-							,DT.FCXqdNetAfHD
-							,PDT.FTPdtImage
-						FROM TARTSqDT DT
-						LEFT JOIN TCNMPdt PDT ON DT.FTPdtCode = PDT.FTPdtCode
-						WHERE FTXqhDocNo = '".$ptDocNo."'";
+		$tSQL = "SELECT
+			DT.FTXqhDocNo
+			,DT.FNXqdSeq
+			,DT.FTPdtCode
+			,ISNULL(DT.FTPdtName,'-') AS FTPdtName
+			,DT.FTPunCode
+			,ISNULL(DT.FTPunName,'-') AS FTPunName
+			,DT.FCXqdUnitPrice
+			,DT.FTXqdCost
+			,DT.FTSplCode
+			,DT.FCXqdQty
+			,DT.FCXqdB4Dis
+			,DT.FCXqdDis
+			,DT.FTXqdDisTxt
+			,DT.FCXqdAfDT
+			,DT.FCXqdFootAvg
+			,DT.FCXqdNetAfHD
+			,PDT.FTPdtImage
+		FROM TARTSqDT DT
+		LEFT JOIN TCNMPdt PDT ON DT.FTPdtCode = PDT.FTPdtCode
+		WHERE FTXqhDocNo = '".$ptDocNo."'";
 		$tSQL.=" ORDER BY FNXqdSeq ";
 		$oQuery = $this->db->query($tSQL);
 		if ($oQuery->num_rows() > 0) {
-
-				$aResult 	= array(
-					'rnTotal'     =>$oQuery->num_rows(),
-					'raItems'  		=> $oQuery->result_array(),
-					'rtCode'   		=> '1',
-					'rtDesc'   		=> 'success',
-				);
-
+			$aResult 	= array(
+				'rnTotal'     =>$oQuery->num_rows(),
+				'raItems'  		=> $oQuery->result_array(),
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
 		} else {
+			$aResult = array(
+					'rnTotal'     => 0,
+					'raItems'  		=> '',
+					'rtCode'   		=> '0',
+					'rtDesc'   		=> 'Empty',
+			);
+		}
 
-		 		 			$aResult = array(
-								  'rnTotal'     => 0,
-									'raItems'  		=> '',
-									'rtCode'   		=> '0',
-									'rtDesc'   		=> 'Empty',
-		 		 			);
-
-	 		 		}
-
-					return $aResult;
+		return $aResult;
 	}
 
 	//อัพเดท สาขา

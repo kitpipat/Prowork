@@ -87,7 +87,11 @@
 				<td class="xCNCellDeleteItem"><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxDeleteItemInTempQuotation('<?=$nSeq?>','<?=$tPdtCode?>');"></td>
 				<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
 				<td class="text-nowrap"><label class="xCNLineHeightInTable" data-pdtcode="<?=$tPdtCode?>" id="olbPdtCode<?=$nSeq?>">
-					  <?=$tPdtCode . " - " . $tPdtName; ?> </label>
+					<span><?=$tPdtCode . " - " . $tPdtName; ?></span>
+
+					<?php if($aDocItems["raItems"][$p]['FTPdtStaEditName'] == 1){  //สินค้าที่สามารถแก้ไขชื่อได้ ?>
+						<img class="img-responsive xCNImageEdit" style="display: inline; margin-left: 10px;" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSxSetNewName('<?=$nSeq?>','<?=$tPdtCode?>','<?=$tPdtName?>');"></label>
+					<?php } ?>
 				</td>
 				<td class="text-nowrap"><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
 				<td class="text-nowrap" style="<?=$tStaSwhSpl?>">
@@ -177,37 +181,60 @@
   </div>
 </div>
 
+<!-- Modal เปลี่ยนชื่อสินค้า -->
+<button id="obtModalSetNewName" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSetNewName"></button>
+<div class="modal fade" id="odvModalSetNewName" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เปลี่ยนชื่อสินค้า</h5>
+      </div>
+      <div class="modal-body">
+	  	<div class="form-group">
+		  	<label>ชื่อสินค้า</label>
+			<input type="text" class="form-control" maxlength="200" id="oetSetNewName" name="oetSetNewName" 
+			placeholder="กรุณาระบุชื่อสินค้าใหม่" autocomplete="off" value="">
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+        <button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmSetNewName">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="<?=base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>
 
 	//ส่วนลด
 	$('.xCNItemDiscount').on('change keyup', function(event){
-			if(event.type == "change"){
-			    FSxQUODocItemDiscount(this)
-			}
-			if(event.keyCode == 13) {
-			    FSxQUODocItemDiscount(this)
-			}
+		if(event.type == "change"){
+			FSxQUODocItemDiscount(this)
+		}
+		if(event.keyCode == 13) {
+			FSxQUODocItemDiscount(this)
+		}
 	});
 
 	//เปลี่ยนราคา
 	$('.xCNPdtUnitPrice').on('change keyup', function(event){
-			if(event.type == "change"){
-			    FSxQUOEditDocItemPri(this)
-			}
-			if(event.keyCode == 13) {
-			    FSxQUOEditDocItemPri(this)
-			}
+		if(event.type == "change"){
+			FSxQUOEditDocItemPri(this)
+		}
+		if(event.keyCode == 13) {
+			FSxQUOEditDocItemPri(this)
+		}
 	});
 
 	//เปลี่ยนจำนวน
 	$('.xCNDocItemQty').on('change keyup', function(event){
-			if(event.type == "change"){
-					FSxQUOEditDocItemQty(this)
-			}
-			if(event.keyCode == 13) {
-					FSxQUOEditDocItemQty(this)
-			}
+		if(event.type == "change"){
+				FSxQUOEditDocItemQty(this)
+		}
+		if(event.keyCode == 13) {
+				FSxQUOEditDocItemQty(this)
+		}
 	});
 
 	//Delete Item
@@ -237,6 +264,21 @@
 					JSxModalErrorCenter(jqXHR.responseText);
 				}
 			});
+		});
+	}
+
+	//เปลี่ยนชื่อสินค้า
+	function JSxSetNewName(pnSeq,pnPDTCode,ptPDTName){
+		$('#obtModalSetNewName').click();
+
+		//เอาค่าเดิมไปใส่
+		$('#oetSetNewName').val(ptPDTName);
+
+		//กดยืนยัน
+		$('.xCNConfirmSetNewName').off();
+		$('.xCNConfirmSetNewName').on('click',function(){
+			$('#olbPdtCode'+pnSeq).find('span').text(pnPDTCode + ' - ' + $('#oetSetNewName').val())
+			$('#obtModalSetNewName').click();
 		});
 	}
 </script>

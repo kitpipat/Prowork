@@ -128,6 +128,7 @@ class cProduct extends CI_Controller {
 				'FTPdtReason'		=> $this->input->post('oetPDTReason'),
 				'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
 				'FTPdtBestsell'		=> ($this->input->post('ocmPDTStaBestsell') == 'on') ? 1 : 0,
+				'FTPdtStaEditName'	=> ($this->input->post('ocmPDTStaEditname') == 'on') ? 1 : 0,
 				'FDCreateOn'		=> date('Y-m-d H:i:s'),
 				'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
 				'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
@@ -179,6 +180,7 @@ class cProduct extends CI_Controller {
 					'FTPdtReason'		=> $this->input->post('oetPDTReason'),
 					'FTPdtStatus'		=> ($this->input->post('ocmPDTStaUse') == 'on') ? 1 : 0,
 					'FTPdtBestsell'		=> ($this->input->post('ocmPDTStaBestsell') == 'on') ? 1 : 0,
+					'FTPdtStaEditName'	=> ($this->input->post('ocmPDTStaEditname') == 'on') ? 1 : 0,
 					'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
 					'FDUpdateOn'		=> date('Y-m-d H:i:s')
 				);

@@ -229,7 +229,8 @@ class mQuotationList extends CI_Model{
 							null AS FDTmpTnsDate,
 							FTCreateBy,
 							FDCreateOn,
-							'$ptWorkerID' AS FTWorkerID
+							'$ptWorkerID' AS FTWorkerID,
+							FTPdtStaEditName
 						FROM TARTSqDT
 						WHERE FTXqhDocNo = '".$ptDocNo."' ";
 		$this->db->query($tSQL);

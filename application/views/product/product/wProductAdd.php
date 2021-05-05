@@ -36,6 +36,7 @@
 		$FTPunName 			= $aResult[0]['FTPunName']; 
 		$FTSplName 			= $aResult[0]['FTSplName'];
 		$FTPdtBestsell		= $aResult[0]['FTPdtBestsell'];
+		$FTPdtStaEditName	= $aResult[0]['FTPdtStaEditName'];
 		$FDCreateOn			= date('d/m/Y',strtotime($aResult[0]['FDCreateOn']));
 		$FDUpdateOn			= date('d/m/Y',strtotime($aResult[0]['FDUpdateOn']));
 		$tRoute 			= 'r_producteventedit';
@@ -143,7 +144,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-lg-6 col-md-6">
+							<div class="col-lg-4 col-md-4">
 								<!--สถานะการใช้งาน-->
 								<label class="container-checkbox">สถานะการใช้งาน
 									<input type="checkbox" id="ocmPDTStaUse" name="ocmPDTStaUse" <?=@$FTPdtStatus == '1' ? 'checked' : ''; ?>>
@@ -151,10 +152,18 @@
 								</label>
 							</div>
 
-							<div class="col-lg-6 col-md-6">
+							<div class="col-lg-4 col-md-4">
 								<!--สถานะสินค้าขายดี-->
 								<label class="container-checkbox">สถานะสินค้าขายดี
 									<input type="checkbox" id="ocmPDTStaBestsell" name="ocmPDTStaBestsell" <?=@$FTPdtBestsell == '1' ? 'checked' : ''; ?>>
+									<span class="checkmark"></span>
+								</label>
+							</div>
+
+							<div class="col-lg-4 col-md-4">
+								<!--สถานะสินค้า dummy-->
+								<label class="container-checkbox">อนุญาตแก้ไขชื่อ
+									<input type="checkbox" id="ocmPDTStaEditname" name="ocmPDTStaEditname" <?=@$FTPdtStaEditName == '1' ? 'checked' : ''; ?>>
 									<span class="checkmark"></span>
 								</label>
 							</div>
