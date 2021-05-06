@@ -73,7 +73,7 @@
 		JSxModalProgress('open');
 		$.ajax({
 			type	: "POST",
-			url		: "r_adjcostcallpageInsertorEdit",
+			url		: "r_purchaseordercallpageInsertorEdit",
 			data 	: {
 						'tTypepage'  : ptType,
 						'tCode'	 	 : ptCode

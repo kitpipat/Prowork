@@ -79,6 +79,8 @@ $route['r_quoApproveDocument'] 					= 'quotation/cQuotationDoc/FSxCQUOEventAppro
 $route['r_selectCustomer'] 						= 'quotation/cQuotationDoc/FSxCQUOSelectCustomer';
 $route['r_quoPrintForm/(:any)/(:any)'] 			= 'quotation/cQuotationDoc/FSaCQUODocPrintForm/$1/$2';
 $route['r_NumberToCurrency']           			= 'quotation/cQuotationDoc/FCNtReadNumberToCurrency';
+$route['r_quochangenameindt'] 					= 'quotation/cQuotationDoc/FSxCQUOChangenameinDT';
+
 
 //หน้าจอ : กลุ่มสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
 $route['r_groupproduct'] 						= 'product/groupproduct/cGroupproduct/index';
@@ -228,3 +230,7 @@ $route['r_purchaseorder'] 						= 'purchaseorder/cPurchaseorder/index';
 $route['r_purchaseorderload'] 					= 'purchaseorder/cPurchaseorder/FSwCPOLoadDatatable';
 $route['r_purchaseordercallpageInsertorEdit'] 	= 'purchaseorder/cPurchaseorder/FSwCPOCallPageInsertorEdit';
 $route['r_purchaseordereventdelete'] 			= 'purchaseorder/cPurchaseorder/FSxCPOEventDelete';
+$route['r_purchaseordereventinsert'] 			= 'purchaseorder/cPurchaseorder/FSxCPOEventInsert';
+$route['r_purchaseordereventedit'] 				= 'purchaseorder/cPurchaseorder/FSxCPOEventEdit';
+$route['r_selectSupplier'] 						= 'purchaseorder/cPurchaseorder/FSxCPOSelectSupplier'; //quotation/cQuotationDoc/FSxCQUOSelectCustomer';
+

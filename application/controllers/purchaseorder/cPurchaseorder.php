@@ -34,27 +34,23 @@ class cPurchaseorder extends CI_Controller {
 		$tTypePage = $this->input->post('tTypepage');
 
 		//ลบข้อมูลใน Tmp ก่อน
-		$this->mPurchaseorder->FSxMAJCDeleteTmpAfterInsDT('');
+		$this->mPurchaseorder->FSxMPODeleteTmpAfterInsDT('');
 
 		if($tTypePage == 'insert'){
 			$aResult	= '';
 		}else if($tTypePage == 'edit'){
 			$tCode 		= $this->input->post('tCode');
-			$aResult 	= $this->mPurchaseorder->FSaMAJCGetDataBYID($tCode);
+			$aResult 	= $this->mPurchaseorder->FSaMPOGetDataBYID_HD($tCode);
 
 			//Move DT To Tmp
-			$this->mPurchaseorder->FSaMAJCMoveDTToTmp($tCode);
+			$this->mPurchaseorder->FSaMPOMoveDTToTmp($tCode);
 		}
 
-		//โหลดข้อมูล spl
-		$this->load->model('product/product/mProduct');
 		$aPackData = array(
 			'tTypePage' 		=> $tTypePage,
-			'aResult'			=> $aResult,
-			'aFilter_Spl'       => $this->mProduct->FSaMPDTGetData_Filter('TCNMSpl')
-
+			'aResult'			=> $aResult
 		);
-		$this->load->view('adjcost/wAdjcostAdd',$aPackData);
+		$this->load->view('purchaseorder/wPurchaseorderAdd',$aPackData);
 	}
 
 	//ลบเอกสาร
@@ -63,4 +59,21 @@ class cPurchaseorder extends CI_Controller {
 		$this->mPurchaseorder->FSaMPODelete($tCode);
 	}
 
+	//เลือกผู้จำหน่าย
+	public function FSxCPOSelectSupplier(){
+		$nPage	= $this->input->post('nPage');
+
+		$aCondition = array(
+			'nPage'         	=> $nPage,
+			'nRow'          	=> 10,
+			'tSearchSupplier'   => $this->input->post('tSearchSupplier')
+		);
+
+		$aListSupplier 	= $this->mPurchaseorder->FCxMPOGetSupplierAll($aCondition);
+		$aPackData 	= array(
+			'aListSupplier'		=> $aListSupplier,
+			'nPage'				=> $nPage
+		);
+		$this->load->view('purchaseorder/wSelectSupplier',$aPackData);
+	}
 }

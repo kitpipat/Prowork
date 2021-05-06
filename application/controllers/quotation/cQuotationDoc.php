@@ -290,7 +290,6 @@ class cQuotationDoc extends CI_Controller
 		echo "NetAfDis :".$nItemNetAfDisLine." Cost : ".$nItemCost;
 	}
 
-
 	// แก้ไขราคาสินค้าในเอกสาร
 	public function FSxCQUOEventItemPri()
 	{
@@ -608,5 +607,21 @@ class cQuotationDoc extends CI_Controller
 		// จบการทำงานและแสดงไฟล์ pdf
 		// การกำหนดในส่วนนี้ สามารถปรับรูปแบบต่างๆ ได้ เช่นให้บันทึกเป้นไฟล์ หรือให้แสดง pdf เลย ดูวิธีใช้งานที่คู่มือของ tcpdf เพิ่มเติม
 		$pdf->Output('example_001.pdf', 'I');
+	}
+
+	//เเก้ไขชื่อในรายการ
+	public function FSxCQUOChangenameinDT(){
+		$nSeq 			= $this->input->post('pnSeq');
+		$nPDTCode 		= $this->input->post('pnPDTCode');
+		$tPDTName 		= $this->input->post('ptPDTName');
+		$tWorkerID 		= $this->session->userdata('tSesLogID');
+
+		$aPackData 		= array(
+			'nSeq'					=> $nSeq,
+			'nPDTCode'				=> $nPDTCode,
+			'tPDTName'				=> $tPDTName,
+			'tWorkerID'				=> $tWorkerID
+		);
+		$this->mQuotation->FCxMQUChangenameinDT($aPackData);
 	}
 }

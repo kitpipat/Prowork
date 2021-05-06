@@ -915,6 +915,7 @@ class mQuotation extends CI_Model
 								,FDCreateOn
 								,FTUpdateBy
 								,FDUpdateOn
+								,FTPdtStaEditName
 				            )
 				            SELECT
 								FTXqhDocNo,
@@ -936,7 +937,8 @@ class mQuotation extends CI_Model
 								ISNULL(FTCreateBy,'$tCreateBy'),
 								ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121)),
 								$tCreateBy,
-								CONVERT(VARCHAR(16),GETDATE(),121)
+								CONVERT(VARCHAR(16),GETDATE(),121),
+								FTPdtStaEditName
 								FROM TARTSqDTTmp
 								WHERE FTWorkerID = '" . $tWorkerID . "'
 								AND FTXqhDocNo = '" . $tDocNo . "' ";
@@ -1385,11 +1387,26 @@ class mQuotation extends CI_Model
 		$tWorkerID 	= $this->session->userdata('tSesLogID');
 
 		//อัพเดทเอกสาร HD Tmp
-		$tSQL = "UPDATE TARTSqHDTmp SET FTBchCode = '" . $tBCH . "'
-				WHERE FTWorkerID = '" . $tWorkerID . "'";
+		$tSQL = "UPDATE TARTSqHDTmp SET FTBchCode = '" . $tBCH . "' WHERE FTWorkerID = '" . $tWorkerID . "'";
 		if ($tDocNo != "") {
 			$tSQL .= " AND FTXqhDocNo = '" . $tDocNo . "'";
 		}
+		$this->db->query($tSQL);
+	}
+
+	//อัพเดทชื่อสินค้า
+	public function FCxMQUChangenameinDT($paData){
+		$nSeq 		= $paData['nSeq'];
+		$nPDTCode 	= $paData['nPDTCode'];
+		$tPDTName 	= $paData['tPDTName'];
+		$tWorkerID 	= $this->session->userdata('tSesLogID');
+
+		//อัพเดทเอกสาร HD Tmp
+		$tSQL = "UPDATE TARTSqDTTmp SET FTPdtName = '" . $tPDTName . "'
+				 WHERE FTWorkerID = '" . $tWorkerID . "'
+				 AND FNXqdSeq = '" . $nSeq . "'
+				 AND FTPdtCode = '" . $nPDTCode . "' ";
+				 echo $tSQL;
 		$this->db->query($tSQL);
 	}
 

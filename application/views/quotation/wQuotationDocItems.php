@@ -90,7 +90,8 @@
 					<span><?=$tPdtCode . " - " . $tPdtName; ?></span>
 
 					<?php if($aDocItems["raItems"][$p]['FTPdtStaEditName'] == 1){  //สินค้าที่สามารถแก้ไขชื่อได้ ?>
-						<img class="img-responsive xCNImageEdit" style="display: inline; margin-left: 10px;" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSxSetNewName('<?=$nSeq?>','<?=$tPdtCode?>','<?=$tPdtName?>');"></label>
+						<input type="hidden" id="ohdNameItem<?=$nSeq?>" value="<?=$tPdtName?>">
+						<img class="img-responsive xCNImageEdit" style="display: inline; margin-left: 10px;" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSxSetNewName('<?=$nSeq?>','<?=$tPdtCode?>');"></label>
 					<?php } ?>
 				</td>
 				<td class="text-nowrap"><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
@@ -268,17 +269,32 @@
 	}
 
 	//เปลี่ยนชื่อสินค้า
-	function JSxSetNewName(pnSeq,pnPDTCode,ptPDTName){
+	function JSxSetNewName(pnSeq,pnPDTCode){
 		$('#obtModalSetNewName').click();
 
 		//เอาค่าเดิมไปใส่
-		$('#oetSetNewName').val(ptPDTName);
+		var tNameOld = $('#ohdNameItem'+pnSeq).val();
+		$('#oetSetNewName').val(tNameOld);
 
 		//กดยืนยัน
 		$('.xCNConfirmSetNewName').off();
 		$('.xCNConfirmSetNewName').on('click',function(){
-			$('#olbPdtCode'+pnSeq).find('span').text(pnPDTCode + ' - ' + $('#oetSetNewName').val())
-			$('#obtModalSetNewName').click();
+			//เปลี่ยนชื่อสินค้า
+			$.ajax({
+				type	: "POST",
+				url		: 'r_quochangenameindt',
+				data	: { 'pnSeq' : pnSeq , 'pnPDTCode' : pnPDTCode , 'ptPDTName' : $('#oetSetNewName').val() },
+				cache	: false,
+				timeout	: 0,
+				success	: function(tResult) {
+					$('#olbPdtCode'+pnSeq).find('span').text(pnPDTCode + ' - ' + $('#oetSetNewName').val())
+					$('#obtModalSetNewName').click();
+					$('#ohdNameItem'+pnSeq).val($('#oetSetNewName').val());
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					JSxModalErrorCenter(jqXHR.responseText);
+				}
+			});
 		});
 	}
 </script>
