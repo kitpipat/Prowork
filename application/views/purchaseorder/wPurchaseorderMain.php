@@ -42,7 +42,10 @@
 		</div>
 	</div>
 <div>
-<script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
+<script type="text/javascript" src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
+<script type="text/javascript" src="<?= base_url('application/assets/js/account.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('application/assets/js/moment.js') ?>"></script>
+<script type="text/javascript" src="<?= base_url('application/assets/js/jThaiBath.js') ?>"></script>
 
 <script>
 

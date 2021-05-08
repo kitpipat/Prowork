@@ -110,6 +110,7 @@
 								onclick="alert('กรอกราคาที่ต้องการไม่ต้องกรอกเครื่องหมาย , แล้วกด Enter')"></i>
 							<input type="text"
 								id="oetPdtUnitPrice<?=$nSeq?>"
+								maxlength="9"
 								class="text-right xCNEditInline xCNInputNumericWithDecimal <?=$tRowUnitPrice?> xCNPdtUnitPrice"
 								value="<?=number_format($nXqdUnitPrice, 2);?>"
 								data-seq="<?=$nSeq?>"
@@ -125,6 +126,7 @@
 							onclick="alert('กรอกจำนวนที่ต้องการแล้วกด Enter')"></i>
 						<input type="text"
 							class="text-right xCNEditInline xCNInputNumericWithDecimal xCNDocItemQty"
+							maxlength="5"
 							id="oetDocItemQty<?=$nSeq?>"
 							value="<?=$nXqdQty ?>"
 							data-seq="<?=$nSeq?>"

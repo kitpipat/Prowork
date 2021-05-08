@@ -624,6 +624,13 @@ table tbody .xCNTableGroupMenu{
     padding: 5px;
 }
 
+#ospPOTotalText{
+	text-align: center;
+    display: block;
+    font-weight: bold;
+    padding: 5px;
+}
+
 .xCNHide{
 	display: none;
 }

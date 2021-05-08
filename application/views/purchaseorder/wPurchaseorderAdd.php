@@ -1,9 +1,27 @@
+<style>
+	#ofmPurchaseorderSPL .form-group {
+		margin-bottom: 0.25rem;
+	}
+
+	#ofmPurchaseorderSPL label {
+		margin-bottom: 0rem;
+	}
+
+	#ofmPurchaseorderHeader .form-group {
+		margin-bottom: 0.25rem;
+	}
+
+	#ofmPurchaseorderHeader label {
+		margin-bottom: 0rem;
+	}
+</style>
+
 <?php
 	$tLevelUser = $this->session->userdata('tSesUserLevel');
 	if($tTypePage == 'insert'){
 		$tRoute 			= 'r_purchaseordereventinsert';
 		$tRouteUrl			= 'สร้างใบสั้งซื้อ';
-		$tDocumentNumber	= '';
+		$tDocumentNumber	= 'PO##########';
 		$dDocumentDate		= date('d/m/Y') . ' - ' . date("H:i:s");
 		$tDocumentCreate	= $this->session->userdata('tSesFirstname') . ' ' . $this->session->userdata('tSesLastname');
 		$tDocumentStaDoc	= '-';
@@ -75,108 +93,324 @@
 		</div>
 	</div>
 
-	<form id="ofmPO" class="form-signin" method="post" action="javascript:void(0)">
-		<div class="row" style="margin-top: 10px;">
-				
-			<!--ข้อมูลผู้จำหน่าย-->	
-			<div class="col-lg-6">
-				<div class="card">
-					<div class="card-body">
-						<div class="row">
-							<!--Head-->
-							<div class="col-lg-12">
-								<div class="xCNHeadFooterINPDT"><span>ข้อมูลผู้จำหน่าย</span></div>
-							</div>
+	<div class="row" style="margin-top: 10px;">
+			
+		<!--ข้อมูลผู้จำหน่าย-->	
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+						<!--Head-->
+						<div class="col-lg-12">
+							<div class="xCNHeadFooterINPDT"><span>ข้อมูลผู้จำหน่าย</span></div>
+						</div>
 
-							<!--Detail-->
-							<div class="col-lg-12">
-								<form id="ofmQuotationCst">
-									<div class="row">
-										<?php
-											if($tTypePage == 'edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
-												if($tPer_edit == ''){
-													$tAlwCustomer = '';
-												}else{
-													$tAlwCustomer = 'xCNHide';
-												}
-											}else if($tTypePage == 'insert'){ //เข้ามาแบบ ขา Insert และ สิทธิสามารถบันทึกได้
-												if($tPer_create == ''){
-													$tAlwCustomer = '';
-												}else{
-													$tAlwCustomer = 'xCNHide';
-												}
+						<!--Detail-->
+						<div class="col-lg-12">
+							<form id="ofmPurchaseorderSPL">
+								<div class="row">
+									<?php
+										if($tTypePage == 'edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
+											if($tPer_edit == ''){
+												$tAlwCustomer = '';
+											}else{
+												$tAlwCustomer = 'xCNHide';
 											}
-										?>
-										<div class="col-lg-12">
-											<label><span style="color:red;">*</span> ผู้จำหน่าย</label>
-											<div class="input-group md-form form-sm form-2 pl-0 form-group">
-												<input type="text" class="form-control" maxlength="255" id="oetSplName" name="oetSplName" placeholder="กรุณาระบุผู้จำหน่าย" autocomplete="off" value="">
-												<div class="input-group-append <?=$tAlwCustomer?> xCNIconFindCustomer">
-													<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseSupplier();">
-														<img class="xCNIconFind">
-													</span>
-												</div>
+										}else if($tTypePage == 'insert'){ //เข้ามาแบบ ขา Insert และ สิทธิสามารถบันทึกได้
+											if($tPer_create == ''){
+												$tAlwCustomer = '';
+											}else{
+												$tAlwCustomer = 'xCNHide';
+											}
+										}
+									?>
+									<div class="col-lg-12">
+										<label><span style="color:red;">*</span> ผู้จำหน่าย</label>
+										<div class="input-group md-form form-sm form-2 pl-0 form-group">
+											<input type="hidden" id="oetSplCode" name="oetSplCode" >
+											<input type="text" class="form-control" maxlength="255" id="oetSplName" name="oetSplName" placeholder="กรุณาระบุผู้จำหน่าย" autocomplete="off" value="">
+											<div class="input-group-append <?=$tAlwCustomer?> xCNIconFindCustomer">
+												<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseSupplier();">
+													<img class="xCNIconFind">
+												</span>
 											</div>
 										</div>
 									</div>
-								</form>
 
-							</div>
+									<!--ที่อยู่-->
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>ที่อยู่</label>
+											<textarea type="text" class="form-control" id="oetPOAddress" name="oetPOAddress" placeholder="รายละเอียดที่อยู่" rows="4" disabled="disabled"></textarea>
+										</div>
+									</div>
+
+									<!--ผู้ติดต่อ-->
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>ผู้ติดต่อ</label>
+											<input type="text" class="form-control" maxlength="50" id="oetPOContact" name="oetPOContact" placeholder="รายละเอียดชื่อผู้ติดต่อ" autocomplete="off" value="" disabled="disabled">
+										</div>
+									</div>
+
+									<!--อีเมลล์-->
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>อีเมลล์</label>
+											<input type="text" class="form-control" maxlength="50" id="oetPOEmail" name="oetPOEmail" placeholder="รายละเอียดอีเมลล์" autocomplete="off" value="" disabled="disabled">
+										</div>
+									</div>
+
+									<!--เบอร์โทรศัพท์-->
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>เบอร์โทรศัพท์</label>
+											<input type="text" class="form-control" maxlength="20" id="oetPOTel" name="oetPOTel" placeholder="รายละเอียดเบอร์โทรศัพท์" autocomplete="off" value="" disabled="disabled">
+										</div>
+									</div>
+
+									<!--เบอร์โทรสาร-->
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>เบอร์โทรสาร</label>
+											<input type="text" class="form-control xCNInputNumericWithDecimal" maxlength="20" id="oetPOFax" name="oetPOFax" placeholder="รายละเอียดเบอร์โทรสาร" autocomplete="off" value="" disabled="disabled">
+										</div>
+									</div>
+
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<!--ข้อมูลผู้ติดต่อ-->
-			<div class="col-lg-6">
-				<div class="card">
-					<div class="card-body">
-						<div class="row">
-
-							<!--Head-->
-							<div class="col-lg-6">
-								<div class="xCNHeadFooterINPDT" style="background-color:#a3e69e; color:#000;">
-									เลขที่เอกสาร : <span id="ospDocNo" data-docno="<?= $tDocumentNumber ?>">
-										<?php
-										if ($tDocumentNumber == "") {
-											echo "<lable id='olbDocNo'> PO########## </lable>";
-										} else {
-											echo " <lable id='olbDocNo'> " . $tDocumentNumber . " </label> ";
-										}
-										?>
-									</span>
-								</div>
-							</div>
-
-							<!--Head-->
-							<div class="col-lg-6">
-								<div class="xCNHeadFooterINPDT" style="background-color:#a3e69e; color:#000;">
-									วันที่เอกสาร : <span id="ospDocDate"></span>
-								</div>
-							</div>
-
-							<!--Detail-->
-							<div class="col-lg-12">
-								<div class="row">
-									<div class="col-lg-6">
-										<span>สถานะเอกสาร : </span><span id="ospStaDoc"></span>
-										<input type="hidden" id="ohdStaDoc">
-									</div>
-									<div class="col-lg-6">
-										<span>สถานะอนุมัติเอกสาร : </span><span id="ospStaDocApv"></span>
-										<input type="hidden" id="ohdStaApv">
-									</div>
-								</div>
-								<hr>
-							</div>
-
-						</div>
-					</div>
-				</div>
-			</div>
-
 		</div>
-	</form>
+
+		<!--ข้อมูลผู้ติดต่อ-->
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-body">
+					<div class="row">
+
+						<!--Head-->
+						<div class="col-lg-6">
+							<div class="xCNHeadFooterINPDT" style="background-color:#a3e69e; color:#000;">
+								เลขที่เอกสาร : <span id="ospPODocNo" data-docno="<?=$tDocumentNumber ?>"><lable id='olbPODocNo'><?=$tDocumentNumber?></lable></span>
+							</div>
+						</div>
+
+						<!--Head-->
+						<div class="col-lg-6">
+							<div class="xCNHeadFooterINPDT" style="background-color:#a3e69e; color:#000;">
+								วันที่เอกสาร : <span id="ospPODocDate"></span>
+							</div>
+						</div>
+
+						<!--Detail-->
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-6">
+									<span>สถานะเอกสาร : </span><span id="ospPOStaDoc"></span>
+									<input type="hidden" id="ohdPOStaDoc">
+								</div>
+								<div class="col-lg-6">
+									<span>สถานะอนุมัติเอกสาร : </span><span id="ospPOStaDocApv"></span>
+									<input type="hidden" id="ohdPOStaApv">
+								</div>
+							</div>
+							<hr>
+
+							<form id="ofmPurchaseorderHeader">
+								<div class="row">
+
+									<!--จัดส่งวันที่-->
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>จัดส่งวันที่</label>
+											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpPOXqhEftTo" name="odpPOXqhEftTo" placeholder="DD/MM/YYYY" autocomplete="off">
+										</div>
+									</div>
+
+									<!--เงื่อนไขการชำระเงิน-->
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>เงื่อนไขการชำระเงิน</label>
+											<select class="form-control" id="osmPOCashorCard" name="osmPOCashorCard">
+												<option value="">เลือกประเภทการชำระ</option>
+												<option value="1">เงินสด</option>
+												<option value="2">เครดิต</option>
+											</select>
+										</div>
+									</div>
+
+									<!--จำนวนวันเครดิต-->
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>จำนวนวันเครดิต (วัน)</label>
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetPOXqhCredit" name="oetPOXqhCredit" placeholder="0" autocomplete="off">
+										</div>
+									</div>
+
+									<!--เงื่อนไขการชำระเงิน-->
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>ประเภทภาษี</label>
+											<select class="form-control" id="ocmPOVatType" name="ocmPOVatType" onchange="JSvLoadTableDTTmp(1)">
+												<option value="1">แยกนอก</option>
+												<option value="2">รวมใน</option>
+											</select>
+										</div>
+									</div>
+
+									<!--เงื่อนไขการชำระ-->
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>เงื่อนไขการชำระ</label>
+											<textarea type="text" class="form-control" id="oetPORemark" name="oetPORemark" placeholder="เงื่อนไขการชำระ" rows="2" disabled="disabled"></textarea>
+										</div>
+										<hr style="margin-bottom: 13px;">
+									</div>
+								</div>
+							</form>
+
+							<div class="row">
+								<div class="col-lg-4">
+									ผู้บันทึก : <span id="ospPOCreateBy"> - </span>
+								</div>
+
+								<div class="col-lg-4">
+									ผู้อนุมัติ : <span id="ospPOApprovedBy"> - </span>
+								</div>
+
+								<div class="col-lg-4">
+									วันที่อนุมัติ : <span id="ospPOApproveDate"> - </span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--รายการสินค้า-->
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-body" style="height:auto">
+					<div class="row">
+						<div class="col-lg-12" id="odvMoreItem">
+							<button class="xCNButtonInsert pull-right" onclick="FSxPODocAddDT()">+</button>
+						</div>
+						<div class="col-lg-12" id="odvPODocDTItems" style="overflow: auto; width: 900px; margin-bottom: 1rem;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--ส่วนสรุปราคา-->
+		<div class="col-lg-7">
+			<div class="card">
+				<div class="card-body" style="height:auto">
+					<div class="row">
+						<!--ราคาสรุปบิล-->
+						<div class="col-lg-12">
+							<div class="xCNSpanTotalText">
+								<span id="ospPOTotalText"></span>
+							</div>
+						</div>
+
+						<!--หมายเหตุ-->
+						<div class="col-lg-12" style="margin-top:10px;">
+							<div class="form-group">
+								<label>หมายเหตุเอกสาร</label>
+								<textarea type="text" class="form-control" id="otaPODocRemark" name="otaPODocRemark" placeholder="หมายเหตุเอกสาร" rows="3"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--ส่วนลดท้ายบิล-->
+		<div class="col-lg-5">
+			<div class="card">
+				<div class="card-body" style="height:auto">
+					<div class="row">
+						<!--จำนวนเงินรวม-->
+						<div class="col-lg-6">
+							<label>จำนวนเงินรวม</label>
+						</div>
+
+						<div class="col-lg-6 text-right">
+							<label class="text-right xCNTotal" id="otdPODocNetTotal">0.00</label>
+						</div>
+
+						<!--ส่วนลด-->
+						<div class="col-lg-5">
+							<label>ส่วนลด</label>
+						</div>
+
+						<div class="col-lg-7 text-right">
+							<div class="row">
+								<div class="col-lg-7">
+									<div class="input-container" style="margin-bottom:0px;">
+										<i class="xWBnticon fa fa-info-circle fa-xs"
+										   style="font-size: 0.5rem;"
+										   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
+										   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
+										<input type="text"
+										       autocomplete="off"
+													id="oetPOXqhDisText"
+													class="text-right form-control xCNNumberandPercent xCNXqhDisText"
+													maxlength="20" onkeyup="FSXQUOCheckInputDis(this)">
+									</div>
+								</div>
+								<div class="col-lg-5">
+									<label class="text-right xCNTotal" id="ospPOXqhDis">0.00</label>
+								</div>
+							</div>
+						</div>
+
+						<!--จำนวนเงินหลังหักส่วนลด-->
+						<div class="col-lg-6">
+							<label>จำนวนเงินหลังหักส่วนลด</label>
+						</div>
+
+						<div class="col-lg-6 text-right">
+							<label class="text-right xCNTotal" id="otdPONetAFHD">0.00</label>
+						</div>
+
+						<!--ภาษีมูลค่าเพิ่ม-->
+						<div class="col-lg-6">
+							<label id="olbPOVatText">ภาษีมูลค่าเพิ่ม (7%)</label>
+						</div>
+
+						<div class="col-lg-6 text-right">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="">
+										<input type="text" autocomplete="off" id="oetPOVatRate" class="text-right form-control xCNInputNumericWithDecimal" style="display:none" value="7">
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<label class="text-right xCNTotal" id="otdPOVat">0.00</label>
+								</div>
+							</div>
+						</div>
+
+						<!--จำนวนเงินรวมทั้งสิ้น-->
+						<div class="col-lg-6">
+							<label>จำนวนเงินรวมทั้งสิ้น</label>
+						</div>
+
+						<div class="col-lg-6 text-right">
+							<label class="text-right xCNTotal" id="otdPOGrandTotal">0.00</label>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
 <div>
 
 <!-- Modal ให้เลือกผู้จำหน่าย -->
@@ -311,18 +545,15 @@
 					<div class="col-lg-6 col-md-6">
 						<h5 class="modal-title">เลือกสินค้า</h5>
 					</div>
-					<div class="col-lg-6 col-md-6">
-						<!-- <button type="button" class="btn  btn-success xCNConfirmPDT" style="float: right;">ยืนยัน</button> -->
-					</div>
 				</div>
 			</div>
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-lg-6 col-md-6">
 						<div class="input-group md-form form-sm form-2 pl-0">
-							<input class="form-control my-0 py-1 red-border xCNFormSerach" autocomplete="off" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchPDTToTmp" onkeypress="Javascript:if(event.keyCode==13) JSxSelectPDTToTmp(1)">
+							<input class="form-control my-0 py-1 red-border xCNFormSerach" autocomplete="off" type="text" placeholder="กรุณากรอกคำที่ต้องการค้นหา" id="oetSearchPDTToTmp" onkeypress="Javascript:if(event.keyCode==13) JSxSelectPDTToTmp_PO(1)">
 							<div class="input-group-append">
-								<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxSelectPDTToTmp(1);">
+								<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxSelectPDTToTmp_PO(1);">
 									<?php $tMenuBar = base_url().'application/assets/images/icon/search.png'; ?>
 									<img class="menu-icon xCNMenuSearch" src="<?=$tMenuBar?>">
 								</span>
@@ -330,7 +561,7 @@
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6">
-						<button type="button" class="btn  btn-success xCNConfirmPDT" onclick="JSxInsPDTToTmp();" style="float: right;">ยืนยัน</button>
+						<button type="button" class="btn  btn-success xCNConfirmPDT" onclick="JSxInsPDTToTmp_PO();" style="float: right;">ยืนยัน</button>
 					</div>
 				</div>
 
@@ -344,19 +575,19 @@
 	</div>
 </div>
 
-<!--Modal กรุณาเลือกวันที่เริ่มต้น-->
-<button id="obtModalPlzDateStart" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalPlzDateStart"></button>
-<div class="modal fade" id="odvModalPlzDateStart" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<!--Modal ต้องเลือกผู้จำหน่าย-->
+<button id="obtModalSPLNotNull" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSPLNotNull"></button>
+<div class="modal fade" id="odvModalSPLNotNull" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">กรุณากรอกข้อมูลให้ครบถ้วน</h5>
+				<h5 class="modal-title">แจ้งเตือน</h5>
 			</div>
 			<div class="modal-body">
-				<label style="text-align: left; display: block;">กรุณากรอกข้อมูลวันที่มีผล ของเอกสารปรับราคาขาย</label>
+				<label style="text-align: left; display: block;">กรุณาเลือกผู้จำหน่ายก่อนทำรายการ</label>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary xCNCloseDelete xCNConfirmDateActive" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
 			</div>
 		</div>
 	</div>
@@ -377,7 +608,7 @@
 			format          : 'dd/mm/yyyy',
 			autoclose       : true,
 			todayHighlight  : true,
-			orientation		: "top right"
+			orientation		: "bottom right"
 		});
 	});
 
@@ -408,25 +639,33 @@
 	function JSxInsSupplierToForm(){
 		var LocalItemSelect = localStorage.getItem("LocalItemData");
 		if(LocalItemSelect !== null){
-			var aResult = LocalItemSelect.split(",");
+			var aResult = LocalItemSelect.split("##");
+			tSplname,tSplcode,tSpladdress,tContact,tTel,tFax,tEmail,nSplvattype,nSplvat
+			
+			var tSplname 		= aResult[0];
+			var tSplcode		= aResult[1];
+			var tSpladdress		= (aResult[2]) == '' ? '-' : aResult[2] ;
+			var tContact		= (aResult[3]) == '' ? '-' : aResult[3] ;
+			var tTel			= (aResult[4]) == '' ? '-' : aResult[4] ;
+			var tFax			= (aResult[5]) == '' ? '-' : aResult[5] ;
+			var tEmail			= (aResult[6]) == '' ? '-' : aResult[6] ;
+			var nSplvattype		= (aResult[7]) == '' ? '1' : aResult[7] ;
+			var nSplvat			= (aResult[8]) == '' ? '7' : aResult[8] ;
 
-			// var tCusname			= aResult[0];
-			// var tCustomercode 		= aResult[1];
-			// var tAddress 			= aResult[2];
-			// var tTaxno 				= aResult[3];
-			// var tContactname 		= aResult[4];
-			// var tEmail 				= aResult[5];
-			// var tTel 				= aResult[6];
-			// var tFax 				= aResult[7];
+			$('#oetSplCode').val(tSplcode);
+			$('#oetSplName').val(tSplname);
+			$('#oetPOAddress').val(tSpladdress);
+			$('#oetPOContact').val(tContact);
+			$('#oetPOEmail').val(tEmail);
+			$('#oetPOTel').val(tTel);
+			$('#oetPOFax').val(tFax);
 
-			// $('#oetCstName').val(tCusname);
-			// $('#oetAddress').text(tAddress);
-			// $('#oetTaxNo').val(tTaxno);
-			// $('#oetContact').val(tContactname);
-			// $('#oetEmail').val(tEmail);
-			// $('#oetTel').val(tTel);
-			// $('#oetFax').val(tFax);
-			// $('#ohdCustomerCode').val(tCustomercode);
+			//มูลค่าภาษี
+			$('#olbPOVatText').text('ภาษีมูลค่าเพิ่ม ('+nSplvat+'%)')
+			$("#oetPOVatRate").val(nSplvat);
+
+			//ประเภทภาษี
+			$('#ocmPOVatType').val(nSplvattype);
 
 			obj = [];
 			localStorage.clear();
@@ -436,37 +675,168 @@
 		}
 	}
 
-	//โหลดข้อมูลตารางสินค้า
+	//โหลดข้อมูลตารางสินค้า DT
 	JSvLoadTableDTTmp(1);
 	function JSvLoadTableDTTmp(pnPage){
 		$.ajax({
 			type	: "POST",
-			url		: "r_adjpriceloadtableDTTmp",
+			url		: "r_purchaseorderLoadItem",
 			data 	: {
 						'tTypepage'  			: '<?=$tTypePage?>',
 						'tCode'	 	 			: '<?=$tDocumentNumber?>',
-						'nPage' 				: pnPage,
-						'tSearchTmp' 			: $('#oetSearchTmp').val(),
-						'tControlWhenAprOrCan' 	: '<?=$tDisabledInput?>'
+						'nPage' 				: pnPage
 					  },
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
 				JSxModalProgress('close');
-				$('#odvAJPTableDT').html(tResult);
-
-				//ตัวถัดไปจะต้อง curros
-				var oPDTLast = localStorage.getItem('ADJ_Price_PDTLast');
-				if(oPDTLast != null || oPDTLast != ''){
-					$('#oetAddPri' + oPDTLast).focus();
-					$('#oetAddPri' + oPDTLast).select();
-				}
+				$('#odvPODocDTItems').html(tResult);
+				JSxPOCalculateFooter();
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
 	}
+
+	//คำนวณส่วนลดท้ายบิล
+	function JSxPOCalculateFooter(){
+		nDocNetTotal = parseFloat($("#ospPODocNetTotal").text())
+		$("#otdPODocNetTotal").text(accounting.formatMoney(nDocNetTotal.toFixed(2), ""))
+
+		nFooterDis 	= $("#ospPOXqhDis").text()
+		nFooterDis 	= parseFloat(nFooterDis.replace(',', ' ').replace(' ', ''))
+		nNetAFHD 	= nDocNetTotal - (nFooterDis);
+
+		$("#otdPONetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
+
+		nVatType 	= $("#ocmPOVatType").val()
+		nVatRate 	= $("#oetPOVatRate").val()
+		nVat 		= 0
+		nGrandTotal = 0
+
+		if (nVatType == "1") {
+			nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
+			nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
+		} else {
+			nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
+			nGrandTotal = parseFloat(nNetAFHD)
+		}
+
+		$("#otdPOVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
+		$("#otdPOGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
+
+		//สรุปบิล เป็น TEXT
+		var tTextTotal 	= $('#otdPOGrandTotal').text();
+		var thaibath 	= ArabicNumberToText(tTextTotal);
+		$('#ospPOTotalText').text(thaibath);
+	}
+
+	//เพิ่มสินค้า
+	function FSxPODocAddDT(){
+
+		//ผู้จำหน่ายต้องเลือกเสมอ
+		// if($('#oetSplCode').val() == ''){
+		// 	$('#obtModalSPLNotNull').click();
+		// 	return;
+		// }
+
+		$('#obtModalSelectPDT').click();
+		JSxSelectPDTToTmp_PO(1);
+	}
+
+	//เลือกสินค้า
+	var obj = [];
+	function JSxSelectPDTToTmp_PO(pnPage){
+		$.ajax({
+			type	: "POST",
+			url		: "r_purchaseorderloadPDT",
+			data 	: {
+						'tTypepage'  	: '<?=$tTypePage?>',
+						'nPage' 		: pnPage,
+						'tSearchPDT'	: $('#oetSearchPDTToTmp').val(),
+						'tSPL'			: $('#oetSplCode').val()
+					  },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('#odvContentSelectPDT').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				JSxModalErrorCenter(jqXHR.responseText);
+			}
+		});
+	}
+
+	//บันทึกข้อมูลสินค้าลงตาราง Tmp
+	function JSxInsPDTToTmp_PO(){
+		var LocalItemSelect = localStorage.getItem("LocalItemData");
+		if(LocalItemSelect !== null){
+			$.ajax({
+				type	: "POST",
+				url		: "r_purchaseorderInsPDTToTmp",
+				data 	: {
+							'tTypepage'  	: '<?=$tTypePage?>',
+							'tCode'	 	 	: '<?=$tDocumentNumber?>',
+							'aData'			: LocalItemSelect
+						},
+				cache	: false,
+				timeout	: 0,
+				success	: function (tResult) {
+					console.log(tResult);
+					obj = [];
+					localStorage.clear();
+					$('#obtModalSelectPDT').click();
+					JSvLoadTableDTTmp(1);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					JSxModalErrorCenter(jqXHR.responseText);
+				}
+			});
+		}else{
+			$('#obtModalSelectPDT').click();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
@@ -518,42 +888,6 @@
 				JSxModalErrorCenter(jqXHR.responseText);
 			}
 		});
-	}
-
-	//เลือกสินค้า
-	function JSxBrowsePDTInDocument(){
-		$('#obtModalSelectPDT').click();
-		JSxSelectPDTToTmp(1);
-	}
-
-	//บันทึกข้อมูลสินค้าลงตาราง Tmp
-	function JSxInsPDTToTmp(){
-		var LocalItemSelect = localStorage.getItem("LocalItemData");
-		if(LocalItemSelect !== null){
-			$.ajax({
-				type	: "POST",
-				url		: "r_adjpriceInsPDTToTmp",
-				data 	: {
-							'tTypepage'  	: '<?=$tTypePage?>',
-							'tCode'	 	 	: '<?=$tDocumentNumber?>',
-							'aData'			: LocalItemSelect,
-							'nAdjPriceALL'  : $('#oetADJPriceALL').val(),
-						},
-				cache	: false,
-				timeout	: 0,
-				success	: function (tResult) {
-					obj = [];
-					localStorage.clear();
-					$('#obtModalSelectPDT').click();
-					JSvLoadTableDTTmp(1);
-				},
-				error: function (jqXHR, textStatus, errorThrown) {
-					JSxModalErrorCenter(jqXHR.responseText);
-				}
-			});
-		}else{
-			$('#obtModalSelectPDT').click();
-		}
 	}
 
 	//ยกเลิกเอกสาร

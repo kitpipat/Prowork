@@ -13,6 +13,13 @@
 				<tr class="xCNClickSupplier xCNSelectPDT <?=$tClassName;?>" 
 					data-splname="<?=$aValue['FTSplName']?>"
 					data-splcode="<?=$aValue['FTSplCode']?>"
+					data-spladdress="<?=$aValue['FTSplAddress']?>"
+					data-contact="<?=$aValue['FTSplContact']?>"
+					data-tel="<?=$aValue['FTSplTel']?>"
+					data-fax="<?=$aValue['FTSplFax']?>"
+					data-email="<?=$aValue['FTSplEmail']?>"
+					data-splvattype="<?=$aValue['FTSplVatType']?>"
+					data-splvat="<?=$aValue['FNSplVat']?>"
 					>
 					<th><?=$aValue['rtRowID']?></th>
 					<td><?=$aValue['FTSplCode']?></td>
@@ -90,6 +97,13 @@
 	$('.xCNClickSupplier').on('click',function(e){
 		var tSplname 		= $(this).data('splname');
 		var tSplcode		= $(this).data('splcode');
+		var tSpladdress		= $(this).data('spladdress');
+		var tContact		= $(this).data('contact');
+		var tTel			= $(this).data('tel');
+		var tFax			= $(this).data('fax');
+		var tEmail			= $(this).data('email');
+		var nSplvattype		= $(this).data('splvattype');
+		var nSplvat			= $(this).data('splvat');
 
 		$('.xCNClickSupplier').addClass('xCNSelectPDT');
 		$('.xCNClickSupplier').removeClass('xCNSelectPDTActive');
@@ -98,7 +112,7 @@
 		$(this).removeClass('xCNSelectPDT');
 
 		obj = [];
-		obj = [tSplname,tSplcode];
+		obj = [tSplname+'##'+tSplcode+'##'+tSpladdress+'##'+tContact+'##'+tTel+'##'+tFax+'##'+tEmail+'##'+nSplvattype+'##'+nSplvat];
 		localStorage.setItem("LocalItemData",obj);
 	});
 </script>
