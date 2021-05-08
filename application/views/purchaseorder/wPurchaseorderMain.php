@@ -14,7 +14,7 @@
 
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ใบสั้งซื้อ</span></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenu">ใบสั่งซื้อ</span></div>
 		<div class="col-lg-6 col-md-6 <?=$tPer_create?>"><button class="xCNButtonInsert pull-right" onClick="JSwPOCallPageInsert('insert','')">+</button></div>
 	</div>
 

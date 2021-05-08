@@ -20,7 +20,7 @@
 	$tLevelUser = $this->session->userdata('tSesUserLevel');
 	if($tTypePage == 'insert'){
 		$tRoute 			= 'r_purchaseordereventinsert';
-		$tRouteUrl			= 'สร้างใบสั้งซื้อ';
+		$tRouteUrl			= 'สร้างใบสั่งซื้อ';
 		$tDocumentNumber	= 'PO##########';
 		$dDocumentDate		= date('d/m/Y') . ' - ' . date("H:i:s");
 		$tDocumentCreate	= $this->session->userdata('tSesFirstname') . ' ' . $this->session->userdata('tSesLastname');
@@ -28,7 +28,7 @@
 		$tDocumentStaApv	= '-';
 	}else if($tTypePage == 'edit'){
 		$tRoute 			= 'r_purchaseordereventedit';
-		$tRouteUrl			= 'แก้ไขใบสั้งซื้อ';
+		$tRouteUrl			= 'แก้ไขใบสั่งซื้อ';
 		$tDocumentNumber	= $aResult[0]['FTXphDocNo'];
 		$dDocumentDate		= date('d/m/Y',strtotime($aResult[0]['FDXphDocDate'])) . ' - ' . $aResult[0]['FTXphDocTime'];
 		$tDocumentCreate	= $aResult[0]['FTUsrFName']; ' - ' . $aResult[0]['FTUsrLName'];
@@ -59,7 +59,7 @@
 <div class="container-fulid">
 	<!--Section บน-->
 	<div class="row">
-		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPagePOMain();">ใบสั้งซื้อ</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
+		<div class="col-lg-6 col-md-6"><span class="xCNHeadMenuActive" onclick="JSxCallPagePOMain();">ใบสั่งซื้อ</span><span class="xCNHeadMenu">  /  <?=$tRouteUrl?></span></div>
 		<div class="col-lg-6 col-md-6">	
 
 			<?php 

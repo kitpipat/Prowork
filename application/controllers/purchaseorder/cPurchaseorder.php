@@ -12,7 +12,7 @@ class cPurchaseorder extends CI_Controller {
 		$this->load->view('purchaseorder/wPurchaseorderMain');
 	}
 
-	//โหลดข้อมูลเอกสารใบสั้งซื้อ
+	//โหลดข้อมูลเอกสารใบสั่งซื้อ
 	public function FSwCPOLoadDatatable(){
 		$nPage = $this->input->post('nPage');
 		$aCondition = array(

@@ -224,7 +224,7 @@ $route['r_selectAttribute'] 					= 'product/product/cProduct/FSwCPDTHTMLAttribut
 $route['ImageUpload_andcrop'] 					= 'user/user/cUser/FSvCAdminUploadimage';
 $route['ImageCropper'] 							= 'user/user/cUser/FSvCAdminCropperimage';
 
-//หน้าจอใบสั้งซื้อ
+//หน้าจอใบสั่งซื้อ
 $route['r_purchaseorder'] 						= 'purchaseorder/cPurchaseorder/index';
 $route['r_purchaseorderload'] 					= 'purchaseorder/cPurchaseorder/FSwCPOLoadDatatable';
 $route['r_purchaseordercallpageInsertorEdit'] 	= 'purchaseorder/cPurchaseorder/FSwCPOCallPageInsertorEdit';
