@@ -108,7 +108,7 @@
 								onclick="alert('กรอกจำนวนที่ต้องการแล้วกด Enter')"></i>
 							<input type="text"
 								class="text-right xCNEditInline xCNInputNumericWithDecimal xCNDocItemQty"
-								maxlength="5"
+								maxlength="6"
 								id="oetDocItemQty<?=$nSeq?>"
 								value="<?=$nXpoQty ?>"
 								data-seq="<?=$nSeq?>"
@@ -127,7 +127,7 @@
 							<input type="text"
 								id="oetItemDiscount<?=$nSeq?>"
 								class="text-right xCNEditInline xCNNumberandPercent xCNItemDiscount"
-								maxlength="20"
+								maxlength="15"
 								value="<?=$nXpoDisText?>"
 								data-seq="<?=$nSeq?>"
 								style="width:100%;" >
@@ -259,8 +259,66 @@
 
 	//###############################################################################################
 
+	//ส่วนลด
+	$('.xCNItemDiscount').on('change keyup', function(event){
+		if(event.type == "change"){
+			FSxPODocItemDiscount(this)
+		}
+		if(event.keyCode == 13) {
+			FSxPODocItemDiscount(this)
+		}
+	});
 
+	//ส่วนลดรายการ
+	function FSxPODocItemDiscount(poElm) {
+		var nItemDiscount 		= $(poElm).val();
+		var tDocNo 				= $("#ospPODocNo").attr("data-docno");
+		var nItemSeq 			= $(poElm).attr("data-seq");
+		var tPdtCode 			= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
+		var nItemNet 			= $("#olbItemNet"+nItemSeq).text();
 
+		if($(poElm).val() != ''){
+			$.ajax({
+				url		: 'r_purchaseorderDiscount',
+				timeout	: 0,
+				type	: 'POST',
+				data	:	 {
+					'tDocNo'			: tDocNo,
+					'nItemSeq'			: nItemSeq,
+					'nItemDiscount'		: nItemDiscount,
+					'tPdtCode' 			: tPdtCode,
+					'nItemNet' 			: nItemNet,
+				},
+				datatype: 'json',
+				success	: function(tResult) {
+					JSvLoadTableDTTmp(1);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					JSxModalErrorCenter(jqXHR.responseText);
+				}
+			});
+		}
+	}
+
+	//###############################################################################################
+
+	function JCNPONumberToCurrency(nNumber){
+		// $.ajax({
+		// 	url		: 'r_NumberToCurrency',
+		// 	timeout	: 0,
+		// 	type	: 'GET',
+		// 	data	: {nNumber: nNumber},
+		// 	datatype: 'json'
+		// })
+		// .done(function(data) {
+		// 	$('#ospPOTotalText').text(data);
+		// })
+		// .fail(function(jqXHR, textStatus, errorThrown) {
+		// 	//serrorFunction();
+		// });
+	}
+
+	//###############################################################################################
 
 	//ลบสินค้า
 	function JSxDeleteItemInTempPO(pnSeq,pnPDTCode){

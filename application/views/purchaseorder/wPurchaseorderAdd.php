@@ -1,17 +1,17 @@
 <style>
-	#ofmPurchaseorderSPL .form-group {
+	#ofmPurchaseorder .form-group {
 		margin-bottom: 0.25rem;
 	}
 
-	#ofmPurchaseorderSPL label {
+	#ofmPurchaseorder label {
 		margin-bottom: 0rem;
 	}
 
-	#ofmPurchaseorderHeader .form-group {
+	#ofmPurchaseorderCSS .form-group {
 		margin-bottom: 0.25rem;
 	}
 
-	#ofmPurchaseorderHeader label {
+	#ofmPurchaseorderCSS label {
 		margin-bottom: 0rem;
 	}
 </style>
@@ -93,8 +93,9 @@
 		</div>
 	</div>
 
+	
 	<div class="row" style="margin-top: 10px;">
-			
+
 		<!--ข้อมูลผู้จำหน่าย-->	
 		<div class="col-lg-6">
 			<div class="card">
@@ -107,7 +108,7 @@
 
 						<!--Detail-->
 						<div class="col-lg-12">
-							<form id="ofmPurchaseorderSPL">
+							<form id="ofmPurchaseorderCSS">
 								<div class="row">
 									<?php
 										if($tTypePage == 'edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
@@ -141,7 +142,7 @@
 									<div class="col-lg-12">
 										<div class="form-group">
 											<label>ที่อยู่</label>
-											<textarea type="text" class="form-control" id="oetPOAddress" name="oetPOAddress" placeholder="รายละเอียดที่อยู่" rows="4" disabled="disabled"></textarea>
+											<textarea type="text" class="form-control" id="oetPOAddress" name="oetPOAddress" placeholder="รายละเอียดที่อยู่" rows="3" disabled="disabled"></textarea>
 										</div>
 									</div>
 
@@ -201,7 +202,7 @@
 						<!--Head-->
 						<div class="col-lg-6">
 							<div class="xCNHeadFooterINPDT" style="background-color:#a3e69e; color:#000;">
-								วันที่เอกสาร : <span id="ospPODocDate"></span>
+								วันที่เอกสาร : <span id="ospPODocDate"><?=$dDocumentDate?></span>
 							</div>
 						</div>
 
@@ -217,16 +218,41 @@
 									<input type="hidden" id="ohdPOStaApv">
 								</div>
 							</div>
-							<hr>
-
-							<form id="ofmPurchaseorderHeader">
+							<hr  style="margin-bottom: 15px;">
+							
+							<form id="ofmPurchaseorder">
 								<div class="row">
 
+									<!--สาขา-->
+									<?php $tLevelUser = $this->session->userdata('tSesUserLevel'); ?>
+									<?php if($tLevelUser == 'HQ'){ ?>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<div class="form-group">
+												<label>สาขา</label>
+												<select class="form-control" id="oetBCHPO" name="oetBCHPO">
+													<?php foreach($aBCHList['raItems'] AS $nKey => $aValue){ ?>
+														<option <?=(@$FTBchCode == $aValue['FTBchCode'])? "selected" : "";?> value="<?=$aValue['FTBchCode'];?>"><?=$aValue['FTBchName'];?> - (<?=$aValue['FTCmpName'];?>)</option>
+													<?php } ?>
+												</select>
+											</div>
+										</div>
+									<?php }else{ ?>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<div class="form-group">
+												<label>สาขา</label>
+												<?php $tBCHName = $this->session->userdata('tSesBCHName'); ?>
+												<?php $tBCHCode = $this->session->userdata('tSesBCHCode'); ?>
+												<input type="text" class="form-control" value="<?=@$tBCHName?>" autocomplete="off" readonly>
+												<input type="hidden" id="oetBCHPO" name="oetBCHPO" value="<?=@$tBCHCode?>" autocomplete="off">
+											</div>
+										</div>
+									<?php } ?>
+									
 									<!--จัดส่งวันที่-->
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>จัดส่งวันที่</label>
-											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpPOXqhEftTo" name="odpPOXqhEftTo" placeholder="DD/MM/YYYY" autocomplete="off">
+											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpPOXpoEftTo" name="odpPOXpoEftTo" placeholder="DD/MM/YYYY" autocomplete="off">
 										</div>
 									</div>
 
@@ -246,7 +272,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>จำนวนวันเครดิต (วัน)</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetPOXqhCredit" name="oetPOXqhCredit" placeholder="0" autocomplete="off">
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetPOXpoCredit" name="oetPOXpoCredit" placeholder="0" autocomplete="off">
 										</div>
 									</div>
 
@@ -260,16 +286,8 @@
 											</select>
 										</div>
 									</div>
-
-									<!--เงื่อนไขการชำระ-->
-									<div class="col-lg-12">
-										<div class="form-group">
-											<label>เงื่อนไขการชำระ</label>
-											<textarea type="text" class="form-control" id="oetPORemark" name="oetPORemark" placeholder="เงื่อนไขการชำระ" rows="2" disabled="disabled"></textarea>
-										</div>
-										<hr style="margin-bottom: 13px;">
-									</div>
 								</div>
+								<hr  style="margin-bottom: 10px;">
 							</form>
 
 							<div class="row">
@@ -353,18 +371,18 @@
 								<div class="col-lg-7">
 									<div class="input-container" style="margin-bottom:0px;">
 										<i class="xWBnticon fa fa-info-circle fa-xs"
-										   style="font-size: 0.5rem;"
-										   title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
-										   onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
+										style="font-size: 0.5rem;"
+										title="กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter"
+										onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
 										<input type="text"
-										       autocomplete="off"
-													id="oetPOXqhDisText"
-													class="text-right form-control xCNNumberandPercent xCNXqhDisText"
-													maxlength="20" onkeyup="FSXQUOCheckInputDis(this)">
+											autocomplete="off"
+												id="oetPOXpoDisText"
+												class="text-right form-control xCNNumberandPercent xCNDiscountFooterBill"
+												maxlength="12" onkeyup="FSXPOCheckInputDis(this)">
 									</div>
 								</div>
 								<div class="col-lg-5">
-									<label class="text-right xCNTotal" id="ospPOXqhDis">0.00</label>
+									<label class="text-right xCNTotal" id="ospPOXpoDis">0.00</label>
 								</div>
 							</div>
 						</div>
@@ -499,15 +517,15 @@
 </div>
 
 <!--Modal กรุณาให้เลือกสินค้า-->
-<button id="obtModalPlzSelectPDT" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalPlzSeletePDT"></button>
-<div class="modal fade" id="odvModalPlzSeletePDT" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<button id="obtModalPDTIsNull" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalPDTIsNull"></button>
+<div class="modal fade" id="odvModalPDTIsNull" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">กรุณาเลือกสินค้า</h5>
 			</div>
 			<div class="modal-body">
-				<label style="text-align: left; display: block;">ไม่พบสินค้า กรุณาเลือกสินค้า เพื่อทำการปรับราคา</label>
+				<label style="text-align: left; display: block;">ไม่พบสินค้า กรุณาเลือกสินค้าก่อนทำรายการ</label>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
@@ -593,8 +611,25 @@
 	</div>
 </div>
 
-<script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
+<!-- Modal แจ้งเตือนต่างๆ -->
+<button id="obtModalTextWarning" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalTextWarning"></button>
+<div class="modal fade" id="odvModalTextWarning" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">แจ้งเตือน</h5>
+			</div>
+			<div class="modal-body">
+				<label id="olbModalTextWarning" style="text-align: left; display: block;"></label>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
 
+<script src="<?= base_url('application/assets/js/jFormValidate.js')?>"></script>
 <script>	
 
 	$('ducument').ready(function(){ 
@@ -704,7 +739,7 @@
 		nDocNetTotal = parseFloat($("#ospPODocNetTotal").text())
 		$("#otdPODocNetTotal").text(accounting.formatMoney(nDocNetTotal.toFixed(2), ""))
 
-		nFooterDis 	= $("#ospPOXqhDis").text()
+		nFooterDis 	= $("#ospPOXpoDis").text()
 		nFooterDis 	= parseFloat(nFooterDis.replace(',', ' ').replace(' ', ''))
 		nNetAFHD 	= nDocNetTotal - (nFooterDis);
 
@@ -736,10 +771,10 @@
 	function FSxPODocAddDT(){
 
 		//ผู้จำหน่ายต้องเลือกเสมอ
-		// if($('#oetSplCode').val() == ''){
-		// 	$('#obtModalSPLNotNull').click();
-		// 	return;
-		// }
+		if($('#oetSplCode').val() == ''){
+			$('#obtModalSPLNotNull').click();
+			return;
+		}
 
 		$('#obtModalSelectPDT').click();
 		JSxSelectPDTToTmp_PO(1);
@@ -783,7 +818,6 @@
 				cache	: false,
 				timeout	: 0,
 				success	: function (tResult) {
-					console.log(tResult);
 					obj = [];
 					localStorage.clear();
 					$('#obtModalSelectPDT').click();
@@ -798,68 +832,114 @@
 		}
 	}
 
+	//ใส่ส่วนลดท้ายบิล
+	$('.xCNDiscountFooterBill').on('change keyup', function(event){
+		if(event.type == "change"){
+			FSxPODocFootDis(this)
+		}
+		if(event.keyCode == 13) {
+			FSxPODocFootDis(this)
+		}
+	});
 
+	//ส่วนท้ายบิล
+	function FSxPODocFootDis(poElm) {
 
+		if(poElm == '#oetPOXpoDisText'){
+			nDiscount = $('#oetPOXpoDisText').val();
+		}else{
+			nDiscount = $(poElm).val();
+		}
 
+		var tDocNo 		= $("#ospPODocNo").attr("data-docno");
+		var nNetB4HD 	= $("#otdPODocNetTotal").text();
 
+		if(nDiscount != ''){
+			$.ajax({
+				url		: 'r_purchaseorderFootDiscount',
+				timeout	: 0,
+				type	: 'POST',
+				data	: {
+					'tDocNo' 	: tDocNo,
+					'nDiscount'	: nDiscount,
+					'nNetB4HD' 	: nNetB4HD
+				},
+				datatype: 'json',
+				success	: function(tResult) {
+					$("#ospPOXpoDis").text(tResult)
 
+					var nFootDiscount 	= parseFloat(tResult)
+					nNetB4HD 		= nNetB4HD.replace(/,/g, "");
+					nNetAFHD 		= parseFloat(nNetB4HD) - parseFloat(nFootDiscount)
 
+					$("#ospPOXpoDis").text(accounting.formatMoney(nFootDiscount.toFixed(2), ""))
+					$("#otdPONetAFHD").text(accounting.formatMoney(nNetAFHD.toFixed(2), ""))
 
+					var nVatType = $("#ocmPOVatType").val()
+					var nVatRate = $("#oetPOVatRate").val()
+					var nVat 		= 0
+					var nGrandTotal = 0
 
+					if (nVatType == "1") { //แยกนอก
+						nVat 		= ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
+						nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
+					} else { //รวมใน
+						nVat 		= nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
+						nGrandTotal = parseFloat(nNetAFHD)
+					}
 
+					$("#otdPOVat").text(accounting.formatMoney(nVat.toFixed(2), ""))
+					$("#otdPOGrandTotal").text(accounting.formatMoney(nGrandTotal.toFixed(2), ""))
 
+					var tTextTotal 	= $('#otdPOGrandTotal').text();
+					var thaibath 	= ArabicNumberToText(tTextTotal);
+					$('#ospPOTotalText').text(thaibath);
 
+					// JCNPONumberToCurrency(nGrandTotal.toFixed(2));
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					JSxModalErrorCenter(jqXHR.responseText);
+				}
+			});
+		}
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	function FSXPOCheckInputDis(elm){
+		var tFootDisText = $(elm).val().replace(/,,/gi, ",");
+		$(elm).val(tFootDisText);
+	}
 
 	//อีเวนท์บันทึกข้อมูล
 	function JSxEventSaveorEdit(ptRoute){
 
-		if($('#oetDateActive').val() == null || $('#oetDateActive').val() == ''){
-			$('#obtModalPlzDateStart').click();
-
-			$('.xCNConfirmDateActive').on('click',function(){
-				$('#oetDateActive').focus();
-			});
+		//ผู้จำหน่ายต้องเลือกเสมอ
+		if($('#oetSplCode').val() == ''){
+			$('#obtModalSPLNotNull').click();
 			return;
 		}
 
-		if($('#otbAJPTable tbody tr').hasClass('otrAJPTmpEmpty') == true){
-			$('#obtModalPlzSelectPDT').click();
-			return;
-		}
+		// if($('#odpPOXpoEftTo').val() == null || $('#odpPOXpoEftTo').val() == ''){
+		// 	$('#obtModalTextWarning').click();
+		// 	$('#olbModalTextWarning').text('กรุณาเลือกจัดส่งวันที่');
 
+		// 	$('#odvModalTextWarning .xCNCloseDelete').on('click',function(){
+		// 		$('#odpPOXpoEftTo').focus();
+		// 	});
+		// 	return;
+		// }
+
+		// if($('#otbPODTTable tbody tr').hasClass('otrPOTmpEmpty') == true){
+		// 	$('#obtModalPDTIsNull').click();
+		// 	return;
+		// }
 
 		$.ajax({
 			type	: "POST",
 			url		: ptRoute,
-			data 	: $('#ofmAJP').serialize(),
+			data 	: $('#ofmPurchaseorder').serialize() 
+					+ '&tDocNo='   + '<?=$tDocumentNumber?>' 
+					+ '&tSplCode=' + $('#oetSplCode').val()
+					+ '&tRemark='  + $('#otaPODocRemark').val(),
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
@@ -869,16 +949,16 @@
 				if(tResult == 'pass_insert'){
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
-					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนเอกสารปรับราคาสำเร็จ');
-					JSwAJPCallPageInsert('edit',tDocumentNumber);
+					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนเอกสารใบสั่งซื้อสำเร็จ');
+					// JSwPOCallPageInsert('edit',tDocumentNumber);
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
 				}else if(tResult == 'pass_update'){
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
-					$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อเอกสารปรับราคาสำเร็จ');
-					JSwAJPCallPageInsert('edit',tDocumentNumber);
+					$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อเอกสารใบสั่งซื้อสำเร็จ');
+					// JSwPOCallPageInsert('edit',tDocumentNumber);
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
@@ -890,6 +970,16 @@
 		});
 	}
 
+
+
+
+
+
+
+
+
+
+	
 	//ยกเลิกเอกสาร
 	function JSxEventCancleDocument(){
 		$('#obtModalCancleDocument').click();

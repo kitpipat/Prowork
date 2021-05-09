@@ -237,5 +237,8 @@ $route['r_purchaseorderloadPDT']                = 'purchaseorder/cPurchaseorder/
 $route['r_purchaseorderInsPDTToTmp']   			= 'purchaseorder/cPurchaseorder/FSvCPOInsPDTToTmp';
 $route['r_purchaseorderDeleteTmp'] 				= 'purchaseorder/cPurchaseorder/FSvCPODeleteDTInTmp';
 $route['r_purchaseorderEditItemPrice'] 			= 'purchaseorder/cPurchaseorder/FSxCPOEventItemPri';
-$route['r_purchaseorderEditItemQty'] 			= 'purchaseorder/cPurchaseorder/FSxCPOOEventEditQty';
+$route['r_purchaseorderEditItemQty'] 			= 'purchaseorder/cPurchaseorder/FSxCPOEventEditQty';
+$route['r_purchaseorderDiscount'] 				= 'purchaseorder/cPurchaseorder/FSxCPOEventItemDis';
+$route['r_purchaseorderFootDiscount'] 			= 'purchaseorder/cPurchaseorder/FSxCPOEventFootDis';
+
 

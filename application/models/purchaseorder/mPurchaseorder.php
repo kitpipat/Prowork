@@ -10,13 +10,22 @@ class mPurchaseorder extends CI_Model {
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTXpoDocNo DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
 					DISTINCT
-						HD.*
+						HD.*,
+						USR.FTUsrFName,
+						BCH.FTBchName,
+						SPL.FTXpoSplName
 					FROM TARTPoHD HD 
-					LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode";
+					LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode 
+					LEFT JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode 
+					LEFT JOIN TARTPoHDSpl SPL ON HD.FTXpoDocNo = SPL.FTXpoDocNo ";
 		$tSQL .= " WHERE 1=1 ";
 
 		if($tTextSearch != '' || $tTextSearch != null){
-			$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tTextSearch%' )";
+			$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR BCH.FTBchName LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR USR.FTUsrFName LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR SPL.FTXpoSplName LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR SPL.FTXpoSplCode LIKE '%$tTextSearch%' )";
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
@@ -49,10 +58,16 @@ class mPurchaseorder extends CI_Model {
 	public function FSaMPOGetData_PageAll($paData){
 		try{
 			$tTextSearch = trim($paData['tSearchAll']);
-			$tSQL 		= "SELECT COUNT (HD.FTXpoDocNo) AS counts FROM TARTPoHD HD ";
+			$tSQL 		= "SELECT COUNT (HD.FTXpoDocNo) AS counts FROM TARTPoHD HD 
+						LEFT JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode 
+						LEFT JOIN TARTPoHDSpl SPL ON HD.FTXpoDocNo = SPL.FTXpoDocNo ";
 			$tSQL 		.= " WHERE 1=1 ";
 			if($tTextSearch != '' || $tTextSearch != null){
-				$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tTextSearch%' )";
+				$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR BCH.FTBchName LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR USR.FTUsrFName LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR SPL.FTXpoSplName LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR SPL.FTXpoSplCode LIKE '%$tTextSearch%' )";
 			}
 
             $oQuery = $this->db->query($tSQL);
@@ -71,11 +86,12 @@ class mPurchaseorder extends CI_Model {
 		try{
 			$this->db->where_in('FTXpoDocNo', $ptCode);
 			$this->db->delete('TARTPoHD');
+
+			$this->db->where_in('FTXpoDocNo', $ptCode);
+			$this->db->delete('TARTPoHDSpl');
 			
 			$this->db->where_in('FTXpoDocNo', $ptCode);
             $this->db->delete('TARTPoDT');
-
-			//มีมากกว่านี้
 		}catch(Exception $Error){
             echo $Error;
         }
@@ -86,16 +102,33 @@ class mPurchaseorder extends CI_Model {
 		try{
 			$FTWorkerID  = $this->session->userdata('tSesLogID');
 			
-			//ส่งเลขที่เอกสารมา
+			//ส่งเลขที่เอกสารมา DT
 			if($tCode != '' || $tCode != null){
 				$this->db->where_in('FTXpoDocNo', $tCode);
 			}
-
 			$this->db->where_in('FTWorkerID', $FTWorkerID);
             $this->db->delete('TARTPoDTTmp');
+
+
+			//ส่งเลขที่เอกสารมา HD
+			if($tCode != '' || $tCode != null){
+				$this->db->where_in('FTXpoDocNo', $tCode);
+			}
+			$this->db->where_in('FTWorkerID', $FTWorkerID);
+            $this->db->delete('TARTPoHDTmp');
 		}catch(Exception $Error){
             echo $Error;
 		}
+	}
+
+	//สร้าง HD Default 
+	public function FSaMPOInsert_HDDefault(){
+		$tWorkerID	 = $this->session->userdata('tSesLogID');
+		$tSessionBCH = $this->session->userdata('tSesBCHCode');
+		$dDocDate 	 = date('Y-m-d H:i:s');
+		$tSQL 		 = "INSERT INTO TARTPoHDTmp (FTBchCode,FTXpoDocNo,FDXpoDocDate,FTWorkerID,FTCreateBy,FDCreateOn,FTXpoCshOrCrd) VALUES	";
+		$tSQL 		.= "('" . $tSessionBCH . "','PO##########','" . $dDocDate . "','" . $tWorkerID . "','" . $tWorkerID . "','" . $dDocDate . "','1')";
+		$this->db->query($tSQL);
 	}
 
 	//เข้าหน้าเเก้ไข
@@ -177,7 +210,6 @@ class mPurchaseorder extends CI_Model {
 	//ข้อมูลผู้จำหน่าย
 	public function FCxMPOGetSupplierAll($paData){
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'], $paData['nPage']);
-		$tWorkerID		= $this->session->userdata('tSesLogID');
 		$tTextSearch 	= trim($paData['tSearchSupplier']);
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTSplCode ASC) AS rtRowID,* FROM (";
@@ -250,6 +282,13 @@ class mPurchaseorder extends CI_Model {
 		} catch (Exception $Error) {
 			echo $Error;
 		}
+	}
+
+	//ข้อมูลผู้จำหน่าย
+	public function FCxMPOGetSupplierByID($pnCodeSPL){
+		$tSQL 		= " SELECT SPL.* FROM TCNMSpl SPL WHERE 1=1 AND SPL.FTSplCode = '$pnCodeSPL' ";
+		$oQuery 	= $this->db->query($tSQL);
+		return $oQuery->result_array();
 	}
 
 	//ข้อมูลใน DT Temp
@@ -579,4 +618,198 @@ class mPurchaseorder extends CI_Model {
 
 		$this->db->query($tSQL);
 	}
+
+	//ส่วนลดรายการ
+	public function FCxMPOEditItemDisCount($paItem){
+		$tDocNo 	= $paItem['tDocNo'];
+		$nItemSeq 	= $paItem['nItemSeq'];
+		$nDiscount 	= $paItem['nDiscount'];
+		$tPdtCode   = $paItem['tPdtCode'];
+		$tDisText   = $paItem['tDisText'];
+		$tWorkerID	= $this->session->userdata('tSesLogID');
+
+		$tSQL = "UPDATE TARTPoDTTmp SET FCXpoDis = '" . $nDiscount . "',FTXpoDisTxt='" . $tDisText . "'
+				WHERE  FTWorkerID = '" . $tWorkerID . "'
+				AND    FNXpoSeq = '" . $nItemSeq . "' ";
+
+		if ($tDocNo != "") {
+			$tSQL .= " AND FTXpoDocNo = '" . $tDocNo . "' ";
+		}
+
+		$this->db->query($tSQL);
+	}
+
+	//ส่วนลดท้ายบิล
+	public function FCxMPOEditDocDisCount($paItem){
+		$tDocNo 	= $paItem['tDocNo'];
+		$nDiscount 	= $paItem['nDiscount'];
+		$tDisTxt   	= $paItem['tDisTxt'];
+		$tWorkerID  = $paItem['tWorkerID'];
+
+		$tSQL = "UPDATE TARTPoHDTmp SET FCXpoDis = '" . $nDiscount . "', FTXpoDisTxt = '" . $tDisTxt . "'  WHERE FTWorkerID = '" . $tWorkerID . "'";
+
+		if ($tDocNo != "") {
+			$tSQL .= " AND FTXpoDocNo = '" . $tDocNo . "' ";
+		}
+		$this->db->query($tSQL);
+	}
+
+	//Gen เลขที่เอกสาร
+	public function FCtMPOGetDocNo($tBchCode){
+		$tSQL = "SELECT MAX(RIGHT(ISNULL(FTXpoDocNo,''),4)) AS FTXpoDocNo
+		         FROM TARTPoHD WITH (NOLOCK)
+				 WHERE FTBchCode = '" . $tBchCode . "'";
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
+		if ($nCountRows > 0) {
+			$aResult 	= $oQuery->result_array();
+			$nNextDocNo = sprintf('%05d', $aResult[0]['FTXpoDocNo'] + 1);
+			$tDocNo 	= 'PO' . $tBchCode . DATE('Ymd') . '-' . $nNextDocNo;
+		} else {
+			$tDocNo 	= 'PO' . $tBchCode . DATE('Ymd') . '-00001';
+		}
+		return $tDocNo;
+	}
+
+	//อัพเดทข้อมูล HDTmp
+	public function FCxMPOUpdate_HDTmp($paItem){
+		try {
+			$tWorkerID			= $this->session->userdata('tSesLogID');
+			$tDocumentNumber 	= $paItem['FTXpoDocNoOld'];
+			$aSet = array(
+				'FTXpoDocNo'		=> $paItem['FTXpoDocNo'],
+				'FTBchCode'			=> $paItem['FTBchCode'],
+				'FDXpoDocDate'		=> $paItem['FDXpoDocDate'],
+				'FTXpoCshOrCrd'		=> $paItem['FTXpoCshOrCrd'],
+				'FNXpoCredit'		=> $paItem['FNXpoCredit'],
+				'FTXpoVATInOrEx'	=> $paItem['FTXpoVATInOrEx'],
+				'FDDeliveryDate'	=> $paItem['FDDeliveryDate'],
+				'FTXpoStaExpress'	=> $paItem['FTXpoStaExpress'],
+				'FTXpoStaDoc'		=> $paItem['FTXpoStaDoc'],
+				'FTXpoStaActive'	=> $paItem['FTXpoStaActive'],
+				'FTXpoStaDeli'		=> $paItem['FTXpoStaDeli'],
+				'FTXpoRmk'			=> $paItem['FTXpoRmk'],
+				'FTXpoStaApv'		=> $paItem['FTXpoStaApv'],	
+				'FTXpoStaRefInt'	=> $paItem['FTXpoStaRefInt'],
+				'FTApprovedBy'		=> $paItem['FTApprovedBy'],
+				'FDApproveDate'		=> $paItem['FDApproveDate'],
+				'FTCreateBy'		=> $paItem['FTCreateBy'],
+				'FDCreateOn'		=> $paItem['FDCreateOn'],
+				'FTUpdateBy'		=> $paItem['FTUpdateBy'],
+				'FDUpdateOn'		=> $paItem['FDUpdateOn']
+			);
+			$this->db->where('FTXpoDocNo', $tDocumentNumber);
+			$this->db->where('FTWorkerID', $tWorkerID);
+			$this->db->update('TARTPoHDTmp', $aSet);
+		} catch (Exception $Error) {
+			echo $Error;
+		}
+	}
+
+	//เพิ่มข้อมูล SPLHD
+	public function FCxMPOInsert_SPLHD($paItem){
+		$this->db->insert('TARTPoHDSpl', $paItem);
+	}
+
+	//อัพเดทเลขที่เอกสาร
+	public function FCxMPOUpdate_DT($paItem){
+		try {
+			$tWorkerID			= $this->session->userdata('tSesLogID');
+			$tDocumentNumber 	= $paItem['FTXpoDocNoOld'];
+			$aSet = array(
+				'FTXpoDocNo'		=> $paItem['FTXpoDocNo']
+			);
+			$this->db->where('FTXpoDocNo', $tDocumentNumber);
+			$this->db->where('FTWorkerID', $tWorkerID);
+			$this->db->update('TARTPoDTTmp', $aSet);
+		} catch (Exception $Error) {
+			echo $Error;
+		}
+	}
+
+	//Move DT Temp ไป DT
+	public function FCxMPOMoveTemp2DT($tDocNo){
+		$tWorkerID	= $this->session->userdata('tSesLogID');
+		$tCreateBy 	= $this->session->userdata('tSesUsercode');
+		$tSQL = "INSERT INTO TARTPoDT
+				 SELECT 
+				 		FTXpoDocNo
+						,FNXpoSeq
+						,FTPdtCode
+						,FTPdtName
+						,FTPunCode
+						,FTPunName
+						,FCXpoUnitPrice
+						,FTXpoCost
+						,FTSplCode
+						,FCXpoQty
+						,0 AS FCXpoB4Dis
+						,FCXpoDis
+						,FTXpoDisTxt
+						,0 AS FCXpoAfDT
+						,FCXpoFootAvg
+						,0 AS FCXpoNetAfHD
+						,FTXpoRefPo
+						,FTPdtStaEditName
+						,ISNULL(FTCreateBy,'$tCreateBy')
+						,ISNULL(FDCreateOn,CONVERT(VARCHAR(16),GETDATE(),121))
+						,'$tCreateBy' AS FTUpdateBy
+						,'' AS FDUpdateOn
+						,FTXpoRefBuyer
+						,FTPdtStaCancel
+					FROM TARTPoDTTmp
+					WHERE FTWorkerID = '" . $tWorkerID . "'
+					AND FTXpoDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQL);
+
+		$tSQLDel 	= "DELETE FROM TARTPoDTTmp WHERE FTXpoDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQLDel);
+	}
+
+	//Move HD Temp ไป HD
+	public function FCxMPOMoveTemp2HD($tDocNo){
+		$tWorkerID	= $this->session->userdata('tSesLogID');
+		$tCreateBy 	= $this->session->userdata('tSesUsercode');
+		$tSQL = "INSERT INTO TARTPoHD
+				 SELECT FTBchCode
+						,FTXpoDocNo
+						,FDXpoDocDate
+						,FTXpoCshOrCrd
+						,FNXpoCredit
+						,FTXpoVATInOrEx
+						,FDDeliveryDate
+						,FTXpoStaExpress
+						,FTXpoStaDoc
+						,FTXpoStaActive
+						,FTXpoStaDeli
+						,FCXpoB4Dis
+						,FCXpoDis
+						,FTXpoDisTxt
+						,FCXpoAFDis
+						,FCXpoVatRate
+						,FCXpoAmtVat
+						,FCXpoVatable
+						,FCXpoGrand
+						,FCXpoRnd
+						,FTXpoGndText
+						,FTXpoRmk
+						,FTUsrDep
+						,FTXpoStaApv
+						,FTXpoStaRefInt
+						,FTApprovedBy
+						,FDApproveDate
+						,FTCreateBy
+						,FDCreateOn
+						,FTUpdateBy
+						,FDUpdateOn
+					FROM TARTPoHDTmp
+					WHERE FTWorkerID = '" . $tWorkerID . "'
+					AND FTXpoDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQL);
+
+		$tSQLDel = "DELETE FROM TARTPoHDTmp WHERE FTXpoDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQLDel);
+	}
+
+	
 }

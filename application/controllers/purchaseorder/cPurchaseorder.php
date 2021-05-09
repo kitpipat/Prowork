@@ -5,6 +5,7 @@ class cPurchaseorder extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('purchaseorder/mPurchaseorder');
+		$this->load->model('user/user/mUser');
 		date_default_timezone_set('Asia/Bangkok');
 	}
 
@@ -38,6 +39,9 @@ class cPurchaseorder extends CI_Controller {
 
 		if($tTypePage == 'insert'){
 			$aResult	= '';
+
+			//สร้าง HD Default ไว้หนึ่งใบ
+			$this->mPurchaseorder->FSaMPOInsert_HDDefault();
 		}else if($tTypePage == 'edit'){
 			$tCode 		= $this->input->post('tCode');
 			$aResult 	= $this->mPurchaseorder->FSaMPOGetDataBYID_HD($tCode);
@@ -47,6 +51,7 @@ class cPurchaseorder extends CI_Controller {
 		}
 
 		$aPackData = array(
+			'aBCHList'			=> $this->mUser->FSaMUSRGetBranch(),
 			'tTypePage' 		=> $tTypePage,
 			'aResult'			=> $aResult
 		);
@@ -165,7 +170,7 @@ class cPurchaseorder extends CI_Controller {
 		$this->mPurchaseorder->FCxMPODeleteItemInTemp($aItem);
 	}
 
-	// แก้ไขราคาสินค้าในเอกสาร
+	//แก้ไขราคาสินค้าในเอกสาร
 	public function FSxCPOEventItemPri(){
 		$nItemSeq 		= $this->input->post('nItemSeq');
 		$tDocNo 		= $this->input->post('tDocNo');
@@ -179,7 +184,7 @@ class cPurchaseorder extends CI_Controller {
 		$nDisLen 		= count($aDiscount);
     	$nTotalDisCount = 0;
 		$nItemNetLast 	= $nItemNet;
-		for($d = 0;$d<$nDisLen;$d++){
+		for($d=0; $d<$nDisLen; $d++){
 			$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1);//ประเภทส่วนลด
 			if($tDisType == '%'){
 				$nDiscountCal 	= substr($aDiscount[$d], 0, strlen($aDiscount[$d]) - 1);
@@ -202,8 +207,8 @@ class cPurchaseorder extends CI_Controller {
 		$this->mPurchaseorder->FCxMPOEditUnitPriInTemp($aDataUpdate);
 	}
 
-	// แก้ไขจำนวนสินค้าในเอกสาร
-	public function FSxCPOOEventEditQty(){
+	//แก้ไขจำนวนสินค้าในเอกสาร
+	public function FSxCPOEventEditQty(){
 		$nItemSeq 		= $this->input->post('nItemSeq');
 		$tDocNo 		= $this->input->post('tDocNo');
 		$nItemQTY 		= str_replace(",", "", $this->input->post('nItemQTY'));
@@ -217,7 +222,7 @@ class cPurchaseorder extends CI_Controller {
     	$nTotalDisCount = 0;
 		$nItemNetLast 	= $nItemNet;
 
-		for($d=0;$d<$nDisLen;$d++){
+		for($d=0; $d<$nDisLen; $d++){
 			$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1); //ประเภทส่วนลด
 			if($tDisType == '%'){
 				$nDiscountCal 	= substr($aDiscount[$d], 0, strlen($aDiscount[$d]) - 1);
@@ -245,5 +250,156 @@ class cPurchaseorder extends CI_Controller {
 
 		$this->mPurchaseorder->FCxMPOEditItemInTemp($aDataUpdate);
 	}
+
+	//แก้ไขส่วนลดรายการ
+	public function FSxCPOEventItemDis(){
+		$tDocNo 		= $this->input->post('tDocNo');
+		$nItemSeq 		= $this->input->post('nItemSeq');
+		$nItemDiscount 	= $this->input->post('nItemDiscount');
+		$tPdtCode 		= $this->input->post('tPdtCode');
+		$nItemNet 		= str_replace(",", "", $this->input->post('nItemNet'));
+		$aDiscount 		= explode(",",$nItemDiscount);
+		$nDiscountCal 	= 0;
+		$nDisLen 		= count($aDiscount);
+    	$nTotalDisCount = 0;
+		$nItemNetLast 	= $nItemNet;
+
+		for($d=0; $d<$nDisLen; $d++){
+			$tDisType = substr(trim($aDiscount[$d]), strlen(trim($aDiscount[$d])) - 1);//ประเภทส่วนลด
+			if($tDisType == '%'){
+				$nDiscountCal 	= substr(trim($aDiscount[$d]), 0, strlen(trim($aDiscount[$d])) - 1);
+				$nTotalDisCount = $nTotalDisCount + ($nItemNetLast * trim($nDiscountCal)) / 100;
+				$nItemNetLast 	= $nItemNetLast - ($nItemNetLast * trim($nDiscountCal)) / 100;
+			}else{
+				$nDiscountCal 	= trim($aDiscount[$d]);
+				if(is_numeric($nTotalDisCount) && is_numeric($nDiscountCal)){
+					$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
+				}else{
+					$nTotalDisCount = $nTotalDisCount+0;
+				}
+				$nItemNetLast 	= $nItemNetLast - $nTotalDisCount;
+			}
+		}
+
+		$aItemDisData = array(
+			"tDocNo" 		=> $tDocNo,
+			"nItemSeq" 		=> $nItemSeq,
+			"tPdtCode" 		=> $tPdtCode,
+			"nDiscount" 	=> $nTotalDisCount,
+			"tDisText" 		=> $nItemDiscount
+		);
+		$this->mPurchaseorder->FCxMPOEditItemDisCount($aItemDisData);
+	}
+
+	//ส่วนลดท้ายบิล
+	public function FSxCPOEventFootDis(){
+		$tDocNo 	  	= $this->input->post('tDocNo');
+		$nDiscount 		= $this->input->post('nDiscount');
+		$nNetB4HD 		= str_replace(",", "", $this->input->post('nNetB4HD'));
+		$tWorkerID		= $this->session->userdata('tSesLogID');
+		$aDiscount 		= explode(",",$nDiscount);
+		$nDiscountCal 	= 0;
+		$nDisLen 		= count($aDiscount);
+    	$nTotalDisCount = 0;
+		$nB4DisLast 	= $nNetB4HD;
+
+		for($d=0; $d<$nDisLen; $d++){
+			$tDisType = substr($aDiscount[$d], strlen($aDiscount[$d]) - 1);//ประเภทส่วนลด
+			if($tDisType == '%'){
+				$nDiscountCal 	= substr($aDiscount[$d], 0, strlen($aDiscount[$d]) - 1);
+				$nTotalDisCount = $nTotalDisCount + ($nB4DisLast * $nDiscountCal) / 100;
+				$nB4DisLast 	= $nB4DisLast - ($nB4DisLast * $nDiscountCal) / 100;
+			}else{
+				$nDiscountCal 	= $aDiscount[$d];
+				$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
+				$nB4DisLast 	= $nB4DisLast - $nTotalDisCount;
+			}
+		}
+
+		$aDisInfo = array(
+			"tDocNo" 	=> $tDocNo,
+			"nDiscount" => $nTotalDisCount,
+			"tDisTxt" 	=> $nDiscount,
+			"tWorkerID" => $tWorkerID
+		);
+
+		$this->mPurchaseorder->FCxMPOEditDocDisCount($aDisInfo);
+		echo $nTotalDisCount;
+	}
+
+	//บันทึกเอกสารใหญ่
+	public function FSxCPOEventInsert(){
+		$tDocNo 		= $this->input->post('tDocNo');
+		$nSplCode 		= $this->input->post('tSplCode');
+		$tBchCode 		= $this->input->post('oetBCHPO');
+		$tPOEftTo 		= $this->input->post('odpPOXpoEftTo');
+		$tCashorCard 	= $this->input->post('osmPOCashorCard');
+		$nCredit		= $this->input->post('oetPOXpoCredit');
+		$nVatType 		= $this->input->post('ocmPOVatType');
+		$tRemark 		= $this->input->post('tRemark');
+		$tNewDocNo		= $this->mPurchaseorder->FCtMPOGetDocNo($tBchCode);
+
+		//ข้อมูล HD
+		$aDocUpdateHD 	= array(
+			'FTXpoDocNoOld'		=> $tDocNo,
+			'FTXpoDocNo'		=> $tNewDocNo,
+			'FTBchCode'			=> $tBchCode,
+			'FDXpoDocDate'		=> date('Y-m-d H:i:s'),
+			'FTXpoCshOrCrd'		=> ($tCashorCard == '') ? '1' : $tCashorCard,
+			'FNXpoCredit'		=> ($nCredit == '') ? '30' : $nCredit,
+			'FTXpoVATInOrEx'	=> $nVatType,	
+			'FDDeliveryDate'	=> $tPOEftTo,
+			'FTXpoStaExpress'	=> 0,
+			'FTXpoStaDoc'		=> 1,
+			'FTXpoStaActive'	=> 1,
+			'FTXpoStaDeli'		=> 1,
+			'FTXpoRmk'			=> $tRemark,
+			'FTXpoStaApv'		=> 0,	
+			'FTXpoStaRefInt'	=> 0,
+			'FTApprovedBy'		=> '',
+			'FDApproveDate'		=> '',
+			'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+			'FDCreateOn'		=> date('Y-m-d H:i:s'),
+			'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+			'FDUpdateOn'		=> date('Y-m-d H:i:s'),
+		);
+		$this->mPurchaseorder->FCxMPOUpdate_HDTmp($aDocUpdateHD);
+
+		//ข้อมูล HD SPL
+		$aDetailSPL			= $this->mPurchaseorder->FCxMPOGetSupplierByID($nSplCode);
+		$aDocInsertHDSpl 	= array(
+			'FTXpoDocNo'		=> $tNewDocNo,
+			'FTXpoSplCode'		=> $nSplCode,
+			'FTXpoSplName'		=> $aDetailSPL[0]['FTSplName'],
+			'FTXpoAddress'		=> $aDetailSPL[0]['FTSplAddress'],
+			'FTXpoTaxNo'		=> '-',
+			'FTXpoContact'		=> $aDetailSPL[0]['FTSplContact'],
+			'FTXpoEmail'		=> $aDetailSPL[0]['FTSplEmail'],
+			'FTXpoTel'			=> $aDetailSPL[0]['FTSplTel'],
+			'FTXpoFax'			=> $aDetailSPL[0]['FTSplFax'],
+			'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+			'FDCreateOn'		=> date('Y-m-d H:i:s'),
+			'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+			'FDUpdateOn'		=> date('Y-m-d H:i:s')
+		);
+		$this->mPurchaseorder->FCxMPOInsert_SPLHD($aDocInsertHDSpl);
+
+		//Move จาก DTTemp -> DT
+		$this->mPurchaseorder->FCxMPOUpdate_DT($aDocUpdateHD);
+		$this->mPurchaseorder->FCxMPOMoveTemp2DT($tNewDocNo);
+
+		//Move จาก HDTemp -> HD
+		$this->mPurchaseorder->FCxMPOMoveTemp2HD($tNewDocNo);
+
+		//Prorate
+		// $this->mQuotation->FCxMQUProrate($tXqhDocNo, $nB4Dis, $nDis);
+
+		$aReturn = array(
+			'tStatus' 			=> 'pass_insert',
+			'tDocuementnumber'	=> $tNewDocNo
+		);
+		echo json_encode($aReturn);
+	}
+
 
 }

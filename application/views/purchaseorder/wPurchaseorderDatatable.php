@@ -14,9 +14,10 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
+		<th style="text-align: left;">สาขา</th>
 		<th style="text-align: left;">เลขที่เอกสาร</th>
-		<th style="width:200px; text-align: left;">วันที่-เวลาเอกสาร</th>
-		<th style="width:150px; text-align: left;">วันที่มีผล</th>
+		<th style="width:300px; text-align: left;">ผู้จำหน่าย</th>
+		<th style="width:150px; text-align: left;">วันที่</th>
 		<th style="width:120px; text-align: left;">สถานะเอกสาร</th>
 		<th style="width:120px; text-align: left;">ผู้อนุมัติ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
@@ -28,22 +29,23 @@
 			<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
 					<th><?=$aValue['rtRowID']?></th>
-					<td><?=$aValue['FTXphDocNo']?></td>
-					<td><?=date('d/m/Y',strtotime($aValue['FDXphDocDate'])) . ' - ' . $aValue['FTXphDocTime'];?></td>
-					<td><?=date('d/m/Y',strtotime($aValue['FDXphDStart']))?></td>
+					<td><?=$aValue['FTBchName']?></td>
+					<td><?=$aValue['FTXpoDocNo']?></td>
+					<td><?=$aValue['FTXpoSplName']?></td>
+					<td><?=date('d/m/Y H:i:s',strtotime($aValue['FDXpoDocDate']))?></td>
 
 					<!--สถานะเอกสาร-->
 					<?php 
-						if($aValue['FTXphStaDoc'] != 1){
+						if($aValue['FTXpoStaDoc'] != 1){
 							$tTextStaDoc 			= "ยกเลิกเอกสาร";
 							$tClassStaDoc 			= 'xCNTextClassStatus_close';
 						}else{
-							if($aValue['FTXphStaApv'] == 1){
+							if($aValue['FTXpoStaApv'] == 1){
 								$tTextStaDoc 			= "อนุมัติเอกสาร";
 								$tClassStaDoc 			= 'xCNTextClassStatus_open';
 								$tIconClassStaApv 		= 'xCNIconStatus_open';
 							}else{
-								if($aValue['FTXphStaDoc'] == 2){
+								if($aValue['FTXpoStaDoc'] == 2){
 									$tTextStaDoc 			= "-";
 									$tClassStaDoc 			= '';
 									$tIconClassStaApv 		= '';
@@ -61,12 +63,12 @@
 
 					<!--ถ้าอนุมัติแล้วจะลบไม่ได้-->
 					<?php 
-						if($aValue['FTXphStaApv'] != 1 ){
-							if($aValue['FTXphStaDoc'] == 2){
+						if($aValue['FTXpoStaApv'] != 1 ){
+							if($aValue['FTXpoStaDoc'] == 2){
 								$oEventDelete 			= '';
 								$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
 							}else{
-								$oEventDelete 			= "JSxPO_Delete('".$aValue['FTXphDocNo']."')";
+								$oEventDelete 			= "JSxPO_Delete('".$aValue['FTXpoDocNo']."')";
 								$tClassDisabledDelete 	= '';
 							}
 						}else{
@@ -74,7 +76,7 @@
 							$tClassDisabledDelete 	= 'xCNImageDeleteDisabled';
 						}
 					 ?>
-					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPOCallPageInsert('edit','<?=$aValue['FTXphDocNo']?>');"></td>
+					<td><img class="img-responsive xCNImageEdit" src="<?=base_url().'application/assets/images/icon/edit.png';?>" onClick="JSwPOCallPageInsert('edit','<?=$aValue['FTXpoDocNo']?>');"></td>
 					<td class='<?=$tPer_delete?>'><img class="img-responsive xCNImageDelete <?=$tClassDisabledDelete;?>" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="<?=$oEventDelete?>"></td>
 				</tr>
 			<?php } ?>
