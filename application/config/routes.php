@@ -240,5 +240,8 @@ $route['r_purchaseorderEditItemPrice'] 			= 'purchaseorder/cPurchaseorder/FSxCPO
 $route['r_purchaseorderEditItemQty'] 			= 'purchaseorder/cPurchaseorder/FSxCPOEventEditQty';
 $route['r_purchaseorderDiscount'] 				= 'purchaseorder/cPurchaseorder/FSxCPOEventItemDis';
 $route['r_purchaseorderFootDiscount'] 			= 'purchaseorder/cPurchaseorder/FSxCPOEventFootDis';
+$route['r_purchaseorderChangenameindt'] 		= 'purchaseorder/cPurchaseorder/FSxCPOChangenameinDT';
+$route['r_purchaseorderCancelDocument'] 		= 'purchaseorder/cPurchaseorder/FSxCPOCancelDocument';
+$route['r_purchaseorderAprove'] 				= 'purchaseorder/cPurchaseorder/FSxCPOAproveDocument';
 
 

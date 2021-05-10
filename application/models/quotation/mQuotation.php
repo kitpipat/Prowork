@@ -1406,7 +1406,6 @@ class mQuotation extends CI_Model
 				 WHERE FTWorkerID = '" . $tWorkerID . "'
 				 AND FNXqdSeq = '" . $nSeq . "'
 				 AND FTPdtCode = '" . $nPDTCode . "' ";
-				 echo $tSQL;
 		$this->db->query($tSQL);
 	}
 

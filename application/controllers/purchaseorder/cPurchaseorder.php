@@ -30,6 +30,71 @@ class cPurchaseorder extends CI_Controller {
 		$this->load->view('purchaseorder/wPurchaseorderDatatable',$aPackData);
 	}
 
+	//แปลงตัวเลขเป็น TEXT
+	public function FCNtReadNumber($number){
+		$txtnum1 = array('ศูนย์', 'หนึ่ง', 'สอง', 'สาม', 'สี่', 'ห้า', 'หก', 'เจ็ด', 'แปด', 'เก้า', 'สิบ');
+		$txtnum2 = array('', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน', 'สิบ', 'ร้อย', 'พัน', 'หมื่น', 'แสน', 'ล้าน');
+		$number = str_replace(",", "", $number);
+		$number = str_replace(" ", "", $number);
+		$number = str_replace("บาท", "", $number);
+		$number = explode(".", $number);
+		if (sizeof($number) > 2) {
+			return 'ทศนิยมหลายตัวนะจ๊ะ';
+			exit;
+		}
+		$strlen = strlen($number[0]);
+		$convert = '';
+		for ($i = 0; $i < $strlen; $i++) {
+			$n = substr($number[0], $i, 1);
+			if ($n != 0) {
+				if ($i == ($strlen - 1) and $n == 1) {
+					$convert .= 'เอ็ด';
+				} elseif ($i == ($strlen - 2) and $n == 2) {
+					$convert .= 'ยี่';
+				} elseif ($i == ($strlen - 2) and $n == 1) {
+					$convert .= '';
+				} else {
+					$convert .= $txtnum1[$n];
+				}
+				$convert .= $txtnum2[$strlen - $i - 1];
+			}
+		}
+
+		$convert .= 'บาท';
+		if (
+			$number[1] == '0' or $number[1] == '00' or
+			$number[1] == ''
+		) {
+			$convert .= 'ถ้วน';
+		} else {
+			$strlen = strlen($number[1]);
+			for ($i = 0; $i < $strlen; $i++) {
+				$n = substr($number[1], $i, 1);
+				if ($n != 0) {
+					if ($i == ($strlen - 1) and $n == 1) {
+						$convert
+							.= 'เอ็ด';
+					} elseif (
+						$i == ($strlen - 2) and
+						$n == 2
+					) {
+						$convert .= 'ยี่';
+					} elseif (
+						$i == ($strlen - 2) and
+						$n == 1
+					) {
+						$convert .= '';
+					} else {
+						$convert .= $txtnum1[$n];
+					}
+					$convert .= $txtnum2[$strlen - $i - 1];
+				}
+			}
+			$convert .= 'สตางค์';
+		}
+		return $convert;
+	}
+
 	//โหลดหน้าจอเพื่มข้อมูล + แก้ไขข้อมูล
 	public function FSwCPOCallPageInsertorEdit(){
 		$tTypePage = $this->input->post('tTypepage');
@@ -48,6 +113,9 @@ class cPurchaseorder extends CI_Controller {
 
 			//Move DT To Tmp
 			$this->mPurchaseorder->FSaMPOMoveDTToTmp($tCode);
+
+			//Move HD To Tmp
+			$this->mPurchaseorder->FSaMPOMoveHDToTmp($tCode);
 		}
 
 		$aPackData = array(
@@ -327,6 +395,22 @@ class cPurchaseorder extends CI_Controller {
 		echo $nTotalDisCount;
 	}
 
+	//เเก้ไขชื่อในรายการ
+	public function FSxCPOChangenameinDT(){
+		$nSeq 			= $this->input->post('pnSeq');
+		$nPDTCode 		= $this->input->post('pnPDTCode');
+		$tPDTName 		= $this->input->post('ptPDTName');
+		$tWorkerID 		= $this->session->userdata('tSesLogID');
+
+		$aPackData 		= array(
+			'nSeq'					=> $nSeq,
+			'nPDTCode'				=> $nPDTCode,
+			'tPDTName'				=> $tPDTName,
+			'tWorkerID'				=> $tWorkerID
+		);
+		$this->mPurchaseorder->FCxMPOChangenameinDT($aPackData);
+	}
+
 	//บันทึกเอกสารใหญ่
 	public function FSxCPOEventInsert(){
 		$tDocNo 		= $this->input->post('tDocNo');
@@ -337,9 +421,25 @@ class cPurchaseorder extends CI_Controller {
 		$nCredit		= $this->input->post('oetPOXpoCredit');
 		$nVatType 		= $this->input->post('ocmPOVatType');
 		$tRemark 		= $this->input->post('tRemark');
+		$nB4Dis 		= $this->input->post('nB4Dis');
+		$nDis 			= $this->input->post('nDis');
+		$tDisText 		= $this->input->post('tDisText');
+		$nAfDis			= $this->input->post('nAfDis');
+		$nVatRate		= $this->input->post('nVatRate');
+		$nAmtVat		= $this->input->post('nAmtVat');
+		$nVatable		= $this->input->post('nVatable');
+		$nGrandTotal	= $this->input->post('nGrandTotal');
+		$tGndText 		= $this->FCNtReadNumber(str_replace(",", "", $nGrandTotal));
 		$tNewDocNo		= $this->mPurchaseorder->FCtMPOGetDocNo($tBchCode);
+		
+		if ($nVatType  == 1) { //แยกนอก
+			$nVatable = $nAfDis;
+		} else { //รวมใน
+			$nVatable = str_replace(",", "", $nAfDis) - str_replace(",", "", $nAmtVat);
+		}
 
 		//ข้อมูล HD
+		$this->db->trans_begin();
 		$aDocUpdateHD 	= array(
 			'FTXpoDocNoOld'		=> $tDocNo,
 			'FTXpoDocNo'		=> $tNewDocNo,
@@ -348,7 +448,7 @@ class cPurchaseorder extends CI_Controller {
 			'FTXpoCshOrCrd'		=> ($tCashorCard == '') ? '1' : $tCashorCard,
 			'FNXpoCredit'		=> ($nCredit == '') ? '30' : $nCredit,
 			'FTXpoVATInOrEx'	=> $nVatType,	
-			'FDDeliveryDate'	=> $tPOEftTo,
+			'FDDeliveryDate'	=> date('d/m/Y H:i:s',strtotime($tPOEftTo)),
 			'FTXpoStaExpress'	=> 0,
 			'FTXpoStaDoc'		=> 1,
 			'FTXpoStaActive'	=> 1,
@@ -362,6 +462,15 @@ class cPurchaseorder extends CI_Controller {
 			'FDCreateOn'		=> date('Y-m-d H:i:s'),
 			'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
 			'FDUpdateOn'		=> date('Y-m-d H:i:s'),
+			"FCXpoB4Dis" 		=> str_replace(",", "", $nB4Dis),
+			"FCXpoDis" 			=> str_replace(",", "", $nDis),
+			"FTXpoDisTxt" 		=> $tDisText,
+			"FCXpoAFDis" 		=> str_replace(",", "", $nAfDis),
+			"FCXpoVatRate" 		=> str_replace(",", "", $nVatRate),
+			"FCXpoAmtVat" 		=> str_replace(",", "", $nAmtVat),
+			"FCXpoVatable" 		=> str_replace(",", "", $nVatable),
+			"FCXpoGrand" 		=> str_replace(",", "", $nGrandTotal),
+			"FTXpoGndText" 		=> $tGndText
 		);
 		$this->mPurchaseorder->FCxMPOUpdate_HDTmp($aDocUpdateHD);
 
@@ -392,7 +501,13 @@ class cPurchaseorder extends CI_Controller {
 		$this->mPurchaseorder->FCxMPOMoveTemp2HD($tNewDocNo);
 
 		//Prorate
-		// $this->mQuotation->FCxMQUProrate($tXqhDocNo, $nB4Dis, $nDis);
+		$this->mPurchaseorder->FCxMPOProrate($tNewDocNo, $nB4Dis, $nDis);
+
+		if($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+		}else{
+			$this->db->trans_commit();
+		}
 
 		$aReturn = array(
 			'tStatus' 			=> 'pass_insert',
@@ -400,6 +515,122 @@ class cPurchaseorder extends CI_Controller {
 		);
 		echo json_encode($aReturn);
 	}
+
+	//แก้ไขบันทึกเอกสารใหญ่
+	public function FSxCPOEventEdit(){
+		$tDocNo 		= $this->input->post('tDocNo');
+		$nSplCode 		= $this->input->post('tSplCode');
+		$tBchCode 		= $this->input->post('oetBCHPO');
+		$tPOEftTo 		= $this->input->post('odpPOXpoEftTo');
+		$tCashorCard 	= $this->input->post('osmPOCashorCard');
+		$nCredit		= $this->input->post('oetPOXpoCredit');
+		$nVatType 		= $this->input->post('ocmPOVatType');
+		$tRemark 		= $this->input->post('tRemark');
+		$nB4Dis 		= $this->input->post('nB4Dis');
+		$nDis 			= $this->input->post('nDis');
+		$tDisText 		= $this->input->post('tDisText');
+		$nAfDis			= $this->input->post('nAfDis');
+		$nVatRate		= $this->input->post('nVatRate');
+		$nAmtVat		= $this->input->post('nAmtVat');
+		$nVatable		= $this->input->post('nVatable');
+		$nGrandTotal	= $this->input->post('nGrandTotal');
+		$tGndText 		= $this->FCNtReadNumber(str_replace(",", "", $nGrandTotal));
+		
+		if ($nVatType  == 1) { //แยกนอก
+			$nVatable = $nAfDis;
+		} else { //รวมใน
+			$nVatable = str_replace(",", "", $nAfDis) - str_replace(",", "", $nAmtVat);
+		}
+
+		//ข้อมูล HD
+		$this->db->trans_begin();
+		$aDocUpdateHD 	= array(
+			'FTXpoDocNoOld'		=> $tDocNo,
+			'FTXpoDocNo'		=> $tDocNo,
+			'FTBchCode'			=> $tBchCode,
+			'FDXpoDocDate'		=> date('Y-m-d H:i:s'),
+			'FTXpoCshOrCrd'		=> ($tCashorCard == '') ? '1' : $tCashorCard,
+			'FNXpoCredit'		=> ($nCredit == '') ? '30' : $nCredit,
+			'FTXpoVATInOrEx'	=> $nVatType,	
+			'FDDeliveryDate'	=> date('d/m/Y H:i:s',strtotime($tPOEftTo)),
+			'FTXpoStaExpress'	=> 0,
+			'FTXpoStaDoc'		=> 1,
+			'FTXpoStaActive'	=> 1,
+			'FTXpoStaDeli'		=> 1,
+			'FTXpoRmk'			=> $tRemark,
+			'FTXpoStaApv'		=> 0,	
+			'FTXpoStaRefInt'	=> 0,
+			'FTApprovedBy'		=> '',
+			'FDApproveDate'		=> '',
+			'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+			'FDCreateOn'		=> date('Y-m-d H:i:s'),
+			'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+			'FDUpdateOn'		=> date('Y-m-d H:i:s'),
+			"FCXpoB4Dis" 		=> str_replace(",", "", $nB4Dis),
+			"FCXpoDis" 			=> str_replace(",", "", $nDis),
+			"FTXpoDisTxt" 		=> $tDisText,
+			"FCXpoAFDis" 		=> str_replace(",", "", $nAfDis),
+			"FCXpoVatRate" 		=> str_replace(",", "", $nVatRate),
+			"FCXpoAmtVat" 		=> str_replace(",", "", $nAmtVat),
+			"FCXpoVatable" 		=> str_replace(",", "", $nVatable),
+			"FCXpoGrand" 		=> str_replace(",", "", $nGrandTotal),
+			"FTXpoGndText" 		=> $tGndText
+		);
+		$this->mPurchaseorder->FCxMPOUpdate_HDTmp($aDocUpdateHD);
+
+		//ข้อมูล HD SPL
+		$aDetailSPL			= $this->mPurchaseorder->FCxMPOGetSupplierByID($nSplCode);
+		$aDocInsertHDSpl 	= array(
+			'FTXpoDocNo'		=> $tDocNo,
+			'FTXpoSplCode'		=> $nSplCode,
+			'FTXpoSplName'		=> $aDetailSPL[0]['FTSplName'],
+			'FTXpoAddress'		=> $aDetailSPL[0]['FTSplAddress'],
+			'FTXpoTaxNo'		=> '-',
+			'FTXpoContact'		=> $aDetailSPL[0]['FTSplContact'],
+			'FTXpoEmail'		=> $aDetailSPL[0]['FTSplEmail'],
+			'FTXpoTel'			=> $aDetailSPL[0]['FTSplTel'],
+			'FTXpoFax'			=> $aDetailSPL[0]['FTSplFax'],
+			'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+			'FDCreateOn'		=> date('Y-m-d H:i:s'),
+			'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+			'FDUpdateOn'		=> date('Y-m-d H:i:s')
+		);
+		$this->mPurchaseorder->FCxMPOUpdate_SPLHD($aDocInsertHDSpl);
+
+		//Move จาก DTTemp -> DT
+		$this->mPurchaseorder->FCxMPOMoveTemp2DT($tDocNo);
+
+		//Move จาก HDTemp -> HD
+		$this->mPurchaseorder->FCxMPOMoveTemp2HD($tDocNo);
+
+		//Prorate
+		$this->mPurchaseorder->FCxMPOProrate($tDocNo, $nB4Dis, $nDis);
+
+		if($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+		}else{
+			$this->db->trans_commit();
+		}
+
+		$aReturn = array(
+			'tStatus' 			=> 'pass_update',
+			'tDocuementnumber'	=> $tDocNo
+		);
+		echo json_encode($aReturn);
+	}
+
+	//ยกเลิกเอกสาร
+	public function FSxCPOCancelDocument(){
+		$tCode = $this->input->post('tCode');
+		$this->mPurchaseorder->FSaMPOCancelDocument($tCode);
+	}
+
+	//อนุมัติเอกสาร
+	public function FSxCPOAproveDocument(){
+		$tCode = $this->input->post('tCode');
+		$this->mPurchaseorder->FSaMPOAproveDocument($tCode);
+	}
+
 
 
 }

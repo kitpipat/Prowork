@@ -59,6 +59,7 @@ class mPurchaseorder extends CI_Model {
 		try{
 			$tTextSearch = trim($paData['tSearchAll']);
 			$tSQL 		= "SELECT COUNT (HD.FTXpoDocNo) AS counts FROM TARTPoHD HD 
+						LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode 
 						LEFT JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode 
 						LEFT JOIN TARTPoHDSpl SPL ON HD.FTXpoDocNo = SPL.FTXpoDocNo ";
 			$tSQL 		.= " WHERE 1=1 ";
@@ -133,15 +134,96 @@ class mPurchaseorder extends CI_Model {
 
 	//เข้าหน้าเเก้ไข
 	public function FSaMPOGetDataBYID_HD($ptCode){
-		$tSQL = "  SELECT HD.* , USR.FTUsrFName , USR.FTUsrLName	
+		$tSQL = "  SELECT HD.* , SPL.* , USR.FTUsrFName  , USR.FTUsrLName , APV.FTUsrFName AS APVBY
 		 		   FROM TARTPoHD HD";
 		$tSQL .= " LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode";
+		$tSQL .= " LEFT JOIN TCNMUsr APV ON HD.FTApprovedBy = USR.FTUsrCode";
+		$tSQL .= " LEFT JOIN TARTPoHDSPL SPL ON HD.FTXpoDocNo = SPL.FTXpoDocNo";
 		$tSQL .= " WHERE HD.FTXpoDocNo = '$ptCode' ";
 		$oQuery = $this->db->query($tSQL);
 		return $oQuery->result_array();
 	}
 
-	//เอาข้อมูลจาก Insert DT to Tmp
+	//Move HD To HD Temp
+	public function FSaMPOMoveHDToTmp($ptCode){
+		try{
+			$tSession  	= $this->session->userdata('tSesLogID');
+			$tSQL = "INSERT INTO TARTPoHDTmp (
+						FTBchCode,
+						FTXpoDocNo,
+						FDXpoDocDate,
+						FTXpoCshOrCrd,
+						FNXpoCredit,
+						FTXpoVATInOrEx,
+						FDDeliveryDate,
+						FTXpoStaExpress,
+						FTXpoStaDoc,
+						FTXpoStaActive,
+						FTXpoStaDeli,
+						FCXpoB4Dis,
+						FCXpoDis,
+						FTXpoDisTxt,
+						FCXpoAFDis,
+						FCXpoVatRate,
+						FCXpoAmtVat,
+						FCXpoVatable,
+						FCXpoGrand,
+						FCXpoRnd,
+						FTXpoGndText,
+						FTXpoRmk,
+						FTUsrDep,
+						FTXpoStaApv,
+						FTXpoStaRefInt,
+						FTApprovedBy,
+						FDApproveDate,
+						FTCreateBy,
+						FDCreateOn,
+						FTUpdateBy,
+						FDUpdateOn,
+						FTWorkerID
+					)
+					SELECT 
+						FTBchCode,
+						FTXpoDocNo,
+						FDXpoDocDate,
+						FTXpoCshOrCrd,
+						FNXpoCredit,
+						FTXpoVATInOrEx,
+						FDDeliveryDate,
+						FTXpoStaExpress,
+						FTXpoStaDoc,
+						FTXpoStaActive,
+						FTXpoStaDeli,
+						FCXpoB4Dis,
+						FCXpoDis,
+						FTXpoDisTxt,
+						FCXpoAFDis,
+						FCXpoVatRate,
+						FCXpoAmtVat,
+						FCXpoVatable,
+						FCXpoGrand,
+						FCXpoRnd,
+						FTXpoGndText,
+						FTXpoRmk,
+						FTUsrDep,
+						FTXpoStaApv,
+						FTXpoStaRefInt,
+						FTApprovedBy,
+						FDApproveDate,
+						FTCreateBy,
+						FDCreateOn,
+						FTUpdateBy,
+						FDUpdateOn,
+						'$tSession' AS FTWorkerID
+					FROM TARTPoHD HD
+					WHERE HD.FTXpoDocNo = '$ptCode'";
+					$this->db->query($tSQL);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//Move DT To DT Temp
 	public function FSaMPOMoveDTToTmp($ptCode){
 		try{
 			$tSession  	= $this->session->userdata('tSesLogID');
@@ -156,18 +238,13 @@ class mPurchaseorder extends CI_Model {
 						FTXpoCost,
 						FTSplCode,
 						FCXpoQty,
-						FCXpoB4Dis,
 						FCXpoDis,
 						FTXpoDisTxt,
-						FCXpoAfDT,
 						FCXpoFootAvg,
-						FCXpoNetAfHD,
 						FTXpoRefPo,
 						FTPdtStaEditName,
 						FTCreateBy,
 						FDCreateOn,
-						FTUpdateBy,
-						FDUpdateOn,
 						FTXpoRefBuyer,
 						FTPdtStaCancel,
 						FTWorkerID
@@ -183,22 +260,16 @@ class mPurchaseorder extends CI_Model {
 						FTXpoCost,
 						FTSplCode,
 						FCXpoQty,
-						FCXpoB4Dis,
 						FCXpoDis,
 						FTXpoDisTxt,
-						FCXpoAfDT,
 						FCXpoFootAvg,
-						FCXpoNetAfHD,
 						FTXpoRefPo,
 						FTPdtStaEditName,
 						FTCreateBy,
 						FDCreateOn,
-						FTUpdateBy,
-						FDUpdateOn,
 						FTXpoRefBuyer,
 						FTPdtStaCancel,
-						FTWorkerID
-						'$tSession' AS FTWorkerID,
+						'$tSession' AS FTWorkerID
 					FROM TARTPoDT DT
 					WHERE DT.FTXpoDocNo = '$ptCode'";
 					$this->db->query($tSQL);
@@ -671,6 +742,21 @@ class mPurchaseorder extends CI_Model {
 		return $tDocNo;
 	}
 
+	//อัพเดทชื่อสินค้า
+	public function FCxMPOChangenameinDT($paData){
+		$nSeq 		= $paData['nSeq'];
+		$nPDTCode 	= $paData['nPDTCode'];
+		$tPDTName 	= $paData['tPDTName'];
+		$tWorkerID 	= $this->session->userdata('tSesLogID');
+
+		//อัพเดทเอกสาร HD Tmp
+		$tSQL = "UPDATE TARTPoDTTmp SET FTPdtName = '" . $tPDTName . "'
+				 WHERE FTWorkerID = '" . $tWorkerID . "'
+				 AND FNXpoSeq = '" . $nSeq . "'
+				 AND FTPdtCode = '" . $nPDTCode . "' ";
+		$this->db->query($tSQL);
+	}
+
 	//อัพเดทข้อมูล HDTmp
 	public function FCxMPOUpdate_HDTmp($paItem){
 		try {
@@ -696,7 +782,16 @@ class mPurchaseorder extends CI_Model {
 				'FTCreateBy'		=> $paItem['FTCreateBy'],
 				'FDCreateOn'		=> $paItem['FDCreateOn'],
 				'FTUpdateBy'		=> $paItem['FTUpdateBy'],
-				'FDUpdateOn'		=> $paItem['FDUpdateOn']
+				'FDUpdateOn'		=> $paItem['FDUpdateOn'],
+				"FCXpoB4Dis" 		=> $paItem['FCXpoB4Dis'],
+				"FCXpoDis" 			=> $paItem['FCXpoDis'],
+				"FTXpoDisTxt" 		=> $paItem['FTXpoDisTxt'],
+				"FCXpoAFDis" 		=> $paItem['FCXpoAFDis'],
+				"FCXpoVatRate" 		=> $paItem['FCXpoVatRate'],
+				"FCXpoAmtVat" 		=> $paItem['FCXpoAmtVat'],
+				"FCXpoVatable" 		=> $paItem['FCXpoVatable'],
+				"FCXpoGrand" 		=> $paItem['FCXpoGrand'],
+				"FTXpoGndText" 		=> $paItem['FTXpoGndText'],
 			);
 			$this->db->where('FTXpoDocNo', $tDocumentNumber);
 			$this->db->where('FTWorkerID', $tWorkerID);
@@ -709,6 +804,28 @@ class mPurchaseorder extends CI_Model {
 	//เพิ่มข้อมูล SPLHD
 	public function FCxMPOInsert_SPLHD($paItem){
 		$this->db->insert('TARTPoHDSpl', $paItem);
+	}
+
+	//อัพเดทข้อมูล SPLHD
+	public function FCxMPOUpdate_SPLHD($paItem){
+		try {
+			$aSet = array(
+				'FTXpoSplCode' 	=> $paItem['FTXpoSplCode'],
+				'FTXpoSplName' 	=> $paItem['FTXpoSplName'],
+				'FTXpoAddress' 	=> $paItem['FTXpoAddress'],
+				'FTXpoTaxNo' 	=> $paItem['FTXpoTaxNo'],
+				'FTXpoContact' 	=> $paItem['FTXpoContact'],
+				'FTXpoEmail' 	=> $paItem['FTXpoEmail'],
+				'FTXpoTel' 		=> $paItem['FTXpoTel'],
+				'FTXpoFax' 		=> $paItem['FTXpoFax'],
+				'FTUpdateBy' 	=> $paItem['FTUpdateBy'],
+				'FDUpdateOn' 	=> $paItem['FDUpdateOn'],
+			);
+			$this->db->where('FTXpoDocNo', $paItem['FTXpoDocNo']);
+			$this->db->update('TARTPoHDSpl', $aSet);
+		} catch (Exception $Error) {
+			echo $Error;
+		}
 	}
 
 	//อัพเดทเลขที่เอกสาร
@@ -729,6 +846,10 @@ class mPurchaseorder extends CI_Model {
 
 	//Move DT Temp ไป DT
 	public function FCxMPOMoveTemp2DT($tDocNo){
+
+		$tSQLDel 	= "DELETE FROM TARTPoDT WHERE FTXpoDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQLDel);
+
 		$tWorkerID	= $this->session->userdata('tSesLogID');
 		$tCreateBy 	= $this->session->userdata('tSesUsercode');
 		$tSQL = "INSERT INTO TARTPoDT
@@ -743,12 +864,12 @@ class mPurchaseorder extends CI_Model {
 						,FTXpoCost
 						,FTSplCode
 						,FCXpoQty
-						,0 AS FCXpoB4Dis
+						,ISNULL(FCXpoQty,0)  *  ISNULL(FCXpoUnitPrice,0) AS FCXpoB4Dis
 						,FCXpoDis
 						,FTXpoDisTxt
-						,0 AS FCXpoAfDT
+						,(ISNULL(FCXpoQty,0)  *  ISNULL(FCXpoUnitPrice,0))-ISNULL(FCXpoDis,0) AS FCXpoAfDT
 						,FCXpoFootAvg
-						,0 AS FCXpoNetAfHD
+						,((ISNULL(FCXpoQty,0)  *  ISNULL(FCXpoUnitPrice,0))-ISNULL(FCXpoDis,0)+ISNULL(FCXpoFootAvg,0)) AS FCXpoNetAfHD
 						,FTXpoRefPo
 						,FTPdtStaEditName
 						,ISNULL(FTCreateBy,'$tCreateBy')
@@ -768,8 +889,10 @@ class mPurchaseorder extends CI_Model {
 
 	//Move HD Temp ไป HD
 	public function FCxMPOMoveTemp2HD($tDocNo){
+		$tSQLDel 	= "DELETE FROM TARTPoHD WHERE FTXpoDocNo = '" . $tDocNo . "'";
+		$this->db->query($tSQLDel);
+
 		$tWorkerID	= $this->session->userdata('tSesLogID');
-		$tCreateBy 	= $this->session->userdata('tSesUsercode');
 		$tSQL = "INSERT INTO TARTPoHD
 				 SELECT FTBchCode
 						,FTXpoDocNo
@@ -811,5 +934,63 @@ class mPurchaseorder extends CI_Model {
 		$this->db->query($tSQLDel);
 	}
 
+	//Prorate
+	public function FCxMPOProrate($ptDocNo, $pnB4Dis, $pnFootDis){
+		$tSQL 		= "SELECT FCXpoAfDT,FTPdtCode,FNXpoSeq FROM TARTPoDT WITH (NOLOCK) WHERE FTXpoDocNo = '$ptDocNo' ";
+		$oQuery 	= $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
+		if ($nCountRows > 0) {
+			$aResult 		= $oQuery->result_array();
+			$nFootDisAvg 	= 0;
+			$nNetAFHD 		= 0;
+			for ($i=0; $i<$nCountRows; $i++) {
+
+				$nItemAmt 		= str_replace(",", "", $aResult[$i]['FCXpoAfDT']);
+				$tPdtCode 		= $aResult[$i]['FTPdtCode'];
+				$nXqdSeq 		= str_replace(",", "", $aResult[$i]['FNXpoSeq']);
+				$pnFootDis 		= str_replace(",", "", $pnFootDis);
+				$pnB4Dis		= str_replace(",", "", $pnB4Dis);
+				$nFootDisAvg 	= ($nItemAmt * $pnFootDis) / str_replace(",", "", $pnB4Dis);
+				$nNetAFHD 		= $nItemAmt - $nFootDisAvg;
+
+				$tSQLUpd = " UPDATE TARTPoDT SET FCXpoFootAvg = '" . $nFootDisAvg . "',";
+				$tSQLUpd .= " FCXpoNetAfHD = '" . $nNetAFHD . "'";
+				$tSQLUpd .= " WHERE FTXpoDocNo = '" . $ptDocNo . "'";
+				$tSQLUpd .= " AND FTPdtCode = '" . $tPdtCode . "'";
+				$tSQLUpd .= " AND FNXpoSeq = '" . $nXqdSeq . "'";
+				$this->db->query($tSQLUpd);
+			}
+		}
+	}
+
+	//ยกเลิกเอกสาร
+	public function FSaMPOCancelDocument($ptDocumentCode){
+		try{
+			$aSet = array(
+				'FTXpoStaDoc' 	=> 2,
+				'FDUpdateOn'	=> date('Y-m-d H:i:s'),
+				'FTUpdateBy'	=> $this->session->userdata('tSesUsercode')
+			);
+			$this->db->where('FTXpoDocNo', $ptDocumentCode);
+			$this->db->update('TARTPoHD', $aSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
+
+	//อนุมัติเอกสาร
+	public function FSaMPOAproveDocument($ptCode){
+		try{
+			$aSet = array(
+				'FTXpoStaApv'  	=> 1,
+				'FTApprovedBy'	=> $this->session->userdata('tSesUsercode'),
+				'FDApproveDate'	=> date('Y-m-d H:i:s'),
+			);
+			$this->db->where('FTXpoDocNo', $ptCode);
+			$this->db->update('TARTPoHD', $aSet);
+		}catch(Exception $Error){
+			echo $Error;
+		}
+	}
 	
 }

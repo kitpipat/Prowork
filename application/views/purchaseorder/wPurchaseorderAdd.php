@@ -26,14 +26,58 @@
 		$tDocumentCreate	= $this->session->userdata('tSesFirstname') . ' ' . $this->session->userdata('tSesLastname');
 		$tDocumentStaDoc	= '-';
 		$tDocumentStaApv	= '-';
+
+		//ข้อมูลผู้จำหน่าย
+		$FTXpoSplCode		= '';
+		$FTXpoSplName		= '';
+		$FTXpoAddress		= '';
+		$FTXpoTaxNo			= '';
+		$FTXpoContact		= '';
+		$FTXpoEmail			= '';
+		$FTXpoTel			= '';
+		$FTXpoFax			= '';
+
+		//ข้อมูลทั่วไป
+		$FTBchCode			= '';
+		$FDDeliveryDate		= '';
+		$FNXpoCredit		= '';
+		$FTXpoCshOrCrd		= '';
+		$FTXpoRmk			= '';
+		$FTXpoVATInOrEx 	= '';
+		$FCXpoVatRate 		= '7';
+		$APVBY 				= '-';
+		$FDApproveDate 		= '-';
+		$FTXpoDisTxt 		= '';
 	}else if($tTypePage == 'edit'){
 		$tRoute 			= 'r_purchaseordereventedit';
 		$tRouteUrl			= 'แก้ไขใบสั่งซื้อ';
-		$tDocumentNumber	= $aResult[0]['FTXphDocNo'];
-		$dDocumentDate		= date('d/m/Y',strtotime($aResult[0]['FDXphDocDate'])) . ' - ' . $aResult[0]['FTXphDocTime'];
+		$tDocumentNumber	= $aResult[0]['FTXpoDocNo'];
+		$dDocumentDate		= date('d/m/Y H:i:s',strtotime($aResult[0]['FDXpoDocDate']));
 		$tDocumentCreate	= $aResult[0]['FTUsrFName']; ' - ' . $aResult[0]['FTUsrLName'];
-		$tDocumentStaDoc	= '-';
-		$tDocumentStaApv	= '-';
+		$tDocumentStaDoc	= $aResult[0]['FTXpoStaDoc'];
+		$tDocumentStaApv	= $aResult[0]['FTXpoStaApv'];
+
+		//ข้อมูลผู้จำหน่าย
+		$FTXpoSplCode		= $aResult[0]['FTXpoSplCode'];
+		$FTXpoSplName		= $aResult[0]['FTXpoSplName'];
+		$FTXpoAddress		= ($aResult[0]['FTXpoAddress'] == '') ? '-' : $aResult[0]['FTXpoAddress'];
+		$FTXpoTaxNo			= ($aResult[0]['FTXpoTaxNo'] == '') ? '-' : $aResult[0]['FTXpoTaxNo'];
+		$FTXpoContact		= ($aResult[0]['FTXpoContact'] == '') ? '-' : $aResult[0]['FTXpoContact'];
+		$FTXpoEmail			= ($aResult[0]['FTXpoEmail'] == '') ? '-' : $aResult[0]['FTXpoEmail'];
+		$FTXpoTel			= ($aResult[0]['FTXpoTel'] == '') ? '-' : $aResult[0]['FTXpoTel'];
+		$FTXpoFax			= ($aResult[0]['FTXpoFax'] == '') ? '-' : $aResult[0]['FTXpoFax'];
+
+		//ข้อมูลทั่วไป
+		$FTBchCode			= $aResult[0]['FTBchCode'];
+		$FDDeliveryDate		= date('d/m/Y',strtotime($aResult[0]['FDDeliveryDate']));
+		$FNXpoCredit		= $aResult[0]['FNXpoCredit'];
+		$FTXpoCshOrCrd		= $aResult[0]['FTXpoCshOrCrd'];
+		$FTXpoRmk			= $aResult[0]['FTXpoRmk'];
+		$FTXpoVATInOrEx 	= $aResult[0]['FTXpoVATInOrEx'];
+		$FCXpoVatRate 		= $aResult[0]['FCXpoVatRate'];
+		$APVBY 				= $aResult[0]['APVBY'];
+		$FDApproveDate 		= date('d/m/Y',strtotime($aResult[0]['FDApproveDate']));
+		$FTXpoDisTxt 		= $aResult[0]['FTXpoDisTxt'];
 	}
 
 	//ถ้าเอกสารถูกยกเลิก หรือ อนุมัติแล้ว
@@ -81,10 +125,12 @@
 			<?php if($tTypePage == 'edit'){ ?>
 				<?php if($tDocumentStaDoc == 2 || $tDocumentStaApv == 1){ ?>
 					<!--ไม่โชว์สักเมนู ถ้ามันอนุมัติเเล้ว-->
+					<button class="xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_print?>" style="margin-right:10px; float:right;" onclick="FSxPOPrintForm()">พิมพ์</button>
 				<?php }else{ ?>
 					<button class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
-					<button class="xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_approved?>" style="margin-right:10px; float:right;" onclick="JSxEventAproveDocument('<?=$tRoute?>');">อนุมัติ</button>
-					<button class="xCNCalcelImport btn btn-outline-danger pull-right <?=$tPer_cancle?>" style="margin-right:10px; float:right;" onclick="JSxEventCancleDocument('<?=$tRoute?>');">ยกเลิกเอกสาร</button>
+					<button class="xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_approved?>" style="margin-right:10px; float:right;" onclick="JSxPOEventAproveDocument('<?=$tRoute?>');">อนุมัติ</button>
+					<button class="xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_print?>" style="margin-right:10px; float:right;" onclick="FSxPOPrintForm()">พิมพ์</button>
+					<button class="xCNCalcelImport btn btn-outline-danger pull-right <?=$tPer_cancle?>" style="margin-right:10px; float:right;" onclick="JSxPOEventCancelDocument();">ยกเลิกเอกสาร</button>
 				<?php } ?>
 			<?php }else{ ?> 
 				<button class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
@@ -113,28 +159,31 @@
 									<?php
 										if($tTypePage == 'edit'){	//เข้ามาแบบ ขา Edit และ สิทธิสามารถแก้ไขได้
 											if($tPer_edit == ''){
-												$tAlwCustomer = '';
+												$tAlwSPL = '';
 											}else{
-												$tAlwCustomer = 'xCNHide';
+												$tAlwSPL = 'xCNHide';
 											}
 										}else if($tTypePage == 'insert'){ //เข้ามาแบบ ขา Insert และ สิทธิสามารถบันทึกได้
 											if($tPer_create == ''){
-												$tAlwCustomer = '';
+												$tAlwSPL = '';
 											}else{
-												$tAlwCustomer = 'xCNHide';
+												$tAlwSPL = 'xCNHide';
 											}
 										}
 									?>
 									<div class="col-lg-12">
 										<label><span style="color:red;">*</span> ผู้จำหน่าย</label>
 										<div class="input-group md-form form-sm form-2 pl-0 form-group">
-											<input type="hidden" id="oetSplCode" name="oetSplCode" >
-											<input type="text" class="form-control" maxlength="255" id="oetSplName" name="oetSplName" placeholder="กรุณาระบุผู้จำหน่าย" autocomplete="off" value="">
-											<div class="input-group-append <?=$tAlwCustomer?> xCNIconFindCustomer">
-												<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseSupplier();">
-													<img class="xCNIconFind">
-												</span>
-											</div>
+											<input type="hidden" id="oetSplCode" name="oetSplCode" value='<?=$FTXpoSplCode?>' >
+											<input <?=$tDisabledInput?> type="text" class="form-control" maxlength="255" id="oetSplName" name="oetSplName" placeholder="กรุณาระบุผู้จำหน่าย" autocomplete="off" value='<?=$FTXpoSplName?>'>
+											
+											<?php if($tDisabledInput != 'disabled'){ ?>
+												<div class="input-group-append <?=$tAlwSPL?> xCNIconFindCustomer">
+													<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxChooseSupplier();" <?=$tDisabledInput?>>
+														<img class="xCNIconFind">
+													</span>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -142,7 +191,7 @@
 									<div class="col-lg-12">
 										<div class="form-group">
 											<label>ที่อยู่</label>
-											<textarea type="text" class="form-control" id="oetPOAddress" name="oetPOAddress" placeholder="รายละเอียดที่อยู่" rows="3" disabled="disabled"></textarea>
+											<textarea type="text" class="form-control" id="oetPOAddress" name="oetPOAddress" placeholder="รายละเอียดที่อยู่" rows="3" disabled="disabled"><?=$FTXpoAddress?></textarea>
 										</div>
 									</div>
 
@@ -150,7 +199,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>ผู้ติดต่อ</label>
-											<input type="text" class="form-control" maxlength="50" id="oetPOContact" name="oetPOContact" placeholder="รายละเอียดชื่อผู้ติดต่อ" autocomplete="off" value="" disabled="disabled">
+											<input type="text" class="form-control" maxlength="50" id="oetPOContact" name="oetPOContact" placeholder="รายละเอียดชื่อผู้ติดต่อ" autocomplete="off" disabled="disabled" value='<?=$FTXpoContact?>'>
 										</div>
 									</div>
 
@@ -158,7 +207,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>อีเมลล์</label>
-											<input type="text" class="form-control" maxlength="50" id="oetPOEmail" name="oetPOEmail" placeholder="รายละเอียดอีเมลล์" autocomplete="off" value="" disabled="disabled">
+											<input type="text" class="form-control" maxlength="50" id="oetPOEmail" name="oetPOEmail" placeholder="รายละเอียดอีเมลล์" autocomplete="off" disabled="disabled" value='<?=$FTXpoEmail?>'>
 										</div>
 									</div>
 
@@ -166,7 +215,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>เบอร์โทรศัพท์</label>
-											<input type="text" class="form-control" maxlength="20" id="oetPOTel" name="oetPOTel" placeholder="รายละเอียดเบอร์โทรศัพท์" autocomplete="off" value="" disabled="disabled">
+											<input type="text" class="form-control" maxlength="20" id="oetPOTel" name="oetPOTel" placeholder="รายละเอียดเบอร์โทรศัพท์" autocomplete="off" disabled="disabled" value='<?=$FTXpoTel?>'>
 										</div>
 									</div>
 
@@ -174,7 +223,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>เบอร์โทรสาร</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal" maxlength="20" id="oetPOFax" name="oetPOFax" placeholder="รายละเอียดเบอร์โทรสาร" autocomplete="off" value="" disabled="disabled">
+											<input type="text" class="form-control xCNInputNumericWithDecimal" maxlength="20" id="oetPOFax" name="oetPOFax" placeholder="รายละเอียดเบอร์โทรสาร" autocomplete="off" disabled="disabled" value='<?=$FTXpoFax?>'>
 										</div>
 									</div>
 
@@ -210,12 +259,39 @@
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-lg-6">
-									<span>สถานะเอกสาร : </span><span id="ospPOStaDoc"></span>
-									<input type="hidden" id="ohdPOStaDoc">
+									<?php //สถานะเอกสาร
+										switch ($tDocumentStaDoc) {
+											case '':
+												$tShowStaDoc = "-";
+												break;
+											case '1':
+												$tShowStaDoc = "สมบูรณ์";
+												break;
+											case '2':
+												$tShowStaDoc = "ยกเลิก";
+												break;
+											default:
+												$tShowStaDoc = "รออนุมัติสั่งสินค้า"; 
+										}
+									?>
+									<span>สถานะเอกสาร : </span><span id="ospPOStaDoc"><?=$tShowStaDoc?></span>
+									<input type="hidden" id="ohdPOStaDoc" value="<?=$tDocumentStaDoc?>">
 								</div>
 								<div class="col-lg-6">
-									<span>สถานะอนุมัติเอกสาร : </span><span id="ospPOStaDocApv"></span>
-									<input type="hidden" id="ohdPOStaApv">
+									<?php //สถานะอนุมัติ
+										switch ($tDocumentStaApv) {
+											case '':
+												$tShowStaApv = "รออนุมัติสั่งสินค้า";
+												break;
+											case '1':
+												$tShowStaApv = "อนุมัติแล้ว";
+												break;
+											default:
+												$tShowStaApv = "รออนุมัติสั่งสินค้า";
+										}
+									?>
+									<span>สถานะอนุมัติเอกสาร : </span><span id="ospPOStaDocApv"><?=$tShowStaApv?></span>
+									<input type="hidden" id="ohdPOStaApv" value="<?=$tDocumentStaApv?>">
 								</div>
 							</div>
 							<hr  style="margin-bottom: 15px;">
@@ -229,7 +305,7 @@
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 											<div class="form-group">
 												<label>สาขา</label>
-												<select class="form-control" id="oetBCHPO" name="oetBCHPO">
+												<select class="form-control" id="oetBCHPO" name="oetBCHPO" <?=$tDisabledInput?>>
 													<?php foreach($aBCHList['raItems'] AS $nKey => $aValue){ ?>
 														<option <?=(@$FTBchCode == $aValue['FTBchCode'])? "selected" : "";?> value="<?=$aValue['FTBchCode'];?>"><?=$aValue['FTBchName'];?> - (<?=$aValue['FTCmpName'];?>)</option>
 													<?php } ?>
@@ -252,7 +328,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>จัดส่งวันที่</label>
-											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpPOXpoEftTo" name="odpPOXpoEftTo" placeholder="DD/MM/YYYY" autocomplete="off">
+											<input type="text" class="form-control xCNDatePicker" maxlength="20" id="odpPOXpoEftTo" name="odpPOXpoEftTo" placeholder="DD/MM/YYYY" autocomplete="off" value="<?=$FDDeliveryDate?>" <?=$tDisabledInput?>>
 										</div>
 									</div>
 
@@ -260,10 +336,10 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>เงื่อนไขการชำระเงิน</label>
-											<select class="form-control" id="osmPOCashorCard" name="osmPOCashorCard">
+											<select class="form-control" id="osmPOCashorCard" name="osmPOCashorCard" <?=$tDisabledInput?>>
 												<option value="">เลือกประเภทการชำระ</option>
-												<option value="1">เงินสด</option>
-												<option value="2">เครดิต</option>
+												<option <?=(@$FTXpoCshOrCrd == 1)? "selected" : "";?> value="1">เงินสด</option>
+												<option <?=(@$FTXpoCshOrCrd == 2)? "selected" : "";?> value="2">เครดิต</option>
 											</select>
 										</div>
 									</div>
@@ -272,7 +348,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>จำนวนวันเครดิต (วัน)</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetPOXpoCredit" name="oetPOXpoCredit" placeholder="0" autocomplete="off">
+											<input type="text" class="form-control xCNInputNumericWithDecimal text-right" maxlength="20" id="oetPOXpoCredit" name="oetPOXpoCredit" placeholder="0" autocomplete="off" value="<?=$FNXpoCredit?>" <?=$tDisabledInput?>>
 										</div>
 									</div>
 
@@ -280,9 +356,9 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>ประเภทภาษี</label>
-											<select class="form-control" id="ocmPOVatType" name="ocmPOVatType" onchange="JSvLoadTableDTTmp(1)">
-												<option value="1">แยกนอก</option>
-												<option value="2">รวมใน</option>
+											<select class="form-control" id="ocmPOVatType" name="ocmPOVatType" onchange="JSvLoadTableDTTmp(1)" <?=$tDisabledInput?>>
+												<option <?=(@$FTXpoVATInOrEx == 1)? "selected" : "";?> value="1">แยกนอก</option>
+												<option <?=(@$FTXpoVATInOrEx == 2)? "selected" : "";?> value="2">รวมใน</option>
 											</select>
 										</div>
 									</div>
@@ -291,16 +367,27 @@
 							</form>
 
 							<div class="row">
+								<?php 
+									//สถานะอนุมัติ
+									if($tDocumentStaApv == 1){
+										$tUserApvBy = $APVBY;
+										$dDateApv   = $FDApproveDate;
+									}else{
+										$tUserApvBy = '-';
+										$dDateApv   = '-';
+									}
+								?>
+										
 								<div class="col-lg-4">
-									ผู้บันทึก : <span id="ospPOCreateBy"> - </span>
+									ผู้บันทึก : <span id="ospPOCreateBy"> <?= $tDocumentCreate?> </span>
 								</div>
 
 								<div class="col-lg-4">
-									ผู้อนุมัติ : <span id="ospPOApprovedBy"> - </span>
+									ผู้อนุมัติ : <span id="ospPOApprovedBy"> <?= $tUserApvBy?> </span>
 								</div>
 
 								<div class="col-lg-4">
-									วันที่อนุมัติ : <span id="ospPOApproveDate"> - </span>
+									วันที่อนุมัติ : <span id="ospPOApproveDate"> <?= $dDateApv?> </span>
 								</div>
 							</div>
 						</div>
@@ -339,7 +426,7 @@
 						<div class="col-lg-12" style="margin-top:10px;">
 							<div class="form-group">
 								<label>หมายเหตุเอกสาร</label>
-								<textarea type="text" class="form-control" id="otaPODocRemark" name="otaPODocRemark" placeholder="หมายเหตุเอกสาร" rows="3"></textarea>
+								<textarea type="text" class="form-control" id="otaPODocRemark" name="otaPODocRemark" placeholder="หมายเหตุเอกสาร" rows="3"><?=$FTXpoRmk?></textarea>
 							</div>
 						</div>
 					</div>
@@ -376,9 +463,10 @@
 										onclick="alert('กรอกส่วนลดเช่น 10% หรือ 100 แล้วกดปุ่ม Enter')"></i>
 										<input type="text"
 											autocomplete="off"
-												id="oetPOXpoDisText"
-												class="text-right form-control xCNNumberandPercent xCNDiscountFooterBill"
-												maxlength="12" onkeyup="FSXPOCheckInputDis(this)">
+											id="oetPOXpoDisText"
+											class="text-right form-control xCNNumberandPercent xCNDiscountFooterBill"
+											maxlength="12" onkeyup="FSXPOCheckInputDis(this)"
+											value='<?=$FTXpoDisTxt?>'>
 									</div>
 								</div>
 								<div class="col-lg-5">
@@ -398,14 +486,14 @@
 
 						<!--ภาษีมูลค่าเพิ่ม-->
 						<div class="col-lg-6">
-							<label id="olbPOVatText">ภาษีมูลค่าเพิ่ม (7%)</label>
+							<label id="olbPOVatText">ภาษีมูลค่าเพิ่ม (<?=$FCXpoVatRate?>%)</label>
 						</div>
 
 						<div class="col-lg-6 text-right">
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="">
-										<input type="text" autocomplete="off" id="oetPOVatRate" class="text-right form-control xCNInputNumericWithDecimal" style="display:none" value="7">
+										<input type="text" autocomplete="off" id="oetPOVatRate" class="text-right form-control xCNInputNumericWithDecimal" style="display:none" value="<?=$FCXpoVatRate?>">
 									</div>
 								</div>
 								<div class="col-lg-6">
@@ -473,8 +561,8 @@
 </div>
 
 <!--Modal ยกเลิกเอกสาร-->
-<button id="obtModalCancleDocument" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalCancleDocument"></button>
-<div class="modal fade" id="odvModalCancleDocument" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<button id="obtModalCancelDocument" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalCancelDocument"></button>
+<div class="modal fade" id="odvModalCancelDocument" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -485,7 +573,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
-				<button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmCancleDocument">ยืนยัน</button>
+				<button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmCancelDocument">ยืนยัน</button>
 			</div>
 		</div>
 	</div>
@@ -765,6 +853,18 @@
 		var tTextTotal 	= $('#otdPOGrandTotal').text();
 		var thaibath 	= ArabicNumberToText(tTextTotal);
 		$('#ospPOTotalText').text(thaibath);
+
+		//ส่วนลดท้ายบิลอีกที่
+		$('.xCNDiscountFooterBill').change();
+
+		//ถ้าอนุมัติเเล้วหรือยกเลิก
+		if('<?=$tDocumentStaDoc?>' == 2 || '<?=$tDocumentStaApv?>' == 1){
+			$('.xCNCellDeleteItem').addClass('xCNHide');
+			$('.xCNImageEdit').addClass('xCNHide');
+			$('.xCNButtonInsert').addClass('xCNHide');
+			$('.xCNEditInline').attr('disabled',true);
+			$('.form-control').attr('disabled',true);
+		}
 	}
 
 	//เพิ่มสินค้า
@@ -918,28 +1018,35 @@
 			return;
 		}
 
-		// if($('#odpPOXpoEftTo').val() == null || $('#odpPOXpoEftTo').val() == ''){
-		// 	$('#obtModalTextWarning').click();
-		// 	$('#olbModalTextWarning').text('กรุณาเลือกจัดส่งวันที่');
+		if($('#odpPOXpoEftTo').val() == null || $('#odpPOXpoEftTo').val() == ''){
+			$('#obtModalTextWarning').click();
+			$('#olbModalTextWarning').text('กรุณาเลือกจัดส่งวันที่');
 
-		// 	$('#odvModalTextWarning .xCNCloseDelete').on('click',function(){
-		// 		$('#odpPOXpoEftTo').focus();
-		// 	});
-		// 	return;
-		// }
+			$('#odvModalTextWarning .xCNCloseDelete').on('click',function(){
+				$('#odpPOXpoEftTo').focus();
+			});
+			return;
+		}
 
-		// if($('#otbPODTTable tbody tr').hasClass('otrPOTmpEmpty') == true){
-		// 	$('#obtModalPDTIsNull').click();
-		// 	return;
-		// }
+		if($('#otbPODTTable tbody tr').hasClass('otrPOTmpEmpty') == true){
+			$('#obtModalPDTIsNull').click();
+			return;
+		}
 
 		$.ajax({
 			type	: "POST",
 			url		: ptRoute,
 			data 	: $('#ofmPurchaseorder').serialize() 
-					+ '&tDocNo='   + '<?=$tDocumentNumber?>' 
-					+ '&tSplCode=' + $('#oetSplCode').val()
-					+ '&tRemark='  + $('#otaPODocRemark').val(),
+					+ '&tDocNo='   		+ '<?=$tDocumentNumber?>' 
+					+ '&tSplCode=' 		+ $('#oetSplCode').val()
+					+ '&tRemark='  		+ $('#otaPODocRemark').val()
+					+ '&nB4Dis='   		+ $("#otdPODocNetTotal").text()
+					+ '&nDis='     		+ $("#ospPOXpoDis").text()
+					+ '&tDisText=' 		+ $("#oetPOXpoDisText").val()
+					+ '&nAfDis='   		+ $("#otdPONetAFHD").text()
+					+ '&nVatRate='   	+ $("#oetPOVatRate").val()
+					+ '&nAmtVat='   	+ $("#otdPOVat").text()
+					+ '&nGrandTotal='   + $("#otdPOGrandTotal").text(),
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
@@ -950,7 +1057,7 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ลงทะเบียนเอกสารใบสั่งซื้อสำเร็จ');
-					// JSwPOCallPageInsert('edit',tDocumentNumber);
+					JSwPOCallPageInsert('edit',tDocumentNumber);
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
@@ -958,7 +1065,7 @@
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('แก้ไขข้อเอกสารใบสั่งซื้อสำเร็จ');
-					// JSwPOCallPageInsert('edit',tDocumentNumber);
+					JSwPOCallPageInsert('edit',tDocumentNumber);
 					setTimeout(function(){
 						$('.alert-success').find('.close').click();
 					}, 3000);
@@ -970,36 +1077,26 @@
 		});
 	}
 
-
-
-
-
-
-
-
-
-
-	
 	//ยกเลิกเอกสาร
-	function JSxEventCancleDocument(){
-		$('#obtModalCancleDocument').click();
+	function JSxPOEventCancelDocument(){
+		$('#obtModalCancelDocument').click();
 
-		$('.xCNConfirmCancleDocument').off();
-		$('.xCNConfirmCancleDocument').on("click",function(){
+		$('.xCNConfirmCancelDocument').off();
+		$('.xCNConfirmCancelDocument').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: "r_adjpriceCancleDocument",
+				url		: "r_purchaseorderCancelDocument",
 				data 	: { 'tCode'	: '<?=$tDocumentNumber?>' },
 				cache	: false,
 				timeout	: 0,
 				success	: function (tResult) {
-					$('#obtModalCancleDocument').click();
+					$('#obtModalCancelDocument').click();
 					$('.alert-success').addClass('show').fadeIn();
 					$('.alert-success').find('.badge-success').text('สำเร็จ');
 					$('.alert-success').find('.xCNTextShow').text('ยกเลิกเอกสารสำเร็จ');
 
 					setTimeout(function(){
-						JSxCallPageAJPMain();
+						JSxCallPagePOMain();
 					}, 500);
 
 					setTimeout(function(){
@@ -1014,14 +1111,14 @@
 	}
 
 	//อนุมัติเอกสาร
-	function JSxEventAproveDocument(){
+	function JSxPOEventAproveDocument(){
 		$('#obtModalAproveDocument').click();
 
 		$('.xCNConfirmDeleteAprove').off();
 		$('.xCNConfirmDeleteAprove').on("click",function(){
 			$.ajax({
 				type	: "POST",
-				url		: 'r_adjpriceAprove',
+				url		: 'r_purchaseorderAprove',
 				data 	: { 'tCode'	: '<?=$tDocumentNumber?>' },
 				cache	: false,
 				timeout	: 0,
@@ -1032,7 +1129,7 @@
 					$('.alert-success').find('.xCNTextShow').text('เอกสารอนุมัติสำเร็จ');
 				
 					setTimeout(function(){
-						JSxCallPageAJPMain();
+						JSxCallPagePOMain();
 					}, 500);
 
 					setTimeout(function(){

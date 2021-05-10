@@ -632,7 +632,7 @@ table tbody .xCNTableGroupMenu{
 }
 
 .xCNHide{
-	display: none;
+	display: none !important;
 }
 
 ::-webkit-input-placeholder { /* Edge */

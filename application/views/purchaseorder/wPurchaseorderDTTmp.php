@@ -109,6 +109,7 @@
 							<input type="text"
 								class="text-right xCNEditInline xCNInputNumericWithDecimal xCNDocItemQty"
 								maxlength="6"
+								autocomplete="off"
 								id="oetDocItemQty<?=$nSeq?>"
 								value="<?=$nXpoQty ?>"
 								data-seq="<?=$nSeq?>"
@@ -128,6 +129,7 @@
 								id="oetItemDiscount<?=$nSeq?>"
 								class="text-right xCNEditInline xCNNumberandPercent xCNItemDiscount"
 								maxlength="15"
+								autocomplete="off"
 								value="<?=$nXpoDisText?>"
 								data-seq="<?=$nSeq?>"
 								style="width:100%;" >
@@ -159,6 +161,29 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
         <button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmDeleteItemForm">ยืนยัน</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal เปลี่ยนชื่อสินค้า -->
+<button id="obtModalSetNewName" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSetNewName"></button>
+<div class="modal fade" id="odvModalSetNewName" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">เปลี่ยนชื่อสินค้า</h5>
+      </div>
+      <div class="modal-body">
+	  	<div class="form-group">
+		  	<label>ชื่อสินค้า</label>
+			<input type="text" class="form-control" maxlength="200" id="oetSetNewName" name="oetSetNewName" 
+			placeholder="กรุณาระบุชื่อสินค้าใหม่" autocomplete="off" value="">
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+        <button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmSetNewName">ยืนยัน</button>
       </div>
     </div>
   </div>
@@ -318,8 +343,6 @@
 		// });
 	}
 
-	//###############################################################################################
-
 	//ลบสินค้า
 	function JSxDeleteItemInTempPO(pnSeq,pnPDTCode){
 		if($('#olbPODocNo').text() == 'PO##########'){
@@ -349,4 +372,35 @@
 			});
 		});
 	}
+
+	//เปลี่ยนชื่อสินค้า
+	function JSxSetNewName(pnSeq,pnPDTCode){
+		$('#obtModalSetNewName').click();
+
+		//เอาค่าเดิมไปใส่
+		var tNameOld = $('#ohdNameItem'+pnSeq).val();
+		$('#oetSetNewName').val(tNameOld);
+
+		//กดยืนยัน
+		$('.xCNConfirmSetNewName').off();
+		$('.xCNConfirmSetNewName').on('click',function(){
+			//เปลี่ยนชื่อสินค้า
+			$.ajax({
+				type	: "POST",
+				url		: 'r_purchaseorderChangenameindt',
+				data	: { 'pnSeq' : pnSeq , 'pnPDTCode' : pnPDTCode , 'ptPDTName' : $('#oetSetNewName').val() },
+				cache	: false,
+				timeout	: 0,
+				success	: function(tResult) {
+					$('#olbPdtCode'+pnSeq).find('span').text(pnPDTCode + ' - ' + $('#oetSetNewName').val())
+					$('#obtModalSetNewName').click();
+					$('#ohdNameItem'+pnSeq).val($('#oetSetNewName').val());
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					JSxModalErrorCenter(jqXHR.responseText);
+				}
+			});
+		});
+	}
+
 </script>

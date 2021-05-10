@@ -70,7 +70,7 @@
 			<button type="button" class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="FSxQUOSaveDoc()">บันทึก</button>
 
 			<?php if($tPer_approved == ''){ ?>
-				<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px; margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติสั่งสินค้า</button>
+				<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px; margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติ</button>
 			<?php } ?>
 
 			<?php if($tPer_print == ''){ ?>
@@ -78,7 +78,7 @@
 			<?php } ?>
 
 			<?php if($tPer_cancle == ''){ ?>
-				<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิก</button>
+				<button type="button" class="<?=$tEventHide?> xCNCancel xCNCalcelImport btn btn-outline-danger pull-right" style="margin-right:10px;" onclick="FSxQUOCancleDocument()">ยกเลิกเอกสาร</button>
 			<?php } ?>
 		</div>
 	</div>
