@@ -243,5 +243,6 @@ $route['r_purchaseorderFootDiscount'] 			= 'purchaseorder/cPurchaseorder/FSxCPOE
 $route['r_purchaseorderChangenameindt'] 		= 'purchaseorder/cPurchaseorder/FSxCPOChangenameinDT';
 $route['r_purchaseorderCancelDocument'] 		= 'purchaseorder/cPurchaseorder/FSxCPOCancelDocument';
 $route['r_purchaseorderAprove'] 				= 'purchaseorder/cPurchaseorder/FSxCPOAproveDocument';
+$route['r_purchaseorderPrint/(:any)/(:any)']	= 'purchaseorder/cPurchaseorder/FSaCPODocPrintForm/$1/$2';
 
 

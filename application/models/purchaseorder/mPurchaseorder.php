@@ -992,5 +992,163 @@ class mPurchaseorder extends CI_Model {
 			echo $Error;
 		}
 	}
+
+	//รายละเอียดการพิมพ์ ส่วนหัว
+	public function FCaMPODocPrintHD($ptDocNo){
+
+		$tSQL = "SELECT  HD.FTBchCode
+						,HD.FTXpoDocNo
+						,CONVERT(VARCHAR(16),HD.FDXpoDocDate,121) AS FDXpoDocDate
+						,CASE WHEN HD.FTXpoCshOrCrd = 1 THEN 'เงินสด' WHEN HD.FTXpoCshOrCrd = 2 THEN 'เครดิต' ELSE '-' END AS  FTXpoCshOrCrd
+						,HD.FNXpoCredit
+						,HD.FTXpoVATInOrEx
+						,CONVERT(VARCHAR(10),HD.FDDeliveryDate,121) AS FDDeliveryDate
+						,HD.FTXpoStaExpress
+						,HD.FTXpoStaDoc
+						,HD.FTXpoStaActive
+						,HD.FTXpoStaDeli
+						,HD.FCXpoB4Dis
+						,HD.FCXpoDis
+						,HD.FTXpoDisTxt
+						,HD.FCXpoAFDis
+						,HD.FCXpoVatRate
+						,HD.FCXpoAmtVat
+						,HD.FCXpoVatable
+						,HD.FCXpoGrand
+						,HD.FCXpoRnd
+						,HD.FTXpoGndText
+						,HD.FTXpoRmk
+						,HD.FTUsrDep
+						,CMP.FTCmpName
+						,BCH.FTBchName
+						,BCH.FTAdrName
+						,BCH.FTAdrRoad
+						,BCH.FTAdrSubDistric
+						,BCH.FTAdrDistric
+						,BCH.FTAdrProvince
+						,BCH.FTAdrPosCode
+						,BCH.FTAdrTel
+						,BCH.FTAdrFax
+						,BCH.FTAdrEmail
+						FROM TARTPoHD HD
+						INNER JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode
+						INNER JOIN TCNMCompany CMP ON BCH.FTCmpCode = CMP.FTCmpCode
+						WHERE HD.FTXpoDocNo = '".$ptDocNo."'";
+
+		$oQuery = $this->db->query($tSQL);
+		if ($oQuery->num_rows() > 0) {
+			$aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
+		} else {
+			$aResult = array(
+				'raItems'  		=> '',
+				'rtCode'   		=> '0',
+				'rtDesc'   		=> 'Empty',
+			);
+		}
+
+		return $aResult;
+	}
+
+	//รายละเอียดการพิมพ์ ส่วนผู้จำหน่าย
+	public function FCaMPODocPrintSPL($ptDocNo){
+
+		$tSQL = "SELECT FTXpoDocNo
+					,ISNULL(FTXpoSplCode,'-') AS FTXpoSplCode
+					,ISNULL(FTXpoSplName,'-') AS FTXpoSplName
+					,ISNULL(FTXpoAddress,'-') AS FTXpoAddress
+					,ISNULL(FTXpoTaxNo,'-') AS FTXpoTaxNo
+					,ISNULL(FTXpoContact,'-') AS FTXpoContact
+					,ISNULL(FTXpoEmail,'-') AS FTXpoEmail
+					,ISNULL(FTXpoTel,'-') AS FTXpoTel
+					,ISNULL(FTXpoFax,'-') AS FTXpoFax
+			FROM TARTPoHDSpl
+			WHERE FTXpoDocNo = '".$ptDocNo."'";
+
+		$oQuery = $this->db->query($tSQL);
+		if ($oQuery->num_rows() > 0) {
+			$aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
+		}else{
+			$aResult = array(
+				'raItems'  		=> '',
+				'rtCode'   		=> '0',
+				'rtDesc'   		=> 'Empty',
+			);
+		}
+
+		return $aResult;
+	}
+
+	//รายละเอียดการพิมพ์ ส่วนสินค้า
+	public function FCaMPODocPrintDT($ptDocNo){
+		$tSQL = "SELECT
+					DT.FTXpoDocNo
+					,DT.FNXpoSeq
+					,DT.FTPdtCode
+					,ISNULL(DT.FTPdtName,'-') AS FTPdtName
+					,DT.FTPunCode
+					,ISNULL(DT.FTPunName,'-') AS FTPunName
+					,DT.FCXpoUnitPrice
+					,DT.FTXpoCost
+					,DT.FTSplCode
+					,DT.FCXpoQty
+					,DT.FCXpoB4Dis
+					,DT.FCXpoDis
+					,DT.FTXpoDisTxt
+					,DT.FCXpoAfDT
+					,DT.FCXpoFootAvg
+					,DT.FCXpoNetAfHD
+					,PDT.FTPdtImage
+				FROM TARTPoDT DT
+				LEFT JOIN TCNMPdt PDT ON DT.FTPdtCode = PDT.FTPdtCode
+				WHERE FTXpoDocNo = '".$ptDocNo."'";
+		$tSQL.= " ORDER BY FNXpoSeq ";
+		$oQuery = $this->db->query($tSQL);
+		if ($oQuery->num_rows() > 0) {
+			$aResult 	= array(
+				'rnTotal'     	=> $oQuery->num_rows(),
+				'raItems'  		=> $oQuery->result_array(),
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
+		} else {
+			$aResult = array(
+				'rnTotal'     	=> 0,
+				'raItems'  		=> '',
+				'rtCode'   		=> '0',
+				'rtDesc'   		=> 'Empty',
+			);
+		}
+
+		return $aResult;
+	}
+
+	//รายละเอียดผู้ใช้
+	public function FCaMPOGetLicense($tUserLogin){
+		$tSQL = "SELECT FTUsrPathSignature FROM TCNMUsr WHERE FTUsrCode = '".$tUserLogin."'";
+		$oQuery = $this->db->query($tSQL);
+		if ($oQuery->num_rows() > 0) {
+		$aResult 	= array(
+			'raItems'  		=> $oQuery->result_array(),
+			'rtCode'   		=> '1',
+			'rtDesc'   		=> 'success',
+		);
+		}else{
+		$aResult = array(
+			'raItems'  		=> '',
+			'rtCode'   		=> '0',
+			'rtDesc'   		=> 'Empty',
+		);
+		}
+
+		return $aResult;
+	}
 	
 }

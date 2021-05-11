@@ -121,8 +121,8 @@ class mProduct extends CI_Model {
 		//ค้นหาธรรมดา
 		if($tTextSearch != '' || $tTextSearch != null){
 			$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR PDT.FTPdtName LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR PDT.FTPdtNameOth LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR PDT.FTPdtName LIKE '%[$tTextSearch]%' ";
+			$tSQL .= " OR PDT.FTPdtNameOth LIKE '%[$tTextSearch]%' ";
 			$tSQL .= " OR PDT.FTPdtDesc LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPunCode LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPgpCode LIKE '%$tTextSearch%' ";
@@ -256,8 +256,8 @@ class mProduct extends CI_Model {
 			//ค้นหาธรรมดา
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR PDT.FTPdtName LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR PDT.FTPdtNameOth LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR PDT.FTPdtName LIKE '%[$tTextSearch]%' ";
+				$tSQL .= " OR PDT.FTPdtNameOth LIKE '%[$tTextSearch]%' ";
 				$tSQL .= " OR PDT.FTPdtDesc LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPunCode LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPgpCode LIKE '%$tTextSearch%' ";

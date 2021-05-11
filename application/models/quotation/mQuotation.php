@@ -234,7 +234,7 @@ class mQuotation extends CI_Model
 
 		//ค้นหาธรรมดา
 		if ($tSearchAll != "") {
-			$tSQL .= " AND P.FTPdtName LIKE '%" . $tSearchAll . "%'";
+			$tSQL .= " AND P.FTPdtName LIKE '%[" . $tSearchAll . "]%'";
 			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tSearchAll . "%'";
 		}
 
@@ -379,7 +379,7 @@ class mQuotation extends CI_Model
 
 			//ค้นหาธรรมดา
 			if ($tTextSearch != '' || $tTextSearch != null) {
-				$tSQL .= " AND PDT.FTPdtName LIKE '%" . $tTextSearch . "%'";
+				$tSQL .= " AND PDT.FTPdtName LIKE '%[" . $tTextSearch . "]%'";
 				$tSQL .= " OR PDT.FTPdtCode LIKE '%" . $tTextSearch . "%'";
 			}
 
