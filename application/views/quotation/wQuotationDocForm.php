@@ -69,6 +69,8 @@
 			?>
 			<button type="button" class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="FSxQUOSaveDoc()">บันทึก</button>
 
+			<button type="button" class="xCNCreatePO xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px;" onclick="FSxCreatePOFromQuotation()">สร้างใบสั่งซื้อ</button>
+
 			<?php if($tPer_approved == ''){ ?>
 				<button type="button" class="<?=$tEventHide?> xCNAprove xCNButtonAprove-outline btn btn-outline-success pull-right" style="margin-left:10px; margin-right:10px;" onclick="FSxQUOAproveDocument()">อนุมัติ</button>
 			<?php } ?>
@@ -571,6 +573,24 @@
 	</div>
 </div>
 
+<!-- Modal สร้างใบสั่งซื้อ -->
+<button id="obtModalCreatePO" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalCreatePO"></button>
+<div class="modal fade" id="odvModalCreatePO" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">สร้างใบสั่งซื้อ</h5>
+			</div>
+			<div class="modal-body">
+				<div id="odvContentModalCreatePO"></div>			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 100px;">ปิด</button>
+				<button type="button" class="btn btn-danger xCNConfirmDelete xCNConfirmCreatePO">ยืนยัน</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
 <link rel="stylesheet" href="<?= base_url('application/assets/css/quotation.css') ?>">
@@ -671,5 +691,25 @@
 		}else{
 
 		}
+	}
+
+	//สร้างใบสั้งซื้อจากหน้าจอ ใบเสนอราคา
+	function FSxCreatePOFromQuotation(){
+		$('#obtModalCreatePO').click();
+		var tDocumentNumber = $('#ospDocNo').attr('data-docno');
+
+		$.ajax({
+			type	: "POST",
+			url		: "r_quotationGenPO",
+			data 	: { 'tDocumentNumber' : tDocumentNumber },
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('#odvContentModalCreatePO').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				JSxModalErrorCenter(jqXHR.responseText);
+			}
+		});
 	}
 </script>

@@ -182,8 +182,10 @@
 					$('.xCNAprove').addClass('xCNHide');
 					$('.xCNCancel').addClass('xCNHide');
 					$('.xCNPrint').addClass('xCNHide');
+					$('.xCNCreatePO').addClass('xCNHide');
 				}else{
 					$('.xCNPrint').removeClass('xCNHide');
+					$('.xCNCreatePO').addClass('xCNHide');
 					if(FTXqhStaApv =='' || FTXqhStaApv == null){
                  		$('.xCNAprove').removeClass('xCNHide');
 						$('.xCNCancel').removeClass('xCNHide');
@@ -195,6 +197,7 @@
 
 					//เปิด
 					$('.xCNPrint').removeClass('xCNHide');
+					$('.xCNCreatePO').removeClass('xCNHide');
 					$("#ospApprovedBy").text(tUsrApvNameBy);
 
 					dApproveDate = moment(moment(dApproveDate, 'YYYY-MM-DD')).format('DD/MM/YYYY');
@@ -222,6 +225,7 @@
 					$('.xCNIconFindCustomer').addClass('xCNHide');
 					$('#odvMoreItem').addClass('xCNHide');
 					$('.xCNPrint').addClass('xCNHide');
+					$('.xCNCreatePO').addClass('xCNHide');
 				}
 			})
 			.fail(function(jqXHR, textStatus, errorThrown) {
@@ -420,6 +424,7 @@
 		 				$('.xCNCancel').removeClass('xCNHide');
 						 $('.xCNAprove').removeClass('xCNHide');
 						 $('.xCNPrint').removeClass('xCNHide');
+						 $('.xCNCreatePO').addClass('xCNHide');
 
 						var tUsername = '<?=$this->session->userdata('tSesFirstname')?>';
 						$('#ospCreateBy').text(tUsername);
@@ -429,6 +434,8 @@
 
 		})
 		.fail(function(jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR);
+			console.log(textStatus);
 			//serrorFunction();
 		});
 

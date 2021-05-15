@@ -1409,4 +1409,31 @@ class mQuotation extends CI_Model
 		$this->db->query($tSQL);
 	}
 
+	//หาสินค้าที่มีตาม SPL เอาไปสร้างใบสั่งซื้อ
+	public function FCxMQUOGetPDTBySPL($paData){
+		$tDocumentNumber = $paData['tDocumentNumber'];
+
+		//อัพเดทเอกสาร HD Tmp
+		$tSQL   = "SELECT DT.* , SPL.FTSplName FROM TARTSqDT DT
+				 	LEFT JOIN TCNMSpl SPL ON DT.FTSplCode = SPL.FTSplCode
+				 WHERE DT.FTXqhDocNo = '" . $tDocumentNumber . "'  ORDER BY DT.FTSplCode ";
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
+		if ($nCountRows > 0) {
+			$aResult = array(
+				'raItems'  	=> $oQuery->result_array(),
+				'nTotalRes' => $nCountRows,
+				'rtCode'   	=> '1',
+				'rtDesc'   	=> 'success',
+			);
+		} else {
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'nTotalRes' => 0,
+				'rtDesc' 	=> 'data not found',
+			);
+		}
+		return $aResult;
+	}
+
 }
