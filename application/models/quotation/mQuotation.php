@@ -1407,6 +1407,14 @@ class mQuotation extends CI_Model
 				 AND FNXqdSeq = '" . $nSeq . "'
 				 AND FTPdtCode = '" . $nPDTCode . "' ";
 		$this->db->query($tSQL);
+
+		//อัพเดทชื่อใน DT จริงเลย
+		$tDocumentNumber	= $paData['tDocumentNumber'];
+		$tSQL = "UPDATE TARTSqDT SET FTPdtName = '" . $tPDTName . "'
+					WHERE FTXqhDocNo = '" . $tDocumentNumber . "'
+					AND FNXqdSeq = '" . $nSeq . "'
+					AND FTPdtCode = '" . $nPDTCode . "' ";
+		$this->db->query($tSQL);
 	}
 
 }

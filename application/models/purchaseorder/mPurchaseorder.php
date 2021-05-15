@@ -755,6 +755,14 @@ class mPurchaseorder extends CI_Model {
 				 AND FNXpoSeq = '" . $nSeq . "'
 				 AND FTPdtCode = '" . $nPDTCode . "' ";
 		$this->db->query($tSQL);
+
+		//อัพเดทชื่อใน DT จริงเลย
+		$tDocumentNumber	= $paData['tDocumentNumber'];
+		$tSQL = "UPDATE TARTPoDT SET FTPdtName = '" . $tPDTName . "'
+					WHERE FTXpoDocNo = '" . $tDocumentNumber . "'
+					AND FNXpoSeq = '" . $nSeq . "'
+					AND FTPdtCode = '" . $nPDTCode . "' ";
+		$this->db->query($tSQL);
 	}
 
 	//อัพเดทข้อมูล HDTmp

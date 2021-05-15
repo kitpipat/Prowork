@@ -16,12 +16,12 @@
 			<div class="row">
 
 				<!--สาขา-->
-				<div class="col-lg-2">
+				<div class="col-lg-3">
 					<?php if($tLevelUser == 'HQ'){ ?>
 						<div class="form-group">
 							<label> สาขา</label>
 							<select class="form-control" id="oetDocBCH" name="oetDocBCH">
-								<option value="">สำนักงานใหญ่</option>
+								<option value="">ทั้งหมด</option>
 								<?php foreach($aBCHList['raItems'] AS $nKey => $aValue){ ?>
 									<option value="<?=$aValue['FTBchCode'];?>"><?=$aValue['FTBchName'];?> - (<?=$aValue['FTCmpName'];?>)</option>
 								<?php } ?>
@@ -39,7 +39,7 @@
 				</div>
 
 				<!--เลขที่เอกสาร-->
-				<div class="col-lg-4">
+				<div class="col-lg-3">
 					<div class="form-group">
 						<label>เลขที่เอกสาร</label>
 						<input type="text" class="form-control xCNInputWithoutSingleQuote" id="oetDocNumber" name="oetDocNumber" placeholder="กรอกเลขที่เอกสาร" autocomplete="off">

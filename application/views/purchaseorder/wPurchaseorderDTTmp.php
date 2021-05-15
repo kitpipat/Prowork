@@ -388,7 +388,11 @@
 			$.ajax({
 				type	: "POST",
 				url		: 'r_purchaseorderChangenameindt',
-				data	: { 'pnSeq' : pnSeq , 'pnPDTCode' : pnPDTCode , 'ptPDTName' : $('#oetSetNewName').val() },
+				data	: { 
+					'pnSeq' 			: pnSeq , 
+					'pnPDTCode' 		: pnPDTCode , 
+					'ptPDTName' 		: $('#oetSetNewName').val(),
+					'ptDocumentNumber'  : $('#ospPODocNo').attr('data-docno') },
 				cache	: false,
 				timeout	: 0,
 				success	: function(tResult) {

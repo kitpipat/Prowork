@@ -21,7 +21,9 @@ class mGroupproduct extends CI_Model {
 
 		if($tTextSearch != '' || $tTextSearch != null){
 			$tSQL .= " AND ( GRP.FTPgpCode LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR GRP.FTPgpName LIKE '%$tTextSearch%' )";
+			$tSQL .= " OR GRP.FTPgpName LIKE '%[$tTextSearch]%' ";
+			$tSQL .= " OR BAN.FTPbnName LIKE '%[$tTextSearch]%' ";
+			$tSQL .= " OR BAN.FTPbnCode LIKE '%$tTextSearch%' )";
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
@@ -54,11 +56,13 @@ class mGroupproduct extends CI_Model {
 	public function FSaMGRPGetData_PageAll($paData){
 		try{
 			$tTextSearch = trim($paData['tSearchAll']);
-			$tSQL 		= "SELECT COUNT (GRP.FTPgpCode) AS counts FROM TCNMPdtGrp GRP ";
+			$tSQL 		= "SELECT COUNT (GRP.FTPgpCode) AS counts FROM TCNMPdtGrp GRP LEFT JOIN TCNMPdtBrand BAN ON GRP.FTPbnCode = BAN.FTPbnCode ";
 			$tSQL 		.= " WHERE 1=1 ";
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND ( GRP.FTPgpCode LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR GRP.FTPgpName LIKE '%$tTextSearch%' )";
+				$tSQL .= " OR GRP.FTPgpName LIKE '%[$tTextSearch]%' ";
+				$tSQL .= " OR BAN.FTPbnName LIKE '%[$tTextSearch]%' ";
+				$tSQL .= " OR BAN.FTPbnCode LIKE '%$tTextSearch%' )";
 			}
 
             $oQuery = $this->db->query($tSQL);

@@ -285,7 +285,11 @@
 			$.ajax({
 				type	: "POST",
 				url		: 'r_quochangenameindt',
-				data	: { 'pnSeq' : pnSeq , 'pnPDTCode' : pnPDTCode , 'ptPDTName' : $('#oetSetNewName').val() },
+				data	: { 
+					'pnSeq' 			: pnSeq , 
+					'pnPDTCode' 		: pnPDTCode , 
+					'ptPDTName' 		: $('#oetSetNewName').val() , 
+					'ptDocumentNumber'  : $('#ospDocNo').attr('data-docno') },
 				cache	: false,
 				timeout	: 0,
 				success	: function(tResult) {

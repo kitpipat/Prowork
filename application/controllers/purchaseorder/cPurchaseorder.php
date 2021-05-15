@@ -398,16 +398,18 @@ class cPurchaseorder extends CI_Controller {
 
 	//เเก้ไขชื่อในรายการ
 	public function FSxCPOChangenameinDT(){
-		$nSeq 			= $this->input->post('pnSeq');
-		$nPDTCode 		= $this->input->post('pnPDTCode');
-		$tPDTName 		= $this->input->post('ptPDTName');
-		$tWorkerID 		= $this->session->userdata('tSesLogID');
+		$nSeq 				= $this->input->post('pnSeq');
+		$nPDTCode 			= $this->input->post('pnPDTCode');
+		$tPDTName 			= $this->input->post('ptPDTName');
+		$tDocumentNumber	= $this->input->post('ptDocumentNumber');
+		$tWorkerID 			= $this->session->userdata('tSesLogID');
 
 		$aPackData 		= array(
 			'nSeq'					=> $nSeq,
 			'nPDTCode'				=> $nPDTCode,
 			'tPDTName'				=> $tPDTName,
-			'tWorkerID'				=> $tWorkerID
+			'tWorkerID'				=> $tWorkerID,
+			'tDocumentNumber'		=> $tDocumentNumber
 		);
 		$this->mPurchaseorder->FCxMPOChangenameinDT($aPackData);
 	}

@@ -14,7 +14,7 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="width:160px; text-align: left;">สาขา</th>
+		<th style="width:250px; text-align: left;">สาขา</th>
 		<th style="text-align: left;">เลขที่เอกสาร</th>
 		<th style="width:130px; text-align: left;">วันที่</th>
 		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>

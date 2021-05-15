@@ -860,10 +860,12 @@
 		//ถ้าอนุมัติเเล้วหรือยกเลิก
 		if('<?=$tDocumentStaDoc?>' == 2 || '<?=$tDocumentStaApv?>' == 1){
 			$('.xCNCellDeleteItem').addClass('xCNHide');
-			$('.xCNImageEdit').addClass('xCNHide');
 			$('.xCNButtonInsert').addClass('xCNHide');
 			$('.xCNEditInline').attr('disabled',true);
 			$('.form-control').attr('disabled',true);
+
+			//สามารถเเก้ไชชื่อ
+			$('#oetSetNewName').attr('disabled',false);
 		}
 	}
 
