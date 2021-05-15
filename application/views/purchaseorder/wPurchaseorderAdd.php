@@ -125,11 +125,11 @@
 			<?php if($tTypePage == 'edit'){ ?>
 				<?php if($tDocumentStaDoc == 2 || $tDocumentStaApv == 1){ ?>
 					<!--ไม่โชว์สักเมนู ถ้ามันอนุมัติเเล้ว-->
-					<button class="xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_print?>" style="margin-right:10px; float:right;" onclick="FSxPOPrintForm()">พิมพ์</button>
+					<button class="xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_print?>" style="float:right;" onclick="FSxPOPrintForm()">พิมพ์</button>
 				<?php }else{ ?>
 					<button class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
 					<button class="xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_approved?>" style="margin-right:10px; float:right;" onclick="JSxPOEventAproveDocument('<?=$tRoute?>');">อนุมัติ</button>
-					<button class="xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_print?>" style="margin-right:10px; float:right;" onclick="FSxPOPrintForm()">พิมพ์</button>
+					<button class="xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_print?>" style="float:right;" onclick="FSxPOPrintForm()">พิมพ์</button>
 					<button class="xCNCalcelImport btn btn-outline-danger pull-right <?=$tPer_cancle?>" style="margin-right:10px; float:right;" onclick="JSxPOEventCancelDocument();">ยกเลิกเอกสาร</button>
 				<?php } ?>
 			<?php }else{ ?> 
