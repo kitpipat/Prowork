@@ -579,7 +579,7 @@
 <div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">สร้างใบสั่งซื้อ</h5>
+				<h5 class="modal-title">สร้างใบสั่งซื้อตามผู้จำหน่าย</h5>
 			</div>
 			<div class="modal-body">
 				<div id="odvContentModalCreatePO"></div>			

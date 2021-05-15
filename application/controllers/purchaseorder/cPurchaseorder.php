@@ -449,7 +449,7 @@ class cPurchaseorder extends CI_Controller {
 			'FTXpoCshOrCrd'		=> ($tCashorCard == '') ? '1' : $tCashorCard,
 			'FNXpoCredit'		=> ($nCredit == '') ? '30' : $nCredit,
 			'FTXpoVATInOrEx'	=> $nVatType,	
-			'FDDeliveryDate'	=> date('d/m/Y H:i:s',strtotime($tPOEftTo)),
+			'FDDeliveryDate'	=> date('Y-m-d',strtotime(str_replace('/', '-', $tPOEftTo))) . ' ' . date('H:i:s'),
 			'FTXpoStaExpress'	=> 0,
 			'FTXpoStaDoc'		=> 1,
 			'FTXpoStaActive'	=> 1,
@@ -553,7 +553,7 @@ class cPurchaseorder extends CI_Controller {
 			'FTXpoCshOrCrd'		=> ($tCashorCard == '') ? '1' : $tCashorCard,
 			'FNXpoCredit'		=> ($nCredit == '') ? '30' : $nCredit,
 			'FTXpoVATInOrEx'	=> $nVatType,	
-			'FDDeliveryDate'	=> date('d/m/Y H:i:s',strtotime($tPOEftTo)),
+			'FDDeliveryDate'	=> date('Y-m-d',strtotime(str_replace('/', '-', $tPOEftTo))) . ' ' . date('H:i:s'),
 			'FTXpoStaExpress'	=> 0,
 			'FTXpoStaDoc'		=> 1,
 			'FTXpoStaActive'	=> 1,
@@ -633,8 +633,7 @@ class cPurchaseorder extends CI_Controller {
 	}
 
 	//พิมพ์
-	public function FSaCPODocPrintForm($ptDocNo,$ptContact)
-	{
+	public function FSaCPODocPrintForm($ptDocNo,$aParametertwo){
 		// สร้าง object สำหรับใช้สร้าง pdf
 		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
@@ -699,6 +698,170 @@ class cPurchaseorder extends CI_Controller {
 		// จบการทำงานและแสดงไฟล์ pdf
 		// การกำหนดในส่วนนี้ สามารถปรับรูปแบบต่างๆ ได้ เช่นให้บันทึกเป้นไฟล์ หรือให้แสดง pdf เลย ดูวิธีใช้งานที่คู่มือของ tcpdf เพิ่มเติม
 		$pdf->Output('example_001.pdf', 'I');
+	}
+
+	
+	//////////////////////////////////////////////////////////////////////// CREATE PO //////////////////////////////////////
+
+	//Gen เอกสาร PO
+	public function FCwCQUOGenDocumentPO(){
+		$tDocumentNumber = $this->input->post('tDocumentNumber');
+		$aPackData = array(
+			"tDocumentNumber" => $tDocumentNumber
+		);
+		$aItem = $this->mPurchaseorder->FCxMQUOGetPDTBySPL($aPackData);
+
+		$aData = array(
+			"tDocumentNumber"   => $tDocumentNumber,
+			"aItem" 			=> $aItem
+		);
+		$this->load->view("quotation/wQuotationDetailPDTBySPL", $aData);
+	}
+
+	public function FCwCQUOItemGenPO(){
+		$tDocumentNumber = $this->input->post('tDocumentNumber');
+		$aItem 			 = $this->input->post('aItem');
+
+		$this->db->trans_begin();
+			
+			$aSPL = [];
+			//Insert DT
+			for($j=0; $j<count($aItem); $j++){
+				if(!in_array($aItem[$j]['tSPLCode'],$aSPL)){
+					array_push($aSPL,$aItem[$j]['tSPLCode']);
+				}
+
+				$oItem 			= $this->mPurchaseorder->FCaMPOGetDetailItemAndPrice($aItem[$j]['tPDTCode']);
+				$aDetailItem 	= $oItem['raItems'][0];
+				$nQTY  			= 1;
+				$aDocInsertDT  = array(
+					"FTXpoDocNo" 		=> 'DEMO',
+					"FNXpoSeq" 			=> $j + 1,
+					"FTPdtCode" 		=> $aItem[$j]['tPDTCode'],
+					"FTPdtName" 		=> $aItem[$j]['tPDTName'],
+					"FTPunCode" 		=> $aDetailItem['FTPunCode'],
+					"FTPunName" 		=> $aDetailItem['FTPunName'],
+					"FTSplCode" 		=> $aItem[$j]['tSPLCode'],
+					"FTXpoCost" 		=> $aItem[$j]['nPrice'],
+					"FCXpoUnitPrice" 	=> $nQTY * $aItem[$j]['nPrice'],
+					"FCXpoB4Dis"		=> $nQTY * $aItem[$j]['nPrice'],
+					"FTXpoDisTxt"		=> '',
+					"FCXpoAfDT"			=> $nQTY * $aItem[$j]['nPrice'],
+					"FCXpoNetAfHD"		=> $nQTY * $aItem[$j]['nPrice'],
+					"FCXpoQty" 			=> $nQTY,
+					"FTXpoRefPo"		=> $tDocumentNumber,
+					"FCXpoDis" 			=> 0,
+					"FCXpoFootAvg" 		=> 0,
+					"FTPdtStaEditName"	=> $aDetailItem['FTPdtStaEditName'],
+					"FTXpoRefBuyer"		=> '',
+					"FTPdtStaCancel"	=> 0,
+					"FTCreateBy"		=> $this->session->userdata('tSesUsercode'),
+					"FDCreateOn"		=> date('Y-m-d'),	
+					"FTUpdateBy"		=> $this->session->userdata('tSesUsercode'),
+					"FDUpdateOn"		=> date('Y-m-d'),	
+				);
+				$this->mPurchaseorder->FCxMPOInsert_DT($aDocInsertDT);
+
+				//Update สินค้าใน ใบเสนอราคาว่าใช้เเล้ว
+				$aDocUpdateDT  = array(
+					"FTDocRefPO" 		=> 'DEMO',
+					"FTPdtCode" 		=> $aItem[$j]['tPDTCode'],
+				);
+				$this->mPurchaseorder->FCxMPOUpdatePDTInQuotationUseRef($aDocUpdateDT,$tDocumentNumber);
+			}
+
+			//Insert HD + Insert SPL
+			$tReturnDocument = '';
+			for($n=0;$n<count($aSPL);$n++){
+				$tSPLCode			= $aSPL[$n];
+				$tBchCode		    = ($this->session->userdata('tSesBCHCode') == '') ? '00001' : $this->session->userdata('tSesBCHCode');
+				$tNewDocNo		    = $this->mPurchaseorder->FCtMPOGetDocNo($tBchCode);
+				$tReturnDocument 	.= $tNewDocNo . ',';
+
+				//Update เลขที่เอกสารใน DT ตาม SPL + เรียง Seq ใหม่
+				$this->mPurchaseorder->FCxMPOUpdateDocNoInDT($tNewDocNo,$tSPLCode,$tDocumentNumber);
+
+				$aGetItemINDT 		= $this->mPurchaseorder->FSaMPOGetPDTInDT($tNewDocNo);
+				$aDetailSPL			= $this->mPurchaseorder->FCxMPOGetSupplierByID($tSPLCode);
+				$nPrince 			= $aGetItemINDT['raItems'][0]['nTotal'];
+				$nVatRate			= $aDetailSPL[0]['FNSplVat'];
+
+				if($aDetailSPL[0]['FTSplVatType'] == 1){ //แยกนอก 
+					$FCXpoAmtVat 		= (($nPrince * (100 + $nVatRate)) / 100) - $nPrince;
+					$FCXpoVatable 		= $nPrince;
+					$FCXpoGrand 		= $nPrince + $FCXpoAmtVat;
+					$FTXpoGndText 		= $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
+				}else{ //รวมใน
+					$FCXpoAmtVat 		= $nPrince - (($nPrince * 100) / (100 + $nVatRate));
+					$FCXpoVatable 		= $nPrince - $FCXpoAmtVat;
+					$FCXpoGrand 		= $nPrince;
+					$FTXpoGndText 		= $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
+				}
+
+				//Insert SPL
+				$aDocInsertHDSpl 	= array(
+					'FTXpoDocNo'		=> $tNewDocNo,
+					'FTXpoSplCode'		=> $tSPLCode,
+					'FTXpoSplName'		=> $aDetailSPL[0]['FTSplName'],
+					'FTXpoAddress'		=> $aDetailSPL[0]['FTSplAddress'],
+					'FTXpoTaxNo'		=> '-',
+					'FTXpoContact'		=> $aDetailSPL[0]['FTSplContact'],
+					'FTXpoEmail'		=> $aDetailSPL[0]['FTSplEmail'],
+					'FTXpoTel'			=> $aDetailSPL[0]['FTSplTel'],
+					'FTXpoFax'			=> $aDetailSPL[0]['FTSplFax'],
+					'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+					'FDCreateOn'		=> date('Y-m-d H:i:s'),
+					'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+					'FDUpdateOn'		=> date('Y-m-d H:i:s')
+				);
+				$this->mPurchaseorder->FCxMPOInsert_SPLHD($aDocInsertHDSpl);
+
+				//Insert HD
+				$aDocInsertHD 	= array(
+					'FTXpoDocNo'		=> $tNewDocNo,
+					'FTBchCode'			=> $tBchCode,
+					'FDXpoDocDate'		=> date('Y-m-d H:i:s'),
+					'FTXpoCshOrCrd'		=> 1,
+					'FNXpoCredit'		=> 30,
+					'FTXpoVATInOrEx'	=> $aDetailSPL[0]['FTSplVatType'],	
+					'FDDeliveryDate'	=> date('Y-m-d H:i:s'),
+					'FTXpoStaExpress'	=> 0,
+					'FTXpoStaDoc'		=> 1,
+					'FTXpoStaActive'	=> 1,
+					'FTXpoStaDeli'		=> 1,
+					'FTXpoRmk'			=> '',
+					'FTXpoStaApv'		=> 0,	
+					'FTXpoStaRefInt'	=> 0,
+					'FTApprovedBy'		=> '',
+					'FDApproveDate'		=> '',
+					'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
+					'FDCreateOn'		=> date('Y-m-d H:i:s'),
+					'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
+					'FDUpdateOn'		=> date('Y-m-d H:i:s'),
+					"FCXpoB4Dis" 		=> $nPrince,
+					"FCXpoDis" 			=> 0,
+					"FTXpoDisTxt" 		=> '',
+					"FCXpoAFDis" 		=> $nPrince,
+					"FCXpoVatRate" 		=> $aDetailSPL[0]['FNSplVat'],
+					"FCXpoAmtVat" 		=> $FCXpoAmtVat,
+					"FCXpoVatable" 		=> $FCXpoVatable,
+					"FCXpoGrand" 		=> $FCXpoGrand,
+					"FTXpoGndText" 		=> $FTXpoGndText
+				);
+				$this->mPurchaseorder->FCxMPOInsert_HD($aDocInsertHD);
+			}
+
+		if($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+		}else{
+			$this->db->trans_commit();
+		}
+
+		//ส่งค่ากลับ
+		$aReturn = array(
+			'tReturnDocument'	=> substr($tReturnDocument,0,-1)
+		);
+		echo json_encode($aReturn);
 	}
 
 

@@ -63,7 +63,8 @@ $route['r_quotationeventAddItems'] 				= 'quotation/cQuotation/FCaCQUOAddItem';
 $route['r_quotationeventDelItems'] 				= 'quotation/cQuotation/FCxCQUODelItem';
 $route['r_quotationeventEditItemsQty'] 			= 'quotation/cQuotation/FCxCQUOEditItemQty';
 $route['r_quotationcallsqdoc'] 					= 'quotation/cQuotation/FCwCQUOCallDocPage';
-$route['r_quotationGenPO'] 						= 'quotation/cQuotation/FCwCQUOGenDocumentPO';
+$route['r_quotationGenPO'] 						= 'purchaseorder/cPurchaseorder/FCwCQUOGenDocumentPO';
+$route['r_quotationItemGenPO'] 					= 'purchaseorder/cPurchaseorder/FCwCQUOItemGenPO';
 
 //ใบเสนอราคา เอกสาร Step2
 $route['r_quodoccallitems'] 					= 'quotation/cQuotationDoc/FSvCQUODocItems';

@@ -221,19 +221,4 @@ class cQuotation extends CI_Controller
 		$this->load->view("quotation/wQuotationDocForm", $aData);
 	}
 
-	//Gen เอกสาร PO
-	public function FCwCQUOGenDocumentPO(){
-		$tDocumentNumber = $this->input->post('tDocumentNumber');
-		$aPackData = array(
-			"tDocumentNumber" => $tDocumentNumber
-		);
-		$aItem = $this->mQuotation->FCxMQUOGetPDTBySPL($aPackData);
-
-		$aData = array(
-			"tDocumentNumber"   => $tDocumentNumber,
-			"aItem" 			=> $aItem
-		);
-		$this->load->view("quotation/wQuotationDetailPDTBySPL", $aData);
-
-	}
 }

@@ -806,6 +806,16 @@ class mPurchaseorder extends CI_Model {
 		$this->db->insert('TARTPoHDSpl', $paItem);
 	}
 
+	//เพิ่มข้อมูล HD
+	public function FCxMPOInsert_HD($paItem){
+		$this->db->insert('TARTPoHD', $paItem);
+	}
+
+	//เพิ่มข้อมูล DT
+	public function FCxMPOInsert_DT($paItem){
+		$this->db->insert('TARTPoDT', $paItem);
+	}
+
 	//อัพเดทข้อมูล SPLHD
 	public function FCxMPOUpdate_SPLHD($paItem){
 		try {
@@ -1130,7 +1140,7 @@ class mPurchaseorder extends CI_Model {
 		return $aResult;
 	}
 
-	//รายละเอียดผู้ใช้
+	//รายละเอียดผู้ใช้ ไปดึงลายเซ็นมาใช้งาน
 	public function FCaMPOGetLicense($tUserLogin){
 		$tSQL = "SELECT FTUsrPathSignature FROM TCNMUsr WHERE FTUsrCode = '".$tUserLogin."'";
 		$oQuery = $this->db->query($tSQL);
@@ -1148,6 +1158,85 @@ class mPurchaseorder extends CI_Model {
 		);
 		}
 
+		return $aResult;
+	}
+
+	//หาสินค้าที่มีตาม SPL เอาไปสร้างใบสั่งซื้อ กรณีแบบนำเข้าจากใบเสนอราคา
+	public function FCxMQUOGetPDTBySPL($paData){
+		$tDocumentNumber = $paData['tDocumentNumber'];
+
+		//อัพเดทเอกสาร HD Tmp
+		$tSQL   = "SELECT DT.* , SPL.FTSplName FROM TARTSqDT DT
+				 	LEFT JOIN TCNMSpl SPL ON DT.FTSplCode = SPL.FTSplCode
+				 WHERE DT.FTXqhDocNo = '" . $tDocumentNumber . "'  ORDER BY DT.FTSplCode ";
+		$oQuery = $this->db->query($tSQL);
+		$nCountRows = $oQuery->num_rows();
+		if ($nCountRows > 0) {
+			$aResult = array(
+				'raItems'  	=> $oQuery->result_array(),
+				'nTotalRes' => $nCountRows,
+				'rtCode'   	=> '1',
+				'rtDesc'   	=> 'success',
+			);
+		} else {
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'nTotalRes' => 0,
+				'rtDesc' 	=> 'data not found',
+			);
+		}
+		return $aResult;
+	}
+
+	//อัพเดทสินค้าในใบเสนอราคา ว่าใช้งานเเล้ว
+	public function FCxMPOUpdatePDTInQuotationUseRef($paData,$tDocumentNumber){
+		$tPDTCode 	= $paData['FTPdtCode'];
+		$FTDocRefPO = $paData['FTDocRefPO'];
+		$tSQL 		= "UPDATE TARTSqDT SET FTDocRefPO = '".$FTDocRefPO."' WHERE FTPdtCode = '$tPDTCode' AND FTXqhDocNo = '$tDocumentNumber' ";
+		$this->db->query($tSQL);
+	}
+
+	//อัพเดทเลขที่เอกสารใน DT กรณีแบบนำเข้าจากใบเสนอราคา
+	public function FCxMPOUpdateDocNoInDT($ptNewDocNo,$ptSPLCode,$tDocumentNumber){
+		//อัพเดทเลขที่เอกสาร
+		$tSQL = "UPDATE TARTPoDT SET FTXpoDocNo = '".$ptNewDocNo."' WHERE FTXpoDocNo = 'DEMO' AND FTSplCode = '".$ptSPLCode."' ";
+		$this->db->query($tSQL);
+
+		//อัพเดทเลขที่เอกสาร
+		$tSQL = "UPDATE TARTSqDT SET FTDocRefPO = '".$ptNewDocNo."' WHERE FTDocRefPO = 'DEMO' AND FTXqhDocNo = '$tDocumentNumber' AND FTSplCode = '".$ptSPLCode."' ";
+		$this->db->query($tSQL);
+
+		//เรียง Seq ใหม่
+		$tSQL   = " UPDATE TARTPoDT WITH(ROWLOCK)
+					SET FNXpoSeq = NewObj.NewSeq
+					FROM TARTPoDT DT
+					INNER JOIN (
+						SELECT  ROW_NUMBER() OVER (ORDER BY FNXpoSeq) AS NewSeq,
+							FNXpoSeq AS OldSeq
+						FROM TARTPoDT
+						WHERE
+							FTXpoDocNo = '$ptNewDocNo'
+				) NewObj ON DT.FNXpoSeq = NewObj.OldSeq WHERE DT.FTXpoDocNo = '$ptNewDocNo' ";
+		$this->db->query($tSQL);
+	}
+
+	//ข้อมูลใน DT Temp กรณีแบบนำเข้าจากใบเสนอราคา
+	public function FSaMPOGetPDTInDT($tDocumentNumber){
+		$tSQL  			= " SELECT SUM(FCXpoNetAfHD) AS nTotal FROM TARTPoDT WHERE FTXpoDocNo = '$tDocumentNumber' ";
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult 	= array(
+				'raItems'  		=> $oQuery->result_array(),
+				'rtCode'   		=> '1',
+				'rtDesc'   		=> 'success',
+			);
+		}else{
+			$aResult = array(
+				'raItems' 		=> array(),
+				'rtCode' 		=> '800',
+				'rtDesc' 		=> 'data not found',
+			);
+		}
 		return $aResult;
 	}
 	

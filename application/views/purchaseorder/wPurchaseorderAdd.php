@@ -128,7 +128,7 @@
 					<button class="xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_print?>" style="float:right;" onclick="FSxPOPrintForm()">พิมพ์</button>
 				<?php }else{ ?>
 					<button class="xCNButtonSave pull-right <?=$tAlwSave?>" onclick="JSxEventSaveorEdit('<?=$tRoute?>');">บันทึก</button>
-					<button class="xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_approved?>" style="margin-right:10px; float:right;" onclick="JSxPOEventAproveDocument('<?=$tRoute?>');">อนุมัติ</button>
+					<button class="xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_approved?>" style="margin-left:10px; margin-right:10px; float:right;" onclick="JSxPOEventAproveDocument('<?=$tRoute?>');">อนุมัติ</button>
 					<button class="xCNPrint xCNButtonAprove-outline btn btn-outline-success pull-right <?=$tPer_print?>" style="float:right;" onclick="FSxPOPrintForm()">พิมพ์</button>
 					<button class="xCNCalcelImport btn btn-outline-danger pull-right <?=$tPer_cancle?>" style="margin-right:10px; float:right;" onclick="JSxPOEventCancelDocument();">ยกเลิกเอกสาร</button>
 				<?php } ?>
