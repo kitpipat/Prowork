@@ -5,10 +5,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'DESKTOP-Q2EN2OV\SQL2016',
+	'hostname' => 'NBSUPAWAT\SQL2016',
 	'username' => 'sa',
-	'password' => 'adasoft',
-	'database' => 'Prowork',
+	'password' => 'watwinwan38',
+	'database' => 'Prowork_demo',
 	'dbdriver' => 'sqlsrv',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
