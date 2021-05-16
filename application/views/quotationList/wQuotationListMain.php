@@ -30,7 +30,7 @@
 			<div class="row">
 
 				<!--สาขา-->
-				<div class="col-lg-3">
+				<div class="col-lg-4">
 					<?php if($tLevelUser == 'HQ'){ ?>
 						<div class="form-group">
 							<label> สาขา</label>
@@ -53,7 +53,7 @@
 				</div>
 
 				<!--เลขที่เอกสาร-->
-				<div class="col-lg-3">
+				<div class="col-lg-2">
 					<div class="form-group">
 						<label>เลขที่เอกสาร</label>
 						<input type="text" class="form-control xCNInputWithoutSingleQuote" id="oetDocNumber" name="oetDocNumber" placeholder="กรอกเลขที่เอกสาร" autocomplete="off">

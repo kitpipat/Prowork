@@ -10,18 +10,18 @@
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
 ?> 
 
-<table class="table table-striped xCNTableCenter">
+<table class="table table-striped xCNTableCenter" style="width:100%">
   <thead>
     <tr>
-		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="width:250px; text-align: left;">สาขา</th>
-		<th style="text-align: left;">เลขที่เอกสาร</th>
-		<th style="width:130px; text-align: left;">วันที่</th>
-		<th style="width:150px; text-align: left;">สถานะเอกสาร</th>
+		<th style="width:3%; text-align: center;">ลำดับ</th>
+		<th style="width:36%; text-align: left;">สาขา</th>
+		<th style="width:20%; text-align: left;">เลขที่เอกสาร</th>
+		<th style="width:7%; text-align: left;">วันที่</th>
+		<th style="width:10%; text-align: left;">สถานะเอกสาร</th>
 		<!-- <th style="width:150px; text-align: left;">สถานะอนุมัติ</th> -->
-		<th style="width:150px; text-align: left;">ผู้อนุมัติ</th>
-		<th style="width:80px; text-align: center;">แก้ไข</th>
-		<th style="width:80px; text-align: center;" class="<?=$tPer_delete?>">ลบ</th>
+		<th style="width:10%; text-align: left;">ผู้อนุมัติ</th>
+		<th style="width:7; text-align: center;">แก้ไข</th>
+		<th style="width:7px; text-align: center;" class="<?=$tPer_delete?>">ลบ</th>
     </tr>
   </thead>
   <tbody>
