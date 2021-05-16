@@ -171,8 +171,8 @@
 		}
 
 		.xCNDTCancelStatus{
-			text-decoration:line-through;
-			color :red;
+			/* text-decoration:line-through; */
+			color : #ca0303;
 		}
 </style>
 
@@ -234,12 +234,12 @@
 										</label>
 									</td>
 								<?php } ?>
-								<td class="text-right"><?=($aValue['FCXqdQty'] == '') ? '0' : number_format($aValue['FCXqdQty'])?></td>
-								<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
-								<td><?=$aValue['FTXqhDocNo']?></td>
-								<td><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
-								<td><?=($aValue['FNXqdSeq'] == '') ? 'x' : $aValue['FNXqdSeq']?></td>
-								<td><?=($aValue['FTPdtName'] == '')? 'ไม่พบสินค้า' : $aValue['FTPdtName'] ?></td>
+								<td class="text-right xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FCXqdQty'] == '') ? '0' : number_format($aValue['FCXqdQty'])?></td>
+								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
+								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=$aValue['FTXqhDocNo']?></td>
+								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
+								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FNXqdSeq'] == '') ? 'x' : $aValue['FNXqdSeq']?></td>
+								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FTPdtName'] == '')? 'ไม่พบสินค้า' : $aValue['FTPdtName'] ?></td>
 								<!-- <td class="text-right"><?=number_format($aValue['FCXqdUnitPrice'],2)?></td> -->
 								
 								<!--สถานะอนุมัติ-->
@@ -666,6 +666,7 @@
 			var nUpdateCancel	= 0;
 			$(oElem).removeClass('xCNDTCancel');
 			$(oElem).find('td:eq(7) .xCNStatusDT').removeClass('xCNDTCancelStatus');
+			$(oElem).find('.xCNTextShowQuotation').removeClass('xCNDTCancelStatus');
 
 			if(!$(oElem).find('.xCNFreezeSection1 .xCNEditInline').hasClass('xCNClassDisabledInput')){
 				$(oElem).find('.xCNFreezeSection1 .xCNEditInline').attr('disabled',false).removeClass('xCNDTCancelInput');
@@ -691,6 +692,7 @@
 			var nUpdateCancel	= 1;
 			$(oElem).addClass('xCNDTCancel');
 			$(oElem).find('td:eq(7) .xCNStatusDT').addClass('xCNDTCancelStatus');
+			$(oElem).find('.xCNTextShowQuotation').addClass('xCNDTCancelStatus');
 
 			if(!$(oElem).find('.xCNFreezeSection1 .xCNEditInline').hasClass('xCNClassDisabledInput')){
 				$(oElem).find('.xCNFreezeSection1 .xCNEditInline').attr('disabled',true).addClass('xCNDTCancelInput');

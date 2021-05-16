@@ -726,7 +726,8 @@ class cPurchaseorder extends CI_Controller {
 
 		$this->db->trans_begin();
 			
-			$aSPL = [];
+			$aSPL 			= [];
+			$aResultToView 	= [];
 			//Insert DT
 			for($j=0; $j<count($aItem); $j++){
 				if(!in_array($aItem[$j]['tSPLCode'],$aSPL)){
@@ -800,6 +801,8 @@ class cPurchaseorder extends CI_Controller {
 					$FTXpoGndText 		= $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
 				}
 
+				array_push($aResultToView,array('SPLNAME' => $aDetailSPL[0]['FTSplName'] , 'DOCNO' => $tNewDocNo));
+
 				//Insert SPL
 				$aDocInsertHDSpl 	= array(
 					'FTXpoDocNo'		=> $tNewDocNo,
@@ -861,7 +864,8 @@ class cPurchaseorder extends CI_Controller {
 
 		//ส่งค่ากลับ
 		$aReturn = array(
-			'tReturnDocument'	=> substr($tReturnDocument,0,-1)
+			'nCountSPL'			=> count($aSPL),
+			'aResultToView'		=> $aResultToView
 		);
 		echo json_encode($aReturn);
 	}

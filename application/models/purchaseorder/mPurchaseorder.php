@@ -1176,7 +1176,9 @@ class mPurchaseorder extends CI_Model {
 		//อัพเดทเอกสาร HD Tmp
 		$tSQL   = "SELECT DT.* , SPL.FTSplName FROM TARTSqDT DT
 				 	LEFT JOIN TCNMSpl SPL ON DT.FTSplCode = SPL.FTSplCode
-				 WHERE DT.FTXqhDocNo = '" . $tDocumentNumber . "'  ORDER BY DT.FTSplCode ";
+				 WHERE DT.FTXqhDocNo = '" . $tDocumentNumber . "' 
+				 AND ISNULL(DT.FTDocRefPO,'') = ''
+				  ORDER BY DT.FTSplCode ";
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
 		if ($nCountRows > 0) {
