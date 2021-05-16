@@ -147,7 +147,7 @@ class cQuotation extends CI_Controller
 			"FTPdtName" 		=> $aItem['tPdtName'],
 			"FTPunCode" 		=> $aItem['tPunCode'],
 			"FTPunName" 		=> $aItem['tPunName'],
-			"FTSplCode" 		=> $aItem['tSplCode'],
+			"FTSplCode" 		=> ($aItem['tSplCode'] == '') ? 0 : $aItem['tSplCode'] ,
 			"FTXqdCost" 		=> $aItem['nPdtCost'],
 			"FCXqdUnitPrice" 	=> $nQTY * $aItem['nPdtUnitPri'],
 			"FCXqdQty" 			=> $nQTY,

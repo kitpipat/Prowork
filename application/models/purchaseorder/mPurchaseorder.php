@@ -442,13 +442,14 @@ class mPurchaseorder extends CI_Model {
 		//ผู้จำหน่าย ถ้าผู้จำหน่ายเป็น 0 (พิเศษ) จะค้นหาได้ทั้งหมด
 		if(($tSPL != '' || $tSPL != null) && ($tSPL != '0')){
 			$tSQL .= " AND SPL.FTSplCode = '$tSPL' ";
+			$tSQL .= " OR ISNULL(SPL.FTSplCode,'') = '' ";
 		}
 
 		//ค้นหาธรรมดา
 		if($tTextSearch != '' || $tTextSearch != null){
 			$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR PDT.FTPdtName LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR PDT.FTPdtNameOth LIKE '%$tTextSearch%' ";
+			$tSQL .= " OR PDT.FTPdtName LIKE '%[$tTextSearch]%' ";
+			$tSQL .= " OR PDT.FTPdtNameOth LIKE '%[$tTextSearch]%' ";
 			$tSQL .= " OR PDT.FTPdtDesc LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPunCode LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPgpCode LIKE '%$tTextSearch%' ";
@@ -470,6 +471,7 @@ class mPurchaseorder extends CI_Model {
 		}
 
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
+
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
 			$oFoundRow 	= $this->FSaMPOGetDataPDT_PageAll($paData);
@@ -968,7 +970,12 @@ class mPurchaseorder extends CI_Model {
 				$nXqdSeq 		= str_replace(",", "", $aResult[$i]['FNXpoSeq']);
 				$pnFootDis 		= str_replace(",", "", $pnFootDis);
 				$pnB4Dis		= str_replace(",", "", $pnB4Dis);
-				$nFootDisAvg 	= ($nItemAmt * $pnFootDis) / str_replace(",", "", $pnB4Dis);
+				if($pnB4Dis == 0 || $pnB4Dis == null){
+					$nFootDisAvg 	= $nItemAmt * $pnFootDis;
+				}else{
+					$nFootDisAvg 	= ($nItemAmt * $pnFootDis) / str_replace(",", "", $pnB4Dis);
+				}
+
 				$nNetAFHD 		= $nItemAmt - $nFootDisAvg;
 
 				$tSQLUpd = " UPDATE TARTPoDT SET FCXpoFootAvg = '" . $nFootDisAvg . "',";
@@ -1173,12 +1180,11 @@ class mPurchaseorder extends CI_Model {
 	public function FCxMQUOGetPDTBySPL($paData){
 		$tDocumentNumber = $paData['tDocumentNumber'];
 
-		//อัพเดทเอกสาร HD Tmp
 		$tSQL   = "SELECT DT.* , SPL.FTSplName FROM TARTSqDT DT
 				 	LEFT JOIN TCNMSpl SPL ON DT.FTSplCode = SPL.FTSplCode
-				 WHERE DT.FTXqhDocNo = '" . $tDocumentNumber . "' 
-				 AND ISNULL(DT.FTDocRefPO,'') = ''
-				  ORDER BY DT.FTSplCode ";
+				    WHERE DT.FTXqhDocNo = '" . $tDocumentNumber . "' 
+				    AND ISNULL(DT.FTDocRefPO,'') = ''
+				    ORDER BY DT.FTSplCode ";
 		$oQuery = $this->db->query($tSQL);
 		$nCountRows = $oQuery->num_rows();
 		if ($nCountRows > 0) {

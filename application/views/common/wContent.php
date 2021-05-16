@@ -17,7 +17,7 @@
 							<a data-toggle="collapse" href="#collapse1">รายละเอียดข้อผิดพลาด</a>
 						</div>
 						<div id="collapse1" class="panel-collapse collapse">
-							<div class="panel-body"><label id="olbErrorCenter" style="width: 100%;"></label></div>
+							<div class="panel-body" style="overflow-y: scroll; height: 300px;"><label id="olbErrorCenter" style="width: 100%;"></label></div>
 						</div>
 					</div>
 				</div>

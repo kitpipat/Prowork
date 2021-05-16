@@ -793,12 +793,12 @@ class cPurchaseorder extends CI_Controller {
 					$FCXpoAmtVat 		= (($nPrince * (100 + $nVatRate)) / 100) - $nPrince;
 					$FCXpoVatable 		= $nPrince;
 					$FCXpoGrand 		= $nPrince + $FCXpoAmtVat;
-					$FTXpoGndText 		= $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
+					$FTXpoGndText 		= ($FCXpoGrand == '') ? 'บาทถ้วน' : $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
 				}else{ //รวมใน
 					$FCXpoAmtVat 		= $nPrince - (($nPrince * 100) / (100 + $nVatRate));
 					$FCXpoVatable 		= $nPrince - $FCXpoAmtVat;
 					$FCXpoGrand 		= $nPrince;
-					$FTXpoGndText 		= $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
+					$FTXpoGndText 		= ($FCXpoGrand == '') ? 'บาทถ้วน' : $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
 				}
 
 				array_push($aResultToView,array('SPLNAME' => $aDetailSPL[0]['FTSplName'] , 'DOCNO' => $tNewDocNo));

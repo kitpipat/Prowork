@@ -1,4 +1,5 @@
-<?php if($aItem['rtCode'] != 800){ ?>
+<?php 
+	if($aItem['rtCode'] != 800){ ?>
 	<table class="table table-striped xCNTableCenter">
 		<thead>
 			<tr>
@@ -32,7 +33,7 @@
 										</td>
 										<td><?=$aValue['FTPdtCode']?> - <?=$aValue['FTPdtName']?></td>
 										<td class="text-right"><?=number_format($aValue['FCXqdQty'])?></td>
-										<td><?=$aValue['FTPunName']?></td>
+										<td><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName']?></td>
 										<td class="text-right"><?=number_format($aValue['FCXqdNetAfHD'],2)?></td>
 										<!-- <td><img class="img-responsive xCNImageDelete" src="<?=base_url().'application/assets/images/icon/delete.png';?>" onClick="JSxRemovePDTInTempBySPL(this)"></td> -->
 									</tr>

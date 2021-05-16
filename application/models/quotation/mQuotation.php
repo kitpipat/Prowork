@@ -239,7 +239,7 @@ class mQuotation extends CI_Model
 		}
 
 		$tSQL .= " ) AS Q WHERE Q.NewRowID > $aRowLen[0] AND Q.NewRowID <=$aRowLen[1] ";
-
+		
 		$oQuery = $this->db->query($tSQL);
 		if ($oQuery->num_rows() > 0) {
 			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paFilter);
@@ -926,7 +926,7 @@ class mQuotation extends CI_Model
 								FTPunName,
 								FCXqdUnitPrice,
 								FTXqdCost,
-								FTSplCode,
+								ISNULL(FTSplCode,0),
 								FCXqdQty,
 								ISNULL(FCXqdQty,0)  *  ISNULL(FCXqdUnitPrice,0),
 								FCXqdDis,
@@ -969,7 +969,13 @@ class mQuotation extends CI_Model
 				$nXqdSeq 		= str_replace(",", "", $aResult[$i]['FNXqdSeq']);
 				$pnFootDis 		= str_replace(",", "", $pnFootDis);
 				$pnB4Dis		= str_replace(",", "", $pnB4Dis);
-				$nFootDisAvg 	= ($nItemAmt * $pnFootDis) / str_replace(",", "", $pnB4Dis);
+
+				if($pnB4Dis == 0 || $pnB4Dis == null){
+					$nFootDisAvg 	= $nItemAmt * $pnFootDis;
+				}else{
+					$nFootDisAvg 	= ($nItemAmt * $pnFootDis) / str_replace(",", "", $pnB4Dis);
+				}
+
 				$nNetAFHD 		= $nItemAmt - $nFootDisAvg;
 
 				$tSQLUpd = "UPDATE TARTSqDT SET FCXqdFootAvg = '" . $nFootDisAvg . "',";

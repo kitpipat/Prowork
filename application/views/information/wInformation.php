@@ -24,7 +24,7 @@
 ?>
 
 <!--เอาไว้ทดสอบการแสดงผลของ PDT ว่าโชว์จำนวนถูกต้องครบถ้วนไหม-->
-<input type="number" id="oetQtyReport">
+<!-- <input type="number" id="oetQtyReport">
 <button type="button" id="oetClick" onclick="JSxGenrecordfordemopdt();">ทดสอบจำนวน (เดียวมาลบ)</button>
 <script>
 	function JSxGenrecordfordemopdt(){
@@ -44,7 +44,7 @@
 			}
 		});
 	}
-</script>
+</script> -->
 <!--เดียวมาลบ-->
 
 <div class="container-fulid">
