@@ -85,7 +85,7 @@
 				<div class="col-lg-2">
 					<div class="form-group">
 						<label style="color:#FFF; width: 100%;">.</label>
-						<button class="xCNCalcelImport btn btn-outline-danger" onclick="JSwClearValueTable();" style="width: 100%;">ล้างข้อมูล</button>
+						<button class="xCNCalcelImport btn btn-outline-danger" onclick="JSwClearValueTable();" style="width: 100%;">ล้างตัวกรอง</button>
 					</div>
 				</div>
 

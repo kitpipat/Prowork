@@ -379,7 +379,7 @@ class cQuotationDoc extends CI_Controller
 						}else{
 							 $nTotalDisCount = $nTotalDisCount+0;
 						}
-						$nItemNetLast = $nItemNetLast - $nTotalDisCount;
+						$nItemNetLast = $nItemNetLast - $nDiscountCal;
 					}
 		}
 
@@ -463,7 +463,7 @@ class cQuotationDoc extends CI_Controller
 			}else{
 				$nDiscountCal = $aDiscount[$d];
 				$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
-				$nB4DisLast = $nB4DisLast - $nTotalDisCount;
+				$nB4DisLast = $nB4DisLast - $nDiscountCal;
 				//echo $nB4DisLast.'-';
 			}
 		}

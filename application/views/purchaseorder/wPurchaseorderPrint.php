@@ -154,7 +154,7 @@
 		<th class="XCNItemTitle" style="width:40px;text-align:right; ">จำนวน</th>
 		<th class="XCNItemTitle" style="width:70px;text-align:left;">หน่วย</th>
 		<th class="XCNItemTitle" style="width:70px;text-align:right;">จำนวนเงิน</th>
-		<th class="XCNItemTitle" style="width:60px;text-align:right;">ส่วนลด</th>
+		<th class="XCNItemTitle" style="width:70px;text-align:right;">ส่วนลด</th>
 		<th class="XCNItemTitle" style="width:100px;text-align:right;">ราคารวม</th>
 	</tr>
 	<?php $nTotal = $aDocDT['rnTotal'];?>
@@ -284,8 +284,19 @@
   	<tr>
 		<!--ผู้อนุมัติคำสั่งซื้อ-->
 		<td>
-			<table style="border:1px solid #f5f5f5;">
-				
+			<table style="border:1px solid #f5f5f5;" cellpadding="2">
+				<tr>
+					<td style="border:1px solid #f5f5f5;">&nbsp;เงื่อนไขอื่นๆ </td>
+				</tr>
+				<tr>
+					<td>&nbsp;(1) โปรดระบุเลขที่ใบสั่งซื้อข้างต้น ในใบส่งของทุกฉบับ </td>
+				</tr>
+				<tr>
+					<td>&nbsp;(2) การวางบิลการรับเช็ค เป็นไปตามกำหนดเวลาที่บริษัทกำหนดไว้ </td>
+				</tr>
+				<tr>
+					<td>&nbsp;(3) ในการวางบิลเพื่อเรียกเก็บ ให้แนบสำเนาใบสั่งซื้อกำกับมาด้วย </td>
+				</tr>
 			</table>
 		</td>
 
@@ -305,10 +316,10 @@
 							$tPathImageSignature = '';
 						}
 					?>
-					<td style="<?=($tPathImageSignature == '') ? 'height:50px;' : ''?>">&nbsp;ลงชื่อ </td>
+					<td style="<?=($tPathImageSignature == '') ? 'height:36px;' : ''?>">&nbsp;ลงชื่อ </td>
 				</tr>
 				<tr>
-					<td style="text-align:center;border-bottom:1px solid #f5f5f5;"><img class="img-responsive" style="width:80px;" src="<?=@$tPathImageSignature;?>"></td>
+					<td style="text-align:center;border-bottom:1px solid #f5f5f5;"><img class="img-responsive" style="width:48px;" src="<?=@$tPathImageSignature;?>"></td>
 				</tr>
 				<tr>
 					<td>&nbsp;ผู้จัดการ<br>

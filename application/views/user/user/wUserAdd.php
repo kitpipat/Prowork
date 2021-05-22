@@ -150,8 +150,29 @@
 									<option <?=(@$FNUsrGrp == 4)? "selected" : "";?> value="4">เจ้าของกิจการ</option>
 								</select>
 							<?php }else{ ?>
-								<input type="text" class="form-control" id="oetUserGrpName" name="oetUserGrpName" autocomplete="off" value="พนักงานขาย" readonly>
-								<input type="hidden" class="form-control" id="oetUserGrp" name="oetUserGrp" autocomplete="off" value="2">
+								<?php
+									switch($FNUsrGrp){
+										case 1:
+											$tNameUserGroup = 'พนักงานจัดซื้อ';
+											break;
+										case 2:
+											$tNameUserGroup = 'พนักงานขาย';
+											break;
+										case 3:
+											$tNameUserGroup = 'ผู้จัดการ';
+											break;
+										case 4:
+											$tNameUserGroup = 'เจ้าของกิจการ';
+											break;
+										case 5:
+											$tNameUserGroup = 'พนักงานบัญชี';
+											break;
+										default:
+											$tNameUserGroup = 'N/A';
+									}
+								?>
+								<input type="text" class="form-control" id="oetUserGrpName" name="oetUserGrpName" autocomplete="off" value="<?=$tNameUserGroup?>" readonly>
+								<input type="hidden" class="form-control" id="oetUserGrp" name="oetUserGrp" autocomplete="off" value="<?=@$FNUsrGrp?>">
 							<?php } ?>
 						</div>
 

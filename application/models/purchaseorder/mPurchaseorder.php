@@ -28,6 +28,12 @@ class mPurchaseorder extends CI_Model {
 			$tSQL .= " OR SPL.FTXpoSplCode LIKE '%$tTextSearch%' )";
 		}
 
+		//รองรับการมองเห็นตามสาขา
+		if($this->session->userdata('tSesUserLevel') == 'BCH'){
+			$tBCHCode = $this->session->userdata('tSesBCHCode');
+			$tSQL .= " AND HD.FTBchCode = '$tBCHCode' ";
+		}
+
 		$tSQL .= ") Base) AS c WHERE c.rtRowID > $aRowLen[0] AND c.rtRowID <= $aRowLen[1]";
         $oQuery = $this->db->query($tSQL);
         if($oQuery->num_rows() > 0){
@@ -63,12 +69,19 @@ class mPurchaseorder extends CI_Model {
 						LEFT JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode 
 						LEFT JOIN TARTPoHDSpl SPL ON HD.FTXpoDocNo = SPL.FTXpoDocNo ";
 			$tSQL 		.= " WHERE 1=1 ";
+
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR BCH.FTBchName LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR USR.FTUsrFName LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR SPL.FTXpoSplName LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR SPL.FTXpoSplCode LIKE '%$tTextSearch%' )";
+			}
+
+			//รองรับการมองเห็นตามสาขา
+			if($this->session->userdata('tSesUserLevel') == 'BCH'){
+				$tBCHCode = $this->session->userdata('tSesBCHCode');
+				$tSQL .= " AND HD.FTBchCode = '$tBCHCode' ";
 			}
 
             $oQuery = $this->db->query($tSQL);
@@ -137,7 +150,7 @@ class mPurchaseorder extends CI_Model {
 		$tSQL = "  SELECT HD.* , SPL.* , USR.FTUsrFName  , USR.FTUsrLName , APV.FTUsrFName AS APVBY
 		 		   FROM TARTPoHD HD";
 		$tSQL .= " LEFT JOIN TCNMUsr USR ON HD.FTCreateBy = USR.FTUsrCode";
-		$tSQL .= " LEFT JOIN TCNMUsr APV ON HD.FTApprovedBy = USR.FTUsrCode";
+		$tSQL .= " LEFT JOIN TCNMUsr APV ON HD.FTApprovedBy = APV.FTUsrCode";
 		$tSQL .= " LEFT JOIN TARTPoHDSPL SPL ON HD.FTXpoDocNo = SPL.FTXpoDocNo";
 		$tSQL .= " WHERE HD.FTXpoDocNo = '$ptCode' ";
 		$oQuery = $this->db->query($tSQL);
@@ -501,6 +514,7 @@ class mPurchaseorder extends CI_Model {
 	public function FSaMPOGetDataPDT_PageAll($paData){
 		try{
 			$tTextSearch 	= trim($paData['tSearchPDT']);
+			$tSPL			= trim($paData['tSPL']);
 			$tWorkerID		= $this->session->userdata('tSesLogID');
 			$tSQL 		= "SELECT COUNT (PDT.FTPdtCode) AS counts 
 							FROM TCNMPdt PDT 
@@ -512,16 +526,22 @@ class mPurchaseorder extends CI_Model {
 							LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
 							LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
 							LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
-							LEFT JOIN TARTPoDTTmp TMP ON PDT.FTPdtCode = TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' ";
+							LEFT JOIN TARTPoDTTmp TMP 	ON PDT.FTPdtCode 	= TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' AND TMP.FTPdtStaEditName = '0' ";
 
 			$tSQL 		.= " WHERE 1=1 ";
 			$tSQL 		.= " AND TMP.FTPdtCode IS NULL ";
 
+			//ผู้จำหน่าย ถ้าผู้จำหน่ายเป็น 0 (พิเศษ) จะค้นหาได้ทั้งหมด
+			if(($tSPL != '' || $tSPL != null) && ($tSPL != '0')){
+				$tSQL .= " AND SPL.FTSplCode = '$tSPL' ";
+				$tSQL .= " OR ISNULL(SPL.FTSplCode,'') = '' ";
+			}
+			
 			//ค้นหาธรรมดา
 			if($tTextSearch != '' || $tTextSearch != null){
 				$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR PDT.FTPdtName LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR PDT.FTPdtNameOth LIKE '%$tTextSearch%' ";
+				$tSQL .= " OR PDT.FTPdtName LIKE '%[$tTextSearch]%' ";
+				$tSQL .= " OR PDT.FTPdtNameOth LIKE '%[$tTextSearch]%' ";
 				$tSQL .= " OR PDT.FTPdtDesc LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPunCode LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPgpCode LIKE '%$tTextSearch%' ";

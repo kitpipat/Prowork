@@ -62,10 +62,7 @@ class cPurchaseorder extends CI_Controller {
 		}
 
 		$convert .= 'บาท';
-		if (
-			$number[1] == '0' or $number[1] == '00' or
-			$number[1] == ''
-		) {
+		if ($number[1] == '0' or $number[1] == '00' or $number[1] == '') {
 			$convert .= 'ถ้วน';
 		} else {
 			$strlen = strlen($number[1]);
@@ -93,6 +90,7 @@ class cPurchaseorder extends CI_Controller {
 			}
 			$convert .= 'สตางค์';
 		}
+		
 		return $convert;
 	}
 
@@ -346,7 +344,7 @@ class cPurchaseorder extends CI_Controller {
 				}else{
 					$nTotalDisCount = $nTotalDisCount+0;
 				}
-				$nItemNetLast 	= $nItemNetLast - $nTotalDisCount;
+				$nItemNetLast 	= $nItemNetLast - $nDiscountCal;
 			}
 		}
 
@@ -381,7 +379,7 @@ class cPurchaseorder extends CI_Controller {
 			}else{
 				$nDiscountCal 	= $aDiscount[$d];
 				$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
-				$nB4DisLast 	= $nB4DisLast - $nTotalDisCount;
+				$nB4DisLast 	= $nB4DisLast - $nDiscountCal;
 			}
 		}
 
@@ -432,6 +430,14 @@ class cPurchaseorder extends CI_Controller {
 		$nAmtVat		= $this->input->post('nAmtVat');
 		$nVatable		= $this->input->post('nVatable');
 		$nGrandTotal	= $this->input->post('nGrandTotal');
+
+		//ข้อมูลผู้จำหน่าย
+		$tSPLPOAddress	= $this->input->post('tSPLPOAddress');
+		$tSPLPOContact	= $this->input->post('tSPLPOContact');
+		$tSPLPOEmail	= $this->input->post('tSPLPOEmail');
+		$tSPLPOTel		= $this->input->post('tSPLPOTel');
+		$tSPLPOFax		= $this->input->post('tSPLPOFax');
+
 		$tGndText 		= $this->FCNtReadNumber(str_replace(",", "", $nGrandTotal));
 		$tNewDocNo		= $this->mPurchaseorder->FCtMPOGetDocNo($tBchCode);
 		
@@ -483,12 +489,12 @@ class cPurchaseorder extends CI_Controller {
 			'FTXpoDocNo'		=> $tNewDocNo,
 			'FTXpoSplCode'		=> $nSplCode,
 			'FTXpoSplName'		=> $aDetailSPL[0]['FTSplName'],
-			'FTXpoAddress'		=> $aDetailSPL[0]['FTSplAddress'],
+			'FTXpoAddress'		=> $tSPLPOAddress,
 			'FTXpoTaxNo'		=> '-',
-			'FTXpoContact'		=> $aDetailSPL[0]['FTSplContact'],
-			'FTXpoEmail'		=> $aDetailSPL[0]['FTSplEmail'],
-			'FTXpoTel'			=> $aDetailSPL[0]['FTSplTel'],
-			'FTXpoFax'			=> $aDetailSPL[0]['FTSplFax'],
+			'FTXpoContact'		=> $tSPLPOContact,
+			'FTXpoEmail'		=> $tSPLPOEmail,
+			'FTXpoTel'			=> $tSPLPOTel,
+			'FTXpoFax'			=> $tSPLPOFax,
 			'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
 			'FDCreateOn'		=> date('Y-m-d H:i:s'),
 			'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
@@ -538,6 +544,13 @@ class cPurchaseorder extends CI_Controller {
 		$nVatable		= $this->input->post('nVatable');
 		$nGrandTotal	= $this->input->post('nGrandTotal');
 		$tGndText 		= $this->FCNtReadNumber(str_replace(",", "", $nGrandTotal));
+
+		//ข้อมูลผู้จำหน่าย
+		$tSPLPOAddress	= $this->input->post('tSPLPOAddress');
+		$tSPLPOContact	= $this->input->post('tSPLPOContact');
+		$tSPLPOEmail	= $this->input->post('tSPLPOEmail');
+		$tSPLPOTel		= $this->input->post('tSPLPOTel');
+		$tSPLPOFax		= $this->input->post('tSPLPOFax');
 		
 		if ($nVatType  == 1) { //แยกนอก
 			$nVatable = $nAfDis;
@@ -587,12 +600,12 @@ class cPurchaseorder extends CI_Controller {
 			'FTXpoDocNo'		=> $tDocNo,
 			'FTXpoSplCode'		=> $nSplCode,
 			'FTXpoSplName'		=> $aDetailSPL[0]['FTSplName'],
-			'FTXpoAddress'		=> $aDetailSPL[0]['FTSplAddress'],
+			'FTXpoAddress'		=> $tSPLPOAddress,
 			'FTXpoTaxNo'		=> '-',
-			'FTXpoContact'		=> $aDetailSPL[0]['FTSplContact'],
-			'FTXpoEmail'		=> $aDetailSPL[0]['FTSplEmail'],
-			'FTXpoTel'			=> $aDetailSPL[0]['FTSplTel'],
-			'FTXpoFax'			=> $aDetailSPL[0]['FTSplFax'],
+			'FTXpoContact'		=> $tSPLPOContact,
+			'FTXpoEmail'		=> $tSPLPOEmail,
+			'FTXpoTel'			=> $tSPLPOTel,
+			'FTXpoFax'			=> $tSPLPOFax,
 			'FTCreateBy'		=> $this->session->userdata('tSesUsercode'),
 			'FDCreateOn'		=> date('Y-m-d H:i:s'),
 			'FTUpdateBy'		=> $this->session->userdata('tSesUsercode'),
@@ -720,6 +733,7 @@ class cPurchaseorder extends CI_Controller {
 		$this->load->view("quotation/wQuotationDetailPDTBySPL", $aData);
 	}
 
+	//Gen PO
 	public function FCwCQUOItemGenPO(){
 		$tDocumentNumber = $this->input->post('tDocumentNumber');
 		$aItem 			 = $this->input->post('aItem');
@@ -793,12 +807,12 @@ class cPurchaseorder extends CI_Controller {
 					$FCXpoAmtVat 		= (($nPrince * (100 + $nVatRate)) / 100) - $nPrince;
 					$FCXpoVatable 		= $nPrince;
 					$FCXpoGrand 		= $nPrince + $FCXpoAmtVat;
-					$FTXpoGndText 		= ($FCXpoGrand == '') ? 'บาทถ้วน' : $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
+					$FTXpoGndText 		= ($FCXpoGrand == '') ? 'บาทถ้วน' : $this->FCNtReadNumber(str_replace(",", "", number_format($FCXpoGrand,2)));
 				}else{ //รวมใน
 					$FCXpoAmtVat 		= $nPrince - (($nPrince * 100) / (100 + $nVatRate));
 					$FCXpoVatable 		= $nPrince - $FCXpoAmtVat;
 					$FCXpoGrand 		= $nPrince;
-					$FTXpoGndText 		= ($FCXpoGrand == '') ? 'บาทถ้วน' : $this->FCNtReadNumber(str_replace(",", "", $FCXpoGrand));
+					$FTXpoGndText 		= ($FCXpoGrand == '') ? 'บาทถ้วน' : $this->FCNtReadNumber(str_replace(",", "", number_format($FCXpoGrand,2)));
 				}
 
 				array_push($aResultToView,array('SPLNAME' => $aDetailSPL[0]['FTSplName'] , 'DOCNO' => $tNewDocNo));

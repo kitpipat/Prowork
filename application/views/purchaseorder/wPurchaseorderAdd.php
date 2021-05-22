@@ -191,7 +191,7 @@
 									<div class="col-lg-12">
 										<div class="form-group">
 											<label>ที่อยู่</label>
-											<textarea type="text" class="form-control" id="oetPOAddress" name="oetPOAddress" placeholder="รายละเอียดที่อยู่" rows="3" disabled="disabled"><?=$FTXpoAddress?></textarea>
+											<textarea type="text" maxlength="225" class="form-control" id="oetPOAddress" name="oetPOAddress" placeholder="รายละเอียดที่อยู่" rows="3"><?=$FTXpoAddress?></textarea>
 										</div>
 									</div>
 
@@ -199,7 +199,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>ผู้ติดต่อ</label>
-											<input type="text" class="form-control" maxlength="50" id="oetPOContact" name="oetPOContact" placeholder="รายละเอียดชื่อผู้ติดต่อ" autocomplete="off" disabled="disabled" value='<?=$FTXpoContact?>'>
+											<input type="text" class="form-control" maxlength="50" id="oetPOContact" name="oetPOContact" placeholder="รายละเอียดชื่อผู้ติดต่อ" autocomplete="off" value='<?=$FTXpoContact?>'>
 										</div>
 									</div>
 
@@ -207,7 +207,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>อีเมลล์</label>
-											<input type="text" class="form-control" maxlength="50" id="oetPOEmail" name="oetPOEmail" placeholder="รายละเอียดอีเมลล์" autocomplete="off" disabled="disabled" value='<?=$FTXpoEmail?>'>
+											<input type="text" class="form-control" maxlength="100" id="oetPOEmail" name="oetPOEmail" placeholder="รายละเอียดอีเมลล์" autocomplete="off" value='<?=$FTXpoEmail?>'>
 										</div>
 									</div>
 
@@ -215,7 +215,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>เบอร์โทรศัพท์</label>
-											<input type="text" class="form-control" maxlength="20" id="oetPOTel" name="oetPOTel" placeholder="รายละเอียดเบอร์โทรศัพท์" autocomplete="off" disabled="disabled" value='<?=$FTXpoTel?>'>
+											<input type="text" class="form-control" maxlength="50" id="oetPOTel" name="oetPOTel" placeholder="รายละเอียดเบอร์โทรศัพท์" autocomplete="off" value='<?=$FTXpoTel?>'>
 										</div>
 									</div>
 
@@ -223,7 +223,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>เบอร์โทรสาร</label>
-											<input type="text" class="form-control xCNInputNumericWithDecimal" maxlength="20" id="oetPOFax" name="oetPOFax" placeholder="รายละเอียดเบอร์โทรสาร" autocomplete="off" disabled="disabled" value='<?=$FTXpoFax?>'>
+											<input type="text" class="form-control xCNInputNumericWithDecimal" maxlength="50" id="oetPOFax" name="oetPOFax" placeholder="รายละเอียดเบอร์โทรสาร" autocomplete="off" value='<?=$FTXpoFax?>'>
 										</div>
 									</div>
 
@@ -465,7 +465,7 @@
 											autocomplete="off"
 											id="oetPOXpoDisText"
 											class="text-right form-control xCNNumberandPercent xCNDiscountFooterBill"
-											maxlength="12" onkeyup="FSXPOCheckInputDis(this)"
+											maxlength="100" onkeyup="FSXPOCheckInputDis(this)"
 											value='<?=$FTXpoDisTxt?>'>
 									</div>
 								</div>
@@ -1048,7 +1048,12 @@
 					+ '&nAfDis='   		+ $("#otdPONetAFHD").text()
 					+ '&nVatRate='   	+ $("#oetPOVatRate").val()
 					+ '&nAmtVat='   	+ $("#otdPOVat").text()
-					+ '&nGrandTotal='   + $("#otdPOGrandTotal").text(),
+					+ '&nGrandTotal='   + $("#otdPOGrandTotal").text()
+					+ '&tSPLPOAddress='  + $("#oetPOAddress").val()
+					+ '&tSPLPOContact='  + $("#oetPOContact").val()
+					+ '&tSPLPOEmail='  	 + $("#oetPOEmail").val()
+					+ '&tSPLPOTel='   	 + $("#oetPOTel").val()
+					+ '&tSPLPOFax='   	 + $("#oetPOFax").val(),
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {

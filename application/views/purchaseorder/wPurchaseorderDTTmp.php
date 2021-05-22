@@ -302,6 +302,7 @@
 		var tPdtCode 			= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
 		var nItemNet 			= $("#olbItemNet"+nItemSeq).text();
 
+		// console.log(nItemDiscount);
 		if($(poElm).val() != ''){
 			$.ajax({
 				url		: 'r_purchaseorderDiscount',
@@ -316,6 +317,7 @@
 				},
 				datatype: 'json',
 				success	: function(tResult) {
+					// console.log(tResult);
 					JSvLoadTableDTTmp(1);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {

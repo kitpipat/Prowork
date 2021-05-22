@@ -4,6 +4,7 @@
 		<th style="width:20px; text-align: center;">ลำดับ</th>
 		<th style="width:150px; text-align: left;">รหัสสินค้า</th>
 		<th style="text-align: left;">ชื่อสินค้า</th>
+		<th style="text-align: left;">ผู้จำหน่าย</th>
     </tr>
   </thead>
   <tbody>
@@ -14,6 +15,7 @@
 					<th><?=$aValue['rtRowID']?></th>
 					<td><?=$aValue['FTPdtCode']?></td>
 					<td><?=$aValue['FTPdtName']?></td>
+					<td><?=($aValue['FTSplName'] == '') ? 'ผู้จำหน่ายทั่วไป' : $aValue['FTSplName']?></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>
