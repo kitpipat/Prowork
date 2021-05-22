@@ -35,7 +35,7 @@ class cLogin extends CI_Controller {
 				$tPermitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz@$';
 				$tSessID = substr(str_shuffle($tPermitted_chars), 0, 15);
       
-        $this->session->set_userdata("tSesLogID",$tSessID);		//session id
+        		$this->session->set_userdata("tSesLogID",$tSessID);		//session id
 				$this->session->set_userdata("tSesUsercode",$aReturn['raItems'][0]['FTUsrCode']);		//รหัสผู้ใช้
 				$this->session->set_userdata("tSesFirstname",$aReturn['raItems'][0]['FTUsrFName']);		//ชื่อ
 				$this->session->set_userdata("tSesLastname",$aReturn['raItems'][0]['FTUsrLName']);		//นามสกุล
@@ -64,6 +64,9 @@ class cLogin extends CI_Controller {
 				$this->session->set_userdata("tSesCMPName",$tCmpName);			//สาขา
 				$this->session->set_userdata("tSesBCHCode",$tBchCode);			//บริษัท
 				$this->session->set_userdata("tSesBCHName",$tBchName);			//ชื่อบริษัท
+
+				//ลบข้อมูลใน Temp 
+				$this->mLogin->FSaMDeleteDataInTemp($paWhere);
 			}
 		}else{
 			$this->session->sess_destroy();

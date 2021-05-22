@@ -94,4 +94,30 @@ class mLogin extends CI_Model {
 			echo $Error;
 		}
 	}
+
+	//ลบข้อมูลใน Temp วันที่น้อยกว่าปัจจุบัน
+	public function FSaMDeleteDataInTemp(){
+		$tDateNow = date('Y-m-d');
+
+		$this->db->where('FDCreateOn <', $tDateNow);
+		$this->db->delete('TARTPoDTTmp');
+
+		$this->db->where('FDCreateOn <', $tDateNow);
+		$this->db->delete('TARTPoHDTmp');
+
+		$this->db->where('FDCreateOn <', $tDateNow);
+		$this->db->delete('TARTSqDTTmp');
+
+		$this->db->where('FDCreateOn <', $tDateNow);
+		$this->db->delete('TARTSqHDCstTmp');
+
+		$this->db->where('FDCreateOn <', $tDateNow);
+		$this->db->delete('TARTSqHDTmp');
+
+		$this->db->where('FDCreateOn <', $tDateNow);
+		$this->db->delete('TCNTPdtAdjCostDTTmp');
+
+		$this->db->where('FDXphDateAtv <', $tDateNow);
+		$this->db->delete('TCNTPdtAdjPriDTTmp');
+	}
 }
