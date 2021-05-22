@@ -239,7 +239,7 @@
 								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=$aValue['FTXqhDocNo']?></td>
 								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
 								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FNXqdSeq'] == '') ? 'x' : $aValue['FNXqdSeq']?></td>
-								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FTPdtName'] == '')? 'ไม่พบสินค้า' : $aValue['FTPdtName'] ?></td>
+								<td style="white-space: nowrap;" class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FTPdtName'] == '')? 'ไม่พบสินค้า' : $aValue['FTPdtName'] ?></td>
 								<!-- <td class="text-right"><?=number_format($aValue['FCXqdUnitPrice'],2)?></td> -->
 								
 								<!--สถานะอนุมัติ-->

@@ -47,7 +47,7 @@
 					?>
 					<td class="xCNTdHaveImage"><img id="oimImgInsertorEditProduct" class="img-responsive xCNImgCenter" src="<?=@$tPathImage;?>"></td>
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtCode'] == '') ? '-' : $aValue['FTPdtCode'];?></label></td>
-					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPdtName'] == '') ? '-' : $aValue['FTPdtName'];?></label></td>
+					<td style="white-space: nowrap;"><label class="xCNLineHeightInTable"><?=($aValue['FTPdtName'] == '') ? '-' : $aValue['FTPdtName'];?></label></td>
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'];?></label></td>
 					<td><label class="xCNLineHeightInTable"><?=($aValue['FTPgpName'] == '') ? '-' : $aValue['FTPgpName'];?></label></td>
 

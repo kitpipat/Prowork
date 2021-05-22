@@ -435,7 +435,7 @@ class mPurchaseorder extends CI_Model {
 					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
 					LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
 					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
-					LEFT JOIN TARTPoDTTmp TMP 	ON PDT.FTPdtCode 	= TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' ";
+					LEFT JOIN TARTPoDTTmp TMP 	ON PDT.FTPdtCode 	= TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' AND TMP.FTPdtStaEditName = '0' ";
 		$tSQL .= " WHERE 1=1 ";
 		$tSQL .= " AND TMP.FTPdtCode IS NULL ";
 
