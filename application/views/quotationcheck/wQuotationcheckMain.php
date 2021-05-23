@@ -76,8 +76,8 @@
 						<label>สถานะจัดส่ง</label>
 						<select class="form-control" id="oetstaExpress" name="oetstaExpress">
 							<option value="">ทั้งหมด</option>
-							<option value="1">จัดส่งแล้ว</option>
-							<option value="0">ยังไม่จัดส่ง</option>
+							<option value="1">รับสินค้าแล้ว</option>
+							<option value="0">ยังไม่รับ</option>
 						</select>
 					</div>
 				</div>
