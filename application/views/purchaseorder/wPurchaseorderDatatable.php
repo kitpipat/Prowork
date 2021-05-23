@@ -14,12 +14,12 @@
   <thead>
     <tr>
 		<th style="width:10px; text-align: center;">ลำดับ</th>
-		<th style="text-align: left;">สาขา</th>
+		<th style="width:450px; text-align: left;">สาขา</th>
 		<th style="text-align: left;">เลขที่เอกสาร</th>
-		<th style="width:300px; text-align: left;">ผู้จำหน่าย</th>
+		<th style="width:350px; text-align: left;">ผู้จำหน่าย</th>
 		<th style="width:150px; text-align: left;">วันที่</th>
 		<th style="width:120px; text-align: left;">สถานะเอกสาร</th>
-		<th style="width:120px; text-align: left;">ผู้อนุมัติ</th>
+		<th style="text-align: left;">ผู้อนุมัติ</th>
 		<th style="width:80px; text-align: center;">แก้ไข</th>
 		<th style="width:80px; text-align: center;" class='<?=$tPer_delete?>'>ลบ</th>
     </tr>
@@ -59,7 +59,7 @@
 					?>
 					<td><span class="<?=$tClassStaDoc?>"><?=$tTextStaDoc?></span></td>
 
-					<td><?=($aValue['FTUsrFName'] == '') ? '-' : $aValue['FTUsrFName'];?></td>
+					<td class="text-nowrap"><?=($aValue['FTUsrFName'] == '') ? '-' : $aValue['FTUsrFName'];?></td>
 
 					<!--ถ้าอนุมัติแล้วจะลบไม่ได้-->
 					<?php 

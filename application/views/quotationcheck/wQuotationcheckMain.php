@@ -73,7 +73,7 @@
 				<!--สถานะจัดส่ง-->
 				<div class="col-lg-2">
 					<div class="form-group">
-						<label>สถานะจัดส่ง</label>
+						<label>สถานะรับสินค้า</label>
 						<select class="form-control" id="oetstaExpress" name="oetstaExpress">
 							<option value="">ทั้งหมด</option>
 							<option value="1">รับสินค้าแล้ว</option>
