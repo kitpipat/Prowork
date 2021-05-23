@@ -17,7 +17,7 @@
 					<td><?=$aValue['FTPdtCode']?></td>
 					<td><?=$aValue['FTPdtName']?></td>
 					<td><?=$aValue['FTPgpName']?></td>
-					<td><?=$aValue['FTSplName']?></td>
+					<td style="white-space: nowrap;"><?=$aValue['FTSplName']?></td>
 				</tr>
 			<?php } ?>
 		<?php }else{ ?>

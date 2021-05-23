@@ -546,6 +546,7 @@
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6">
+						<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 60px;float: right;margin-left: 10px;">ปิด</button>
 						<button type="button" class="btn  btn-success xCNConfirmCustomer" onclick="JSxInsSupplierToForm();" style="float: right;">ยืนยัน</button>
 					</div>
 				</div>
@@ -667,6 +668,7 @@
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6">
+						<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 90px;float: right;margin-left: 10px;">ปิด</button>
 						<button type="button" class="btn  btn-success xCNConfirmPDT" onclick="JSxInsPDTToTmp_PO();" style="float: right;">ยืนยัน</button>
 					</div>
 				</div>

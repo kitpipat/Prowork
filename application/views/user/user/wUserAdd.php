@@ -140,7 +140,7 @@
 
 						<!--กลุ่มของผู้ใช้จะมองเห็นเฉพาะ แอดมิน-->
 						<div class="form-group">
-							<label><span style="color:red;">*</span>ตำแหน่ง</label>
+							<label><span style="color:red;">* </span>ตำแหน่ง</label>
 							<?php if($tLevelUser == 'HQ'){ ?>
 								<select class="form-control" id="oetUserGrp" name="oetUserGrp">
 									<option <?=(@$FNUsrGrp == 1)? "selected" : "";?> value="1">พนักงานจัดซื้อ</option>

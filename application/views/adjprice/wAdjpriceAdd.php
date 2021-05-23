@@ -377,13 +377,14 @@
 						</div>
 					</div>
 					<div class="col-lg-6 col-md-6">
+						<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 90px;float: right;margin-left: 10px;">ปิด</button>
 						<button type="button" class="btn  btn-success xCNConfirmPDT" onclick="JSxInsPDTToTmp();" style="float: right;">ยืนยัน</button>
 					</div>
 				</div>
 
 				<div class="row">
 					<div class="col-lg-12 col-md-12">
-						<div id="odvContentSelectPDT" style="margin-top:10px;"></div>
+						<div id="odvContentSelectPDT" style="margin-top:10px; overflow: auto;"></div>
 					</div>
 				</div>
 			</div>
