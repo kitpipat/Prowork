@@ -1,8 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+class mQuotation extends CI_Model{
 
-class mQuotation extends CI_Model
-{
+	public $segmentQuotation;
+	public $segmentQuotationCount;
 
 	/*
 	เกี่ยวกับฟังก์ชั่น
@@ -88,6 +89,10 @@ class mQuotation extends CI_Model
 	*/
 	public function FSaMQUPdtList($paFilter)
 	{
+		//split คำ
+		include('application/assets/THSplitLib/segment.php');
+		$segmentQuotation = new Segment();
+
 		$aRowLen   		= FCNaHCallLenData($paFilter['nRow'], $paFilter['nPage']);
 		$tSearchAll 	= $paFilter["tSearchAll"];
 		$tPriceGrp 		= $paFilter["tPriceGrp"];
@@ -234,8 +239,19 @@ class mQuotation extends CI_Model
 
 		//ค้นหาธรรมดา
 		if ($tSearchAll != "") {
-			$tSQL .= " AND P.FTPdtName LIKE '%[" . $tSearchAll . "]%'";
-			$tSQL .= " OR P.FTPdtCode LIKE '%" . $tSearchAll . "%'";
+
+			$result['words'] = $segmentQuotation->get_segment_array($tSearchAll);
+			$result['words_count'] = count($result['words']);
+			if($result['words_count'] != 0){
+				$tTextPDTName = '';
+				for($i=0; $i<$result['words_count']; $i++){
+					$tTextPDTName .= " OR P.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
+				}
+			}
+			
+			$tSQL .= " AND ";
+			$tSQL .= " P.FTPdtCode LIKE '%" . $tSearchAll . "%'";
+			$tSQL .= $tTextPDTName;
 		}
 
 		$tSQL .= " ) AS Q WHERE Q.NewRowID > $aRowLen[0] AND Q.NewRowID <=$aRowLen[1] ";
@@ -272,6 +288,9 @@ class mQuotation extends CI_Model
 	*/
 	public function FSaMQUOPdtCountRow_PageAll($paFilter)
 	{
+		//split คำ
+		$segmentQuotationCount = new Segment();
+
 		try {
 			$tTextSearch 	= trim($paFilter['tSearchAll']);
 			$aFilterAdv 	= $paFilter['aFilterAdv'];
@@ -379,8 +398,19 @@ class mQuotation extends CI_Model
 
 			//ค้นหาธรรมดา
 			if ($tTextSearch != '' || $tTextSearch != null) {
-				$tSQL .= " AND PDT.FTPdtName LIKE '%[" . $tTextSearch . "]%'";
-				$tSQL .= " OR PDT.FTPdtCode LIKE '%" . $tTextSearch . "%'";
+				$result['words'] = $segmentQuotationCount->get_segment_array($tTextSearch);
+				$result['words_count'] = count($result['words']);
+				if($result['words_count'] != 0){
+					$tTextPDTName = '';
+					for($i=0; $i<$result['words_count']; $i++){
+						$tTextPDTName .= " OR PDT.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
+					}
+				}
+				// $tTextPDTName = '';
+				
+				$tSQL .= " AND ";
+				$tSQL .= " PDT.FTPdtCode LIKE '%" . $tTextSearch . "%'";
+				$tSQL .= $tTextPDTName;
 			}
 
 			$oQuery = $this->db->query($tSQL);

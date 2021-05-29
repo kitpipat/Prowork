@@ -1,9 +1,12 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
-
+include('application/assets/THSplitLib/segment.php');
 class mPurchaseorder extends CI_Model {
 	
+	public $segment;
+
 	public function FSaMPOGetData($paData){
+
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
@@ -405,6 +408,9 @@ class mPurchaseorder extends CI_Model {
 
 	//หาสินค้า Master
 	public function FSaMPOGetPDTToTmp($paData){
+		//split คำ
+		$segment = new Segment();
+		
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tWorkerID		= $this->session->userdata('tSesLogID');
 		$tTextSearch 	= trim($paData['tSearchPDT']);
@@ -447,22 +453,29 @@ class mPurchaseorder extends CI_Model {
 					LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode 
 					LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
 					LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
-					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
-					LEFT JOIN TARTPoDTTmp TMP 	ON PDT.FTPdtCode 	= TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' AND TMP.FTPdtStaEditName = '0' ";
+					LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode ";
 		$tSQL .= " WHERE 1=1 ";
-		$tSQL .= " AND TMP.FTPdtCode IS NULL ";
 
 		//ผู้จำหน่าย ถ้าผู้จำหน่ายเป็น 0 (พิเศษ) จะค้นหาได้ทั้งหมด
 		if(($tSPL != '' || $tSPL != null) && ($tSPL != '0')){
-			$tSQL .= " AND SPL.FTSplCode = '$tSPL' ";
-			$tSQL .= " OR ISNULL(SPL.FTSplCode,'') = '' ";
+			$tSQL .= " AND (SPL.FTSplCode = '$tSPL' ";
+			$tSQL .= " OR ISNULL(SPL.FTSplCode,'') = '' )";
 		}
 
 		//ค้นหาธรรมดา
 		if($tTextSearch != '' || $tTextSearch != null){
+			$result['words'] = $segment->get_segment_array($tTextSearch);
+			$result['words_count'] = count($result['words']);
+			if($result['words_count'] != 0){
+				$tTextPDTName = '';
+				for($i=0; $i<$result['words_count']; $i++){
+					$tTextPDTName .= " OR PDT.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
+				}
+			}
+			
 			$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR PDT.FTPdtName LIKE '%[$tTextSearch]%' ";
-			$tSQL .= " OR PDT.FTPdtNameOth LIKE '%[$tTextSearch]%' ";
+			$tSQL .= $tTextPDTName;
+			$tSQL .= " OR PDT.FTPdtNameOth LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPdtDesc LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPunCode LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPgpCode LIKE '%$tTextSearch%' ";
@@ -513,6 +526,9 @@ class mPurchaseorder extends CI_Model {
 	//หาสินค้าทั้งหมด
 	public function FSaMPOGetDataPDT_PageAll($paData){
 		try{
+			//split คำ
+			$segment = new Segment();
+
 			$tTextSearch 	= trim($paData['tSearchPDT']);
 			$tSPL			= trim($paData['tSPL']);
 			$tWorkerID		= $this->session->userdata('tSesLogID');
@@ -525,23 +541,30 @@ class mPurchaseorder extends CI_Model {
 							LEFT JOIN TCNMPdtSize SIZ 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode 
 							LEFT JOIN TCNMPdtType TYP 	ON PDT.FTPtyCode 	= TYP.FTPtyCode 
 							LEFT JOIN TCNMPdtUnit UNIT 	ON PDT.FTPunCode 	= UNIT.FTPunCode 
-							LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode 
-							LEFT JOIN TARTPoDTTmp TMP 	ON PDT.FTPdtCode 	= TMP.FTPdtCode AND TMP.FTWorkerID = '$tWorkerID' AND TMP.FTPdtStaEditName = '0' ";
+							LEFT JOIN TCNMSpl SPL 		ON PDT.FTSplCode 	= SPL.FTSplCode ";
 
 			$tSQL 		.= " WHERE 1=1 ";
-			$tSQL 		.= " AND TMP.FTPdtCode IS NULL ";
 
 			//ผู้จำหน่าย ถ้าผู้จำหน่ายเป็น 0 (พิเศษ) จะค้นหาได้ทั้งหมด
 			if(($tSPL != '' || $tSPL != null) && ($tSPL != '0')){
-				$tSQL .= " AND SPL.FTSplCode = '$tSPL' ";
-				$tSQL .= " OR ISNULL(SPL.FTSplCode,'') = '' ";
+				$tSQL .= " AND (SPL.FTSplCode = '$tSPL' ";
+				$tSQL .= " OR ISNULL(SPL.FTSplCode,'') = '' )";
 			}
 			
 			//ค้นหาธรรมดา
 			if($tTextSearch != '' || $tTextSearch != null){
+				$result['words'] = $segment->get_segment_array($tTextSearch);
+				$result['words_count'] = count($result['words']);
+				if($result['words_count'] != 0){
+					$tTextPDTName = '';
+					for($i=0; $i<$result['words_count']; $i++){
+						$tTextPDTName .= " OR PDT.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
+					}
+				}
+
 				$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR PDT.FTPdtName LIKE '%[$tTextSearch]%' ";
-				$tSQL .= " OR PDT.FTPdtNameOth LIKE '%[$tTextSearch]%' ";
+				$tSQL .= $tTextPDTName;
+				$tSQL .= " OR PDT.FTPdtNameOth LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPdtDesc LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPunCode LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPgpCode LIKE '%$tTextSearch%' ";

@@ -25,7 +25,8 @@
 												<input 
 													data-pdtcode="<?=$aValue['FTPdtCode']?>" 
 													data-splcode="<?=$aValue['FTSplCode']?>"
-													data-price="<?=$aValue['FCXqdNetAfHD']?>"
+													data-price="<?=$aValue['FCXqdUnitPrice']?>"
+													data-qty="<?=number_format($aValue['FCXqdQty'])?>"
 													data-pdtname="<?=$aValue['FTPdtName']?>"
 													class="xCNItemDT" type="checkbox" name="ocmDTInCreatePOSeleted" checked>
 												<span class="checkmark"></span>
@@ -78,7 +79,8 @@
 			var tSPLCode 	= $(this).data('splcode'); 
 			var nPrice  	= $(this).data('price');
 			var tPDTName  	= $(this).data('pdtname'); 
-			aItem.push({'tPDTCode' : tPDTCode , 'tSPLCode' : tSPLCode , 'nPrice' : nPrice , 'tPDTName' : tPDTName });
+			var nQty 		= $(this).data('qty');
+			aItem.push({'tPDTCode' : tPDTCode , 'tSPLCode' : tSPLCode , 'nPrice' : nPrice , 'tPDTName' : tPDTName , 'nQty' : nQty });
 		});
 
 		

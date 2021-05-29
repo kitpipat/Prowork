@@ -21,7 +21,7 @@
 	<!--Section ล่าง-->
 	<div class="card" style="margin-top: 10px;">
 		<div class="card-body">
-			<!--ค้นห่า-->
+			<!--ค้นหา-->
 			<div class="row">
 				<div class="col-lg-4">
 					<div class="input-group md-form form-sm form-2 pl-0">

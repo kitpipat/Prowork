@@ -136,6 +136,13 @@ class cProduct extends CI_Controller {
 			);
 			$this->mProduct->FSxMPDTInsert($aInsertPDT);
 
+			//เพิ่มข้อมูลตารางสินค้า ผูกกับยี่ห้อ
+			$aCheckBrandInGroup = array(
+				'FTPgpCode'			=> $this->input->post('oetPDTGroup'),
+				'FTPbnCode'			=> $this->input->post('oetPDTBrand')
+			);
+			$this->mProduct->FSxMCheckBrandInGroupB4Insert($aCheckBrandInGroup);
+
 			//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
 			$paData = array(
 				"tPdtCode"		=> $this->input->post('oetPDTCode'),
@@ -188,6 +195,13 @@ class cProduct extends CI_Controller {
 					'FTPdtCode'			=> $this->input->post('ohdProductCode')
 				);
 				$this->mProduct->FSxMPDTUpdate($aSetUpdate,$aWhereUpdate);
+
+				//เพิ่มข้อมูลตารางสินค้า ผูกกับยี่ห้อ
+				$aCheckBrandInGroup = array(
+					'FTPgpCode'			=> $this->input->post('oetPDTGroup'),
+					'FTPbnCode'			=> $this->input->post('oetPDTBrand')
+				);
+				$this->mProduct->FSxMCheckBrandInGroupB4Insert($aCheckBrandInGroup);
 
 				//Call Helper เพื่อให้เกิด cost ที่เเท้จริง
 				$paData = array(

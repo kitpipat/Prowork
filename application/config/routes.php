@@ -90,6 +90,11 @@ $route['r_groupproductcallpageInsertorEdit'] 	= 'product/groupproduct/cGroupprod
 $route['r_groupproducteventinsert'] 			= 'product/groupproduct/cGroupproduct/FSwCGRPEventInsert';
 $route['r_groupproducteventdelete'] 			= 'product/groupproduct/cGroupproduct/FSxCGRPEventDelete';
 $route['r_groupproducteventedit'] 				= 'product/groupproduct/cGroupproduct/FSxCGRPEventEdit';
+$route['r_LoadBrandInGroup'] 					= 'product/groupproduct/cGroupproduct/FSxCGRPLoadBrandInGroup';
+$route['r_InsertBrandInGroup'] 					= 'product/groupproduct/cGroupproduct/FSxCGRPInsertBrandInGroup';
+$route['r_selectAttributeBrandInGroup'] 		= 'product/groupproduct/cGroupproduct/FSwCPDTHTMLAttributeBrandInGroup';
+$route['r_DeleteBrandInGroup'] 					= 'product/groupproduct/cGroupproduct/FSxCGRPEventDeleteBrandInGroup';
+
 
 //หน้าจอ : ประเภทสินค้า ( start : 10-04-2020 / done : 10-04-2020 )
 $route['r_typeproduct'] 						= 'product/typeproduct/cTypeproduct/index';

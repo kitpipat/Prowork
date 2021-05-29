@@ -750,7 +750,7 @@ class cPurchaseorder extends CI_Controller {
 
 				$oItem 			= $this->mPurchaseorder->FCaMPOGetDetailItemAndPrice($aItem[$j]['tPDTCode']);
 				$aDetailItem 	= $oItem['raItems'][0];
-				$nQTY  			= 1;
+				$nQTY  			= $aItem[$j]['nQty'];
 				$aDocInsertDT  = array(
 					"FTXpoDocNo" 		=> 'DEMO',
 					"FNXpoSeq" 			=> $j + 1,
@@ -760,11 +760,11 @@ class cPurchaseorder extends CI_Controller {
 					"FTPunName" 		=> $aDetailItem['FTPunName'],
 					"FTSplCode" 		=> $aItem[$j]['tSPLCode'],
 					"FTXpoCost" 		=> $aItem[$j]['nPrice'],
-					"FCXpoUnitPrice" 	=> $nQTY * $aItem[$j]['nPrice'],
-					"FCXpoB4Dis"		=> $nQTY * $aItem[$j]['nPrice'],
+					"FCXpoUnitPrice" 	=> $aItem[$j]['nPrice'],
+					"FCXpoB4Dis"		=> $aItem[$j]['nPrice'],
 					"FTXpoDisTxt"		=> '',
-					"FCXpoAfDT"			=> $nQTY * $aItem[$j]['nPrice'],
-					"FCXpoNetAfHD"		=> $nQTY * $aItem[$j]['nPrice'],
+					"FCXpoAfDT"			=> $aItem[$j]['nPrice'],
+					"FCXpoNetAfHD"		=> $aItem[$j]['nPrice'],
 					"FCXpoQty" 			=> $nQTY,
 					"FTXpoRefPo"		=> $tDocumentNumber,
 					"FCXpoDis" 			=> 0,

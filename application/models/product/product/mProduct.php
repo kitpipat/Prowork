@@ -1,9 +1,15 @@
 <?php
 defined ( 'BASEPATH' ) or exit ( 'No direct script access allowed' );
-
+include('application/assets/THSplitLib/segment.php');
 class mProduct extends CI_Model {
 	
+	public $segment;
+
 	public function FSaMPDTGetData($paData){
+
+		//split คำ
+		$segment = new Segment();
+
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
 		$tTextSearch 	= trim($paData['tSearchAll']);
 		$aFilterAdv 	= $paData['aFilterAdv'];
@@ -120,9 +126,19 @@ class mProduct extends CI_Model {
 
 		//ค้นหาธรรมดา
 		if($tTextSearch != '' || $tTextSearch != null){
+
+			$result['words'] = $segment->get_segment_array($tTextSearch);
+			$result['words_count'] = count($result['words']);
+			if($result['words_count'] != 0){
+				$tTextPDTName = '';
+				for($i=0; $i<$result['words_count']; $i++){
+					$tTextPDTName .= " OR PDT.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
+				}
+			}
+
 			$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR PDT.FTPdtName LIKE '%[$tTextSearch]%' ";
-			$tSQL .= " OR PDT.FTPdtNameOth LIKE '%[$tTextSearch]%' ";
+			$tSQL .= $tTextPDTName;
+			$tSQL .= " OR PDT.FTPdtNameOth LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPdtDesc LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPunCode LIKE '%$tTextSearch%' ";
 			$tSQL .= " OR PDT.FTPgpCode LIKE '%$tTextSearch%' ";
@@ -173,6 +189,10 @@ class mProduct extends CI_Model {
 	//หาจำนวนทั้งหมด
 	public function FSaMPDTGetData_PageAll($paData){
 		try{
+
+			//split คำ
+			$segment = new Segment();
+
 			$tTextSearch 	= trim($paData['tSearchAll']);
 			$aFilterAdv 	= $paData['aFilterAdv'];
 			$tSQL 		= "SELECT COUNT (PDT.FTPdtCode) AS counts 
@@ -255,9 +275,19 @@ class mProduct extends CI_Model {
 			
 			//ค้นหาธรรมดา
 			if($tTextSearch != '' || $tTextSearch != null){
+
+				$result['words'] = $segment->get_segment_array($tTextSearch);
+				$result['words_count'] = count($result['words']);
+				if($result['words_count'] != 0){
+					$tTextPDTName = '';
+					for($i=0; $i<$result['words_count']; $i++){
+						$tTextPDTName .= " OR PDT.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
+					}
+				}
+				
 				$tSQL .= " AND ( PDT.FTPdtCode LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR PDT.FTPdtName LIKE '%[$tTextSearch]%' ";
-				$tSQL .= " OR PDT.FTPdtNameOth LIKE '%[$tTextSearch]%' ";
+				$tSQL .= $tTextPDTName;
+				$tSQL .= " OR PDT.FTPdtNameOth LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPdtDesc LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPunCode LIKE '%$tTextSearch%' ";
 				$tSQL .= " OR PDT.FTPgpCode LIKE '%$tTextSearch%' ";
@@ -397,7 +427,9 @@ class mProduct extends CI_Model {
 		if($ptBrandCode == '' || $ptBrandCode == null){
 			$tSQL 	= "SELECT * FROM TCNMPdtGrp";
 		}else{
-			$tSQL 	= "SELECT * FROM TCNMPdtGrp WHERE FTPbnCode IN ($ptBrandCode) ";
+			$tSQL 	= "SELECT DISTINCT GRP.* FROM TCNMPdtGrp GRP
+					   INNER JOIN TCNMBrandInGroup BANINGRP ON GRP.FTPgpCode = BANINGRP.FTPgpCode
+					   AND BANINGRP.FTPbnCode IN ($ptBrandCode) ";
 		}
 		
 		$oQuery = $this->db->query($tSQL);
@@ -714,6 +746,25 @@ class mProduct extends CI_Model {
 			$tSQLCost .= $tNotIn;
 		}
 		$this->db->query($tSQLCost);
+
+		//Move (Insert) ข้อมูลยี่ห้อผูกกับกลุ่มสินค้า
+		$tSQLInsertBrandInGroup = "INSERT INTO TCNMBrandInGroup (
+						FTPgpCode
+						,FTPbnCode
+					)
+					SELECT 
+						A.FTPgpCode
+						,A.FTPbnCode
+					FROM TCNMPdt_DataTmp A
+					LEFT JOIN TCNMPdt B ON A.FTPdtCode = B.FTPdtCode
+					LEFT JOIN TCNMBrandInGroup C ON A.FTPgpCode = C.FTPgpCode AND A.FTPbnCode = C.FTPbnCode
+					WHERE A.FTWorkerID = '$FTWorkerID' AND ISNULL(C.FTTrnCode,'') = '' ";
+
+		if($ptNotIn != ''){
+			$tNotIn 					= ' AND A.FTPdtCode NOT IN ('.$ptNotIn.')';
+			$tSQLInsertBrandInGroup  	.= $tNotIn;
+		}
+		$this->db->query($tSQLInsertBrandInGroup);
 	}
 
 	//นำเข้าข้อมูล - ลบข้อมูล 
@@ -1046,5 +1097,22 @@ class mProduct extends CI_Model {
 		}catch(Exception $Error){
             echo $Error;
         }
+	}
+
+	//ผูกแบรด์ กับ กลุ่ม
+	public function FSxMCheckBrandInGroupB4Insert($aCheckBrandInGroup){
+		try{
+			$FTPbnCode 	= $aCheckBrandInGroup['FTPbnCode'];
+			$FTPgpCode	= $aCheckBrandInGroup['FTPgpCode'];
+			$tSQL = " SELECT * FROM TCNMBrandInGroup WHERE FTPbnCode = '$FTPbnCode' AND FTPgpCode = '$FTPgpCode' ";
+			$oQuery = $this->db->query($tSQL);
+			if($oQuery->num_rows() > 0){
+
+			}else{
+				$this->db->insert('TCNMBrandInGroup', $aCheckBrandInGroup);
+			}
+		}catch(Exception $Error){
+			echo $Error;
+		}
 	}
 }

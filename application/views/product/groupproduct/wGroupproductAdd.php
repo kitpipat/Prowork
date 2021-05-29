@@ -14,6 +14,15 @@
 	}
 ?>
 
+<style>
+	.nav-link{
+		padding: 10px 20px !important;
+		font-family: cordia;
+		font-size: 20px !important;
+	}
+
+</style>
+
 <?php
 	$aPermission = FCNaPERGetPermissionByPage('r_groupproduct');
 	$aPermission = $aPermission[0];
@@ -58,36 +67,60 @@
 		<div class="card" style="margin-top: 10px;">
 			<div class="card-body">
 				<div class="row">
-					<!--รายละเอียด-->
-					<div class="col-lg-4 col-md-4">
-						<!--รหัส-->
-						<div class="form-group">
-							<label><span style="color:red;">*</span> รหัสกลุ่มสินค้า</label>
-							<input <?=($tTypePage == 'edit') ? 'disabled' : '' ?> type="text" class="form-control" maxlength="5" id="oetCodeGRPName" name="oetCodeGRPName" placeholder="กรุณาระบุรหัสกลุ่มสินค้า" autocomplete="off" value="<?=@$FTPgpCode;?>">
-							<span id="oetCodeGRPName_Dup" style="color:red; text-align: right; display: none;"><em>พบรหัสกลุ่มสินค้าซ้ำ กรุณาลองใหม่อีกครั้ง</em></span>
-						</div>
 
-						<!--ชื่อยี่ห้อ-->
-						<div class="form-group">
-							<label>ยี่ห้อ</label>
-							<input type="hidden" id="oetPDTBrandInGroup" name="oetPDTBrandInGroup" value="<?=@$FTPbnCode?>">
-							<div class="input-group md-form form-sm form-2 pl-0 form-group">
-								<input type="text" readonly class="form-control" maxlength="255" id="oetPDTBrandNameInGroup" name="oetPDTBrandNameInGroup" placeholder="กรุณาเลือกข้อมูลยี่ห้อ" autocomplete="off" value="<?=@$FTPbnName?>">
-								<div class="input-group-append xCNIconFindCustomer">
-									<span class="input-group-text red lighten-3" style="cursor:pointer;" onclick="JSxSelectBrandInGroupClick(1);">
-										<img class="xCNIconFind">
-									</span>
+					<div class="col-lg-12 col-md-12">
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item" role="presentation">
+								<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">ข้อมูลกลุ่มสินค้า</a>
+							</li>
+							<?php 
+								if($tTypePage == 'edit'){
+									$tDisabledBrand = '';
+								}else if($tTypePage == 'insert'){ 
+									$tDisabledBrand = 'disabled';
+								}
+							?>
+							
+							<li class="nav-item" role="presentation">
+								<a class="nav-link <?=$tDisabledBrand?>" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">ข้อมูลยี่ห้อของกลุ่มสินค้า</a>
+							</li>
+						</ul>
+						<div class="tab-content">
+
+							<!--ข้อมูลกลุ่มสินค้า-->
+							<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+								<div class="row">
+									<div class="col-lg-4 col-md-4" style="margin-top:20px;">
+										<!--รหัส-->
+										<div class="form-group">
+											<label><span style="color:red;">*</span> รหัสกลุ่มสินค้า</label>
+											<input <?=($tTypePage == 'edit') ? 'disabled' : '' ?> type="text" class="form-control" maxlength="5" id="oetCodeGRPName" name="oetCodeGRPName" placeholder="กรุณาระบุรหัสกลุ่มสินค้า" autocomplete="off" value="<?=@$FTPgpCode;?>">
+											<span id="oetCodeGRPName_Dup" style="color:red; text-align: right; display: none;"><em>พบรหัสกลุ่มสินค้าซ้ำ กรุณาลองใหม่อีกครั้ง</em></span>
+										</div>
+
+										<!--ชื่อกลุ่มสินค้า-->
+										<div class="form-group">
+											<label>ชื่อกลุ่มสินค้า</label>
+											<input type="text" class="form-control" maxlength="100" id="oetGRPName" name="oetGRPName" placeholder="กรุณาระบุชื่อกลุ่มสินค้า" autocomplete="off" value="<?=@$FTPgpName;?>">
+										</div>
+									</div>
+								</div>
+							
+							</div>
+
+							<!--ข้อมูลยี่ห้อ-->
+							<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+								<div class="row" style="margin-top:20px;">
+									<div class="col-lg-6 col-md-6"><lable>กลุ่มสินค้า : <?=@$FTPgpName;?></lable></div> 
+									<div class="col-lg-6 col-md-6 <?=$tPer_create?>"><button class="xCNButtonInsert pull-right" onClick="JSxSelectBrandInGroupClick('add','');">+</button></div>
+									<div class="col-lg-12 col-md-12">
+										<div id="odvContent_BrandInGroup" class="xCNContent"></div>
+									</div>
 								</div>
 							</div>
 						</div>
-						
-						<!--ชื่อกลุ่มสินค้า-->
-						<div class="form-group">
-							<label>ชื่อกลุ่มสินค้า</label>
-							<input type="text" class="form-control" maxlength="100" id="oetGRPName" name="oetGRPName" placeholder="กรุณาระบุชื่อกลุ่มสินค้า" autocomplete="off" value="<?=@$FTPgpName;?>">
-						</div>
-
 					</div>
+				
 				</div>
 			</div>
 		</div>
@@ -122,6 +155,8 @@
 					</div>
 					<div class="col-lg-6 col-md-6">
 						<button type="button" class="btn btn-secondary xCNCloseDelete" data-dismiss="modal" style="width: 60px;float: right;margin-left: 10px;">ปิด</button>
+						<input type="hidden" id="ohdInsOrUpdateBrandInGroup" name="ohdInsOrUpdateBrandInGroup">
+						<input type="hidden" id="ohdInsOrUpdateBrandInGroupValue" name="ohdInsOrUpdateBrandInGroupValue">
 						<button type="button" class="btn  btn-success xCNConfirmCustomer" onclick="JSxConfirmBrandInGroup();" style="float: right;">ยืนยัน</button>
 					</div>
 				</div>
@@ -196,17 +231,21 @@
 	}
 
 	//กดปุ่ม brwose ยี่ห้อ
-	function JSxSelectBrandInGroupClick(){
+	function JSxSelectBrandInGroupClick(ptType,pnValue){
 		$('#obtModalSelectAttribute').click();
 		JSxSelectAttribute(1);
+
+		//เก็บว่าเป็น insert หรือ update
+		$('#ohdInsOrUpdateBrandInGroup').val(ptType);
+		$('#ohdInsOrUpdateBrandInGroupValue').val(pnValue);
 	}
 
 	//เลือกยี่ห้อ
 	function JSxSelectAttribute(pnPage){
 		$.ajax({
 			type	: "POST",
-			url		: "r_selectAttribute",
-			data 	: { 'nPage' : pnPage , 'tSearchAttribute' : $('#oetSearchAttribute').val() , 'tName' : 'Brand' },
+			url		: "r_selectAttributeBrandInGroup",
+			data 	: { 'nPage' : pnPage , 'tSearchAttribute' : $('#oetSearchAttribute').val() , 'tName' : 'Brand' , 'tGroupCode' : '<?=@$FTPgpCode;?>' },
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
@@ -227,16 +266,61 @@
 			var tvaluecode 		= aResult[0];
 			var tvaluename 		= aResult[1];
 			
-			$('#oetPDTBrandInGroup').val(tvaluecode);
-			$('#oetPDTBrandNameInGroup').val(tvaluename);
+			$.ajax({
+				type	: "POST",
+				url		: "r_InsertBrandInGroup",
+				data 	: { 
+					'tvaluecode' 	: tvaluecode , 
+					'tGroupCode' 	: '<?=@$FTPgpCode;?>' , 
+					'tTypePage' 	: $('#ohdInsOrUpdateBrandInGroup').val(),
+					'nCodePK'		: $('#ohdInsOrUpdateBrandInGroupValue').val()
+				},
+				cache	: false,
+				timeout	: 0,
+				success	: function (tResult) {
+					$('.alert-success').addClass('show').fadeIn();
+					$('.alert-success').find('.badge-success').text('สำเร็จ');
+
+					if($('#ohdInsOrUpdateBrandInGroup').val() == 'add'){
+						$('.alert-success').find('.xCNTextShow').text('เพิ่มยี่ห้อในกลุ่มสินค้าสำเร็จ');
+					}else if($('#ohdInsOrUpdateBrandInGroup').val() == 'edit'){
+						$('.alert-success').find('.xCNTextShow').text('แก้ไขยี่ห้อในกลุ่มสินค้าสำเร็จ');
+					}
+					
+					JSxLoadBrandInGroup();
+
+					setTimeout(function(){
+						$('.alert-success').find('.close').click();
+					}, 3000);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					JSxModalErrorCenter(jqXHR.responseText);
+				}
+			});
 
 			objAttr = [];
 			localStorage.clear();
 			$('#obtModalSelectAttribute').click();
 		}else{
-			$('#oetPDTBrandInGroup').val('');
-			$('#oetPDTBrandNameInGroup').val('');
 			$('#obtModalSelectAttribute').click();
 		}
+	}
+
+	//โหลดยี่ห้อในหน้าจอกลุ่มสินค้า
+	JSxLoadBrandInGroup();
+	function JSxLoadBrandInGroup(){
+		$.ajax({
+			type	: "POST",
+			url		: "r_LoadBrandInGroup",
+			data 	: { 'tGroupCode' : '<?=@$FTPgpCode;?>'},
+			cache	: false,
+			timeout	: 0,
+			success	: function (tResult) {
+				$('#odvContent_BrandInGroup').html(tResult);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				JSxModalErrorCenter(jqXHR.responseText);
+			}
+		});
 	}
 </script>

@@ -91,5 +91,70 @@ class cGroupproduct extends CI_Controller {
         }
 	}
 
+	//โหลดหน้าจอยี่ห้อในกลุ่ม
+	public function FSxCGRPLoadBrandInGroup(){
+		$tGroupCode = $this->input->post('tGroupCode');
+		$aBrandList = $this->mGroupproduct->FSaMGRPGetDataBrandInGroup($tGroupCode);
+		$aPackData = array(
+			'aBrandList'		=> $aBrandList
+		);
+		$this->load->view('product/groupproduct/BrandInGroup/wBrandInGroupDatatable',$aPackData);
+	}
+
+	//เลือกยี่ห้อ 
+	public function FSwCPDTHTMLAttributeBrandInGroup(){
+		$nPage				= $this->input->post('nPage');
+		$tName				= $this->input->post('tName');
+		$tSearchAttribute	= $this->input->post('tSearchAttribute');
+		$tGroupCode			= $this->input->post('tGroupCode');
+
+		$aCondition = array(
+			'tName'				=> strtolower($tName),
+			'nPage'         	=> $nPage,
+			'nRow'          	=> 10,
+			'tSearch'   		=> $tSearchAttribute,
+			'tGroupCode'		=> $tGroupCode,
+		);
+
+		$aListItem 	= $this->mGroupproduct->FSaMPDTAttrGetItemBrandInGroup($aCondition);
+		$aPackData 	= array(
+			'tName'				=> strtolower($tName),
+			'aListItem'			=> $aListItem,
+			'nPage'				=> $nPage
+		);
+
+		$this->load->view('product/product/attribute/wAttribute',$aPackData);
+	}
+
+	//เพิ่มข้อมูล หน้าจอยี่ในกลุ่ม
+	public function FSxCGRPInsertBrandInGroup(){
+		$tvaluecode = $this->input->post('tvaluecode');
+		$tGroupCode = $this->input->post('tGroupCode');
+		$tTypePage	= $this->input->post('tTypePage');
+		$nCodePK 	= $this->input->post('nCodePK');	
+
+		if($tTypePage == 'add'){
+			$aInsert 		= array(
+				'FTPgpCode'			=> $tGroupCode,
+				'FTPbnCode'			=> $tvaluecode
+			);
+			$this->mGroupproduct->FSxMGRPInsertBrandInGroup($aInsert);
+		}else if($tTypePage == 'edit'){
+			$aSetUpdate 	= array(
+				'FTPbnCode'			=> $tvaluecode
+			);
+			$aWhereUpdate 	= array(
+				'FTTrnCode'			=> $nCodePK,
+				'FTPgpCode'			=> $tGroupCode,
+			);
+			$this->mGroupproduct->FSxMGRPUpdateBrandInGroup($aSetUpdate,$aWhereUpdate);
+		}
+	}
+
+	//ลบกลุ่มสินค้า
+	public function FSxCGRPEventDeleteBrandInGroup(){
+		$tCode = $this->input->post('ptCode');
+		$this->mGroupproduct->FSaMGRPDeleteBrandInGroup($tCode);
+	}
 
 }

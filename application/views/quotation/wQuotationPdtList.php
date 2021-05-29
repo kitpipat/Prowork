@@ -38,7 +38,7 @@
 							?>
 
 							<?php if($aValue['FTPdtBestsell'] == '1'){ //สินค้าขายดี  ?>
-								<div class="xCNCssForBestSell"><span class="xCNSpanCssBestSell">ขายดี</span></div>
+								<div class="xCNCssForBestSell <?=$tClassCSSMargin?>"><span class="xCNSpanCssBestSell">ขายดี</span></div>
 							<?php } ?>
 
 							<div title="เลือกรายการนี้" class="xCNImageCardPDT <?=$tClassCSSMargin?>" data-iteminfo='<?=$tItemInfo?>' onclick="FSvQUOAddItemToTemp(this)">

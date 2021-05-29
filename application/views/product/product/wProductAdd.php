@@ -561,7 +561,6 @@
 			cache	: false,
 			timeout	: 0,
 			success	: function (tResult) {
-				console.log(tResult);
 				if(tResult == 'Duplicate'){
 					$('.alert-danger').addClass('show').fadeIn();
 					$('.alert-danger').find('.badge-danger').text('ผิดพลาด');
