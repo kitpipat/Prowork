@@ -211,7 +211,26 @@ class mQuotationList extends CI_Model{
 
 	//ย้ายข้อมูล จาก DT -> Tmp
 	public function FSaMPILMoveDTToTmp($ptDocNo,$ptWorkerID){
-		$tSQL = "  INSERT INTO TARTSqDTTmp
+		$tSQL = "  INSERT INTO TARTSqDTTmp 
+							(FTXqhDocNo,
+							FNXqdSeq,
+							FTPdtCode,
+							FTPdtName,
+							FTPunCode,
+							FTPunName,
+							FTXqdCost,
+							FCXqdUnitPrice,
+							FCXqdQty,
+							FTSplCode,
+							FCXqdDis,
+							FTXqdDisTxt,
+							FCXqdFootAvg,
+							FDTmpTnsDate,
+							FTCreateBy,
+							FDCreateOn,
+							FTWorkerID,
+							FTPdtStaEditName
+						)
 						SELECT
 							FTXqhDocNo,
 							FNXqdSeq,
@@ -238,7 +257,22 @@ class mQuotationList extends CI_Model{
 
 	//ย้ายข้อมูล จาก HD Customer -> Tmp
 	public function FSaMPILMoveHDCusToTmp($ptDocNo,$ptWorkerID){
-		$tSQL = "INSERT INTO TARTSqHDCstTmp
+		$tSQL = "INSERT INTO TARTSqHDCstTmp(
+						FTXqhDocNo,
+						FTXqcCstCode,
+						FTXqcCstName,
+						FTXqcAddress,
+						FTXqhTaxNo,
+						FTXqhContact,
+						FTXqhEmail,
+						FTXqhTel,
+						FTXqhFax,
+						FTCreateBy,
+						FDCreateOn,
+						FTUpdateBy,
+						FDUpdateOn,
+						FTWorkerID
+					)
 					SELECT
 						FTXqhDocNo,
 						FTXqcCstCode,
