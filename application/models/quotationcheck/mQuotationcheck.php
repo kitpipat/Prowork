@@ -91,20 +91,20 @@ class mQuotationcheck extends CI_Model{
 		//ค้นหาสถานะจัดซื้อ
 		if(trim($paData['tStaSale']) != ''){
 			$tStaSale = $paData['tStaSale'];
-			if($tStaSale == 1){
-				$tSQL .= " AND ( ISNULL(DT.FDXqdPucDate,'') <> '' )";
-			}else if($tStaSale == 0){
-				$tSQL .= " AND ( ISNULL(DT.FDXqdPucDate,'') = '' )";
+			if($tStaSale == 1){ //จัดซื้อแล้ว
+				$tSQL .= " AND ( ISNULL(USRBUYER.FTUsrFName,'') <> '' )";
+			}else if($tStaSale == 0){ //ยังไม่จัดซื้อ
+				$tSQL .= " AND ( ISNULL(USRBUYER.FTUsrFName,'') = '' )";
 			}
 		}
 
 		//ค้นหาสถานะจัดส่ง
 		if(trim($paData['tStaExpress']) != ''){
 			$tStaExpress = $paData['tStaExpress'];
-			if($tStaExpress == 1){
-				$tSQL .= " AND ( ISNULL(DT.FDXqdDliDate,'') <> '' )";
-			}else if($tStaExpress == 0){
-				$tSQL .= " AND ( ISNULL(DT.FDXqdDliDate,'') = '' )";
+			if($tStaExpress == 1){ //รับสินค้าแล้ว
+				$tSQL .= " AND ( ISNULL(USRCONSIG.FTUsrFName,'') <> '' )";
+			}else if($tStaExpress == 0){ //ยังไม่รับ
+				$tSQL .= " AND ( ISNULL(USRCONSIG.FTUsrFName,'') = '' )";
 			}
 		}
 

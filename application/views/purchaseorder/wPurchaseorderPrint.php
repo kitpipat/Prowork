@@ -149,13 +149,13 @@
 	<tr>
 		<th class="XCNItemTitle" style="width:35px;">ลำดับ</th>
 		<th class="XCNItemTitle" style="width:40px;">รูป</th>
-		<th class="XCNItemTitle" style="width:210px;">รายการ</th>
-		<th class="XCNItemTitle" style="width:75px;text-align:right;">ราคา/หน่วย</th>
+		<th class="XCNItemTitle" style="width:285px;">รายการ</th>
+		<!-- <th class="XCNItemTitle" style="width:75px;text-align:right;">ราคา/หน่วย</th> -->
 		<th class="XCNItemTitle" style="width:40px;text-align:right; ">จำนวน</th>
-		<th class="XCNItemTitle" style="width:70px;text-align:left;">หน่วย</th>
-		<th class="XCNItemTitle" style="width:70px;text-align:right;">จำนวนเงิน</th>
+		<th class="XCNItemTitle" style="width:100px;text-align:left;">หน่วย</th>
+		<!-- <th class="XCNItemTitle" style="width:70px;text-align:right;">จำนวนเงิน</th> -->
 		<th class="XCNItemTitle" style="width:70px;text-align:right;">ส่วนลด</th>
-		<th class="XCNItemTitle" style="width:100px;text-align:right;">ราคารวม</th>
+		<th class="XCNItemTitle" style="width:130px;text-align:right;">ราคารวม</th>
 	</tr>
 	<?php $nTotal = $aDocDT['rnTotal'];?>
 	<?php if($nTotal > 0){ ?>
@@ -187,10 +187,10 @@
 
 				<td style="<?php echo $tTextCssFontSize; ?>"><?php echo mb_substr($aDocDT['raItems'][$i]['FTPdtCode']."-".$aDocDT['raItems'][$i]['FTPdtName'],0,900,"utf-8");?></td>
 
-				<td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoUnitPrice'],2);?></td>
+				<!-- <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoUnitPrice'],2);?></td> -->
 				<td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoQty'],0);?></td>
 				<td><?php echo $aDocDT['raItems'][$i]['FTPunName'];?></td>
-				<td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoB4Dis'],2);?></td>
+				<!-- <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoB4Dis'],2);?></td> -->
 				<td style="text-align:right;"><?php echo $aDocDT['raItems'][$i]['FTXpoDisTxt'];?></td>
 				<td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoAfDT'],2);?></td>
 			</tr>

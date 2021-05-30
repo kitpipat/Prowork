@@ -186,33 +186,31 @@
 	if($aPermission['P_cancel'] != 1){ 		$tPer_cancle 	= 'xCNHide'; }else{ $tPer_cancle = ''; }
 	if($aPermission['P_approved'] != 1){ 	$tPer_approved 	= 'xCNHide'; }else{ $tPer_approved = ''; }
 	if($aPermission['P_print'] != 1){ 		$tPer_print 	= 'xCNHide'; }else{ $tPer_print = ''; }
-
-	
 ?>
 
 <div class="outer">
-  	<div class="inner">
-		<table class="table table-striped xCNTableCenter">
+  	<div class="inner" style="border-right: 1px solid #d6d6d6;">
+		<table class="table table-striped xCNTableCenter" style="width: auto;">
 			<thead>
 				<tr>
 					<?php if($this->session->userdata("tSesUserGroup") == 1 || $this->session->userdata("tSesUserGroup") == 5){ ?>
 						<!--พนักงานจัดซื้อ || พนักงานบัญชี-->
 						<th class="xCNThNormal" rowspan="2" style="width:55px; text-align: left; vertical-align: middle;">ยกเลิก</th>
 					<?php } ?>
-					<th class="xCNThNormal" rowspan="2" style="width:60px; text-align: left; vertical-align: middle;">จำนวน</th>
-					<th class="xCNThNormal" rowspan="2" style="width:150px; text-align: left; vertical-align: middle;">หน่วย</th>
-					<th class="xCNThNormal" rowspan="2" style="width:200px; text-align: left; vertical-align: middle;">เลขที่เอกสาร</th>
-					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">วันที่เอกสาร</th>
-					<th class="xCNThNormal" rowspan="2" style="width:55px; text-align: left; vertical-align: middle;">ลำดับ</th>
-					<th class="xCNThNormal" rowspan="2" style="width:270px; text-align: left; vertical-align: middle;">รายการสินค้า</th>
-					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle;">สถานะเอกสาร</th>
-					<th class="xCNBorderleft hard_left_Top_Right1" colspan="2" style="text-align:center;">จัดซื้อสินค้า</th>
+					<th class="xCNThNormal" rowspan="2" style="width:60px; text-align: left; vertical-align: middle; white-space: nowrap;">จำนวน</th>
+					<th class="xCNThNormal" rowspan="2" style="width:150px; text-align: left; vertical-align: middle; white-space: nowrap;">หน่วย</th>
+					<th class="xCNThNormal" rowspan="2" style="width:200px; text-align: left; vertical-align: middle; white-space: nowrap;">เลขที่เอกสาร</th>
+					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle; white-space: nowrap;">วันที่เอกสาร</th>
+					<th class="xCNThNormal" rowspan="2" style="width:55px; text-align: left; vertical-align: middle; white-space: nowrap;">ลำดับ</th>
+					<th class="xCNThNormal" rowspan="2" style="width:270px; text-align: left; vertical-align: middle; white-space: nowrap;">รายการสินค้า</th>
+					<th class="xCNThNormal" rowspan="2" style="width:100px; text-align: left; vertical-align: middle; white-space: nowrap;">สถานะเอกสาร</th>
+					<th class="hard_left_Top_Right1" colspan="2" style="text-align:center;">จัดซื้อสินค้า</th>
 					<th class="xCNBorderleft hard_left_Top_Right4" rowspan="2" style="font-size: 1.15vw;">ผู้สั่งซื้อ</th>
 					<th class="xCNBorderleft hard_left_Top_Right2" colspan="2" style="text-align:center;">รับสินค้า</th>
 					<th class="xCNBorderleft hard_left_Top_Right3" rowspan="2" style="font-size: 1.15vw;">ผู้รับสินค้า</th>
 				</tr>
 				<tr class="hard_left_Sub_Right">
-					<th class="xCNBorderleft" style="text-align:center; width:16.50%; font-size: 1vw;">วันสั่งสินค้า</th>
+					<th class="" style="text-align:center; width:16.50%; font-size: 1vw;">วันสั่งสินค้า</th>
 					<th style="text-align:center; width:16.50%; font-size: 1vw;">วันส่งของ</th>
 					<th style="text-align:center; width:17%; font-size: 1vw;">เลขที่บิลขนส่ง</th>
 					<th style="text-align:center; width:14.50%;"></th>
@@ -234,11 +232,11 @@
 										</label>
 									</td>
 								<?php } ?>
-								<td class="text-right xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FCXqdQty'] == '') ? '0' : number_format($aValue['FCXqdQty'])?></td>
-								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
-								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=$aValue['FTXqhDocNo']?></td>
-								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
-								<td class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FNXqdSeq'] == '') ? 'x' : $aValue['FNXqdSeq']?></td>
+								<td style="white-space: nowrap;" class="text-right xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FCXqdQty'] == '') ? '0' : number_format($aValue['FCXqdQty'])?></td>
+								<td style="white-space: nowrap;" class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FTPunName'] == '') ? '-' : $aValue['FTPunName'] ?></td>
+								<td style="white-space: nowrap;" class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=$aValue['FTXqhDocNo']?></td>
+								<td style="white-space: nowrap;" class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
+								<td style="white-space: nowrap;" class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FNXqdSeq'] == '') ? 'x' : $aValue['FNXqdSeq']?></td>
 								<td style="white-space: nowrap;" class="xCNTextShowQuotation <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?>"><?=($aValue['FTPdtName'] == '')? 'ไม่พบสินค้า' : $aValue['FTPdtName'] ?></td>
 								<!-- <td class="text-right"><?=number_format($aValue['FCXqdUnitPrice'],2)?></td> -->
 								
@@ -258,11 +256,11 @@
 										$tPlaceholder			= '-';
 									}
 								?>
-								<td><span class="<?=$tClassStaApv?> xCNStatusDT <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?> "><?=$tTextStaApv?></span></td>
+								<td style="white-space: nowrap;"><span class="<?=$tClassStaApv?> xCNStatusDT <?=@$FTPdtStaCancel == '1' ? 'xCNDTCancelStatus' : ''; ?> "><?=$tTextStaApv?></span></td>
 
 
 								<!--วันที่สั่งสินค้า-->
-								<td class="xCNBorderleft xCNFreezeSection1">
+								<td class="xCNFreezeSection1">
 									<?php
 										if($aValue['FDXqdPucDate'] != '' || $aValue['FDXqdPucDate'] != null){
 											$FDXqdPucDate = date('d/m/Y',strtotime($aValue['FDXqdPucDate']));
