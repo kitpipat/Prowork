@@ -19,7 +19,7 @@
 		<th style="text-align: center; width:140px;">รูปภาพ</th>
 		<th>รายการ</th>
 		<th>หน่วย</th>
-		<!-- <th class="text-nowrap" style="text-align: right; width:150px;">ราคา/หน่วย</th> -->
+		<th class="text-nowrap" style="text-align: right; width:150px;">ราคา/หน่วย</th>
 		<th class="text-nowrap" style="text-align: right; width:150px;">จำนวน</th>
 		<!-- <th class="text-nowrap" style="text-align: right; width:180px;">จำนวนเงิน</th> -->
 		<th class="text-nowrap" style="text-align: right; width:150px;">ส่วนลด</th>
@@ -83,7 +83,7 @@
 						<?php } ?>
 					</td>
 					<td class="text-nowrap"><label class="xCNLineHeightInTable"><?=($tPunName == '') ? '-' : $tPunName;?></label></td>
-					<!-- <td class="text-right text-nowrap">
+					<td class="text-right text-nowrap">
 						<label class="">
 							<div class="input-container">
 								<i class="xWBnticon fa fa-info-circle fa-xs"
@@ -99,7 +99,7 @@
 									style="width:100%;">
 							</div>
 						</label>
-					</td> -->
+					</td>
 					<td class="text-nowrap">
 						<div class="input-container">
 							<i class="xWBnticon fa fa-info-circle fa-xs"

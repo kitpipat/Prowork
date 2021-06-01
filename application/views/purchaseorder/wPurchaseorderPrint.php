@@ -149,13 +149,13 @@
 	<tr>
 		<th class="XCNItemTitle" style="width:35px;">ลำดับ</th>
 		<th class="XCNItemTitle" style="width:40px;">รูป</th>
-		<th class="XCNItemTitle" style="width:285px;">รายการ</th>
+		<th class="XCNItemTitle" style="width:465px;">รายการ</th>
 		<!-- <th class="XCNItemTitle" style="width:75px;text-align:right;">ราคา/หน่วย</th> -->
 		<th class="XCNItemTitle" style="width:40px;text-align:right; ">จำนวน</th>
-		<th class="XCNItemTitle" style="width:100px;text-align:left;">หน่วย</th>
+		<th class="XCNItemTitle" style="width:120px;text-align:left;">หน่วย</th>
 		<!-- <th class="XCNItemTitle" style="width:70px;text-align:right;">จำนวนเงิน</th> -->
-		<th class="XCNItemTitle" style="width:70px;text-align:right;">ส่วนลด</th>
-		<th class="XCNItemTitle" style="width:130px;text-align:right;">ราคารวม</th>
+		<!-- <th class="XCNItemTitle" style="width:70px;text-align:right;">ส่วนลด</th>
+		<th class="XCNItemTitle" style="width:130px;text-align:right;">ราคารวม</th> -->
 	</tr>
 	<?php $nTotal = $aDocDT['rnTotal'];?>
 	<?php if($nTotal > 0){ ?>
@@ -191,8 +191,8 @@
 				<td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoQty'],0);?></td>
 				<td><?php echo $aDocDT['raItems'][$i]['FTPunName'];?></td>
 				<!-- <td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoB4Dis'],2);?></td> -->
-				<td style="text-align:right;"><?php echo $aDocDT['raItems'][$i]['FTXpoDisTxt'];?></td>
-				<td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoAfDT'],2);?></td>
+				<!-- <td style="text-align:right;"><?php echo $aDocDT['raItems'][$i]['FTXpoDisTxt'];?></td>
+				<td style="text-align:right;"><?php echo number_format($aDocDT['raItems'][$i]['FCXpoAfDT'],2);?></td> -->
 			</tr>
 		<?php } ?>
 	<?php }else{ ?>
@@ -234,14 +234,14 @@
 ?>
 
 <!--ส่วนของรายละเอียดสรุปบิล-->
-<table cellpadding="5" >
+<table cellpadding="0" >
 	<tr>
 		<!--ส่วนของสรุปยอดเงิน ยอดตัวเลข + หมายเหตุ-->
 		<td>
 			<table>
-				<tr>
+				<!-- <tr>
 					<td class="xWTextNumber"><?php echo $aDocHeader['raItems'][0]['FTXpoGndText'];?></td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td>หมายเหตุ</td>
 				</tr>
@@ -252,7 +252,7 @@
 		</td>
 
 		<!--ส่วนของสรุปยอดเงิน-->
-		<td>
+		<!-- <td>
 			<table style="border:1px solid #f5f5f5;" cellpadding="2">
 				<tr>
 					<td style="border-right:1px solid #f5f5f5;border-bottom:1px solid #f5f5f5;">จำนวนเงินรวม</td>
@@ -275,7 +275,7 @@
 					<td style="text-align:right;border-top:1px solid #f5f5f5"><?php echo number_format($aDocHeader['raItems'][0]['FCXpoGrand'],2);?></td>
 				</tr>
 			</table>
-		</td>
+		</td> -->
 	</tr>
 </table>
 
