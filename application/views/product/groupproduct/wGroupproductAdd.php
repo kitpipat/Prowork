@@ -68,7 +68,7 @@
 			<div class="card-body">
 				<div class="row">
 
-					<div class="col-lg-12 col-md-12">
+					<!-- <div class="col-lg-12 col-md-12">
 						<ul class="nav nav-tabs" id="myTab" role="tablist">
 							<li class="nav-item" role="presentation">
 								<a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">ข้อมูลกลุ่มสินค้า</a>
@@ -85,12 +85,12 @@
 								<a class="nav-link <?=$tDisabledBrand?>" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">ข้อมูลยี่ห้อของกลุ่มสินค้า</a>
 							</li>
 						</ul>
-						<div class="tab-content">
+						<div class="tab-content"> -->
 
 							<!--ข้อมูลกลุ่มสินค้า-->
-							<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-								<div class="row">
-									<div class="col-lg-4 col-md-4" style="margin-top:20px;">
+							<!-- <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+								<div class="row"> -->
+									<div class="col-lg-4 col-md-4">
 										<!--รหัส-->
 										<div class="form-group">
 											<label><span style="color:red;">*</span> รหัสกลุ่มสินค้า</label>
@@ -104,12 +104,12 @@
 											<input type="text" class="form-control" maxlength="100" id="oetGRPName" name="oetGRPName" placeholder="กรุณาระบุชื่อกลุ่มสินค้า" autocomplete="off" value="<?=@$FTPgpName;?>">
 										</div>
 									</div>
-								</div>
+								<!-- </div>
 							
-							</div>
+							</div> -->
 
 							<!--ข้อมูลยี่ห้อ-->
-							<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+							<!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 								<div class="row" style="margin-top:20px;">
 									<div class="col-lg-6 col-md-6"><lable>กลุ่มสินค้า : <?=@$FTPgpName;?></lable></div> 
 									<div class="col-lg-6 col-md-6 <?=$tPer_create?>"><button class="xCNButtonInsert pull-right" onClick="JSxSelectBrandInGroupClick('add','');">+</button></div>
@@ -117,7 +117,7 @@
 										<div id="odvContent_BrandInGroup" class="xCNContent"></div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				
@@ -307,7 +307,7 @@
 	}
 
 	//โหลดยี่ห้อในหน้าจอกลุ่มสินค้า
-	JSxLoadBrandInGroup();
+	//JSxLoadBrandInGroup();
 	function JSxLoadBrandInGroup(){
 		$.ajax({
 			type	: "POST",
