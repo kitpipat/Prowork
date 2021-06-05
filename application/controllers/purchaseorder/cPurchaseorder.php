@@ -750,7 +750,7 @@ class cPurchaseorder extends CI_Controller {
 
 				$oItem 			= $this->mPurchaseorder->FCaMPOGetDetailItemAndPrice($aItem[$j]['tPDTCode']);
 				$aDetailItem 	= $oItem['raItems'][0];
-				$nQTY  			= $aItem[$j]['nQty'];
+				$nQTY  			= str_replace(",","",$aItem[$j]['nQty']);
 				$aDocInsertDT  = array(
 					"FTXpoDocNo" 		=> 'DEMO',
 					"FNXpoSeq" 			=> $j + 1,
