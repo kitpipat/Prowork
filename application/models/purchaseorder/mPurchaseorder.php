@@ -622,9 +622,10 @@ class mPurchaseorder extends CI_Model {
 	
 	//หาสินค้า รายละเอียด + ราคา
 	public function FCaMPOGetDetailItemAndPrice($ptCode){
-		$tSQL  			= " SELECT PDT.* , UNIT.FTPunName , VIEPDT.FCPdtCostAfDis FROM TCNMPdt PDT ";
+		$tSQL  			= " SELECT PDT.* , UNIT.FTPunName , VIEPDT.FCPdtCostAfDis , COST.FTXpdDisCost FROM TCNMPdt PDT ";
 		$tSQL 			.= " LEFT JOIN TCNMPdtUnit UNIT ON PDT.FTPunCode = UNIT.FTPunCode ";
 		$tSQL 			.= " LEFT JOIN VCN_ProductsDetail VIEPDT ON PDT.FTPdtCode = VIEPDT.FTPdtCode ";
+		$tSQL 			.= " LEFT JOIN VCN_PdtCostActive COST ON PDT.FTPdtCode = COST.FTPdtCode ";
 		$tSQL 			.= " WHERE PDT.FTPdtCode = '$ptCode' ";
 
         $oQuery = $this->db->query($tSQL);
@@ -1056,6 +1057,29 @@ class mPurchaseorder extends CI_Model {
 			);
 			$this->db->where('FTXpoDocNo', $ptCode);
 			$this->db->update('TARTPoHD', $aSet);
+
+			//เอาเวลา วันที่ และเลขที่เอกสาร กลับไปเเต๊มที่ใบเสนอราคา
+			$tSQL   = " SELECT DT.FTXpoRefPO , DT.FTPdtCode , DT.FNXpoSeq , HD.FDDeliveryDate FROM TARTPoDT DT 
+						INNER JOIN TARTPoHD HD ON DT.FTXpoDocNo = HD.FTXpoDocNo
+						WHERE DT.FTXpoDocNo = '$ptCode' AND ISNULL(FTXpoRefPo,'') != '' ";
+			$oQuery = $this->db->query($tSQL);
+			$aItem  = $oQuery->result_array();
+			$nCountRows = $oQuery->num_rows();
+			if($nCountRows != 0){
+				for($i=0; $i<$nCountRows; $i++){
+					$aSet = array(
+						'FTXqdBuyer'		=> $this->session->userdata('tSesUsercode'), //ผู้จัดซื้อ
+						'FTXqdRefBuyer'  	=> $ptCode, 								 //เลขที่บิลขนส่ง
+						'FDXqdDliDate'		=> $aItem[$i]['FDDeliveryDate'],			 //วันส่งของ
+						'FDXqdPucDate'		=> date('Y-m-d H:i:s'), 					 //วันสั่งสินค้า	
+					);
+
+					$this->db->where('FTXqhDocNo', $aItem[$i]['FTXpoRefPO']);
+					$this->db->where('FNXqdSeq', $aItem[$i]['FNXpoSeq']);
+					$this->db->where('FTPdtCode', $aItem[$i]['FTPdtCode']);
+					$this->db->update('TARTSqDT', $aSet);
+				}
+			}
 		}catch(Exception $Error){
 			echo $Error;
 		}

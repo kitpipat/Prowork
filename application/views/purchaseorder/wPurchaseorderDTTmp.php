@@ -300,7 +300,7 @@
 		var tDocNo 				= $("#ospPODocNo").attr("data-docno");
 		var nItemSeq 			= $(poElm).attr("data-seq");
 		var tPdtCode 			= $("#olbPdtCode"+nItemSeq).attr("data-pdtcode");
-		var nItemNet 			= $("#olbItemNet"+nItemSeq).text();
+		var nItemNet 			= $("#oetPdtUnitPrice"+nItemSeq).val();
 
 		// console.log(nItemDiscount);
 		if($(poElm).val() != ''){
@@ -314,10 +314,11 @@
 					'nItemDiscount'		: nItemDiscount,
 					'tPdtCode' 			: tPdtCode,
 					'nItemNet' 			: nItemNet,
+					'nQty'				: $("#oetDocItemQty"+nItemSeq).val()
 				},
 				datatype: 'json',
 				success	: function(tResult) {
-					// console.log(tResult);
+					console.log(tResult);
 					JSvLoadTableDTTmp(1);
 				},
 				error: function(jqXHR, textStatus, errorThrown) {

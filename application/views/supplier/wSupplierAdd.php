@@ -138,8 +138,8 @@
 						<div class="form-group">
 							<label><span style="color:red;">*</span> ภาษีมูลค่าเพิ่ม</label>
 							<select class="form-control" id="oetSupplierVatType" name="oetSupplierVatType">
-									<option <?=(@$FTSplVatType == 1)? "selected" : "";?> value="1">ภาษีรวมใน</option>
-									<option <?=(@$FTSplVatType == 2)? "selected" : "";?> value="2">ภาษีแยกนอก</option>
+									<option <?=(@$FTSplVatType == 1)? "selected" : "";?> value="1">ภาษีแยกนอก</option>
+									<option <?=(@$FTSplVatType == 2)? "selected" : "";?> value="2">ภาษีรวมใน</option>
 							</select>
 						</div>
 

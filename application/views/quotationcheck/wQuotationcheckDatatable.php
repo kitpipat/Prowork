@@ -213,7 +213,7 @@
 					<th class="" style="text-align:center; width:16.50%; font-size: 1vw;">วันสั่งสินค้า</th>
 					<th style="text-align:center; width:16.50%; font-size: 1vw;">วันส่งของ</th>
 					<th style="text-align:center; width:17%; font-size: 1vw;">เลขที่บิลขนส่ง</th>
-					<th style="text-align:center; width:14.50%;"></th>
+					<th style="text-align:center; width:14.20%;"></th>
 					<th class="xCNBorderleft" style="text-align:center; width:15.50%; font-size: 1vw;">วันรับสินค้า</th>
 					<th style="text-align:center; font-size: 1vw;">เลขที่ใบสั่งซื้อ</th>
 				</tr>

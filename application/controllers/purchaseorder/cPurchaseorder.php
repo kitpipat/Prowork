@@ -201,6 +201,13 @@ class cPurchaseorder extends CI_Controller {
 				$oItem = $this->mPurchaseorder->FCaMPOGetDetailItemAndPrice($aResult[$i]);
 				$aItem = $oItem['raItems'][0];
 				$nQTY  = 1;
+
+				if($aItem['FTXpdDisCost'] == '' || $aItem['FTXpdDisCost'] == null){
+					$nItemNetLast = null;
+				}else{
+					$nItemNetLast = $aItem['FCPdtCostStd'] - $aItem['FCPdtCostAfDis'];
+				}
+
  				$aIns  = array(
 					"FTXpoDocNo" 		=> $tCode,
 					"FNXpoSeq" 			=> $nSeq + $i,
@@ -209,10 +216,11 @@ class cPurchaseorder extends CI_Controller {
 					"FTPunCode" 		=> $aItem['FTPunCode'],
 					"FTPunName" 		=> $aItem['FTPunName'],
 					"FTSplCode" 		=> $aItem['FTSplCode'],
-					"FTXpoCost" 		=> $aItem['FCPdtCostAfDis'],
-					"FCXpoUnitPrice" 	=> $nQTY * $aItem['FCPdtCostAfDis'],
+					"FTXpoCost" 		=> $aItem['FCPdtCostStd'],
+					"FCXpoUnitPrice" 	=> $nQTY * $aItem['FCPdtCostStd'],
 					"FCXpoQty" 			=> $nQTY,
-					"FCXpoDis" 			=> 0,
+					"FCXpoDis" 			=> $nItemNetLast,
+					"FTXpoDisTxt"		=> $aItem['FTXpdDisCost'],
 					"FCXpoFootAvg" 		=> 0,
 					"FTPdtStaEditName"	=> $aItem['FTPdtStaEditName'],
 					"FDCreateOn"		=> date('Y-m-d'),	
@@ -324,7 +332,7 @@ class cPurchaseorder extends CI_Controller {
 		$nItemSeq 		= $this->input->post('nItemSeq');
 		$nItemDiscount 	= $this->input->post('nItemDiscount');
 		$tPdtCode 		= $this->input->post('tPdtCode');
-		$nItemNet 		= str_replace(",", "", $this->input->post('nItemNet'));
+		$nItemNet 		= str_replace(",", "", $this->input->post('nItemNet')) * str_replace(",", "", $this->input->post('nQty'));
 		$aDiscount 		= explode(",",$nItemDiscount);
 		$nDiscountCal 	= 0;
 		$nDisLen 		= count($aDiscount);
@@ -348,6 +356,7 @@ class cPurchaseorder extends CI_Controller {
 			}
 		}
 
+	
 		$aItemDisData = array(
 			"tDocNo" 		=> $tDocNo,
 			"nItemSeq" 		=> $nItemSeq,
@@ -751,6 +760,36 @@ class cPurchaseorder extends CI_Controller {
 				$oItem 			= $this->mPurchaseorder->FCaMPOGetDetailItemAndPrice($aItem[$j]['tPDTCode']);
 				$aDetailItem 	= $oItem['raItems'][0];
 				$nQTY  			= str_replace(",","",$aItem[$j]['nQty']);
+
+				//ส่วนลดรายการ
+				$nItemNet 		= $aDetailItem['FCPdtCostStd'] * $nQTY;
+				if($aDetailItem['FTXpdDisCost'] == '' || $aDetailItem['FTXpdDisCost'] == null){
+					$nTotalDisCount = null;
+					$nItemNetLast   = $aDetailItem['FTXpdDisCost'];
+				}else{
+					$aDiscount 		= explode(",",$aDetailItem['FTXpdDisCost']);
+					$nDiscountCal 	= 0;
+					$nDisLen 		= count($aDiscount);
+					$nTotalDisCount = 0;
+					$nItemNetLast 	= $nItemNet;
+					for($d=0; $d<$nDisLen; $d++){
+						$tDisType = substr(trim($aDiscount[$d]), strlen(trim($aDiscount[$d])) - 1);//ประเภทส่วนลด
+						if($tDisType == '%'){
+							$nDiscountCal 	= substr(trim($aDiscount[$d]), 0, strlen(trim($aDiscount[$d])) - 1);
+							$nTotalDisCount = $nTotalDisCount + ($nItemNetLast * trim($nDiscountCal)) / 100;
+							$nItemNetLast 	= $nItemNetLast - ($nItemNetLast * trim($nDiscountCal)) / 100;
+						}else{
+							$nDiscountCal 	= trim($aDiscount[$d]);
+							if(is_numeric($nTotalDisCount) && is_numeric($nDiscountCal)){
+								$nTotalDisCount = $nTotalDisCount+$nDiscountCal;
+							}else{
+								$nTotalDisCount = $nTotalDisCount+0;
+							}
+							$nItemNetLast 	= $nItemNetLast - $nDiscountCal;
+						}
+					}
+				}
+
 				$aDocInsertDT  = array(
 					"FTXpoDocNo" 		=> 'DEMO',
 					"FNXpoSeq" 			=> $j + 1,
@@ -759,15 +798,15 @@ class cPurchaseorder extends CI_Controller {
 					"FTPunCode" 		=> $aDetailItem['FTPunCode'],
 					"FTPunName" 		=> $aDetailItem['FTPunName'],
 					"FTSplCode" 		=> $aItem[$j]['tSPLCode'],
-					"FTXpoCost" 		=> $aItem[$j]['nPrice'],
-					"FCXpoUnitPrice" 	=> $aItem[$j]['nPrice'],
-					"FCXpoB4Dis"		=> $aItem[$j]['nPrice'],
-					"FTXpoDisTxt"		=> '',
-					"FCXpoAfDT"			=> $aItem[$j]['nPrice'],
-					"FCXpoNetAfHD"		=> $aItem[$j]['nPrice'],
+					"FTXpoCost" 		=> $aDetailItem['FCPdtCostStd'],
+					"FCXpoUnitPrice" 	=> $aDetailItem['FCPdtCostStd'],
+					"FCXpoB4Dis"		=> $nQTY * $aDetailItem['FCPdtCostStd'],
+					"FTXpoDisTxt"		=> $aDetailItem['FTXpdDisCost'],
+					"FCXpoAfDT"			=> $nItemNetLast,
+					"FCXpoNetAfHD"		=> $nItemNetLast,
 					"FCXpoQty" 			=> $nQTY,
 					"FTXpoRefPo"		=> $tDocumentNumber,
-					"FCXpoDis" 			=> 0,
+					"FCXpoDis" 			=> $nTotalDisCount,
 					"FCXpoFootAvg" 		=> 0,
 					"FTPdtStaEditName"	=> $aDetailItem['FTPdtStaEditName'],
 					"FTXpoRefBuyer"		=> '',
@@ -791,7 +830,7 @@ class cPurchaseorder extends CI_Controller {
 			$tReturnDocument = '';
 			for($n=0;$n<count($aSPL);$n++){
 				$tSPLCode			= $aSPL[$n];
-				$tBchCode		    = ($this->session->userdata('tSesBCHCode') == '') ? '00001' : $this->session->userdata('tSesBCHCode');
+				$tBchCode		    = $this->input->post('tBCHCode');
 				$tNewDocNo		    = $this->mPurchaseorder->FCtMPOGetDocNo($tBchCode);
 				$tReturnDocument 	.= $tNewDocNo . ',';
 

@@ -360,7 +360,7 @@
 <!-- Modal ให้เลือกสินค้า -->
 <button id="obtModalSelectPDT" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSelectPDT"></button>
 <div class="modal fade" id="odvModalSelectPDT" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-dialog modal-lg" role="document" style="min-width: 65% !important;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<div class="row">
@@ -409,7 +409,7 @@
 
 				<div class="row">
 					<div class="col-lg-12 col-md-12">
-						<div id="odvContentSelectPDT" style="margin-top:10px; overflow: auto;"></div>
+						<div id="odvContentSelectPDT" style="margin-top:10px;"></div>
 					</div>
 				</div>
 			</div>

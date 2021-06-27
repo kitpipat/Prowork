@@ -577,7 +577,7 @@
 <!-- Modal สร้างใบสั่งซื้อ -->
 <button id="obtModalCreatePO" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalCreatePO"></button>
 <div class="modal fade" id="odvModalCreatePO" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-<div class="modal-dialog modal-lg" role="document">
+<div class="modal-dialog modal-lg" role="document" style="min-width: 65% !important;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">สร้างใบสั่งซื้อตามผู้จำหน่าย</h5>

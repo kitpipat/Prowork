@@ -175,7 +175,7 @@
 										<label><span style="color:red;">*</span> ผู้จำหน่าย</label>
 										<div class="input-group md-form form-sm form-2 pl-0 form-group">
 											<input type="hidden" id="oetSplCode" name="oetSplCode" value='<?=$FTXpoSplCode?>' >
-											<input <?=$tDisabledInput?> type="text" class="form-control" maxlength="255" id="oetSplName" name="oetSplName" placeholder="กรุณาระบุผู้จำหน่าย" autocomplete="off" value='<?=$FTXpoSplName?>'>
+											<input <?=$tDisabledInput?> type="text" class="form-control" maxlength="255" id="oetSplName" name="oetSplName" placeholder="กรุณาระบุผู้จำหน่าย" autocomplete="off" readonly value='<?=$FTXpoSplName?>'>
 											
 											<?php if($tDisabledInput != 'disabled'){ ?>
 												<div class="input-group-append <?=$tAlwSPL?> xCNIconFindCustomer">
@@ -645,7 +645,7 @@
 <!-- Modal ให้เลือกสินค้า -->
 <button id="obtModalSelectPDT" style="display:none;" type="button" class="btn btn-primary" data-toggle="modal" data-target="#odvModalSelectPDT"></button>
 <div class="modal fade" id="odvModalSelectPDT" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-dialog modal-lg" role="document"  style="min-width: 65% !important;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<div class="row">
@@ -791,6 +791,7 @@
 
 			//ประเภทภาษี
 			$('#ocmPOVatType').val(nSplvattype);
+			JSvLoadTableDTTmp(1);
 
 			obj = [];
 			localStorage.clear();
@@ -840,10 +841,10 @@
 		nVat 		= 0
 		nGrandTotal = 0
 
-		if (nVatType == "1") {
+		if (nVatType == "1") { //แยกนอก
 			nVat = ((nNetAFHD * (100 + parseInt(nVatRate))) / 100) - nNetAFHD
 			nGrandTotal = parseFloat(nNetAFHD) + parseFloat(nVat.toFixed(2))
-		} else {
+		} else { //รวมใน
 			nVat = nNetAFHD - ((nNetAFHD * 100) / (100 + parseInt(nVatRate)))
 			nGrandTotal = parseFloat(nNetAFHD)
 		}

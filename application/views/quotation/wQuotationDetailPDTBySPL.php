@@ -4,7 +4,7 @@
 		<thead>
 			<tr>
 				<th style="width:20px; text-align: left;">เลือก</th>
-				<th style="width:300px; text-align: left;">รายการ</th>
+				<th style="text-align: left;">รายการ</th>
 				<th style="width:150px; text-align: right;">จำนวน</th>
 				<th style="width:150px; text-align: left;">หน่วย</th>
 				<th style="width:120px; text-align: right;">ราคา</th>
@@ -88,7 +88,7 @@
 			$.ajax({
 				type	: "POST",
 				url		: "r_quotationItemGenPO",
-				data 	: { 'tDocumentNumber' : tDocumentNumber , 'aItem' : aItem },
+				data 	: { 'tDocumentNumber' : tDocumentNumber , 'aItem' : aItem , 'tBCHCode' : $('#ohdBCHDocument').val() },
 				cache	: false,
 				timeout	: 0,
 				success	: function (tResult) {
