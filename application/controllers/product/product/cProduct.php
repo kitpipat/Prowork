@@ -428,4 +428,22 @@ class cProduct extends CI_Controller {
 
 		echo json_encode($aRetrunBrand);
 	}
+
+	//ค้นหารุ่นสินค้า จากการเลือกกลุ่ม
+	public function FSxCPDTEventSearchFromModal(){
+		$aData = $this->input->post('data');
+		if(empty($aData)){
+			$aRetrunMol 	= $this->mProduct->FSaMPDTGetData_Filter_ModalOnly('');
+		}else{
+			$tGrpCode = '';
+			for($i=0; $i<count($aData); $i++){
+				$tGrpCode .= "'" . $aData[$i]['tValue'] ."'" . ',';
+			}
+
+			$tGrpCode 		= substr($tGrpCode,0,-1);
+			$aRetrunMol 	= $this->mProduct->FSaMPDTGetData_Filter_ModalOnly($tGrpCode);
+		}
+
+		echo json_encode($aRetrunMol);
+	}
 }

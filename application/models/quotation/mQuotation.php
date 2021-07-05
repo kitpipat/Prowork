@@ -119,6 +119,11 @@ class mQuotation extends CI_Model{
                          PDT.FCPdtCostAFDis,
 						 PDT.FTPdtBestsell,
 						 PDT.FTPdtStaEditName,
+						 BAP.FTPbnName,
+						 COP.FTPClrName,
+						 MOL.FTMolName,
+						 SIZ.FTPzeName,
+						 TYP.FTPtyName,
                          PDT.FCPdtSalPrice AS FCPdtStdSalPri ,
                          SP.FCXpdAddPri AS FCPdtUsrSalPri,
                          CASE WHEN ISNULL(PDT.FCPdtSalPrice,0) = 0 AND  ISNULL(SP.FCXpdAddPri,0) = 0
@@ -136,7 +141,7 @@ class mQuotation extends CI_Model{
 						END AS FCPdtNetSalPri
                   	FROM VCN_Products PDT WITH (NOLOCK)
                   	LEFT JOIN ( SELECT * FROM VCN_AdjSalePriActive WITH (NOLOCK) WHERE FTPriGrpID = '" . $tPriceGrp . "' ) SP ON PDT.FTPdtCode = SP.FTPdtCode
-                	LEFT JOIN TCNMPdtGrp PGP WITH (NOLOCK) 	ON PDT.FTPgpCode 	= PGP.FTPgpCode
+                	LEFT JOIN TCNMPdtGrp PGP WITH (NOLOCK) 		ON PDT.FTPgpCode 	= PGP.FTPgpCode
 					LEFT JOIN TCNMPdtUnit PUN WITH (NOLOCK) 	ON PDT.FTPunCode 	= PUN.FTPunCode
 					LEFT JOIN TCNMPdtBrand BAP WITH (NOLOCK) 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
 					LEFT JOIN TCNMPdtColor COP WITH (NOLOCK) 	ON PDT.FTPClrCode 	= COP.FTPClrCode
@@ -246,6 +251,13 @@ class mQuotation extends CI_Model{
 				$tTextPDTName = '';
 				for($i=0; $i<$result['words_count']; $i++){
 					$tTextPDTName .= " OR P.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
+					// $tTextPDTName .= " OR P.FTPbnName LIKE '%" .$result['words'][$i] . "%' ";
+					// $tTextPDTName .= " OR P.FTPClrName LIKE '%" .$result['words'][$i] . "%' ";
+					// $tTextPDTName .= " OR P.FTMolName LIKE '%" .$result['words'][$i] . "%' ";
+					// $tTextPDTName .= " OR P.FTPzeName LIKE '%" .$result['words'][$i] . "%' ";
+					// $tTextPDTName .= " OR P.FTPtyName LIKE '%" .$result['words'][$i] . "%' ";
+					// $tTextPDTName .= " OR P.FTPgpName LIKE '%" .$result['words'][$i] . "%' ";
+					// $tTextPDTName .= " OR P.FTPunName LIKE '%" .$result['words'][$i] . "%' ";
 				}
 			}
 			
@@ -255,7 +267,7 @@ class mQuotation extends CI_Model{
 		}
 
 		$tSQL .= " ) AS Q WHERE Q.NewRowID > $aRowLen[0] AND Q.NewRowID <=$aRowLen[1] ";
-		
+
 		$oQuery = $this->db->query($tSQL);
 		if ($oQuery->num_rows() > 0) {
 			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paFilter);
@@ -404,6 +416,13 @@ class mQuotation extends CI_Model{
 					$tTextPDTName = '';
 					for($i=0; $i<$result['words_count']; $i++){
 						$tTextPDTName .= " OR PDT.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
+						// $tTextPDTName .= " OR BAP.FTPbnName LIKE '%" .$result['words'][$i] . "%' ";
+						// $tTextPDTName .= " OR COP.FTPClrName LIKE '%" .$result['words'][$i] . "%' ";
+						// $tTextPDTName .= " OR MOL.FTMolName LIKE '%" .$result['words'][$i] . "%' ";
+						// $tTextPDTName .= " OR SIZ.FTPzeName LIKE '%" .$result['words'][$i] . "%' ";
+						// $tTextPDTName .= " OR TYP.FTPtyName LIKE '%" .$result['words'][$i] . "%' ";
+						// $tTextPDTName .= " OR GRP.FTPgpName LIKE '%" .$result['words'][$i] . "%' ";
+						// $tTextPDTName .= " OR UNIT.FTPunName LIKE '%" .$result['words'][$i] . "%' ";
 					}
 				}
 				// $tTextPDTName = '';

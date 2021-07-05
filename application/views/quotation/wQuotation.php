@@ -55,11 +55,11 @@
 							<!--กลุ่ม-->
 							<?php if($aFilter_Group['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
-									<label class="xCNFindClick FontColorClick" data-find="Group" onclick="JSxClickGroupSearchspecial('<?=$aValue['FTPbnCode']?>')"><b>กลุ่ม</b></label>
+									<label class="xCNFindClick FontColorClick" data-find="Group" onclick="JSxClickGroupSearchspecial()"><b>กลุ่ม</b></label>
 									<div class="xCNFindGroup xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Group['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
-												<input class="xCNFilterAdv" type="checkbox" data-filter="PGP" value="<?=$aValue['FTPgpCode']?>"><?=$aValue['FTPgpName']?>
+												<input class="xCNFilterAdv xCNFilterAdvGroup" type="checkbox" data-filter="PGP" value="<?=$aValue['FTPgpCode']?>"><?=$aValue['FTPgpName']?>
 												<span class="checkmark"></span>
 											</label>
 										<?php } ?>
@@ -85,7 +85,7 @@
 							<!--รุ่น-->
 							<?php if($aFilter_Modal['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
-									<label class="xCNFindClick FontColorClick" data-find="Modal"><b>รุ่น</b></label>
+									<label class="xCNFindClick FontColorClick" data-find="Modal" onclick="JSxClickGroupSearchspecialFindModal()"><b>รุ่น</b></label>
 									<div class="xCNFindModal xCNFindFilter" style="display:none;">
 										<?php foreach($aFilter_Modal['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
@@ -414,38 +414,87 @@
 		});
 	}
 
-	//กดที่ยี่ห้อ
+	//กดที่กลุ่ม
 	var aFilterBrand 		= [];
-	function JSxClickGroupSearchspecial(pnBrandCode){
-		aFilterBrand = [];
-		$('.xCNFilterAdvBrand:checked').each(function() {
+	function JSxClickGroupSearchspecial(){
+		if(!$('.xCNFindGroup').is(':visible')){ //ถ้าปิดอยู่
+
+			aFilterBrand = [];
+			$('.xCNFilterAdvBrand:checked').each(function() {
+				var tValue 		= $(this).val();
+				aFilterBrand.push({'tFilter' : 'Brand' , 'tValue' : tValue});
+			});	
+
+			if(aFilterBrand.length > 0){ //ถ้ามีการเลือกยี่ห้อใหม่ต้องโหลดใหม่ 
+
+				$.ajax({
+					type	: "POST",
+					url		: 'r_searchProductFromBrand',
+					data	: { 'data' : aFilterBrand },
+					cache	: false,
+					timeout	: 0,
+					success	: function(oResult) {
+						var jResult = JSON.parse(oResult);
+						if(jResult.rtCode == '800'){
+							$('.xCNFindGroup').html('');
+							$('.xCNFindGroup').append('- ไม่พบข้อมูล -');
+						}else{
+							var aItem	= jResult.raItems;
+							var tHTML	= '';
+							for(var i=0; i<aItem.length; i++){
+								tHTML += '<label class="container-checkbox xCNCheckboxFilter">';
+								tHTML += '<input class="xCNFilterAdv xCNFilterAdvGroup" type="checkbox" data-filter="PGP" value="'+aItem[i].FTPgpCode+'">'+aItem[i].FTPgpName+'';
+								tHTML += '<span class="checkmark"></span>';
+								tHTML += '</label>';
+							}
+
+							$('.xCNFindGroup').html('');
+							$('.xCNFindGroup').append(tHTML);
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						JSxModalErrorCenter(jqXHR.responseText);
+					}
+				});
+			}
+			
+		}
+	}
+
+	//กดที่รุ่น
+	var aFilterGroup 		= [];
+	function JSxClickGroupSearchspecialFindModal(){
+		aFilterGroup = [];
+		$('.xCNFilterAdvGroup:checked').each(function() {
 			var tValue 		= $(this).val();
-			aFilterBrand.push({'tFilter' : 'Brand' , 'tValue' : tValue});
+			aFilterGroup.push({'tFilter' : 'Group' , 'tValue' : tValue});
 		});	
 
+		console.log(aFilterGroup);
+		
 		$.ajax({
 			type	: "POST",
-			url		: 'r_searchProductFromBrand',
-			data	: { 'data' : aFilterBrand},
+			url		: 'r_searchProductFromModal',
+			data	: { 'data' : aFilterGroup },
 			cache	: false,
 			timeout	: 0,
 			success	: function(oResult) {
 				var jResult = JSON.parse(oResult);
 				if(jResult.rtCode == '800'){
-					$('.xCNFindGroup').html('');
-					$('.xCNFindGroup').append('- ไม่พบข้อมูล -');
+					$('.xCNFindModal').html('');
+					$('.xCNFindModal').append('- ไม่พบข้อมูล -');
 				}else{
 					var aItem	= jResult.raItems;
 					var tHTML	= '';
 					for(var i=0; i<aItem.length; i++){
 						tHTML += '<label class="container-checkbox xCNCheckboxFilter">';
-						tHTML += '<input class="xCNFilterAdv" type="checkbox" data-filter="PGP" value="'+aItem[i].FTPgpCode+'">'+aItem[i].FTPgpName+'';
+						tHTML += '<input class="xCNFilterAdv" type="checkbox" data-filter="MOL" value="'+aItem[i].FTMolCode+'">'+aItem[i].FTMolName+'';
 						tHTML += '<span class="checkmark"></span>';
 						tHTML += '</label>';
 					}
 
-					$('.xCNFindGroup').html('');
-					$('.xCNFindGroup').append(tHTML);
+					$('.xCNFindModal').html('');
+					$('.xCNFindModal').append(tHTML);
 				}
 			},
 			error: function(jqXHR, textStatus, errorThrown) {

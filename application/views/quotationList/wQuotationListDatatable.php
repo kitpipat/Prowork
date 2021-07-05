@@ -14,14 +14,14 @@
   <thead>
     <tr>
 		<th style="width:3%; text-align: center;">ลำดับ</th>
-		<th style="width:36%; text-align: left;">สาขา</th>
+		<th style="width:25%; text-align: left;">สาขา</th>
 		<th style="width:20%; text-align: left;">เลขที่เอกสาร</th>
-		<th style="width:7%; text-align: left;">วันที่</th>
+		<th style="width:15%; text-align: left;">วันที่</th>
 		<th style="width:10%; text-align: left;">สถานะเอกสาร</th>
 		<!-- <th style="width:150px; text-align: left;">สถานะอนุมัติ</th> -->
 		<th style="width:10%; text-align: left;">ผู้อนุมัติ</th>
-		<th style="width:7; text-align: center;">แก้ไข</th>
-		<th style="width:7px; text-align: center;" class="<?=$tPer_delete?>">ลบ</th>
+		<th style="width:5%; text-align: center;">แก้ไข</th>
+		<th style="width:5%; text-align: center;" class="<?=$tPer_delete?>">ลบ</th>
     </tr>
   </thead>
   <tbody>
@@ -29,9 +29,9 @@
 			<?php foreach($aList['raItems'] AS $nKey => $aValue){ ?>
 				<tr>
 					<th><?=$aValue['rtRowID']?></th>
-					<td><?=$aValue['FTBchName']?></td>
+					<td><?=( $aValue['FTBchName'] == '') ? '-' : $aValue['FTBchName']?></td>
 					<td><?=$aValue['FTXqhDocNo']?></td>
-					<td><?=date('d/m/Y',strtotime($aValue['FDXqhDocDate']));?></td>
+					<td><?=date('d/m/Y H:i:s',strtotime($aValue['FDXqhDocDate']));?></td>
 					
 					<!--ประเภทชำระ-->
 					<?php 

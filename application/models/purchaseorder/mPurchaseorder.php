@@ -8,7 +8,6 @@ class mPurchaseorder extends CI_Model {
 	public function FSaMPOGetData($paData){
 
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);
-		$tTextSearch 	= trim($paData['tSearchAll']);
 		$tSQL  = "SELECT c.* FROM(";
 		$tSQL .= " SELECT  ROW_NUMBER() OVER(ORDER BY FTXpoDocNo DESC) AS rtRowID,* FROM (";
 		$tSQL .= " SELECT 
@@ -23,12 +22,28 @@ class mPurchaseorder extends CI_Model {
 					LEFT JOIN TARTPoHDSpl SPL ON HD.FTXpoDocNo = SPL.FTXpoDocNo ";
 		$tSQL .= " WHERE 1=1 ";
 
-		if($tTextSearch != '' || $tTextSearch != null){
-			$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR BCH.FTBchName LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR USR.FTUsrFName LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR SPL.FTXpoSplName LIKE '%$tTextSearch%' ";
-			$tSQL .= " OR SPL.FTXpoSplCode LIKE '%$tTextSearch%' )";
+		//ค้นหาสาขา
+		if(trim($paData['BCH']) != ''){
+			$tBCH = $paData['BCH'];
+			$tSQL .= " AND ( HD.FTBchCode = '$tBCH' )";
+		}
+
+		//ค้นหาเลขที่เอกสาร
+		if(trim($paData['DocumentNumber']) != ''){
+			$tDocumentNumber = trim($paData['DocumentNumber']);
+			$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tDocumentNumber%' )";
+		}
+
+		//ค้นหาสถานะเอกสาร
+		if(trim($paData['tStaDoc']) != ''){
+			$tStaDoc = $paData['tStaDoc'];
+			if($tStaDoc == 1){ //อนุมัติแล้ว
+				$tSQL .= " AND HD.FTXpoStaApv = 1 ";
+			}else if($tStaDoc == 3){ //รออนุมัติ
+				$tSQL .= " AND HD.FTXpoStaDoc = 1 AND HD.FTXpoStaApv = 0 ";
+			}else if($tStaDoc == 2){ //ยกเลิก
+				$tSQL .= " AND HD.FTXpoStaDoc != 1 ";
+			}
 		}
 
 		//รองรับการมองเห็นตามสาขา
@@ -66,19 +81,34 @@ class mPurchaseorder extends CI_Model {
 	//หาจำนวนทั้งหมด
 	public function FSaMPOGetData_PageAll($paData){
 		try{
-			$tTextSearch = trim($paData['tSearchAll']);
 			$tSQL 		= "SELECT COUNT (HD.FTXpoDocNo) AS counts FROM TARTPoHD HD 
 						LEFT JOIN TCNMUsr USR ON HD.FTApprovedBy = USR.FTUsrCode 
 						LEFT JOIN TCNMBranch BCH ON HD.FTBchCode = BCH.FTBchCode 
 						LEFT JOIN TARTPoHDSpl SPL ON HD.FTXpoDocNo = SPL.FTXpoDocNo ";
 			$tSQL 		.= " WHERE 1=1 ";
 
-			if($tTextSearch != '' || $tTextSearch != null){
-				$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR BCH.FTBchName LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR USR.FTUsrFName LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR SPL.FTXpoSplName LIKE '%$tTextSearch%' ";
-				$tSQL .= " OR SPL.FTXpoSplCode LIKE '%$tTextSearch%' )";
+			//ค้นหาสาขา
+			if(trim($paData['BCH']) != ''){
+				$tBCH = $paData['BCH'];
+				$tSQL .= " AND ( HD.FTBchCode = '$tBCH' )";
+			}
+
+			//ค้นหาเลขที่เอกสาร
+			if(trim($paData['DocumentNumber']) != ''){
+				$tDocumentNumber = trim($paData['DocumentNumber']);
+				$tSQL .= " AND ( HD.FTXpoDocNo LIKE '%$tDocumentNumber%' )";
+			}
+
+			//ค้นหาสถานะเอกสาร
+			if(trim($paData['tStaDoc']) != ''){
+				$tStaDoc = $paData['tStaDoc'];
+				if($tStaDoc == 1){ //อนุมัติแล้ว
+					$tSQL .= " AND HD.FTXpoStaApv = 1 ";
+				}else if($tStaDoc == 3){ //รออนุมัติ
+					$tSQL .= " AND HD.FTXpoStaDoc = 1 AND HD.FTXpoStaApv = 0 ";
+				}else if($tStaDoc == 2){ //ยกเลิก
+					$tSQL .= " AND HD.FTXpoStaDoc != 1 ";
+				}
 			}
 
 			//รองรับการมองเห็นตามสาขา
@@ -1068,9 +1098,9 @@ class mPurchaseorder extends CI_Model {
 			if($nCountRows != 0){
 				for($i=0; $i<$nCountRows; $i++){
 					$aSet = array(
-						'FTXqdBuyer'		=> $this->session->userdata('tSesUsercode'), //ผู้จัดซื้อ
-						'FTXqdRefBuyer'  	=> $ptCode, 								 //เลขที่บิลขนส่ง
-						'FDXqdDliDate'		=> $aItem[$i]['FDDeliveryDate'],			 //วันส่งของ
+						// 'FTXqdBuyer'		=> $this->session->userdata('tSesUsercode'), //ผู้จัดซื้อ
+						// 'FTXqdRefBuyer'  	=> $ptCode, 								 //เลขที่บิลขนส่ง
+						// 'FDXqdDliDate'		=> $aItem[$i]['FDDeliveryDate'],			 //วันส่งของ
 						'FDXqdPucDate'		=> date('Y-m-d H:i:s'), 					 //วันสั่งสินค้า	
 					);
 

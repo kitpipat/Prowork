@@ -395,11 +395,32 @@ class mProduct extends CI_Model {
 
 	//ตัวกรองค้นหา parameter คือตาราง
 	public function FSaMPDTGetData_Filter($ptTableName){
-		$tSQL = "SELECT * FROM $ptTableName ";
+		$tSQL = "SELECT * FROM $ptTableName  ";
 
 		switch ($ptTableName) {
+			case "TCNMPdtBrand":
+				$tSQL .= " ORDER BY FTPbnName ";
+				break;
+			case "TCNMPdtColor":
+				$tSQL .= " ORDER BY FTPClrName ";
+				break;
+			case "TCNMPdtGrp":
+				$tSQL .= " ORDER BY FTPgpName  ";
+				break;
+			case "TCNMPdtModal":
+				$tSQL .= " ORDER BY FTMolName  ";
+				break;
+			case "TCNMPdtSize":
+				$tSQL .= " ORDER BY FTPzeName  ";
+				break;
+			case "TCNMPdtType":
+				$tSQL .= " ORDER BY FTPtyName  ";
+				break;
+			case "TCNMPdtUnit":
+				$tSQL .= " ORDER BY FTPunName  ";
+				break;
 			case "TCNMSpl":
-				$tSQL .= " WHERE FTSplStaActive = 1 ";
+				$tSQL .= " WHERE FTSplStaActive = 1  ORDER BY FTSplName  ";
 				break;
 			default:
 				$tSQL .= " ";
@@ -421,17 +442,44 @@ class mProduct extends CI_Model {
 		return $aResult;
 	}	
 
-	//ตัวกรองค้นหา parameter คือตาราง
+	//ตัวกรองค้นหา parameter คือตาราง [ยี่ห้อ -> กลุ่ม]
 	public function FSaMPDTGetData_Filter_GroupOnly($ptBrandCode){
 
 		if($ptBrandCode == '' || $ptBrandCode == null){
-			$tSQL 	= "SELECT * FROM TCNMPdtGrp";
+			$tSQL 	= "SELECT * FROM TCNMPdtGrp ORDER BY FTPgpName";
 		}else{
 			$tSQL 	= "SELECT DISTINCT GRP.* FROM TCNMPdtGrp GRP
 					   INNER JOIN TCNMBrandInGroup BANINGRP ON GRP.FTPgpCode = BANINGRP.FTPgpCode
-					   AND BANINGRP.FTPbnCode IN ($ptBrandCode) ";
+					   AND BANINGRP.FTPbnCode IN ($ptBrandCode) ORDER BY GRP.FTPgpName ";
 		}
 		
+		$oQuery = $this->db->query($tSQL);
+		if($oQuery->num_rows() > 0){
+			$aResult = array(
+				'raItems'  	=> $oQuery->result_array(),
+				'rtCode'   	=> '1',
+				'rtDesc'   	=> 'success',
+			);
+		}else{
+			$aResult = array(
+				'rtCode' 	=> '800',
+				'rtDesc' 	=> 'data not found',
+			);
+		}
+		return $aResult;
+	}	
+
+	//ตัวกรองค้นหา parameter คือตาราง [กลุ่ม -> รุ่น]
+	public function FSaMPDTGetData_Filter_ModalOnly($ptGroupCode){
+
+		if($ptGroupCode == '' || $ptGroupCode == null){
+			$tSQL 	= "SELECT * FROM TCNMPdtModal ORDER BY FTMolName";
+		}else{
+			$tSQL 	= "SELECT DISTINCT MOL.* FROM TCNMPdtModal MOL
+						INNER JOIN TCNMGroupInModal MOLINGRP ON MOL.FTMolCode = MOLINGRP.FTMolCode
+						AND MOLINGRP.FTPgpCode IN ($ptGroupCode) ORDER BY MOL.FTMolName ";
+		}
+
 		$oQuery = $this->db->query($tSQL);
 		if($oQuery->num_rows() > 0){
 			$aResult = array(

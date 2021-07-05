@@ -31,7 +31,7 @@ class mInformation extends CI_Model {
 		return $oQuery->result_array();
 	}
 
-	//หาเอกสาร ที่ตัวเอกสร้างขึ้น
+	//หาเอกสาร ที่ตัวเองสร้างขึ้น
 	public function FSaMPILGetData($paData){
 		$tUsercode 		= $this->session->userdata('tSesUsercode');
 		$aRowLen   		= FCNaHCallLenData($paData['nRow'],$paData['nPage']);

@@ -166,6 +166,7 @@ $route['r_producteventAproveImgInTmp'] 			= 'product/product/cProduct/FSxCPDTEve
 $route['r_producteventAproveDataInTmp'] 		= 'product/product/cProduct/FSxCPDTEventAproveDataInTmp';
 $route['r_producteventDeleteInTmp'] 			= 'product/product/cProduct/FSxCPDTEventDeleteDataInTmp';
 $route['r_searchProductFromBrand'] 				= 'product/product/cProduct/FSxCPDTEventSearchFromBrand';
+$route['r_searchProductFromModal'] 				= 'product/product/cProduct/FSxCPDTEventSearchFromModal';
 
 //หน้าจอใบปรับราคา ( start : 18-04-2020 / done : 19-04-2020 )
 $route['r_adjprice'] 							= 'adjprice/cAdjprice/index';
