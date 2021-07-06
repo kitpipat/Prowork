@@ -1,17 +1,16 @@
 <?php
   if($aDocHD["nTotalRes"] > 0 ){
-
-    $tXqhDocNo = $aDocHD['raItems'][0]['FTXqhDocNo'];
-    $tCreateBy = $aDocHD['raItems'][0]['FTCreateBy'];
-    $tUsrDep = $aDocHD['raItems'][0]['FTUsrDep'];
-    $dCreateOn = date('d/m/Y',strtotime( $aDocHD['raItems'][0]['FDCreateOn']));
-	 $FTBchCode = $aDocHD['raItems'][0]['FTBchCode'];
+    $tXqhDocNo 	= $aDocHD['raItems'][0]['FTXqhDocNo'];
+    $tCreateBy 	= $aDocHD['raItems'][0]['FTCreateBy'];
+    $tUsrDep 	= $aDocHD['raItems'][0]['FTUsrDep'];
+    $dCreateOn 	= date('d/m/Y',strtotime( $aDocHD['raItems'][0]['FDCreateOn']));
+	$FTBchCode 	= $aDocHD['raItems'][0]['FTBchCode'];
   }else{
-    $tXqhDocNo = '';
-    $tCreateBy = '';
-    $tUsrDep = '';
-	 $dCreateOn = '';
-	 $FTBchCode = '';
+    $tXqhDocNo 	= '';
+    $tCreateBy 	= '';
+    $tUsrDep 	= '-';
+	$dCreateOn 	= '';
+	$FTBchCode 	= '';
   }
 
   if($tCreateBy != ""){
@@ -49,8 +48,10 @@
 				
 				<!--แผนก-->
             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">แผนก</div>
-				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><?=$tUsrDep?></div>
+				<div class="col-lg-7 col-md-7 col-sm-7 col-xs-7"><?=($tUsrDep == '') ? '-' : $tUsrDep; ?></div>
 				
+				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><hr style="margin-top: 5px; margin-bottom: 15px; border-top: 1px solid rgb(170 170 170 / 10%);"></div>
+
 				<!--สาขา-->
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">สาขา</div>
 				<?php $tLevelUser = $this->session->userdata('tSesUserLevel'); ?>

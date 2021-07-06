@@ -98,78 +98,58 @@ class mQuotation extends CI_Model{
 		$tPriceGrp 		= $paFilter["tPriceGrp"];
 		$aFilterAdv 	= $paFilter['aFilterAdv'];
 
-		$tSQL = "
-				SELECT Q.* FROM(
-				 SELECT P.* , ROW_NUMBER() OVER(ORDER BY P.RowID ASC) AS NewRowID FROM (
-                 SELECT ROW_NUMBER() OVER(ORDER BY PDT.FTPdtBestsell DESC , PDT.FTPdtCode ASC) AS RowID,
-                         PDT.FTPdtCode,
-                         PDT.FTPdtName,
-                         PGP.FTPgpName,
-                         PDT.FTPdtImage ,
-						 PDT.FTPbnCode,
-		   				 PDT.FTMolCode,
-						 PDT.FTPtyCode,
-						 PDT.FTPzeCode,
-						 PDT.FTPgpCode,
-                         PDT.FCPdtCostStd,
-						 PDT.FTPClrCode,
-						 PDT.FTPunCode,
-						 PUN.FTPunName,
-						 PDT.FTSplCode,
-                         PDT.FCPdtCostAFDis,
-						 PDT.FTPdtBestsell,
-						 PDT.FTPdtStaEditName,
-						 BAP.FTPbnName,
-						 COP.FTPClrName,
-						 MOL.FTMolName,
-						 SIZ.FTPzeName,
-						 TYP.FTPtyName,
-                         PDT.FCPdtSalPrice AS FCPdtStdSalPri ,
-                         SP.FCXpdAddPri AS FCPdtUsrSalPri,
-                         CASE WHEN ISNULL(PDT.FCPdtSalPrice,0) = 0 AND  ISNULL(SP.FCXpdAddPri,0) = 0
-                              THEN ISNULL(PDT.FCPdtCostAFDis,0)
+		//ถ้ามีการค้นหาให้ Top 50 เพื่อความเร็ว
+		$tTop 		= '';
+		$nCountTop 	= 50;
+		if ($tSearchAll != "" || $tSearchAll != null) {
+			$tTop = "TOP " . $nCountTop ;
+		}
 
-                              WHEN ISNULL(PDT.FCPdtSalPrice,0) <> 0 AND  ISNULL(SP.FCXpdAddPri,0) = 0
-                              THEN ISNULL(PDT.FCPdtCostAFDis,0) + (ISNULL(PDT.FCPdtCostAFDis,0) * ISNULL(PDT.FCPdtSalPrice,0))/100
-
-                              WHEN ISNULL(PDT.FCPdtSalPrice,0) = 0 AND  ISNULL(SP.FCXpdAddPri,0) <> 0
-                              THEN ISNULL(PDT.FCPdtCostAFDis,0) + (ISNULL(PDT.FCPdtCostAFDis,0) * ISNULL(SP.FCXpdAddPri,0))/100
-
-							  WHEN ISNULL(PDT.FCPdtSalPrice, 0) <> 0 AND ISNULL(SP.FCXpdAddPri, 0) <> 0
-							  THEN ISNULL(PDT.FCPdtCostAFDis, 0) + (ISNULL(PDT.FCPdtCostAFDis, 0) * ISNULL(SP.FCXpdAddPri, 0)) / 100
-						ELSE 0
-						END AS FCPdtNetSalPri
-                  	FROM VCN_Products PDT WITH (NOLOCK)
-                  	LEFT JOIN ( SELECT * FROM VCN_AdjSalePriActive WITH (NOLOCK) WHERE FTPriGrpID = '" . $tPriceGrp . "' ) SP ON PDT.FTPdtCode = SP.FTPdtCode
-                	LEFT JOIN TCNMPdtGrp PGP WITH (NOLOCK) 		ON PDT.FTPgpCode 	= PGP.FTPgpCode
-					LEFT JOIN TCNMPdtUnit PUN WITH (NOLOCK) 	ON PDT.FTPunCode 	= PUN.FTPunCode
-					LEFT JOIN TCNMPdtBrand BAP WITH (NOLOCK) 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
-					LEFT JOIN TCNMPdtColor COP WITH (NOLOCK) 	ON PDT.FTPClrCode 	= COP.FTPClrCode
-					LEFT JOIN TCNMPdtModal MOL WITH (NOLOCK) 	ON PDT.FTMolCode 	= MOL.FTMolCode
-					LEFT JOIN TCNMPdtSize SIZ WITH (NOLOCK) 	ON PDT.FTPzeCode 	= SIZ.FTPzeCode
-					LEFT JOIN TCNMPdtType TYP WITH (NOLOCK) 	ON PDT.FTPtyCode 	= TYP.FTPtyCode
-					LEFT JOIN TCNMSpl SPL WITH (NOLOCK) 		ON PDT.FTSplCode 	= SPL.FTSplCode
-				) P
-            	WHERE  1=1 ";
+		$tSQL = " 	SELECT RESULT.* FROM(
+					SELECT 
+						A.* , 
+						PGP.FTPgpName,
+						PUN.FTPunName,
+						BAP.FTPbnName,
+						COP.FTPClrName,
+						MOL.FTMolName,
+						SIZ.FTPzeName,
+						TYP.FTPtyName,
+						SP.FCXpdAddPri AS FCPdtUsrSalPri,
+						CASE WHEN ISNULL(A.FCPdtSalPrice,0) = 0 AND  ISNULL(SP.FCXpdAddPri,0) = 0
+							THEN ISNULL(A.FCPdtCostAFDis,0)
+							WHEN ISNULL(A.FCPdtSalPrice,0) <> 0 AND  ISNULL(SP.FCXpdAddPri,0) = 0
+							THEN ISNULL(A.FCPdtCostAFDis,0) + (ISNULL(A.FCPdtCostAFDis,0) * ISNULL(A.FCPdtSalPrice,0))/100
+							WHEN ISNULL(A.FCPdtSalPrice,0) = 0 AND  ISNULL(SP.FCXpdAddPri,0) <> 0
+							THEN ISNULL(A.FCPdtCostAFDis,0) + (ISNULL(A.FCPdtCostAFDis,0) * ISNULL(SP.FCXpdAddPri,0))/100
+							WHEN ISNULL(A.FCPdtSalPrice, 0) <> 0 AND ISNULL(SP.FCXpdAddPri, 0) <> 0
+							THEN ISNULL(A.FCPdtCostAFDis, 0) + (ISNULL(A.FCPdtCostAFDis, 0) * ISNULL(SP.FCXpdAddPri, 0)) / 100
+						ELSE 0 END AS FCPdtNetSalPri,
+						ROW_NUMBER() OVER(ORDER BY A.RowID ASC) AS NewRowID FROM (
+							SELECT ";
+		$tSQL .=				$tTop;
+		$tSQL .= 				" ROW_NUMBER() OVER(ORDER BY PDT.FTPdtBestsell DESC , PDT.FTPdtCode ASC) AS RowID ,
+								PDT.* 
+							FROM VCN_Products PDT WHERE 1=1 ";
 
 		//ค้นหาขั้นสูง
 		if ($aFilterAdv != '' || $aFilterAdv != null) {
-			$tWherePBN  = '';
-			$tWhereINPBN = '';
-			$tWhereCLR	= '';
-			$tWhereINCLR = '';
-			$tWherePGP	= '';
-			$tWhereINPGP = '';
-			$tWhereMOL	= '';
-			$tWhereINMOL = '';
-			$tWherePZE	= '';
-			$tWhereINPZE = '';
-			$tWherePTY	= '';
-			$tWhereINPTY = '';
-			$tWherePUN	= '';
-			$tWhereINPUN = '';
-			$tWhereSPL	= '';
-			$tWhereINSPL = '';
+			$tWherePBN  	= '';
+			$tWhereINPBN 	= '';
+			$tWhereCLR		= '';
+			$tWhereINCLR 	= '';
+			$tWherePGP		= '';
+			$tWhereINPGP 	= '';
+			$tWhereMOL		= '';
+			$tWhereINMOL 	= '';
+			$tWherePZE		= '';
+			$tWhereINPZE 	= '';
+			$tWherePTY		= '';
+			$tWhereINPTY 	= '';
+			$tWherePUN		= '';
+			$tWhereINPUN 	= '';
+			$tWhereSPL		= '';
+			$tWhereINSPL 	= '';
 			for ($i = 0; $i < count($aFilterAdv); $i++) {
 				$tFilterName 	= $aFilterAdv[$i]['tFilter'];
 				$tFilterValue 	= $aFilterAdv[$i]['tValue'];
@@ -213,28 +193,28 @@ class mQuotation extends CI_Model{
 				}
 
 				if ($tWhereINPBN != '') {
-					$tWherePBN = " AND FTPbnCode IN (" . $tWhereINPBN . ")";
+					$tWherePBN = " AND PDT.FTPbnCode IN (" . $tWhereINPBN . ")";
 				}
 				if ($tWhereINCLR != '') {
-					$tWhereCLR = " AND FTPClrCode IN (" . $tWhereINCLR . ")";
+					$tWhereCLR = " AND PDT.FTPClrCode IN (" . $tWhereINCLR . ")";
 				}
 				if ($tWhereINPGP != '') {
-					$tWherePGP = " AND P.FTPgpCode IN (" . $tWhereINPGP . ")";
+					$tWherePGP = " AND PDT.FTPgpCode IN (" . $tWhereINPGP . ")";
 				}
 				if ($tWhereINMOL != '') {
-					$tWhereMOL = " AND FTMolCode IN (" . $tWhereINMOL . ")";
+					$tWhereMOL = " AND PDT.FTMolCode IN (" . $tWhereINMOL . ")";
 				}
 				if ($tWhereINPZE != '') {
-					$tWherePZE = " AND P.FTPzeCode IN (" . $tWhereINPZE . ")";
+					$tWherePZE = " AND PDT.FTPzeCode IN (" . $tWhereINPZE . ")";
 				}
 				if ($tWhereINPTY != '') {
-					$tWherePTY = " AND FTPtyCode  IN (" . $tWhereINPTY . ")";
+					$tWherePTY = " AND PDT.FTPtyCode  IN (" . $tWhereINPTY . ")";
 				}
 				if ($tWhereINPUN != '') {
-					$tWherePUN = " AND FTPunCode IN (" . $tWhereINPUN . ")";
+					$tWherePUN = " AND PDT.FTPunCode IN (" . $tWhereINPUN . ")";
 				}
 				if ($tWhereINSPL != '') {
-					$tWhereSPL = " AND FTSplCode IN (" . $tWhereINSPL . ")";
+					$tWhereSPL = " AND PDT.FTSplCode IN (" . $tWhereINSPL . ")";
 				}
 			}
 
@@ -243,35 +223,45 @@ class mQuotation extends CI_Model{
 		}
 
 		//ค้นหาธรรมดา
-		if ($tSearchAll != "") {
-
+		if ($tSearchAll != "" || $tSearchAll != null) {
 			$result['words'] = $segmentQuotation->get_segment_array($tSearchAll);
 			$result['words_count'] = count($result['words']);
 			if($result['words_count'] != 0){
 				$tTextPDTName = '';
 				for($i=0; $i<$result['words_count']; $i++){
-					$tTextPDTName .= " OR P.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
-					// $tTextPDTName .= " OR P.FTPbnName LIKE '%" .$result['words'][$i] . "%' ";
-					// $tTextPDTName .= " OR P.FTPClrName LIKE '%" .$result['words'][$i] . "%' ";
-					// $tTextPDTName .= " OR P.FTMolName LIKE '%" .$result['words'][$i] . "%' ";
-					// $tTextPDTName .= " OR P.FTPzeName LIKE '%" .$result['words'][$i] . "%' ";
-					// $tTextPDTName .= " OR P.FTPtyName LIKE '%" .$result['words'][$i] . "%' ";
-					// $tTextPDTName .= " OR P.FTPgpName LIKE '%" .$result['words'][$i] . "%' ";
-					// $tTextPDTName .= " OR P.FTPunName LIKE '%" .$result['words'][$i] . "%' ";
+					$tTextPDTName .= " OR PDT.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
 				}
 			}
-			
+
 			$tSQL .= " AND ";
-			$tSQL .= " P.FTPdtCode LIKE '%" . $tSearchAll . "%'";
+			$tSQL .= " PDT.FTPdtCode LIKE '%" . $tSearchAll . "%'";
 			$tSQL .= $tTextPDTName;
 		}
 
-		$tSQL .= " ) AS Q WHERE Q.NewRowID > $aRowLen[0] AND Q.NewRowID <=$aRowLen[1] ";
+		$tSQL .= " ) AS A 
+			INNER JOIN ( SELECT * FROM VCN_AdjSalePriActive WITH (NOLOCK) WHERE FTPriGrpID = '" . $tPriceGrp . "' ) SP ON A.FTPdtCode = SP.FTPdtCode
+			LEFT JOIN TCNMPdtGrp PGP WITH (NOLOCK) 		ON A.FTPgpCode 	= PGP.FTPgpCode
+			LEFT JOIN TCNMPdtUnit PUN WITH (NOLOCK) 	ON A.FTPunCode 	= PUN.FTPunCode
+			LEFT JOIN TCNMPdtBrand BAP WITH (NOLOCK) 	ON A.FTPbnCode 	= BAP.FTPbnCode
+			LEFT JOIN TCNMPdtColor COP WITH (NOLOCK) 	ON A.FTPClrCode = COP.FTPClrCode
+			LEFT JOIN TCNMPdtModal MOL WITH (NOLOCK) 	ON A.FTMolCode 	= MOL.FTMolCode
+			LEFT JOIN TCNMPdtSize SIZ WITH (NOLOCK) 	ON A.FTPzeCode 	= SIZ.FTPzeCode
+			LEFT JOIN TCNMPdtType TYP WITH (NOLOCK) 	ON A.FTPtyCode 	= TYP.FTPtyCode
+			LEFT JOIN TCNMSpl SPL WITH (NOLOCK) 		ON A.FTSplCode 	= SPL.FTSplCode ";
+		$tSQL .= " ) AS RESULT WHERE RESULT.NewRowID > $aRowLen[0] AND RESULT.NewRowID <=$aRowLen[1] ";
 
 		$oQuery = $this->db->query($tSQL);
 		if ($oQuery->num_rows() > 0) {
 			$oFoundRow 	= $this->FSaMQUOPdtCountRow_PageAll($paFilter);
+
+			//ถ้าจำนวนที่ค้นหามีมากกว่า 50
 			$nFoundRow 	= $oFoundRow[0]->counts;
+			if ($tSearchAll != "" || $tSearchAll != null) {
+				if($nFoundRow >= $nCountTop){
+					$nFoundRow = $nCountTop;
+				}
+			}
+			
 			$nPageAll 	= ceil($nFoundRow / $paFilter['nRow']); //หา Page All จำนวน Rec หาร จำนวนต่อหน้า
 			$aResult 	= array(
 				'raItems'  		=> $oQuery->result_array(),
@@ -306,6 +296,7 @@ class mQuotation extends CI_Model{
 		try {
 			$tTextSearch 	= trim($paFilter['tSearchAll']);
 			$aFilterAdv 	= $paFilter['aFilterAdv'];
+
 			$tSQL 		= "SELECT COUNT(FTPDTCode) AS counts
 							FROM TCNMPdt PDT WITH (NOLOCK)
 							LEFT JOIN TCNMPdtBrand BAP WITH (NOLOCK) 	ON PDT.FTPbnCode 	= BAP.FTPbnCode
@@ -320,22 +311,22 @@ class mQuotation extends CI_Model{
 
 			//ค้นหาขั้นสูง
 			if ($aFilterAdv != '' || $aFilterAdv != null) {
-				$tWherePBN  = '';
-				$tWhereINPBN = '';
-				$tWhereCLR	= '';
-				$tWhereINCLR = '';
-				$tWherePGP	= '';
-				$tWhereINPGP = '';
-				$tWhereMOL	= '';
-				$tWhereINMOL = '';
-				$tWherePZE	= '';
-				$tWhereINPZE = '';
-				$tWherePTY	= '';
-				$tWhereINPTY = '';
-				$tWherePUN	= '';
-				$tWhereINPUN = '';
-				$tWhereSPL	= '';
-				$tWhereINSPL = '';
+				$tWherePBN  	= '';
+				$tWhereINPBN 	= '';
+				$tWhereCLR		= '';
+				$tWhereINCLR 	= '';
+				$tWherePGP		= '';
+				$tWhereINPGP 	= '';
+				$tWhereMOL		= '';
+				$tWhereINMOL 	= '';
+				$tWherePZE		= '';
+				$tWhereINPZE 	= '';
+				$tWherePTY		= '';
+				$tWhereINPTY 	= '';
+				$tWherePUN		= '';
+				$tWhereINPUN 	= '';
+				$tWhereSPL		= '';
+				$tWhereINSPL 	= '';
 				for ($i = 0; $i < count($aFilterAdv); $i++) {
 					$tFilterName 	= $aFilterAdv[$i]['tFilter'];
 					$tFilterValue 	= $aFilterAdv[$i]['tValue'];
@@ -416,16 +407,8 @@ class mQuotation extends CI_Model{
 					$tTextPDTName = '';
 					for($i=0; $i<$result['words_count']; $i++){
 						$tTextPDTName .= " OR PDT.FTPdtName LIKE '%" .$result['words'][$i] . "%' ";
-						// $tTextPDTName .= " OR BAP.FTPbnName LIKE '%" .$result['words'][$i] . "%' ";
-						// $tTextPDTName .= " OR COP.FTPClrName LIKE '%" .$result['words'][$i] . "%' ";
-						// $tTextPDTName .= " OR MOL.FTMolName LIKE '%" .$result['words'][$i] . "%' ";
-						// $tTextPDTName .= " OR SIZ.FTPzeName LIKE '%" .$result['words'][$i] . "%' ";
-						// $tTextPDTName .= " OR TYP.FTPtyName LIKE '%" .$result['words'][$i] . "%' ";
-						// $tTextPDTName .= " OR GRP.FTPgpName LIKE '%" .$result['words'][$i] . "%' ";
-						// $tTextPDTName .= " OR UNIT.FTPunName LIKE '%" .$result['words'][$i] . "%' ";
 					}
 				}
-				// $tTextPDTName = '';
 				
 				$tSQL .= " AND ";
 				$tSQL .= " PDT.FTPdtCode LIKE '%" . $tTextSearch . "%'";

@@ -21,7 +21,7 @@
 	<div class="row">
 
 		<!--Filter ค้นหาขั้นสูง-->
-		<div class="col-lg-3 xCNFilterAdvParent">
+		<div class="col-lg-2 xCNFilterAdvParent">
 			<!--ตัวกรองค้นหา-->
 			<div class="xCNFilterSearch xCNFilterBlockHide">
 				<div class="row">
@@ -346,8 +346,9 @@
 
 			//หน้าต่างสินค้า
 			$('#odvItem').removeClass('col-lg-8').addClass('col-lg-9');
+
 			//หน้าต่างสรุปบิล
-			$('#odvResultBill').removeClass('col-lg-4').addClass('col-lg-3');
+			$('#odvResultBill').removeClass('col-lg-3').addClass('col-lg-3');
 			$('#odvQuoPdtList').css('overflow-x','hidden');
 			$('#odvContentScroll').css('min-width','0px');
 		}else{
@@ -357,12 +358,13 @@
 
 			//Content
 			$('.xCNContentProduct').removeClass('xCNUseFilter12 col-lg-12');
-			$('.xCNContentProduct').addClass('col-lg-9');
+			$('.xCNContentProduct').addClass('col-lg-10');
 
 			//หน้าต่างสินค้า
-			$('#odvItem').removeClass('col-lg-9').addClass('col-lg-8');
+			$('#odvItem').removeClass('col-lg-9').addClass('col-lg-9');
+
 			//หน้าต่างสรุปบิล
-			$('#odvResultBill').removeClass('col-lg-3').addClass('col-lg-4');
+			$('#odvResultBill').removeClass('col-lg-3').addClass('col-lg-3');
 			$('#odvQuoPdtList').css('overflow-x','auto');
 			$('#odvContentScroll').css('min-width','1100px');
 
@@ -386,7 +388,17 @@
 	//กดล้างตัวกรองขั้นสูง
 	function JSxPDTRemoveFilterAdv(nPage){
 		$(".xCNFilterAdv").prop("checked", false);
-		FSvQUOGetPdtList(nPage,'')
+		aFilterBrand = [];
+		aFilterGroup = [];
+		FSvQUOGetPdtList(nPage,'');
+
+		$('.xCNFindBrand').hide();
+		$('.xCNFindColor').hide();
+		$('.xCNFindModal').hide();
+		$('.xCNFindSize').hide();
+		$('.xCNFindType').hide();
+		$('.xCNFindUnit').hide();
+		$('.xCNFindGroup').hide();
 	}
 
 	//กดยกเลิก
@@ -469,37 +481,38 @@
 			var tValue 		= $(this).val();
 			aFilterGroup.push({'tFilter' : 'Group' , 'tValue' : tValue});
 		});	
-
-		console.log(aFilterGroup);
 		
-		$.ajax({
-			type	: "POST",
-			url		: 'r_searchProductFromModal',
-			data	: { 'data' : aFilterGroup },
-			cache	: false,
-			timeout	: 0,
-			success	: function(oResult) {
-				var jResult = JSON.parse(oResult);
-				if(jResult.rtCode == '800'){
-					$('.xCNFindModal').html('');
-					$('.xCNFindModal').append('- ไม่พบข้อมูล -');
-				}else{
-					var aItem	= jResult.raItems;
-					var tHTML	= '';
-					for(var i=0; i<aItem.length; i++){
-						tHTML += '<label class="container-checkbox xCNCheckboxFilter">';
-						tHTML += '<input class="xCNFilterAdv" type="checkbox" data-filter="MOL" value="'+aItem[i].FTMolCode+'">'+aItem[i].FTMolName+'';
-						tHTML += '<span class="checkmark"></span>';
-						tHTML += '</label>';
-					}
+		if(aFilterGroup.length != 0){
 
-					$('.xCNFindModal').html('');
-					$('.xCNFindModal').append(tHTML);
+			$.ajax({
+				type	: "POST",
+				url		: 'r_searchProductFromModal',
+				data	: { 'data' : aFilterGroup },
+				cache	: false,
+				timeout	: 0,
+				success	: function(oResult) {
+					var jResult = JSON.parse(oResult);
+					if(jResult.rtCode == '800'){
+						$('.xCNFindModal').html('');
+						$('.xCNFindModal').append('- ไม่พบข้อมูล -');
+					}else{
+						var aItem	= jResult.raItems;
+						var tHTML	= '';
+						for(var i=0; i<aItem.length; i++){
+							tHTML += '<label class="container-checkbox xCNCheckboxFilter">';
+							tHTML += '<input class="xCNFilterAdv" type="checkbox" data-filter="MOL" value="'+aItem[i].FTMolCode+'">'+aItem[i].FTMolName+'';
+							tHTML += '<span class="checkmark"></span>';
+							tHTML += '</label>';
+						}
+
+						$('.xCNFindModal').html('');
+						$('.xCNFindModal').append(tHTML);
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					JSxModalErrorCenter(jqXHR.responseText);
 				}
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-				JSxModalErrorCenter(jqXHR.responseText);
-			}
-		});
+			});
+		}
 	}
 </script>
