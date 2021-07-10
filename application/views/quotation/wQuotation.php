@@ -482,7 +482,7 @@
 			aFilterGroup.push({'tFilter' : 'Group' , 'tValue' : tValue});
 		});	
 		
-		if(aFilterGroup.length != 0){
+		// if(aFilterGroup.length != 0){
 
 			$.ajax({
 				type	: "POST",
@@ -513,6 +513,6 @@
 					JSxModalErrorCenter(jqXHR.responseText);
 				}
 			});
-		}
+		// }
 	}
 </script>
