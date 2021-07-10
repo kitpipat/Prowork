@@ -67,21 +67,6 @@
 								</div>
 							<?php } ?>
 
-							<!--สี-->
-							<?php if($aFilter_Color['rtCode'] != 800){ ?>
-								<div class="form-group xCNFilterMarginBottom">
-									<label class="xCNFindClick FontColorClick" data-find="Color"><b>สี</b></label>
-									<div class="xCNFindColor xCNFindFilter" style="display:none;">
-										<?php foreach($aFilter_Color['raItems'] AS $nKey => $aValue){ ?>
-											<label class="container-checkbox xCNCheckboxFilter">
-												<input class="xCNFilterAdv" type="checkbox" data-filter="CLR" value="<?=$aValue['FTPClrCode']?>"><?=$aValue['FTPClrName']?>
-												<span class="checkmark"></span>
-											</label>
-										<?php } ?>
-									</div>
-								</div>
-							<?php } ?>
-
 							<!--รุ่น-->
 							<?php if($aFilter_Modal['rtCode'] != 800){ ?>
 								<div class="form-group xCNFilterMarginBottom">
@@ -90,6 +75,21 @@
 										<?php foreach($aFilter_Modal['raItems'] AS $nKey => $aValue){ ?>
 											<label class="container-checkbox xCNCheckboxFilter">
 												<input class="xCNFilterAdv" type="checkbox" data-filter="MOL" value="<?=$aValue['FTMolCode']?>"><?=$aValue['FTMolName']?>
+												<span class="checkmark"></span>
+											</label>
+										<?php } ?>
+									</div>
+								</div>
+							<?php } ?>
+
+							<!--สี-->
+							<?php if($aFilter_Color['rtCode'] != 800){ ?>
+								<div class="form-group xCNFilterMarginBottom">
+									<label class="xCNFindClick FontColorClick" data-find="Color"><b>สี</b></label>
+									<div class="xCNFindColor xCNFindFilter" style="display:none;">
+										<?php foreach($aFilter_Color['raItems'] AS $nKey => $aValue){ ?>
+											<label class="container-checkbox xCNCheckboxFilter">
+												<input class="xCNFilterAdv" type="checkbox" data-filter="CLR" value="<?=$aValue['FTPClrCode']?>"><?=$aValue['FTPClrName']?>
 												<span class="checkmark"></span>
 											</label>
 										<?php } ?>

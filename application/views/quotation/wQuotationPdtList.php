@@ -57,8 +57,8 @@
 								?>
 								<div class="xCNImageItem" style="background-image:url('<?=$tPathImage;?>')" ></div>
 								<div class="caption">
-									<span class="xCNPIPDTCode"><?=$tPdtCode;?></span>
-									<span class="xCNPIPDTName"><?=$tPdtName;?></span>
+									<span class="xCNPIPDTCode"><span >รหัสสินค้า : </span><?=$tPdtCode;?></span><br>
+									<span class="xCNPIPDTName"><span >ชื่อ : </span><?=$tPdtName;?></span>
 									<span class="xCNPIPDTPrice">&#3647;<?php echo number_format($nPdtUnitPri, 2); ?></span>
 								</div>
 							</div>

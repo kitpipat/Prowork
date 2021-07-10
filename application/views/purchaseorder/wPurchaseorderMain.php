@@ -64,7 +64,7 @@
 						<select class="form-control" id="oetstaDocument" name="oetstaDocument">
 							<option value="0">ทั้งหมด</option>
 							<option value="1">อนุมัติแล้ว</option>
-							<option value="3">รออนุมัติเอกสาร</option>
+							<option value="3">รออนุมัติ</option>
 							<option value="2">ยกเลิก </option>
 						</select>
 					</div>

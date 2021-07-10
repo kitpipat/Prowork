@@ -94,7 +94,7 @@ class mQuotation extends CI_Model{
 		$segmentQuotation = new Segment();
 
 		$aRowLen   		= FCNaHCallLenData($paFilter['nRow'], $paFilter['nPage']);
-		$tSearchAll 	= $paFilter["tSearchAll"];
+		$tSearchAll 	= trim($paFilter["tSearchAll"]);
 		$tPriceGrp 		= $paFilter["tPriceGrp"];
 		$aFilterAdv 	= $paFilter['aFilterAdv'];
 

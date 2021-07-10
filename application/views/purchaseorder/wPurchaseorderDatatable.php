@@ -37,11 +37,11 @@
 					<!--สถานะเอกสาร-->
 					<?php 
 						if($aValue['FTXpoStaDoc'] != 1){
-							$tTextStaDoc 			= "ยกเลิกเอกสาร";
+							$tTextStaDoc 			= "ยกเลิก";
 							$tClassStaDoc 			= 'xCNTextClassStatus_close';
 						}else{
 							if($aValue['FTXpoStaApv'] == 1){
-								$tTextStaDoc 			= "อนุมัติเอกสาร";
+								$tTextStaDoc 			= "อนุมัติแล้ว";
 								$tClassStaDoc 			= 'xCNTextClassStatus_open';
 								$tIconClassStaApv 		= 'xCNIconStatus_open';
 							}else{
@@ -50,7 +50,7 @@
 									$tClassStaDoc 			= '';
 									$tIconClassStaApv 		= '';
 								}else{
-									$tTextStaDoc 			= "รออนุมัติเอกสาร";
+									$tTextStaDoc 			= "รออนุมัติ";
 									$tClassStaDoc 			= 'xCNTextClassStatus_wait';
 									$tIconClassStaApv 		= 'xCNIconStatus_close';
 								}
